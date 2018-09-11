@@ -1,0 +1,28 @@
+{
+  "name": "i13n",
+  "version": "0.0.0",
+  "description": "i13n util",
+  "main": "./build/src/index.js",
+  "module": "./build/src/index.js",
+  "keywords": [
+    "i13n"
+  ],
+  "author": "Hill <hill@kimo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "get-object-value": "*",
+    "reshow-flux-base": "*",
+    "set-object-value": "*"
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "react": "*",
+    "react-dom": "*",
+    "reshow-app": "*"
+  },
+  "scripts": {
+    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
+    "build": "npm run clean && BABEL_ENV=build babel ui -d build/ui && BABEL_ENV=build babel src -d build/src",
+    "prepublishOnly": "npm run build"
+  }
+}

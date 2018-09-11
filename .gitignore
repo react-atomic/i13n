@@ -1,0 +1,9 @@
+.php_cs.cache
+.*.sw?
+.env
+coverage*
+vendor
+build
+node_modules
+npm-debug.log
+assets

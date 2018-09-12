@@ -1,1 +1,35 @@
-node_modules/reshow-app/.babelrc
+{
+    "env": {
+        "build": {
+            "presets": [
+              "env",
+              "stage-0"
+            ],
+            "plugins": [
+              "add-module-exports",
+              ["transform-runtime", {
+                "moduleName": "reshow-runtime",
+                "polyfill": false,
+                "regenerator": false
+                }
+              ],
+              "transform-object-assign"
+            ]
+        },
+        "es": {
+            "presets": [
+              ["env", {"modules": false}],
+              "stage-0"
+            ],
+            "plugins": [
+              ["transform-runtime", {
+                "moduleName": "reshow-runtime/es",
+                "polyfill": false,
+                "regenerator": false
+                }
+              ],
+              "transform-object-assign",
+            ]
+        }
+    }
+}

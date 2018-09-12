@@ -1,9 +1,9 @@
 {
   "name": "i13n",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "i13n util",
-  "main": "./build/src/index.js",
-  "module": "./build/src/index.js",
+  "main": "./build/cjs/src/index.js",
+  "module": "./build/es/src/index.js",
   "keywords": [
     "i13n"
   ],
@@ -12,17 +12,24 @@
   "dependencies": {
     "get-object-value": "*",
     "reshow-flux-base": "*",
+    "reshow-runtime": "*",
     "set-object-value": "*"
   },
   "devDependencies": {
-    "babel-cli": "*",
-    "react": "*",
-    "react-dom": "*",
-    "reshow-app": "*"
+    "babel-cli": "^6.x",
+    "babel-core": "^6.x",
+    "babel-plugin-add-module-exports": "*",
+    "babel-plugin-system-import-transformer": "*",
+    "babel-plugin-transform-object-assign": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*"
   },
   "scripts": {
     "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
-    "build": "npm run clean && BABEL_ENV=build babel ui -d build/ui && BABEL_ENV=build babel src -d build/src",
+    "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src",
+    "build:es": "BABEL_ENV=es babel src -d build/es/src",
+    "build": "npm run clean && npm run build:cjs && npm run build:es",
     "prepublishOnly": "npm run build"
   }
 }

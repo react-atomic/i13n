@@ -1,4 +1,4 @@
-import {i13nDispatch, i13nStore} from './index'
+import {i13nDispatch, i13nStore} from 'i13n'
 const win = window
 win.i13nDispatch = i13nDispatch
 

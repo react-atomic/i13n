@@ -6,19 +6,15 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
-    "get-object-value": "*",
-    "reshow-flux-base": "*",
-    "set-object-value": "*"
+    "i13n": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
-    "react": "*",
-    "react-dom": "*",
     "reshow-app": "*"
   },
   "scripts": {
-    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
-    "build": "npm run clean && BABEL_ENV=build babel ui -d build/ui && BABEL_ENV=build babel src -d build/src",
+    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf && mkdir -p build",
+    "build": "npm run clean && BABEL_ENV=build babel src -d build/src",
     "prepublishOnly": "npm run build"
   }
 }

@@ -118,4 +118,5 @@ class I13nStore extends Store {
 // Export a singleton instance of the store, could do this some other way if
 // you want to avoid singletons.
 const instance = new I13nStore(dispatcher);
-export default instance;
+export default instance
+export {I13nStore}

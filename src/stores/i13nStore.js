@@ -1,4 +1,4 @@
-import BaseI13nStore from './BaseI13nStore'
+import BaseI13nStore from '../stores/BaseI13nStore'
 import dispatcher from '../i13nDispatcher';
 
 class Map {

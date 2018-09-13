@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -38,6 +38,7 @@
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
+    "store.js",
     "build",
     "package.json",
     "README.md"

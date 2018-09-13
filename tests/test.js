@@ -1,7 +1,8 @@
 import {expect} from 'chai';
 import sinon from 'sinon'
 
-import {i13nDispatch, i13nStore} from '../cjs/src/index.js';
+import {i13nDispatch} from '../cjs/src/index';
+import i13nStore from '../cjs/src/stores/i13nStore';
 
 describe('Test I13N', ()=>{
   global.document = {URL: 'fakeUrl'}

@@ -43,29 +43,19 @@ class I13nStore extends Store {
   processAction(state, action) {
     const query = get(action, ['params', 'query'], {});
     query.vpvid = state.get('vpvid');
-    if (!action.params) {
-      action.params = {};
-    }
-    action.params.query = query;
+    set(action, ['params', 'query'], query);
     return this.sendBeacon(state, action);
   }
 
   processView(state, action) {
     state = this.sendBeacon(state, action);
-    return state.set('lastUrl', document.URL);
+    return state;
   }
 
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
-    }
-    const defaultActionCallback = state.get('defaultActionCallback');
-    if ('function' === typeof defaultActionCallback) {
-      const cb = get(action, ['params', 'callback']);
-      if (!cb) {
-        set(action, ['params', 'callback'], getDefaultActionCallback(state));
-      }
     }
     return actionHandler(state, action);
   }

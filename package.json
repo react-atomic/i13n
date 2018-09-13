@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -26,7 +26,7 @@
     "babel-preset-stage-0": "*"
   },
   "scripts": {
-    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
+    "clean": "find ./build -name '*.*' | xargs rm -rf",
     "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src",
     "build:es": "BABEL_ENV=es babel src -d build/es/src",
     "build": "npm run clean && npm run build:cjs && npm run build:es",

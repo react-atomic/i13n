@@ -3,7 +3,6 @@ import Router from './routes'
 import ini from 'parse-ini-string'
 import {nest} from 'object-nested'
 import exec from 'exec-script'
-import {create} from 'create-el'
 import get from 'get-object-value'
 import query from 'css-query-selector'
 
@@ -39,9 +38,8 @@ const initRouter = configs =>
               const el = query.one(select)
               el.addEventListener(get(events, ['type', skey]),  e => {
                 const scriptName = get(events, ['script', skey])
-                const innerHTML = get(configs, ['script', scriptName])
-                const d = create('div')()({ innerHTML })
-                exec(d)
+                const scriptCode = get(configs, ['script', scriptName])
+                exec(scriptCode)
               })
             }
           )

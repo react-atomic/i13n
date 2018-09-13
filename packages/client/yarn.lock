@@ -1738,8 +1738,8 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     safe-buffer "^5.1.1"
 
 exec-script@*:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/exec-script/-/exec-script-0.0.2.tgz#7e458175425c1630d43b0f892cbb92d9f7127c7d"
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/exec-script/-/exec-script-0.0.3.tgz#bb1dc9158ab6c2e09f6e4005dacf945ac4e921a8"
   dependencies:
     create-el "*"
 

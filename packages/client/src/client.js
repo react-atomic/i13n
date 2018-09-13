@@ -1,4 +1,5 @@
-import {i13nDispatch, i13nStore} from 'i13n'
+import {i13nDispatch} from 'i13n'
+import i13nStore from 'i13n/store'
 import ini from 'parse-ini-string'
 import {nest} from 'object-nested'
 import exec from 'exec-script'

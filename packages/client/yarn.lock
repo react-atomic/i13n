@@ -3062,8 +3062,8 @@ parse-glob@^3.0.4:
     is-glob "^2.0.0"
 
 parse-ini-string@*:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/parse-ini-string/-/parse-ini-string-0.0.1.tgz#c3145218e1ea973fc9589c301c7d3962149ba3a7"
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/parse-ini-string/-/parse-ini-string-0.0.2.tgz#95953e2a72837e63e6e535cdb4f337a68bb10f2c"
 
 parse-json@^2.2.0:
   version "2.2.0"

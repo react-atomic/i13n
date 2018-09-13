@@ -6,7 +6,11 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
-    "i13n": "*"
+    "css-query-selector": "*",
+    "exec-script": "*",
+    "i13n": "*",
+    "object-nested": "*",
+    "parse-ini-string": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

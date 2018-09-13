@@ -92,7 +92,7 @@ class I13nStore extends Store {
     if (!init) {
       const initCallback = this.handleInit(state, action);
       if ('function' === typeof initCallback) {
-        return initCallback(() => run(state.set('init', true)));
+        return initCallback(nextState => run(nextState.set('init', true)));
       } else {
         return run(initCallback.set('init', true));
       }
@@ -118,5 +118,5 @@ class I13nStore extends Store {
 // Export a singleton instance of the store, could do this some other way if
 // you want to avoid singletons.
 const instance = new I13nStore(dispatcher);
-export default instance
-export {I13nStore}
+export default instance;
+export {I13nStore};

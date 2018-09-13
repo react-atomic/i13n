@@ -1,12 +1,11 @@
 import {i13nDispatch, i13nStore} from 'i13n'
-import Router from './routes'
 import ini from 'parse-ini-string'
 import {nest} from 'object-nested'
 import exec from 'exec-script'
 import get from 'get-object-value'
 import query from 'css-query-selector'
 
-
+import Router from './routes'
 import req from './req'
 
 const win = () => window

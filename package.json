@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -23,14 +23,19 @@
     "babel-plugin-transform-object-assign": "*",
     "babel-plugin-transform-runtime": "*",
     "babel-preset-env": "*",
-    "babel-preset-stage-0": "*"
+    "babel-preset-stage-0": "*",
+    "chai": "*",
+    "mocha": "*",
+    "sinon": "*"
   },
   "scripts": {
     "clean": "find ./build -name '*.*' | xargs rm -rf",
     "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src",
     "build:es": "BABEL_ENV=es babel src -d build/es/src",
+    "build:test": "BABEL_ENV=build babel tests -d build/tests",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
-    "prepublishOnly": "npm run build"
+    "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js'",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
     "build",

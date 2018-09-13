@@ -99,6 +99,8 @@ class I13nStore extends Store {
         return this.handleImpression(state, action);
       case 'config/set':
         return state.merge(action.params);
+      case 'config/reset':
+        return this.getInitialState();
       default:
         return state;
     }
@@ -109,4 +111,4 @@ class I13nStore extends Store {
 // you want to avoid singletons.
 const instance = new I13nStore(dispatcher);
 export default instance;
-export {I13nStore};
+export {I13nStore as I13nStoreBase};

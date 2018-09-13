@@ -1973,8 +1973,8 @@ repeating@^2.0.0:
     is-finite "^1.0.0"
 
 reshow-flux-base@*:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.7.tgz#b28e868b4866f92bae439b85db2f37cdc0f0e7a5"
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.9.tgz#d1b1a83658bd8163b72484021a97f5aa3ea25c74"
   dependencies:
     mitt "*"
     reshow-runtime "*"

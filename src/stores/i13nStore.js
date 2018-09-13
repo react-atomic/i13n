@@ -111,4 +111,4 @@ class I13nStore extends Store {
 // you want to avoid singletons.
 const instance = new I13nStore(dispatcher);
 export default instance;
-export {I13nStore as I13nStoreBase};
+export {I13nStore as BaseI13nStore};

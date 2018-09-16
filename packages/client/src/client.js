@@ -8,6 +8,7 @@ import query from 'css-query-selector'
 
 import Router from './routes'
 import req from './req'
+import googleTag from './google.tag'
 
 const win = () => window
 const doc = () => document
@@ -52,13 +53,12 @@ const initRouter = configs =>
     if (match) {
       match.fn()
     }
-    console.log(match)
 }
 
 const initHandler = (state, action) =>
 {
     win().i13nDispatch = i13nDispatch
-
+    googleTag.register()
     return view => {
       req('/i13n/account.ini', req => e => {
           const text = req.responseText

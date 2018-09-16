@@ -1,4 +1,3 @@
-
 /**
  * Convert path to route object
  *

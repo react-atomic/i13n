@@ -1205,8 +1205,8 @@ chokidar@^2.0.2:
     fsevents "^1.2.2"
 
 chownr@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.1.tgz#54726b8b8fff4df053c42187e801fb4412df1494"
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
@@ -2175,8 +2175,8 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
 i13n@*:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.9.tgz#09950430374cc63b9647268ff527ac4e659841c6"
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.10.tgz#024835876ef70956503e5736bb0b3f52aaf84e1a"
   dependencies:
     get-object-value "*"
     reshow-flux-base "*"
@@ -2621,7 +2621,7 @@ micromatch@^2.1.5:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-micromatch@^3.1.4:
+micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
   dependencies:
@@ -2676,7 +2676,7 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
 
-minimatch@^3.0.2, minimatch@^3.0.4:
+minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
@@ -3296,13 +3296,12 @@ read-pkg@^2.0.0:
     util-deprecate "~1.0.1"
 
 readdirp@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-2.1.0.tgz#4ed0ad060df3073300c48440373f72d1cc642d78"
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-2.2.1.tgz#0e87622a3325aa33e892285caf8b4e846529a525"
   dependencies:
-    graceful-fs "^4.1.2"
-    minimatch "^3.0.2"
+    graceful-fs "^4.1.11"
+    micromatch "^3.1.10"
     readable-stream "^2.0.2"
-    set-immediate-shim "^1.0.1"
 
 regenerate@^1.2.1:
   version "1.4.0"
@@ -3409,23 +3408,24 @@ reshow-app@*:
     webpack-bundle-analyzer "*"
 
 reshow-flux-base@*:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.9.tgz#d1b1a83658bd8163b72484021a97f5aa3ea25c74"
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.12.tgz#33e3281cd7f5da305e6cd047ee4b941da8d90178"
   dependencies:
     mitt "*"
     reshow-runtime "*"
 
 reshow-flux@*:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/reshow-flux/-/reshow-flux-0.2.6.tgz#630c669048fde8c90cad94d3c32bcc0d2449d46e"
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/reshow-flux/-/reshow-flux-0.2.7.tgz#672f1e547ce3b4298bf61fdd2418ad69ac78f9d0"
   dependencies:
     array.dedup "*"
     immutable "*"
     reshow-flux-base "*"
+    reshow-runtime "*"
 
 reshow-runtime@*:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.0.10.tgz#baf013f5d910b7a647b02c5e5eef7b9854d6092c"
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.0.12.tgz#dee8f5688330847ae95883ba14012540b3a96892"
 
 reshow-worker@*:
   version "0.0.3"
@@ -3542,10 +3542,6 @@ serve-static@1.13.2:
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
-
-set-immediate-shim@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
 
 set-object-value@*:
   version "0.0.2"

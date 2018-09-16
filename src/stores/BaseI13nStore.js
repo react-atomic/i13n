@@ -24,11 +24,13 @@ class BaseI13nStore extends Store {
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
+    this.nextEmits.push('action')
     return actionHandler(state, action);
   }
 
   handleInit(state, action) {
     const initHandler = state.get('initHandler');
+    this.nextEmits.push('init')
     if ('function' === typeof initHandler) {
       return initHandler(state, action);
     } else {
@@ -43,6 +45,7 @@ class BaseI13nStore extends Store {
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);
       }
+      this.nextEmits.push('impression')
       return impressionHandler(state, action);
     };
     const init = state.get('init');

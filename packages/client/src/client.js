@@ -9,6 +9,7 @@ import query from 'css-query-selector'
 import Router from './routes'
 import req from './req'
 import googleTag from './google.tag'
+import usergramTag from './usergram.tag'
 
 const win = () => window
 const doc = () => document
@@ -59,6 +60,7 @@ const initHandler = (state, action) =>
 {
     win().i13nDispatch = i13nDispatch
     googleTag.register()
+    usergramTag.register()
     return view => {
       req('/i13n/account.ini', req => e => {
           const text = req.responseText

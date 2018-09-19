@@ -21,6 +21,11 @@ develop(){
     CONFIG=$conf webpack
 }
 
+startServer(){
+    echo "Start server";
+    node_modules/.bin/ws
+}
+
 
 case "$1" in
   p)
@@ -28,6 +33,9 @@ case "$1" in
     ;;
   a)
     analyzer 
+    ;;
+  s)
+    startServer 
     ;;
   *)
     develop

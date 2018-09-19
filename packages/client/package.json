@@ -1,5 +1,9 @@
 {
+  "name": "i13n-client",
+  "version": "0.0.0",
   "description": "i13 client",
+  "main": "./build/cjs/src/index.js",
+  "module": "./build/es/src/index.js",
   "keywords": [
     "i13n"
   ],
@@ -17,8 +21,10 @@
     "reshow-app": "*"
   },
   "scripts": {
-    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf && mkdir -p build",
-    "build": "npm run clean && BABEL_ENV=build babel src -d build/src",
+    "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
+    "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src",
+    "build:es": "BABEL_ENV=es babel src -d build/es/src",
+    "build": "npm run clean && npm run build:cjs && npm run build:es",
     "prepublishOnly": "npm run build"
   }
 }

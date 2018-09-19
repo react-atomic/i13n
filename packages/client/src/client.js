@@ -59,10 +59,11 @@ const initRouter = configs =>
 const initHandler = (state, action) =>
 {
     win().i13nDispatch = i13nDispatch
-    googleTag.register()
-    usergramTag.register()
+    googleTag.register(i13nStore)
+    usergramTag.register(i13nStore)
+    const iniPath = get(action, ['params', 'iniPath'])
     return view => {
-      req('/i13n/account.ini', req => e => {
+      req(iniPath, req => e => {
           const text = req.responseText
           const accountConfig = nest(ini(text), '_')
           initRouter(accountConfig)
@@ -83,4 +84,3 @@ i13nDispatch(
     }
 )
 
-i13nDispatch('view')

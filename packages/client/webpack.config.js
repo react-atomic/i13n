@@ -2,4 +2,8 @@
 
 const webpack = require('reshow-app/webpack.client');
 
-module.exports = webpack(__dirname);
+const entrys = {
+  tag: './build/es/src/client.js'
+}
+
+module.exports = webpack(__dirname, entrys);

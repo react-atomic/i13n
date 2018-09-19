@@ -1,12 +1,10 @@
-import i13nStore from 'i13n/store'
-
 class BaseTag
 {
-  register()
+  register(store)
   {
-    i13nStore.addListener(this.init.bind(this), 'init')
-    i13nStore.addListener(this.action.bind(this), 'action')
-    i13nStore.addListener(this.impression.bind(this), 'impression')
+    store.addListener(this.init.bind(this), 'init')
+    store.addListener(this.action.bind(this), 'action')
+    store.addListener(this.impression.bind(this), 'impression')
   }
 
   init(){}

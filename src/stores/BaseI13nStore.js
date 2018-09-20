@@ -1,6 +1,7 @@
 import {Store} from 'reshow-flux-base';
 import get from 'get-object-value';
 import set from 'set-object-value';
+import {i13nDispatch} from '../i13nDispatcher';
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -24,13 +25,12 @@ class BaseI13nStore extends Store {
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
-    this.nextEmits.push('action')
+    this.nextEmits.push('action');
     return actionHandler(state, action);
   }
 
   handleInit(state, action) {
     const initHandler = state.get('initHandler');
-    this.nextEmits.push('init')
     if ('function' === typeof initHandler) {
       return initHandler(state, action);
     } else {
@@ -45,15 +45,20 @@ class BaseI13nStore extends Store {
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);
       }
-      this.nextEmits.push('impression')
+      this.nextEmits.push('impression');
       return impressionHandler(state, action);
     };
     const init = state.get('init');
     if (!init) {
       const initCallback = this.handleInit(state, action);
       if ('function' === typeof initCallback) {
-        return initCallback(nextState => run(nextState.set('init', true)));
+        return initCallback(nextState => {
+          this.nextEmits.push('init');
+          nextState = run(nextState.set('init', true));
+          i13nDispatch('config/set', nextState.toJS());
+        });
       } else {
+        this.nextEmits.push('init');
         return run(initCallback.set('init', true));
       }
     } else {

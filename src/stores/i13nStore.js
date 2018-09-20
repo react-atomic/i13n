@@ -1,4 +1,4 @@
-import BaseI13nStore from '../stores/BaseI13nStore'
+import BaseI13nStore from '../stores/BaseI13nStore';
 import dispatcher from '../i13nDispatcher';
 
 class Map {
@@ -26,12 +26,15 @@ class Map {
     };
     return new Map(this._state);
   }
+
+  toJS() {
+    return this._state;
+  }
 }
 
-class I13nStore extends BaseI13nStore
-{
+class I13nStore extends BaseI13nStore {
   getInitialState() {
-      return new Map();
+    return new Map();
   }
 }
 

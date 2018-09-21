@@ -2,6 +2,9 @@ import {Store} from 'reshow-flux-base';
 import get from 'get-object-value';
 import set from 'set-object-value';
 import {i13nDispatch} from '../i13nDispatcher';
+import {localStorage, Storage} from 'get-storage'
+
+const lStore = new Storage(localStorage)
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -19,6 +22,13 @@ class BaseI13nStore extends Store {
     state = this.sendBeacon(state, action);
     return state;
   }
+
+  pushLazyAction(action) {
+      const lazyAction = get(lStore.get('lazyAction'), null, []).
+        push(action);
+      lStore.set('lazyAction', lazyAction)
+  }
+
 
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
@@ -38,6 +48,16 @@ class BaseI13nStore extends Store {
     }
   }
 
+  handleAfterInit(state){
+    this.nextEmits.push('init');
+    const lazyAction = lStore.get('lazyAction');
+    if (lazyAction && lazyAction.length) {
+      lazyAction.forEach(
+        action => this.handleAction(state, action)
+      )
+    }
+  }
+
   handleImpression(state, action) {
     state = state.set('lastUrl', document.URL);
     const run = state => {
@@ -53,12 +73,12 @@ class BaseI13nStore extends Store {
       const initCallback = this.handleInit(state, action);
       if ('function' === typeof initCallback) {
         return initCallback(nextState => {
-          this.nextEmits.push('init');
+          this.handleAfterInit(nextState);
           nextState = run(nextState.set('init', true));
           i13nDispatch('config/set', nextState.toJS());
         });
       } else {
-        this.nextEmits.push('init');
+        this.handleAfterInit(initCallback);
         return run(initCallback.set('init', true));
       }
     } else {

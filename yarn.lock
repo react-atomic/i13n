@@ -20,7 +20,7 @@
   dependencies:
     array-from "^2.1.1"
 
-"@sinonjs/samsam@^2.1.0":
+"@sinonjs/samsam@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.1.tgz#f352621c24c9e9ab2ed293a7655e8d46bfd64c16"
   dependencies:
@@ -792,8 +792,8 @@ base@^0.11.1:
     pascalcase "^0.1.1"
 
 binary-extensions@^1.0.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.12.0.tgz#c2d780f53d45bba8317a8902d4ceeaf3a6385b14"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -851,8 +851,8 @@ cache-base@^1.0.1:
     unset-value "^1.0.0"
 
 caniuse-lite@^1.0.30000844:
-  version "1.0.30000885"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000885.tgz#e889e9f8e7e50e769f2a49634c932b8aee622984"
+  version "1.0.30000886"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000886.tgz#2127186c4f57da10d3ba26fc3e87dce4a5ddd3ae"
 
 chai@*:
   version "4.1.2"
@@ -1039,8 +1039,8 @@ diff@3.5.0, diff@^3.5.0:
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
 
 electron-to-chromium@^1.3.47:
-  version "1.3.67"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.67.tgz#5e8f3ffac89b4b0402c7e1a565be06f3a109abbc"
+  version "1.3.70"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.70.tgz#ded377256d92d81b4257d36c65aa890274afcfd2"
 
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2:
   version "1.0.5"
@@ -1186,6 +1186,13 @@ get-func-name@^2.0.0:
 get-object-value@*:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/get-object-value/-/get-object-value-0.0.14.tgz#4ae1b3a7e6b359db7a4b209ca9b1fb4a00019597"
+
+get-storage@*:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.0.4.tgz#1c82470f612d0df518c988ec16e57249e5069681"
+  dependencies:
+    get-object-value "*"
+    reshow-runtime "*"
 
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
@@ -1551,8 +1558,8 @@ lodash@^4.17.4:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 lolex@^2.3.2, lolex@^2.7.4:
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.4.tgz#6514de2c3291e9d6f09d49ddce4a95f7d4d5a93f"
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
 
 loose-envify@^1.0.0:
   version "1.4.0"
@@ -2055,12 +2062,12 @@ signal-exit@^3.0.0:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 sinon@*:
-  version "6.3.3"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.3.tgz#c3a55b7046174c139e87a3c94c922cbf4323a4e7"
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.4.tgz#6f076d7ddcf381af6c16468ac83d30333a756ec8"
   dependencies:
     "@sinonjs/commons" "^1.0.2"
     "@sinonjs/formatio" "^3.0.0"
-    "@sinonjs/samsam" "^2.1.0"
+    "@sinonjs/samsam" "^2.1.1"
     diff "^3.5.0"
     lodash.get "^4.4.2"
     lolex "^2.7.4"

@@ -12,18 +12,37 @@ window.usergram=window.usergram||[];
 </script>
 `;
 
+const win = () => window;
+const keys = Object.keys
+
 class UsergramTag extends BaseTag {
   init() {
     exec(initTagScript);
     console.log('init usergram');
   }
 
+  push(config) {
+    const tagData = this.getTagData();
+    config.unshift('send', tagData.id)
+    win().usergram.push(config);
+  }
+
   action() {
-    console.log('action usergram');
+    const state = this.getStore().getState()
+    const I13N = state.get('I13N')
+    if (!I13N) {
+      return
+    }
+    const {type, action, attribute} = I13N
+    const send = [type, action]
+    if (attribute && keys(attribute).length) {
+      send.push(attribute)
+    }
+    this.push(send)
   }
 
   impression() {
-    console.log('impression usergram');
+    this.push(['pv'])
   }
 }
 

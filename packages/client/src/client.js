@@ -14,11 +14,19 @@ import usergramTag from './usergram.tag';
 const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
-const pageScripts = []
+const pageScripts = [];
 
 const actionHandler = (state, action) => {
-  const I13N = get(action, ['params', 'I13N'])
-  return state.set('I13N', I13N);
+  let I13N = get(action, ['params', 'I13N']);
+  const I13NCallback = get(action, ['params', 'I13NCallback']);
+  if ('function' === typeof I13NCallback) {
+    const e = state.get('lastEvent') 
+    I13N = I13NCallback(e, I13N)
+  }
+  if (I13N) {
+    state = state.set('I13N', I13N);
+  }
+  return state;
 };
 
 const impressionHandler = (state, action) => {
@@ -33,6 +41,9 @@ const addSectionEvents = configs => section => {
       el.addEventListener(get(events, ['types', skey]), e => {
         const scriptName = get(events, ['scripts', skey]);
         const scriptCode = get(configs, ['script', scriptName]);
+        i13nDispatch('config/set', {
+          lastEvent: e
+        });
         exec(scriptCode);
       });
     });
@@ -45,10 +56,10 @@ const initRouter = configs => {
   get(configs, ['router', 'rules'], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
       const pageName = get(configs, ['router', 'names', key]);
-      const pageScriptName = get(configs, ['page', pageName, 'script'])
-      const pageScript = get(configs, ['script', pageScriptName])
+      const pageScriptName = get(configs, ['page', pageName, 'script']);
+      const pageScript = get(configs, ['script', pageScriptName]);
       if (pageScript) {
-        pageScripts.push(pageScript)
+        pageScripts.push(pageScript);
       }
       get(configs, ['page', pageName, 'secs'], []).forEach(sec => {
         addEvent(sec);
@@ -78,11 +89,9 @@ const initTags = configs => {
   });
 };
 
-const initPageScript = ()=>{
-  setTimeout(()=>
-  pageScripts.forEach(script => exec(script)) 
-  )
-}
+const initPageScript = () => {
+  setTimeout(() => pageScripts.forEach(script => exec(script)));
+};
 
 const initHandler = (state, action) => {
   const params = get(action, ['params'], {});
@@ -94,7 +103,7 @@ const initHandler = (state, action) => {
       initTags(accountConfig);
       initRouter(accountConfig);
       state = state.merge(accountConfig);
-      i13nStore.addListener(initPageScript, 'init')
+      i13nStore.addListener(initPageScript, 'init');
       return view(state);
     });
     return state.set('initTrigerBy', params.initTrigerBy);

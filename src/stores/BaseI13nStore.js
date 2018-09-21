@@ -2,9 +2,9 @@ import {Store} from 'reshow-flux-base';
 import get from 'get-object-value';
 import set from 'set-object-value';
 import {i13nDispatch} from '../i13nDispatcher';
-import {localStorage, Storage} from 'get-storage'
+import {localStorage, Storage} from 'get-storage';
 
-const lStore = new Storage(localStorage)
+const lStore = new Storage(localStorage);
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -24,18 +24,22 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action) {
-      const lazyAction = get(lStore.get('lazyAction'), null, []).
-        push(action);
-      lStore.set('lazyAction', lazyAction)
+    const lazyAction = get(lStore.get('lazyAction'), null, []).push(action);
+    if (get(action, ['params', 'lazy'])) {
+      delete action.params.lazy;
+    }
+    set(action, ['params', 'isLazy'], true);
+    lStore.set('lazyAction', lazyAction);
   }
-
 
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
-    this.nextEmits.push('action');
+    if (!get(action, ['params', 'lazy'])) {
+      this.nextEmits.push('action');
+    }
     return actionHandler(state, action);
   }
 
@@ -48,13 +52,11 @@ class BaseI13nStore extends Store {
     }
   }
 
-  handleAfterInit(state){
+  handleAfterInit(state) {
     this.nextEmits.push('init');
     const lazyAction = lStore.get('lazyAction');
     if (lazyAction && lazyAction.length) {
-      lazyAction.forEach(
-        action => this.handleAction(state, action)
-      )
+      lazyAction.forEach(action => this.handleAction(state, action));
     }
   }
 

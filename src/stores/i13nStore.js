@@ -19,6 +19,11 @@ class Map {
     return new Map(this._state);
   }
 
+  delete(k) {
+    delete this._state[k];
+    return new Map(this._state);
+  }
+
   merge(arr) {
     this._state = {
       ...this._state,

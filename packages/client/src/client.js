@@ -23,14 +23,14 @@ const addSectionEvents = configs => section => {
     query.all(select).forEach(el => {
       el.addEventListener(get(events, ['types', skey]), e => {
         i13nDispatch('config/set', {
-          lastEvent: e
+          lastEvent: e,
         });
         const scriptName = get(events, ['scripts', skey]);
         const scriptCode = get(configs, ['script', scriptName]);
         if (scriptCode) {
           exec(scriptCode);
         } else {
-          console.warn('['+scriptName+'] not found.')
+          console.warn('[' + scriptName + '] not found.');
         }
       });
     });
@@ -38,12 +38,12 @@ const addSectionEvents = configs => section => {
 };
 
 const pushPageScript = configs => name => {
-    const pageScriptName = get(configs, ['page', name, 'script']);
-    const pageScript = get(configs, ['script', pageScriptName]);
-    if (pageScript) {
-      pageScripts.push(pageScript);
-    }
-}
+  const pageScriptName = get(configs, ['page', name, 'script']);
+  const pageScript = get(configs, ['script', pageScriptName]);
+  if (pageScript) {
+    pageScripts.push(pageScript);
+  }
+};
 
 const initRouter = configs => {
   const router = new Router();
@@ -69,8 +69,8 @@ const initRouter = configs => {
 const initTags = configs => {
   win().i13n = {
     dispatch: i13nDispatch,
-    query  
-  }
+    query,
+  };
   const tagMap = {
     gtag: googleTag,
     usergram: usergramTag,
@@ -108,17 +108,21 @@ const initHandler = (state, action) => {
 const actionHandler = (state, action) => {
   let I13N = get(action, ['params', 'I13N']);
   const I13NCallback = get(action, ['params', 'I13NCallback']);
+  const lazeInfo = get(action, ['params', 'lazeInfo']);
   if ('function' === typeof I13NCallback) {
-    const e = state.get('lastEvent') 
-    I13N = I13NCallback(e, get(I13N, null, {}), i13nStore)
-    delete action.params.I13NCallback
+    const e = state.get('lastEvent');
+    I13N = I13NCallback(e, get(I13N, null, {}), i13nStore);
+    delete action.params.I13NCallback;
+  }
+  if (lazeInfo) {
+    I13N.lazeInfo = lazeInfo;
   }
   if (I13N) {
     state = state.set('I13N', I13N);
   }
   if (get(action, ['params', 'lazy'])) {
-    set(action, ['params', 'I13N'], I13N)
-    i13nStore.pushLazyAction(action)
+    set(action, ['params', 'I13N'], I13N);
+    i13nStore.pushLazyAction(action);
   }
   return state;
 };

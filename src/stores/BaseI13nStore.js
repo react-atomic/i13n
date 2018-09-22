@@ -5,6 +5,24 @@ import {i13nDispatch} from '../i13nDispatcher';
 import {localStorage, Storage} from 'get-storage';
 
 const lStore = new Storage(localStorage);
+const docUrl = () => document.URL;
+
+const getTime = () => {
+  const date = new Date();
+  const str =
+    date.getFullYear() +
+    '-' +
+    (date.getMonth() + 1) +
+    '-' +
+    date.getDate() +
+    ' ' +
+    date.getHours() +
+    ':' +
+    date.getMinutes() +
+    ':' +
+    date.getSeconds();
+  return str;
+};
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -28,7 +46,10 @@ class BaseI13nStore extends Store {
     if (get(action, ['params', 'lazy'])) {
       delete action.params.lazy;
     }
-    set(action, ['params', 'isLazy'], true);
+    set(action, ['params', 'lazeInfo'], {
+      from: docUrl(),
+      time: getTime()
+    });
     lStore.set('lazyAction', lazyAction);
   }
 
@@ -61,7 +82,7 @@ class BaseI13nStore extends Store {
   }
 
   handleImpression(state, action) {
-    state = state.set('lastUrl', document.URL);
+    state = state.set('lastUrl', docUrl());
     const run = state => {
       let impressionHandler = state.get('impressionHandler');
       if (!impressionHandler) {

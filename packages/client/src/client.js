@@ -4,6 +4,7 @@ import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
 import exec from 'exec-script';
 import get from 'get-object-value';
+import set from 'set-object-value';
 import query from 'css-query-selector';
 
 import Router from './routes';
@@ -16,35 +17,22 @@ const doc = () => document;
 const keys = Object.keys;
 const pageScripts = [];
 
-const actionHandler = (state, action) => {
-  let I13N = get(action, ['params', 'I13N']);
-  const I13NCallback = get(action, ['params', 'I13NCallback']);
-  if ('function' === typeof I13NCallback) {
-    const e = state.get('lastEvent') 
-    I13N = I13NCallback(e, I13N)
-  }
-  if (I13N) {
-    state = state.set('I13N', I13N);
-  }
-  return state;
-};
-
-const impressionHandler = (state, action) => {
-  console.warn('view', state.get('pvid'));
-  return state;
-};
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section, 'event']);
   get(events, ['selects'], []).forEach((select, skey) => {
     query.all(select).forEach(el => {
       el.addEventListener(get(events, ['types', skey]), e => {
-        const scriptName = get(events, ['scripts', skey]);
-        const scriptCode = get(configs, ['script', scriptName]);
         i13nDispatch('config/set', {
           lastEvent: e
         });
-        exec(scriptCode);
+        const scriptName = get(events, ['scripts', skey]);
+        const scriptCode = get(configs, ['script', scriptName]);
+        if (scriptCode) {
+          exec(scriptCode);
+        } else {
+          console.warn('['+scriptName+'] not found.')
+        }
       });
     });
   });
@@ -75,7 +63,10 @@ const initRouter = configs => {
 };
 
 const initTags = configs => {
-  win().i13nDispatch = i13nDispatch;
+  win().i13n = {
+    dispatch: i13nDispatch,
+    query  
+  }
   const tagMap = {
     gtag: googleTag,
     usergram: usergramTag,
@@ -108,6 +99,29 @@ const initHandler = (state, action) => {
     });
     return state.set('initTrigerBy', params.initTrigerBy);
   };
+};
+
+const actionHandler = (state, action) => {
+  let I13N = get(action, ['params', 'I13N']);
+  const I13NCallback = get(action, ['params', 'I13NCallback']);
+  if ('function' === typeof I13NCallback) {
+    const e = state.get('lastEvent') 
+    I13N = I13NCallback(e, get(I13N, null, {}), i13nStore)
+    delete action.params.I13NCallback
+  }
+  if (I13N) {
+    state = state.set('I13N', I13N);
+  }
+  if (get(action, ['params', 'lazy'])) {
+    set(action, ['params', 'I13N'], I13N)
+    i13nStore.pushLazyAction(action)
+  }
+  return state;
+};
+
+const impressionHandler = (state, action) => {
+  console.warn('view', state.get('pvid'));
+  return state;
 };
 
 i13nDispatch('config/set', {

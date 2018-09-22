@@ -17,7 +17,6 @@ const doc = () => document;
 const keys = Object.keys;
 const pageScripts = [];
 
-
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section, 'event']);
   get(events, ['selects'], []).forEach((select, skey) => {
@@ -38,17 +37,22 @@ const addSectionEvents = configs => section => {
   });
 };
 
+const pushPageScript = configs => name => {
+    const pageScriptName = get(configs, ['page', name, 'script']);
+    const pageScript = get(configs, ['script', pageScriptName]);
+    if (pageScript) {
+      pageScripts.push(pageScript);
+    }
+}
+
 const initRouter = configs => {
   const router = new Router();
   const addEvent = addSectionEvents(configs);
+  const exePushPageScript = pushPageScript(configs);
   get(configs, ['router', 'rules'], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
-      const pageName = get(configs, ['router', 'names', key]);
-      const pageScriptName = get(configs, ['page', pageName, 'script']);
-      const pageScript = get(configs, ['script', pageScriptName]);
-      if (pageScript) {
-        pageScripts.push(pageScript);
-      }
+      const pageName = get(configs, ['router', 'pages', key]);
+      exePushPageScript(pageName);
       get(configs, ['page', pageName, 'secs'], []).forEach(sec => {
         addEvent(sec);
       });

@@ -6,6 +6,7 @@ import {localStorage, Storage} from 'get-storage';
 
 const lStore = new Storage(localStorage);
 const docUrl = () => document.URL;
+const isArray = Array.isArray;
 
 const getTime = () => {
   const date = new Date();
@@ -42,14 +43,18 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action) {
-    const lazyAction = get(lStore.get('lazyAction'), null, []).push(action);
     if (get(action, ['params', 'lazy'])) {
       delete action.params.lazy;
     }
     set(action, ['params', 'lazeInfo'], {
       from: docUrl(),
-      time: getTime()
+      time: getTime(),
     });
+    let lazyAction = lStore.get('lazyAction');
+    if (!isArray(lazyAction)) {
+      lazyAction = [];
+    }
+    lazyAction.push(action);
     lStore.set('lazyAction', lazyAction);
   }
 
@@ -79,6 +84,7 @@ class BaseI13nStore extends Store {
     if (lazyAction && lazyAction.length) {
       lazyAction.forEach(action => this.handleAction(state, action));
     }
+    lStore.set('lazyAction', []);
   }
 
   handleImpression(state, action) {

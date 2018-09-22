@@ -24,6 +24,7 @@ const addSectionEvents = configs => section => {
       el.addEventListener(get(events, ['types', skey]), e => {
         i13nDispatch('config/set', {
           lastEvent: e,
+          i13nCbParams: get(events, ['params', skey])
         });
         const scriptName = get(events, ['scripts', skey]);
         const scriptCode = get(configs, ['script', scriptName]);
@@ -39,11 +40,25 @@ const addSectionEvents = configs => section => {
 
 const pushPageScript = configs => name => {
   const pageScriptName = get(configs, ['page', name, 'script']);
-  const pageScript = get(configs, ['script', pageScriptName]);
+  const pageScript = [get(configs, ['script', pageScriptName])];
+  const pageScriptParam = get(configs, ['page', name, 'param']); 
+  if (pageScriptParam) {
+    pageScript.push(JSON.parse(pageScriptParam)) 
+  }
   if (pageScript) {
     pageScripts.push(pageScript);
   }
 };
+
+const initPageScript = () => 
+  setTimeout(() => pageScripts.forEach(script => {
+    if (script[1]) {
+        i13nDispatch('config/set', {
+          i13nCbParams: script[1],
+        });
+    }
+    exec(script[0])
+}))
 
 const initRouter = configs => {
   const router = new Router();
@@ -84,9 +99,6 @@ const initTags = configs => {
   });
 };
 
-const initPageScript = () => {
-  setTimeout(() => pageScripts.forEach(script => exec(script)));
-};
 
 const initHandler = (state, action) => {
   const params = get(action, ['params'], {});
@@ -107,12 +119,16 @@ const initHandler = (state, action) => {
 
 const actionHandler = (state, action) => {
   let I13N = get(action, ['params', 'I13N']);
-  const I13NCallback = get(action, ['params', 'I13NCallback']);
+  const i13nCb = get(action, ['params', 'i13nCb']);
   const lazeInfo = get(action, ['params', 'lazeInfo']);
-  if ('function' === typeof I13NCallback) {
-    const e = state.get('lastEvent');
-    I13N = I13NCallback(e, get(I13N, null, {}), i13nStore);
-    delete action.params.I13NCallback;
+  if ('function' === typeof i13nCb) {
+    I13N = i13nCb(
+      state.get('lastEvent'),
+      get(I13N, null, {}),
+      state.get('i13nCbParams'),
+      i13nStore,
+    );
+    delete action.params.i13nCb;
   }
   if (lazeInfo) {
     I13N.lazeInfo = lazeInfo;
@@ -124,7 +140,7 @@ const actionHandler = (state, action) => {
     set(action, ['params', 'I13N'], I13N);
     i13nStore.pushLazyAction(action);
   }
-  return state;
+  return state.delete('lastEvent').delete('i13nCbParams');
 };
 
 const impressionHandler = (state, action) => {

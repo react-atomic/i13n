@@ -62,7 +62,6 @@ const pushPageScript = configs => name => {
 };
 
 const initPageScript = () =>
-  setTimeout(() =>
     pageScripts.forEach(script => {
       if (script[1]) {
         i13nDispatch('config/set', {
@@ -70,8 +69,7 @@ const initPageScript = () =>
         });
       }
       exec(script[0]);
-    }),
-  );
+    })
 
 const initRouter = configs => {
   const router = new Router();

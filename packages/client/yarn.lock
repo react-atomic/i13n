@@ -2375,8 +2375,8 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
 i13n@*:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.19.tgz#f4fa90b56d8c26bfafc546f2bd40fd741c4a76f9"
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.20.tgz#6e441607457bfb4eca77e3b0131012b96e1f5146"
   dependencies:
     get-object-value "*"
     get-storage "*"
@@ -4028,8 +4028,8 @@ reshow-app@*:
     webpack-bundle-analyzer "*"
 
 reshow-flux-base@*:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.12.tgz#33e3281cd7f5da305e6cd047ee4b941da8d90178"
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.14.tgz#877ec17620a67edfcf3e60c06bc63756f07cd340"
   dependencies:
     mitt "*"
     reshow-runtime "*"

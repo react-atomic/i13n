@@ -28,8 +28,8 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action) {
-    if (get(action, ['params', 'lazy'])) {
-      delete action.params.lazy;
+    if (get(action, ['params', 'stop'])) {
+      delete action.params.stop;
     }
     set(action, ['params', 'lazeInfo'], {
       from: docUrl(),

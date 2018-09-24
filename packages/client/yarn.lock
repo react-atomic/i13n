@@ -2375,8 +2375,8 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
 i13n@*:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.18.tgz#4e65b09200085ec0ea876a9125fc6cae0ca2c38a"
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.19.tgz#f4fa90b56d8c26bfafc546f2bd40fd741c4a76f9"
   dependencies:
     get-object-value "*"
     get-storage "*"

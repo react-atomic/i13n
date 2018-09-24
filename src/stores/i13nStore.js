@@ -11,7 +11,9 @@ class Map {
   }
 
   get(k) {
-    return this._state[k];
+    return 'object' === typeof this._state[k]
+      ? new Map(this._state[k])
+      : this._state[k];
   }
 
   set(k, v) {

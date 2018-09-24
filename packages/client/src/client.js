@@ -135,6 +135,7 @@ const actionHandler = (state, action) => {
   let I13N = get(action, ['params', 'I13N']);
   const i13nCb = get(action, ['params', 'i13nCb']);
   const lazeInfo = get(action, ['params', 'lazeInfo']);
+  const i13nPage = get(action, ['params', 'i13nPage']);
   if ('function' === typeof i13nCb) {
     I13N = i13nCb(
       state.get('lastEvent'),

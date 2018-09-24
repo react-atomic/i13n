@@ -2184,6 +2184,10 @@ get-object-value@*:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/get-object-value/-/get-object-value-0.0.14.tgz#4ae1b3a7e6b359db7a4b209ca9b1fb4a00019597"
 
+get-safe-reg@*:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/get-safe-reg/-/get-safe-reg-0.0.2.tgz#fa99f25ca20d48836a1a980c3cf63ed95d8e833e"
+
 get-scroll-info@*:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/get-scroll-info/-/get-scroll-info-0.0.14.tgz#4dc7dfee6846e665757ce02f137abefd36ecb808"
@@ -4211,6 +4215,12 @@ setprototypeof@1.0.3:
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
+
+seturl@*:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.0.9.tgz#94fb742daf21f7c0773ffb3ed81a2ab021a873ed"
+  dependencies:
+    get-safe-reg "*"
 
 sha.js@^2.4.0, sha.js@^2.4.8:
   version "2.4.11"

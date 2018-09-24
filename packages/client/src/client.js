@@ -6,6 +6,7 @@ import exec from 'exec-script';
 import get from 'get-object-value';
 import set from 'set-object-value';
 import query from 'css-query-selector';
+import {getUrl} from 'seturl';
 
 import Router from './routes';
 import req from './req';
@@ -24,14 +25,18 @@ const addSectionEvents = configs => section => {
       el.addEventListener(get(events, ['types', skey]), e => {
         i13nDispatch('config/set', {
           lastEvent: e,
-          i13nCbParams: get(events, ['params', skey])
+          i13nCbParams: get(events, ['params', skey]),
         });
         const scriptName = get(events, ['scripts', skey]);
+        if (!scriptName) {
+          console.error('Script name not found', events, skey);
+          return;
+        }
         const scriptCode = get(configs, ['script', scriptName]);
         if (scriptCode) {
           exec(scriptCode);
         } else {
-          console.warn('[' + scriptName + '] not found.');
+          console.error('script: [' + scriptName + '] not found.');
         }
       });
     });
@@ -39,26 +44,34 @@ const addSectionEvents = configs => section => {
 };
 
 const pushPageScript = configs => name => {
-  const pageScriptName = get(configs, ['page', name, 'script']);
-  const pageScript = [get(configs, ['script', pageScriptName])];
-  const pageScriptParam = get(configs, ['page', name, 'param']); 
-  if (pageScriptParam) {
-    pageScript.push(JSON.parse(pageScriptParam)) 
+  const arrScriptName = get(configs, ['page', name, 'scripts']);
+  if (!arrScriptName) {
+    return;
   }
-  if (pageScript) {
-    pageScripts.push(pageScript);
-  }
+  arrScriptName.forEach((scriptName, key) => {
+    const pageScript = get(configs, ['script', scriptName]);
+    if (pageScript) {
+      const script = [pageScript];
+      const scriptParam = get(configs, ['page', name, 'params', key]);
+      if (scriptParam) {
+        script.push(JSON.parse(scriptParam));
+      }
+      pageScripts.push(script);
+    }
+  });
 };
 
-const initPageScript = () => 
-  setTimeout(() => pageScripts.forEach(script => {
-    if (script[1]) {
+const initPageScript = () =>
+  setTimeout(() =>
+    pageScripts.forEach(script => {
+      if (script[1]) {
         i13nDispatch('config/set', {
           i13nCbParams: script[1],
         });
-    }
-    exec(script[0])
-}))
+      }
+      exec(script[0]);
+    }),
+  );
 
 const initRouter = configs => {
   const router = new Router();
@@ -85,6 +98,7 @@ const initTags = configs => {
   win().i13n = {
     dispatch: i13nDispatch,
     query,
+    getUrl,
   };
   const tagMap = {
     gtag: googleTag,
@@ -98,7 +112,6 @@ const initTags = configs => {
     }
   });
 };
-
 
 const initHandler = (state, action) => {
   const params = get(action, ['params'], {});
@@ -126,7 +139,7 @@ const actionHandler = (state, action) => {
       state.get('lastEvent'),
       get(I13N, null, {}),
       state.get('i13nCbParams'),
-      i13nStore,
+      i13nStore.getState(),
     );
     delete action.params.i13nCb;
   }
@@ -138,7 +151,9 @@ const actionHandler = (state, action) => {
   }
   if (get(action, ['params', 'lazy'])) {
     set(action, ['params', 'I13N'], I13N);
-    i13nStore.pushLazyAction(action);
+    if (I13N) {
+      i13nStore.pushLazyAction(action);
+    }
   }
   return state.delete('lastEvent').delete('i13nCbParams');
 };

@@ -1,29 +1,14 @@
 import {Store} from 'reshow-flux-base';
 import get from 'get-object-value';
 import set from 'set-object-value';
-import {i13nDispatch} from '../i13nDispatcher';
 import {localStorage, Storage} from 'get-storage';
+
+import {i13nDispatch} from '../i13nDispatcher';
+import getTime from '../getTime';
 
 const lStore = new Storage(localStorage);
 const docUrl = () => document.URL;
 const isArray = Array.isArray;
-
-const getTime = () => {
-  const date = new Date();
-  const str =
-    date.getFullYear() +
-    '-' +
-    (date.getMonth() + 1) +
-    '-' +
-    date.getDate() +
-    ' ' +
-    date.getHours() +
-    ':' +
-    date.getMinutes() +
-    ':' +
-    date.getSeconds();
-  return str;
-};
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -48,7 +33,7 @@ class BaseI13nStore extends Store {
     }
     set(action, ['params', 'lazeInfo'], {
       from: docUrl(),
-      time: getTime(),
+      time: getTime().toString(),
     });
     let lazyAction = lStore.get('lazyAction');
     if (!isArray(lazyAction)) {
@@ -63,7 +48,7 @@ class BaseI13nStore extends Store {
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
-    if (!get(action, ['params', 'lazy'])) {
+    if (!get(action, ['params', 'stop'])) {
       this.nextEmits.push('action');
     }
     return actionHandler(state, action);
@@ -94,7 +79,9 @@ class BaseI13nStore extends Store {
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);
       }
-      this.nextEmits.push('impression');
+      if (!get(action, ['params', 'stop'])) {
+        this.nextEmits.push('impression');
+      }
       return impressionHandler(state, action);
     };
     const init = state.get('init');

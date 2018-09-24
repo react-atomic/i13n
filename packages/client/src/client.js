@@ -88,9 +88,12 @@ const initRouter = configs => {
   });
   const loc = doc().location;
   const url = loc.pathname + loc.search;
-  const match = router.match(url);
+  let match = router.match(url);
   if (match) {
     match.fn();
+    while ((match = match.next())) {
+      match.fn();
+    }
   }
 };
 
@@ -149,7 +152,7 @@ const actionHandler = (state, action) => {
   if (I13N) {
     state = state.set('I13N', I13N);
   }
-  if (get(action, ['params', 'lazy'])) {
+  if (get(action, ['params', 'stop'])) {
     set(action, ['params', 'I13N'], I13N);
     if (I13N) {
       i13nStore.pushLazyAction(action);

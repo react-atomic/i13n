@@ -14,8 +14,8 @@
     "exec-script": "*",
     "i13n": "*",
     "object-nested": "*",
-    "seturl": "*",
-    "parse-ini-string": "*"
+    "parse-ini-string": "*",
+    "seturl": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

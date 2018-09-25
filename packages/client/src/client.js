@@ -12,6 +12,7 @@ import Router from './routes';
 import req from './req';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
+import {toJS} from './BaseTag';
 
 const win = () => window;
 const doc = () => document;
@@ -19,13 +20,13 @@ const keys = Object.keys;
 const pageScripts = [];
 
 const addSectionEvents = configs => section => {
-  const events = get(configs, ['sec', section, 'event']);
+  const events = get(configs, ['sec', section]);
   get(events, ['selects'], []).forEach((select, skey) => {
     query.all(select).forEach(el => {
       el.addEventListener(get(events, ['types', skey]), e => {
         i13nDispatch('config/set', {
           lastEvent: e,
-          i13nCbParams: get(events, ['params', skey]),
+          i13nCbParams: JSON.parse(get(events, ['params', skey])),
         });
         const scriptName = get(events, ['scripts', skey]);
         if (!scriptName) {
@@ -62,14 +63,14 @@ const pushPageScript = configs => name => {
 };
 
 const initPageScript = () =>
-    pageScripts.forEach(script => {
-      if (script[1]) {
-        i13nDispatch('config/set', {
-          i13nCbParams: script[1],
-        });
-      }
-      exec(script[0]);
-    })
+  pageScripts.forEach(script => {
+    if (script[1]) {
+      i13nDispatch('config/set', {
+        i13nCbParams: script[1],
+      });
+    }
+    exec(script[0]);
+  });
 
 const initRouter = configs => {
   const router = new Router();
@@ -115,11 +116,13 @@ const initTags = configs => {
 };
 
 const initHandler = (state, action) => {
-  const params = get(action, ['params'], {});
-  const iniPath = params.iniPath;
+  const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
   return view => {
     req(iniPath, req => e => {
-      const text = req.responseText;
+      let text = req.responseText;
+      if ('function' === typeof iniCb) {
+        text = iniCb(text);
+      }
       const accountConfig = nest(ini(text), '_');
       initTags(accountConfig);
       initRouter(accountConfig);
@@ -127,7 +130,7 @@ const initHandler = (state, action) => {
       i13nStore.addListener(initPageScript, 'init');
       return view(state);
     });
-    return state.set('initTrigerBy', params.initTrigerBy);
+    return state.set('initTrigerBy', initTrigerBy);
   };
 };
 
@@ -135,12 +138,13 @@ const actionHandler = (state, action) => {
   let I13N = get(action, ['params', 'I13N']);
   const i13nCb = get(action, ['params', 'i13nCb']);
   const lazeInfo = get(action, ['params', 'lazeInfo']);
-  const i13nPage = get(action, ['params', 'i13nPage']);
+  const i13nPageCb = get(action, ['params', 'i13nPageCb']);
+  const i13nCbParams = toJS(state.get('i13nCbParams'));
   if ('function' === typeof i13nCb) {
     I13N = i13nCb(
-      state.get('lastEvent'),
+      toJS(state.get('lastEvent')),
       get(I13N, null, {}),
-      state.get('i13nCbParams'),
+      i13nCbParams,
       i13nStore.getState(),
     );
     delete action.params.i13nCb;
@@ -151,10 +155,18 @@ const actionHandler = (state, action) => {
   if (I13N) {
     state = state.set('I13N', I13N);
   }
-  if (get(action, ['params', 'stop'])) {
+  if (get(action, ['params', 'stop']) && I13N) {
     set(action, ['params', 'I13N'], I13N);
-    if (I13N) {
-      i13nStore.pushLazyAction(action);
+    i13nStore.pushLazyAction(action);
+  }
+  if ('function' === typeof i13nPageCb) {
+    const i13nPage = i13nPageCb(action, I13N, i13nCbParams);
+    if (i13nPage) {
+      const stateI13nPage = state.get('i13nPage');
+      state = state.set(
+        'i13nPage',
+        stateI13nPage ? stateI13nPage.merge(i13nPage) : i13nPage,
+      );
     }
   }
   return state.delete('lastEvent').delete('i13nCbParams');
@@ -171,13 +183,14 @@ i13nDispatch('config/set', {
   impressionHandler,
 });
 
-const getIni = iniPath => {
+const getIni = (iniPath, iniCb) => {
   let isLoad = false;
   const run = e => {
     if (!isLoad) {
       isLoad = true;
       i13nDispatch('view', {
         iniPath,
+        inicb,
         initTrigerBy: e.type,
       });
     }

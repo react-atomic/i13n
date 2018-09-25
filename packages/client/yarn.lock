@@ -1577,8 +1577,8 @@ crypto-browserify@^3.11.0:
     randomfill "^1.0.3"
 
 css-query-selector@*:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/css-query-selector/-/css-query-selector-0.0.4.tgz#420806b38cd04f2190d40b6a4da8cd88f5b35abb"
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/css-query-selector/-/css-query-selector-0.0.5.tgz#5239164d10c8b461f6b5db88c088412be167e493"
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -2375,8 +2375,8 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
 i13n@*:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.20.tgz#6e441607457bfb4eca77e3b0131012b96e1f5146"
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.22.tgz#06addeb3f7280ffe025724d97115bca715747a26"
   dependencies:
     get-object-value "*"
     get-storage "*"

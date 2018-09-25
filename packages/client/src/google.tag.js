@@ -1,7 +1,7 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
 
-import BaseTag from './BaseTag';
+import BaseTag, {toJS} from './BaseTag';
 
 const getScript = gtagId => {
   const script = ` 
@@ -32,22 +32,52 @@ class GoogleTag extends BaseTag {
 
   action() {
     const state = this.getStore().getState();
-    const {lazeInfo, p, action, category, label, value} = get(state.get('I13N'), null, {});
-    const thisCategory = (category) ? category : action;
-    let thisLabel = label
+    const {
+      lazeInfo,
+      p,
+      action,
+      category,
+      label,
+      value,
+      ecommerce,
+      ecommerceAddToCart,
+      ecommerceRemoveFromCart,
+    } = get(toJS(state.get('I13N')), null, {});
+    const thisCategory = category ? category : action;
+    const currencyCode = state.get('currencyCode');
+
+    let thisLabel = label;
     if (lazeInfo) {
       if ('object' !== typeof thisLabel) {
         thisLabel = {
           label: thisLabel,
-          lazeInfo: lazeInfo
-        }
+          lazeInfo: lazeInfo,
+        };
       } else {
-        thisLabel.lazeInfo = lazeInfo
+        thisLabel.lazeInfo = lazeInfo;
       }
     }
     if ('object' === typeof thisLabel) {
-      thisLabel = JSON.stringify(thisLabel)
+      thisLabel = JSON.stringify(thisLabel);
     }
+
+    let thisEcommerce = ecommerce;
+    if (ecommerceAddToCart) {
+      thisEcommerce = {
+        currencyCode,
+        add: {
+          products: ecommerceAddToCart,
+        },
+      };
+    } else if (ecommerceRemoveFromCart) {
+      thisEcommerce = {
+        currencyCode,
+        remove: {
+          products: ecommerceRemoveFromCart,
+        },
+      };
+    }
+
     const config = {
       event: 'lucencyEventAction',
       p,
@@ -55,17 +85,31 @@ class GoogleTag extends BaseTag {
       category: thisCategory,
       label: thisLabel,
       value,
+      ecommerce: thisEcommerce,
     };
     this.push(config);
   }
 
   impression() {
     const state = this.getStore().getState();
-    const {p} = get(state.get('I13N'), null, {});
+    const {p, ecommerceImpressions, ecommerceDetail} = get(
+      toJS(state.get('i13nPage')),
+      null,
+      {},
+    );
+    const currencyCode = state.get('currencyCode');
     const config = {
       event: 'lucencyEventView',
       p,
     };
+    if (ecommerceImpressions) {
+      config.ecommerce = {
+        currencyCode,
+        impressions: ecommerceImpressions,
+      };
+    } else if (ecommerceDetail) {
+      config.ecommerce = ecommerceDetail;
+    }
     this.push(config);
   }
 }

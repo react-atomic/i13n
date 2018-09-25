@@ -26,7 +26,6 @@ class UsergramTag extends BaseTag {
     const tagData = this.getTagData();
     const script = getScript(tagData);
     exec(script);
-    console.log('init usergram');
   }
 
   push(config) {

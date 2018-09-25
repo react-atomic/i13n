@@ -173,7 +173,6 @@ const actionHandler = (state, action) => {
 };
 
 const impressionHandler = (state, action) => {
-  console.warn('view', state.get('pvid'));
   return state;
 };
 

@@ -190,7 +190,7 @@ const getIni = (iniPath, iniCb) => {
       isLoad = true;
       i13nDispatch('view', {
         iniPath,
-        inicb,
+        iniCb,
         initTrigerBy: e.type,
       });
     }

@@ -31,7 +31,7 @@ class GoogleTag extends BaseTag {
   }
 
   action() {
-    const state = this.getStore().getState();
+    const state = this.getState();
     const {
       lazeInfo,
       p,
@@ -91,7 +91,7 @@ class GoogleTag extends BaseTag {
   }
 
   impression() {
-    const state = this.getStore().getState();
+    const state = this.getState();
     const {p, ecommerceImpressions, ecommerceDetail} = get(
       toJS(state.get('i13nPage')),
       null,

@@ -10,6 +10,7 @@ import {getUrl} from 'seturl';
 
 import Router from './routes';
 import req from './req';
+import debugTag from './debug.tag';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
 import {toJS} from './BaseTag';
@@ -18,6 +19,9 @@ const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
 const pageScripts = [];
+
+const numReg = /\d+/g;
+const getNum = s => s.replace(',','').match(numReg)[0]
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section]);
@@ -101,8 +105,10 @@ const initTags = configs => {
     dispatch: i13nDispatch,
     query,
     getUrl,
+    getNum,
   };
   const tagMap = {
+    debug: debugTag,
     gtag: googleTag,
     usergram: usergramTag,
   };
@@ -152,13 +158,18 @@ const actionHandler = (state, action) => {
   if (lazeInfo) {
     I13N.lazeInfo = lazeInfo;
   }
-  if (I13N) {
-    state = state.set('I13N', I13N);
+
+  // reset I13N
+  state = state.set('I13N', I13N);
+  if (!I13N) {
+    set(action, ['params', 'stop'], true);
+  } else {
+    if (get(action, ['params', 'stop'])) {
+      set(action, ['params', 'I13N'], I13N);
+      i13nStore.pushLazyAction(action);
+    }
   }
-  if (get(action, ['params', 'stop']) && I13N) {
-    set(action, ['params', 'I13N'], I13N);
-    i13nStore.pushLazyAction(action);
-  }
+
   if ('function' === typeof i13nPageCb) {
     const i13nPage = i13nPageCb(action, I13N, i13nCbParams);
     if (i13nPage) {

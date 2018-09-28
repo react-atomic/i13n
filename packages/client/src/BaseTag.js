@@ -17,12 +17,16 @@ class BaseTag {
     return this.store;
   }
 
+  getState() {
+    return this.getStore().getState();
+  }
+
   getKey() {
     return this.key;
   }
 
   getTagData() {
-    const state = this.getStore().getState();
+    const state = this.getState();
     const key = this.getKey();
     const tagData = state
       .get('tags')

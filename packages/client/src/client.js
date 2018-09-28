@@ -115,7 +115,7 @@ const initTags = configs => {
   const tags = get(configs, ['tags'], {});
   keys(tags).forEach(key => {
     const tag = tags[key];
-    if (tag.enabled) {
+    if (tag.enabled && tagMap[key]) {
       tagMap[key].register(i13nStore, key);
     }
   });

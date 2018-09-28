@@ -28,10 +28,9 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action) {
-    if (get(action, ['params', 'stop'])) {
-      delete action.params.stop;
-    }
-    set(action, ['params', 'lazeInfo'], {
+    const {stop, ...params} = get(action, ['params'], {});
+    const thisAction = {params};
+    set(thisAction, ['params', 'lazeInfo'], {
       from: docUrl(),
       time: getTime().toString(),
     });
@@ -39,7 +38,7 @@ class BaseI13nStore extends Store {
     if (!isArray(lazyAction)) {
       lazyAction = [];
     }
-    lazyAction.push(action);
+    lazyAction.push(thisAction);
     lStore.set('lazyAction', lazyAction);
   }
 

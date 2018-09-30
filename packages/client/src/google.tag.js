@@ -41,7 +41,11 @@ class GoogleTag extends BaseTag {
       category,
       label,
       value,
-      currencyCode
+      products,
+      promotions,
+      currencyCode,
+      step,
+      stepOption,
     } = get(toJS(state.get('I13N')), null, {});
     const thisCategory = category ? category : action;
     let thisCurrencyCode = currencyCode;
@@ -66,16 +70,52 @@ class GoogleTag extends BaseTag {
 
     let ecommerce = {};
     switch (action) {
+      case 'checkout':
+        ecommerce = {
+          checkout: {
+            products,
+            actionField: {
+              step,
+              option: stepOption,
+            },
+          },
+        };
+        break;
+      case 'checkoutOption':
+        ecommerce = {
+          checkout_option: {
+            actionField: {
+              step,
+              option: stepOption,
+            },
+          },
+        };
+        break;
+      case 'promotionClick':
+        ecommerce = {
+          promoClick: {promotions},
+        };
+        break;
+      case 'productClick':
+        ecommerce = {
+          click: {
+            products,
+            actionField: {
+              list: p,
+            },
+          },
+        };
+        break;
       case 'addToCart':
         ecommerce = {
           currencyCode: thisCurrencyCode,
-          add: { products },
+          add: {products},
         };
         break;
       case 'removeFromCart':
         ecommerce = {
           currencyCode: thisCurrencyCode,
-          remove: { products },
+          remove: {products},
         };
         break;
     }
@@ -95,11 +135,21 @@ class GoogleTag extends BaseTag {
 
   impression() {
     const state = this.getState();
-    const {p, fromP, products, detailProducts, promotions, currencyCode} = get(
-      toJS(state.get('i13nPage')),
-      null,
-      {},
-    );
+    const {
+      p,
+      fromP,
+      products,
+      detailProducts,
+      promotions,
+      currencyCode,
+      purchaseId,
+      affiliation,
+      revenue,
+      tax,
+      shipping,
+      coupon,
+      refundId,
+    } = get(toJS(state.get('i13nPage')), null, {});
     let ecommerce = {};
     if (products) {
       let thisCurrencyCode = currencyCode;
@@ -116,6 +166,23 @@ class GoogleTag extends BaseTag {
         set(ecommerce, ['detail', 'actionField', 'list'], fromP);
       }
       set(ecommerce, ['detail', 'products'], detailProducts);
+    }
+    if (purchaseId) {
+      set(ecommerce, ['purchase', 'actionField'], {
+        id: purchaseId,
+        affiliation,
+        revenue,
+        tax,
+        shipping,
+        coupon
+      });
+      set(ecommerce, ['purchase', 'products'], products);
+    }
+    if (refundId) {
+      set(ecommerce, ['refund', 'actionField', 'id'], refundId);
+      if (products) {
+        set(ecommerce, ['refund', 'products'], products);
+      }
     }
     if (promotions) {
       set(ecommerce, ['promoView', 'promotions'], promotions);

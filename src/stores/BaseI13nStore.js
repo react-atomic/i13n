@@ -92,7 +92,7 @@ class BaseI13nStore extends Store {
         return initCallback(nextState => {
           this.handleAfterInit(nextState);
           nextState = run(nextState.set('init', true));
-          i13nDispatch('config/set', nextState.toJS());
+          i13nDispatch('config/set', nextState);
         });
       } else {
         this.handleAfterInit(initCallback);

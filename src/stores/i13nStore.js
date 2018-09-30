@@ -1,6 +1,8 @@
 import BaseI13nStore from '../stores/BaseI13nStore';
 import dispatcher from '../i13nDispatcher';
 
+const toJS = v => (v && v.toJS ? v.toJS() : v);
+
 class Map {
   _state = {};
 
@@ -17,7 +19,7 @@ class Map {
   }
 
   set(k, v) {
-    this._state[k] = v;
+    this._state[k] = toJS(v);
     return new Map(this._state);
   }
 
@@ -29,7 +31,7 @@ class Map {
   merge(arr) {
     this._state = {
       ...this._state,
-      ...arr,
+      ...toJS(arr),
     };
     return new Map(this._state);
   }

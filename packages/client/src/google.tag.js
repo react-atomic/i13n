@@ -1,5 +1,6 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
+import set from 'set-object-value';
 
 import BaseTag, {toJS} from './BaseTag';
 
@@ -15,6 +16,7 @@ const getScript = gtagId => {
 };
 
 const win = () => window;
+const keys = Object.keys;
 
 class GoogleTag extends BaseTag {
   isInit = false;
@@ -39,12 +41,13 @@ class GoogleTag extends BaseTag {
       category,
       label,
       value,
-      ecommerce,
-      ecommerceAddToCart,
-      ecommerceRemoveFromCart,
+      currencyCode
     } = get(toJS(state.get('I13N')), null, {});
     const thisCategory = category ? category : action;
-    const currencyCode = state.get('currencyCode');
+    let thisCurrencyCode = currencyCode;
+    if (!thisCurrencyCode) {
+      thisCurrencyCode = state.get('currencyCode');
+    }
 
     let thisLabel = label;
     if (lazeInfo) {
@@ -61,23 +64,21 @@ class GoogleTag extends BaseTag {
       thisLabel = JSON.stringify(thisLabel);
     }
 
-    let thisEcommerce = ecommerce;
-    if (ecommerceAddToCart) {
-      thisEcommerce = {
-        currencyCode,
-        add: {
-          products: ecommerceAddToCart,
-        },
-      };
-    } else if (ecommerceRemoveFromCart) {
-      thisEcommerce = {
-        currencyCode,
-        remove: {
-          products: ecommerceRemoveFromCart,
-        },
-      };
+    let ecommerce = {};
+    switch (action) {
+      case 'addToCart':
+        ecommerce = {
+          currencyCode: thisCurrencyCode,
+          add: { products },
+        };
+        break;
+      case 'removeFromCart':
+        ecommerce = {
+          currencyCode: thisCurrencyCode,
+          remove: { products },
+        };
+        break;
     }
-
     const config = {
       event: 'lucencyEventAction',
       p,
@@ -85,30 +86,46 @@ class GoogleTag extends BaseTag {
       category: thisCategory,
       label: thisLabel,
       value,
-      ecommerce: thisEcommerce,
     };
+    if (keys(ecommerce).length) {
+      config.ecommerce = ecommerce;
+    }
     this.push(config);
   }
 
   impression() {
     const state = this.getState();
-    const {p, ecommerceImpressions, ecommerceDetail} = get(
+    const {p, fromP, products, detailProducts, promotions, currencyCode} = get(
       toJS(state.get('i13nPage')),
       null,
       {},
     );
-    const currencyCode = state.get('currencyCode');
+    let ecommerce = {};
+    if (products) {
+      let thisCurrencyCode = currencyCode;
+      if (!thisCurrencyCode) {
+        thisCurrencyCode = state.get('currencyCode');
+      }
+      if (thisCurrencyCode) {
+        set(ecommerce, ['currencyCode'], thisCurrencyCode);
+      }
+      set(ecommerce, ['impressions'], products);
+    }
+    if (detailProducts) {
+      if (fromP) {
+        set(ecommerce, ['detail', 'actionField', 'list'], fromP);
+      }
+      set(ecommerce, ['detail', 'products'], detailProducts);
+    }
+    if (promotions) {
+      set(ecommerce, ['promoView', 'promotions'], promotions);
+    }
     const config = {
       event: 'lucencyEventView',
       p,
     };
-    if (ecommerceImpressions) {
-      config.ecommerce = {
-        currencyCode,
-        impressions: ecommerceImpressions,
-      };
-    } else if (ecommerceDetail) {
-      config.ecommerce = ecommerceDetail;
+    if (keys(ecommerce).length) {
+      config.ecommerce = ecommerce;
     }
     this.push(config);
   }

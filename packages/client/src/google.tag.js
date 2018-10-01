@@ -44,7 +44,7 @@ class GoogleTag extends BaseTag {
       products,
       promotions,
       currencyCode,
-      step,
+      stepNo,
       stepOption,
     } = get(toJS(state.get('I13N')), null, {});
     const thisCategory = category ? category : action;
@@ -75,7 +75,7 @@ class GoogleTag extends BaseTag {
           checkout: {
             products,
             actionField: {
-              step,
+              step: stepNo,
               option: stepOption,
             },
           },
@@ -85,7 +85,7 @@ class GoogleTag extends BaseTag {
         ecommerce = {
           checkout_option: {
             actionField: {
-              step,
+              step: stepNo,
               option: stepOption,
             },
           },

@@ -1,9 +1,9 @@
-const req = (url, callback) =>
-{
-  const oReq = new XMLHttpRequest()
-  oReq.onload = callback(oReq)
-  oReq.open("GET", url)
-  oReq.send()
-}
+const req = (url, callback) => {
+  const request = XDomainRequest ? XDomainRequest : XMLHttpRequest;
+  const oReq = new request();
+  oReq.onload = callback(oReq);
+  oReq.open('GET', url);
+  oReq.send();
+};
 
-export default req
+export default req;

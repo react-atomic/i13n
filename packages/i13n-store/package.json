@@ -1,0 +1,24 @@
+{
+  "name": "i13n-store",
+  "version": "0.0.0",
+  "description": "i13n store",
+  "main": "./index.cjs.js",
+  "module": "./index.es.js",
+  "keywords": [
+    "i13n"
+  ],
+  "author": "Hill <hill@kimo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "i13n": "*"
+  },
+  "scripts": {
+    "prepublishOnly": "echo 'publish'"
+  },
+  "files": [
+    "index.cjs.js",
+    "index.es.js",
+    "package.json",
+    "README.md"
+  ]
+}

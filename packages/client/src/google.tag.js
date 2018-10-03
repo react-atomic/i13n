@@ -70,7 +70,7 @@ class GoogleTag extends BaseTag {
 
     let ecommerce = {};
     switch (action) {
-      case 'checkout':
+      case 'Checkout':
         ecommerce = {
           checkout: {
             products,
@@ -81,7 +81,7 @@ class GoogleTag extends BaseTag {
           },
         };
         break;
-      case 'checkoutOption':
+      case 'CheckoutOption':
         ecommerce = {
           checkout_option: {
             actionField: {
@@ -91,12 +91,12 @@ class GoogleTag extends BaseTag {
           },
         };
         break;
-      case 'promotionClick':
+      case 'PromotionClick':
         ecommerce = {
           promoClick: {promotions},
         };
         break;
-      case 'productClick':
+      case 'ProductClick':
         ecommerce = {
           click: {
             products,
@@ -106,13 +106,13 @@ class GoogleTag extends BaseTag {
           },
         };
         break;
-      case 'addToCart':
+      case 'AddToCart':
         ecommerce = {
           currencyCode: thisCurrencyCode,
           add: {products},
         };
         break;
-      case 'removeFromCart':
+      case 'RemoveFromCart':
         ecommerce = {
           currencyCode: thisCurrencyCode,
           remove: {products},

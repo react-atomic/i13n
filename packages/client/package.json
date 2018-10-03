@@ -28,7 +28,7 @@
     "build:es": "BABEL_ENV=es babel src -d build/es/src",
     "build:test": "BABEL_ENV=build babel tests -d build/tests",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
-    "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js'",
+    "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js' -r jsdom-global/register",
     "prepublishOnly": "npm run build"
   }
 }

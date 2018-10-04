@@ -24,15 +24,13 @@
   dependencies:
     array-from "^2.1.1"
 
-"@sinonjs/samsam@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.1.tgz#f352621c24c9e9ab2ed293a7655e8d46bfd64c16"
-  dependencies:
-    array-from "^2.1.1"
+"@sinonjs/samsam@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.2.tgz#16947fce5f57258d01f1688fdc32723093c55d3f"
 
 "@types/node@*":
-  version "10.11.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.3.tgz#c055536ac8a5e871701aa01914be5731539d01ee"
+  version "10.11.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.4.tgz#e8bd933c3f78795d580ae41d86590bfc1f4f389d"
 
 JSONStream@^1.3.1:
   version "1.3.4"
@@ -1329,8 +1327,8 @@ camelcase@^4.1.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
 caniuse-lite@^1.0.30000844:
-  version "1.0.30000888"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000888.tgz#22edb50d91dd70612b5898e3b36f460600c6492f"
+  version "1.0.30000889"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000889.tgz#53e266c83e725ad3bd2e4a3ea76d5031a8aa4c3e"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1682,8 +1680,8 @@ create-ecdh@^4.0.0:
     elliptic "^6.0.0"
 
 create-el@*:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.0.6.tgz#0d34f9e550f5f0cffd9281a31268ab2ca8823e27"
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.0.7.tgz#4b8503c58d411646c14eb0f3a07bca548507c8a8"
   dependencies:
     reshow-runtime "*"
 
@@ -2060,8 +2058,8 @@ enzyme-adapter-react-16@*:
     react-test-renderer "^16.0.0-0"
 
 enzyme-adapter-utils@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.8.0.tgz#ee9f07250663a985f1f2caaf297720787da559f1"
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.8.1.tgz#a927d840ce2c14b42892a533aec836809d4e022b"
   dependencies:
     function.prototype.name "^1.1.0"
     object.assign "^4.1.0"
@@ -2836,8 +2834,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.27.tgz#81c4766daa81c4d271d4166ff20e363c0769682c"
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.28.tgz#345806ba0cd943f7e54b5c375c112eb05bfe3010"
   dependencies:
     get-object-value "*"
     get-storage "*"
@@ -3543,7 +3541,7 @@ log-symbols@^2.2.0:
   dependencies:
     chalk "^2.0.1"
 
-lolex@^2.3.2, lolex@^2.7.4:
+lolex@^2.3.2, lolex@^2.7.5:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
 
@@ -3712,11 +3710,12 @@ math-random@^1.0.1:
   resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.1.tgz#8b3aac588b8a66e4975e3cdea67f7bb329601fac"
 
 md5.js@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.4.tgz#e9bdbde94a20a5ac18b04340fc5764d5b09d901d"
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+    safe-buffer "^5.1.2"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -5023,8 +5022,8 @@ set-blocking@^2.0.0, set-blocking@~2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
 
 set-object-value@*:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/set-object-value/-/set-object-value-0.0.2.tgz#4cf8d301207eb664038843a3de5ff518e964318d"
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/set-object-value/-/set-object-value-0.0.3.tgz#e7a9092544119403051938bd34e2eab0df0ffa7d"
 
 set-value@^0.4.3:
   version "0.4.3"
@@ -5084,15 +5083,15 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 sinon@*:
-  version "6.3.4"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.4.tgz#6f076d7ddcf381af6c16468ac83d30333a756ec8"
+  version "6.3.5"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.5.tgz#0f6d6a5b4ebaad1f6e8e019395542d1d02c144a0"
   dependencies:
     "@sinonjs/commons" "^1.0.2"
     "@sinonjs/formatio" "^3.0.0"
-    "@sinonjs/samsam" "^2.1.1"
+    "@sinonjs/samsam" "^2.1.2"
     diff "^3.5.0"
     lodash.get "^4.4.2"
-    lolex "^2.7.4"
+    lolex "^2.7.5"
     nise "^1.4.5"
     supports-color "^5.5.0"
     type-detect "^4.0.8"

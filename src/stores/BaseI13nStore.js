@@ -27,7 +27,7 @@ class BaseI13nStore extends Store {
     return state;
   }
 
-  pushLazyAction(action) {
+  pushLazyAction(action, key) {
     const {stop, ...params} = get(action, ['params'], {});
     const thisAction = {params};
     set(thisAction, ['params', 'lazeInfo'], {
@@ -35,10 +35,14 @@ class BaseI13nStore extends Store {
       time: getTime().toString(),
     });
     let lazyAction = lStore.get('lazyAction');
-    if (!isArray(lazyAction)) {
-      lazyAction = [];
+    if ('object' !== typeof lazyAction) {
+      lazyAction = {};
     }
-    lazyAction.push(thisAction);
+    if (key) {
+      lazyAction[key] = thisAction;
+    } else {
+      set(lazyAction, ['__seq'], thisAction, true);
+    }
     lStore.set('lazyAction', lazyAction);
   }
 
@@ -66,8 +70,15 @@ class BaseI13nStore extends Store {
   handleAfterInit(state) {
     this.nextEmits.push('init');
     const lazyAction = lStore.get('lazyAction');
-    if (lazyAction && lazyAction.length) {
-      lazyAction.forEach(action => this.handleAction(state, action));
+    if (lazyAction) {
+      const seq = get(lazyAction, ['__seq']);
+      if (isArray(seq)) {
+        seq.forEach(action => this.handleAction(state, action));
+      }
+      delete lazyAction.__seq;
+      keys(lazyAction).forEach(key =>
+        this.handleAction(state, lazyAction[key]),
+      );
     }
     lStore.set('lazyAction', []);
   }

@@ -21,7 +21,7 @@ const keys = Object.keys;
 const pageScripts = [];
 
 const numReg = /\d+/g;
-const getNum = s => s.replace(',','').match(numReg)[0]
+const getNum = s => s.replace(',', '').match(numReg)[0];
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section]);
@@ -132,21 +132,20 @@ const initHandler = (state, action) => {
         state = state.merge(accountConfig);
         i13nStore.addListener(initPageScript, 'init');
         return view(state);
-      }
+      };
       const text = req.responseText;
-      return ('function' === typeof iniCb) ?
-        iniCb(text, processText) :
-        processText(text);
+      return 'function' === typeof iniCb
+        ? iniCb(text, processText)
+        : processText(text);
     });
     return state.set('initTrigerBy', initTrigerBy);
   };
 };
 
 const actionHandler = (state, action) => {
-  let I13N = get(action, ['params', 'I13N']);
-  const i13nCb = get(action, ['params', 'i13nCb']);
-  const lazeInfo = get(action, ['params', 'lazeInfo']);
-  const i13nPageCb = get(action, ['params', 'i13nPageCb']);
+  const params = get(action, ['params'], {});
+  let I13N = params.I13N;
+  const {i13nCb, lazeInfo, i13nPageCb, stop, lazyKey} = params;
   const i13nCbParams = toJS(state.get('i13nCbParams'));
   if ('function' === typeof i13nCb) {
     I13N = i13nCb(
@@ -166,9 +165,9 @@ const actionHandler = (state, action) => {
   if (!I13N) {
     set(action, ['params', 'stop'], true);
   } else {
-    if (get(action, ['params', 'stop'])) {
+    if (stop) {
       set(action, ['params', 'I13N'], I13N);
-      i13nStore.pushLazyAction(action);
+      i13nStore.pushLazyAction(action, lazyKey);
     }
   }
 
@@ -185,9 +184,7 @@ const actionHandler = (state, action) => {
   return state.delete('lastEvent').delete('i13nCbParams');
 };
 
-const impressionHandler = (state, action) => {
-  return state;
-};
+const impressionHandler = (state, action) => state;
 
 i13nDispatch('config/set', {
   initHandler,

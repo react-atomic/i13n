@@ -136,6 +136,7 @@ class GoogleTag extends BaseTag {
     };
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
+      config.category = 'Ecommerce';
     }
     this.push(config);
   }

@@ -9,6 +9,7 @@ import getTime from '../getTime';
 const lStore = new Storage(localStorage);
 const docUrl = () => document.URL;
 const isArray = Array.isArray;
+const keys = Object.keys;
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -80,7 +81,7 @@ class BaseI13nStore extends Store {
         this.handleAction(state, lazyAction[key]),
       );
     }
-    lStore.set('lazyAction', []);
+    lStore.set('lazyAction', {});
   }
 
   handleImpression(state, action) {

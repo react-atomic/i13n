@@ -2834,8 +2834,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.28.tgz#345806ba0cd943f7e54b5c375c112eb05bfe3010"
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.30.tgz#1daf5db05a3bb8cd2e2ae84fa4e898b170f493f2"
   dependencies:
     get-object-value "*"
     get-storage "*"
@@ -5022,8 +5022,8 @@ set-blocking@^2.0.0, set-blocking@~2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
 
 set-object-value@*:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/set-object-value/-/set-object-value-0.0.3.tgz#e7a9092544119403051938bd34e2eab0df0ffa7d"
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/set-object-value/-/set-object-value-0.0.4.tgz#0c32309268e9280492ea891a331dd66a354025f6"
 
 set-value@^0.4.3:
   version "0.4.3"
@@ -5167,8 +5167,8 @@ source-map@^0.6.1, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 spdx-correct@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.0.1.tgz#434434ff9d1726b4d9f4219d1004813d80639e30"
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.0.2.tgz#19bb409e91b47b1ad54159243f7312a858db3c2e"
   dependencies:
     spdx-expression-parse "^3.0.0"
     spdx-license-ids "^3.0.0"

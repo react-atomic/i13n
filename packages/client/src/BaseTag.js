@@ -29,7 +29,7 @@ class BaseTag {
     const state = this.getState();
     const key = this.getKey();
     const tagData = state
-      .get('tags')
+      .get('tag')
       .get(key)
       .toJS();
     return tagData;

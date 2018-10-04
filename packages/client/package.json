@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -29,6 +29,6 @@
     "build:test": "BABEL_ENV=build babel tests -d build/tests",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
     "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js' -r jsdom-global/register",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run test && npm run build"
   }
 }

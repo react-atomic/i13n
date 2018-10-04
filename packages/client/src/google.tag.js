@@ -34,6 +34,7 @@ class GoogleTag extends BaseTag {
 
   action() {
     const state = this.getState();
+    const I13N = get(toJS(state.get('I13N')), null, {});
     const {
       lazeInfo,
       p,
@@ -46,7 +47,7 @@ class GoogleTag extends BaseTag {
       currencyCode,
       stepNo,
       stepOption,
-    } = get(toJS(state.get('I13N')), null, {});
+    } = I13N;
     const thisCategory = category ? category : action;
     let thisCurrencyCode = currencyCode;
     if (!thisCurrencyCode) {
@@ -118,6 +119,12 @@ class GoogleTag extends BaseTag {
           remove: {products},
         };
         break;
+      case 'Purchase':
+        ecommerce = this.handlePurchase(I13N, ecommerce);
+        break;
+      case 'Refund':
+        ecommerce = this.handlePurchase(I13N, ecommerce);
+        break;
     }
     const config = {
       event: 'lucencyEventAction',
@@ -133,15 +140,9 @@ class GoogleTag extends BaseTag {
     this.push(config);
   }
 
-  impression() {
-    const state = this.getState();
+  handlePurchase(I13N, ecommerce)
+  {
     const {
-      p,
-      fromP,
-      products,
-      detailProducts,
-      promotions,
-      currencyCode,
       purchaseId,
       affiliation,
       revenue,
@@ -149,24 +150,8 @@ class GoogleTag extends BaseTag {
       shipping,
       coupon,
       refundId,
-    } = get(toJS(state.get('i13nPage')), null, {});
-    let ecommerce = {};
-    if (products) {
-      let thisCurrencyCode = currencyCode;
-      if (!thisCurrencyCode) {
-        thisCurrencyCode = state.get('currencyCode');
-      }
-      if (thisCurrencyCode) {
-        set(ecommerce, ['currencyCode'], thisCurrencyCode);
-      }
-      set(ecommerce, ['impressions'], products);
-    }
-    if (detailProducts) {
-      if (fromP) {
-        set(ecommerce, ['detail', 'actionField', 'list'], fromP);
-      }
-      set(ecommerce, ['detail', 'products'], detailProducts);
-    }
+      products,
+    } = I13N;
     if (purchaseId) {
       set(ecommerce, ['purchase', 'actionField'], {
         id: purchaseId,
@@ -184,9 +169,44 @@ class GoogleTag extends BaseTag {
         set(ecommerce, ['refund', 'products'], products);
       }
     }
+    return ecommerce;
+  }
+
+  impression() {
+    const state = this.getState();
+    const I13N = get(toJS(state.get('i13nPage')), null, {});
+    const {
+      p,
+      fromP,
+      impressions,
+      detailProducts,
+      promotions,
+      currencyCode,
+    } = I13N;
+    let ecommerce = {};
+    if (impressions) {
+      let thisCurrencyCode = currencyCode;
+      if (!thisCurrencyCode) {
+        thisCurrencyCode = state.get('currencyCode');
+      }
+      if (thisCurrencyCode) {
+        set(ecommerce, ['currencyCode'], thisCurrencyCode);
+      }
+      set(ecommerce, ['impressions'], impressions);
+    }
+    if (detailProducts) {
+      if (fromP) {
+        set(ecommerce, ['detail', 'actionField', 'list'], fromP);
+      }
+      set(ecommerce, ['detail', 'products'], detailProducts);
+    }
     if (promotions) {
       set(ecommerce, ['promoView', 'promotions'], promotions);
     }
+    ecommerce = this.handlePurchase(
+      I13N,
+      ecommerce
+    );
     const config = {
       event: 'lucencyEventView',
       p,

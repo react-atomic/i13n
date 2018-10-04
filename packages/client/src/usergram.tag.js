@@ -1,7 +1,7 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
 
-import BaseTag from './BaseTag';
+import BaseTag, {toJS} from './BaseTag';
 
 const getScript = tagData => {
   const jsName = tagData.test ? 'usergram_test.js' : 'usergram.js';
@@ -23,9 +23,11 @@ const keys = Object.keys;
 
 class UsergramTag extends BaseTag {
   init() {
-    const tagData = this.getTagData();
-    const script = getScript(tagData);
-    exec(script);
+    if (!win().usergram) {
+      const tagData = this.getTagData();
+      const script = getScript(tagData);
+      exec(script);
+    }
   }
 
   push(config) {
@@ -35,9 +37,9 @@ class UsergramTag extends BaseTag {
   }
 
   action() {
-    const state = this.getStore().getState();
+    const state = this.getState();
     const {type, attribute, p, action, category, label, value} = get(
-      state.get('I13N'),
+      toJS(state.get('I13N')),
       null,
       {},
     );
@@ -51,6 +53,8 @@ class UsergramTag extends BaseTag {
   }
 
   impression() {
+    const state = this.getState();
+    const I13N = get(toJS(state.get('i13nPage')), null, {});
     this.push(['pv']);
   }
 }

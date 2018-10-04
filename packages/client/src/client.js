@@ -112,7 +112,7 @@ const initTags = configs => {
     gtag: googleTag,
     usergram: usergramTag,
   };
-  const tags = get(configs, ['tags'], {});
+  const tags = get(configs, ['tag'], {});
   keys(tags).forEach(key => {
     const tag = tags[key];
     if (tag.enabled && tagMap[key]) {
@@ -125,16 +125,18 @@ const initHandler = (state, action) => {
   const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
   return view => {
     req(iniPath, req => e => {
-      let text = req.responseText;
-      if ('function' === typeof iniCb) {
-        text = iniCb(text);
+      const processText = text => {
+        const accountConfig = nest(ini(text), '_');
+        initTags(accountConfig);
+        initRouter(accountConfig);
+        state = state.merge(accountConfig);
+        i13nStore.addListener(initPageScript, 'init');
+        return view(state);
       }
-      const accountConfig = nest(ini(text), '_');
-      initTags(accountConfig);
-      initRouter(accountConfig);
-      state = state.merge(accountConfig);
-      i13nStore.addListener(initPageScript, 'init');
-      return view(state);
+      const text = req.responseText;
+      return ('function' === typeof iniCb) ?
+        iniCb(text, processText) :
+        processText(text);
     });
     return state.set('initTrigerBy', initTrigerBy);
   };

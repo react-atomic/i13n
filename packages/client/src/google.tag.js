@@ -37,7 +37,6 @@ class GoogleTag extends BaseTag {
     const I13N = get(toJS(state.get('I13N')), null, {});
     const {
       lazeInfo,
-      p,
       action,
       category,
       label,
@@ -48,6 +47,7 @@ class GoogleTag extends BaseTag {
       stepNo,
       stepOption,
     } = I13N;
+    const p = get(I13N, ['p'], null);
     const thisCategory = category ? category : action;
     let thisCurrencyCode = currencyCode;
     if (!thisCurrencyCode) {
@@ -92,12 +92,12 @@ class GoogleTag extends BaseTag {
           },
         };
         break;
-      case 'PromotionClick':
+      case 'ClickPromotion':
         ecommerce = {
           promoClick: {promotions},
         };
         break;
-      case 'ProductClick':
+      case 'ClickProduct':
         ecommerce = {
           click: {
             products,
@@ -145,14 +145,14 @@ class GoogleTag extends BaseTag {
   {
     const {
       purchaseId,
-      affiliation,
-      revenue,
-      tax,
-      shipping,
-      coupon,
       refundId,
       products,
     } = I13N;
+    const affiliation = get(I13N, ['affiliation'], '');
+    const coupon = get(I13N, ['coupon'], '');
+    const revenue = get(I13N, ['revenue'], 0);
+    const tax = get(I13N, ['tax'], 0);
+    const shipping = get(I13N, ['shipping'], 0);
     if (purchaseId) {
       set(ecommerce, ['purchase', 'actionField'], {
         id: purchaseId,
@@ -177,13 +177,13 @@ class GoogleTag extends BaseTag {
     const state = this.getState();
     const I13N = get(toJS(state.get('i13nPage')), null, {});
     const {
-      p,
       fromP,
       impressions,
       detailProducts,
       promotions,
       currencyCode,
     } = I13N;
+    const p = get(I13N, ['p'], null);
     let ecommerce = {};
     if (impressions) {
       let thisCurrencyCode = currencyCode;

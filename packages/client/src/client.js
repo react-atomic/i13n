@@ -25,6 +25,10 @@ const getNum = s => s.replace(',', '').match(numReg)[0];
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section]);
+  if (!events) {
+    console.error('Section: [' + section + '] not found.');
+    return;
+  }
   get(events, ['selects'], []).forEach((select, skey) => {
     query.all(select).forEach(el => {
       el.addEventListener(get(events, ['types', skey]), e => {
@@ -41,7 +45,7 @@ const addSectionEvents = configs => section => {
         if (scriptCode) {
           exec(scriptCode);
         } else {
-          console.error('script: [' + scriptName + '] not found.');
+          console.error('Script: [' + scriptName + '] not found.');
         }
       });
     });
@@ -158,6 +162,13 @@ const actionHandler = (state, action) => {
   }
   if (lazeInfo) {
     I13N.lazeInfo = lazeInfo;
+  }
+  if (I13N.purchaseId) {
+    const purchaseId = state.get('purchaseId');
+    if (purchaseId && purchaseId.length) {
+      I13N.purchaseId = purchaseId;
+      state = state.delete('purchaseId');
+    }
   }
 
   // reset I13N

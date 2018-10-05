@@ -39,14 +39,14 @@ class UsergramTag extends BaseTag {
   }
 
   convertOne(attrKeys, arr, result) {
-    keys(attrKeys).forEach(
-      key => {
-        if (arr[key]) {
-          const to = attrKeys[key];
-          set(result, [to], arr[key], true);
+    keys(attrKeys).forEach(key => {
+      const to = attrKeys[key];
+      arr.forEach(a => {
+        if (a[key]) {
+          set(result, [to], a[key], true);
         }
-      }
-    );
+      });
+    });
   }
 
   converAttr(attrKeys, flats, I13N) {
@@ -54,7 +54,13 @@ class UsergramTag extends BaseTag {
       return;
     }
     const result = {};
-    const defFlats = ['label', 'products', 'impressions', 'detailProducts', 'promotions'];
+    const defFlats = [
+      'label',
+      'products',
+      'impressions',
+      'detailProducts',
+      'promotions',
+    ];
     if (isArray(flats)) {
       flats = flats.concat(defFlats);
     } else {
@@ -62,12 +68,16 @@ class UsergramTag extends BaseTag {
     }
     const thisI13N = {...I13N};
     flats.forEach(flat => {
-      if (I13N[flat]) {
-        this.convertOne(attrKeys, I13N[flat], result);
+      let arr = thisI13N[flat];
+      if (arr) {
+        if (!isArray(arr)) {
+          arr = [arr];
+        }
+        this.convertOne(attrKeys, arr, result);
         delete thisI13N[flat];
       }
     });
-    this.convertOne(attrKeys, thisI13N, result);
+    this.convertOne(attrKeys, [thisI13N], result);
     return result;
   }
 
@@ -77,9 +87,7 @@ class UsergramTag extends BaseTag {
     const {cv, attr, flat} = tagData;
     const I13N = get(toJS(state.get('I13N')), null, {});
     const {p, action, category, label, value} = I13N;
-    const type = (-1 !== cv.indexOf(action)) ?
-      'cv':
-      'event';
+    const type = -1 !== cv.indexOf(action) ? 'cv' : 'event';
     let attribute;
     if ('cv' === type) {
       attribute = this.converAttr(attr, flat, I13N);

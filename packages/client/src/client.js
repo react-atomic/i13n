@@ -21,7 +21,7 @@ const keys = Object.keys;
 const pageScripts = [];
 
 const numReg = /\d+/g;
-const getNum = s => s.replace(',', '').match(numReg)[0];
+const getNum = s => get(s.replace(',', '').match(numReg), null, [])[0];
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section]);
@@ -87,20 +87,24 @@ const initRouter = configs => {
   get(configs, ['router', 'rules'], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
       const pageName = get(configs, ['router', 'pages', key]);
+      const pageConfigs = get(configs, ['page', pageName]);
       exePushPageScript(pageName);
-      get(configs, ['page', pageName, 'secs'], []).forEach(sec => {
+      get(pageConfigs, ['secs'], []).forEach(sec => {
         addEvent(sec);
       });
+      return get(pageConfigs, ['timeout'], 0);
     });
   });
   const loc = doc().location;
   const url = loc.pathname + loc.search;
   let match = router.match(url);
   if (match) {
-    match.fn();
+    const timeouts = [];
+    timeouts.push(match.fn());
     while ((match = match.next())) {
-      match.fn();
+      timeouts.push(match.fn());
     }
+    return Math.max(...timeouts);
   }
 };
 
@@ -110,6 +114,7 @@ const initTags = configs => {
     query,
     getUrl,
     getNum,
+    get,
   };
   const tagMap = {
     debug: debugTag,
@@ -127,23 +132,25 @@ const initTags = configs => {
 
 const initHandler = (state, action) => {
   const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
-  return view => {
-    req(iniPath, req => e => {
-      const processText = text => {
-        const accountConfig = nest(ini(text), '_');
-        initTags(accountConfig);
-        initRouter(accountConfig);
+  state = state.set('initTrigerBy', initTrigerBy);
+  req(iniPath, req => e => {
+    const processText = text => {
+      const accountConfig = nest(ini(text), '_');
+      initTags(accountConfig);
+      const timeout = initRouter(accountConfig);
+      setTimeout(()=>{
         state = state.merge(accountConfig);
         i13nStore.addListener(initPageScript, 'init');
-        return view(state);
-      };
-      const text = req.responseText;
-      return 'function' === typeof iniCb
-        ? iniCb(text, processText)
-        : processText(text);
-    });
-    return state.set('initTrigerBy', initTrigerBy);
-  };
+        // The last Line
+        i13nStore.handleAfterInit(state);
+      }, get(timeout, null, 0));
+    };
+    const text = req.responseText;
+    return 'function' === typeof iniCb
+      ? iniCb(text, processText)
+      : processText(text);
+  });
+  return state;
 };
 
 const actionHandler = (state, action) => {
@@ -162,13 +169,6 @@ const actionHandler = (state, action) => {
   }
   if (lazeInfo) {
     I13N.lazeInfo = lazeInfo;
-  }
-  if (I13N.purchaseId) {
-    const purchaseId = state.get('purchaseId');
-    if (purchaseId && purchaseId.length) {
-      I13N.purchaseId = purchaseId;
-      state = state.delete('purchaseId');
-    }
   }
 
   // reset I13N

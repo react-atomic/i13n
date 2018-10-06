@@ -47,13 +47,31 @@ class BaseI13nStore extends Store {
     lStore.set('lazyAction', lazyAction);
   }
 
+  getWithLazy(action, key) {
+    const lazyAction = lStore.get('lazyAction');
+    const {stop, wait, ...lazeParams} = get(lazyAction, [key, 'params'], {});
+    keys(lazeParams).forEach(pKey => {
+      const p = lazeParams[pKey];
+      action.params[pKey] = {
+        ...p,
+        ...action.params[pKey],
+      };
+    });
+    delete lazyAction[key];
+    lStore.set('lazyAction', lazyAction);
+  }
+
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
+    const {stop, withLazy} = get(action, ['params'], {});
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
+    if (withLazy) {
+      action = getWithLazy(action, withLazy);
+    }
     const next = actionHandler(state, action);
-    if (!get(action, ['params', 'stop'])) {
+    if (!stop) {
       this.nextEmits.push('action');
     }
     return next;
@@ -64,12 +82,11 @@ class BaseI13nStore extends Store {
     if ('function' === typeof initHandler) {
       return initHandler(state, action);
     } else {
-      return state;
+      return this.handleAfterInit(state);
     }
   }
 
-  handleAfterInit(state) {
-    this.nextEmits.push('init');
+  handleAfterInit = state => {
     const lazyAction = lStore.get('lazyAction');
     if (lazyAction) {
       const seq = get(lazyAction, ['__seq']);
@@ -77,12 +94,23 @@ class BaseI13nStore extends Store {
         seq.forEach(action => this.handleAction(state, action));
       }
       delete lazyAction.__seq;
-      keys(lazyAction).forEach(key =>
-        this.handleAction(state, lazyAction[key]),
-      );
+      keys(lazyAction).forEach(key => {
+        const laze = lazyAction[key];
+        if (get(laze, ['wait'], 0) <= 0) {
+          this.handleAction(state, laze);
+          delete lazyAction[key];
+        } else {
+          laze.wait--;
+        }
+      });
+      lStore.set('lazyAction', lazyAction);
     }
-    lStore.set('lazyAction', {});
-  }
+    this.nextEmits.push('init');
+    state = state.set('init', true);
+    i13nDispatch('config/set', state); // for async
+    i13nDispatch('view');
+    return state;
+  };
 
   handleImpression(state, action) {
     state = state.set('lastUrl', docUrl());
@@ -99,17 +127,7 @@ class BaseI13nStore extends Store {
     };
     const init = state.get('init');
     if (!init) {
-      const initCallback = this.handleInit(state, action);
-      if ('function' === typeof initCallback) {
-        return initCallback(nextState => {
-          this.handleAfterInit(nextState);
-          nextState = run(nextState.set('init', true));
-          i13nDispatch('config/set', nextState);
-        });
-      } else {
-        this.handleAfterInit(initCallback);
-        return run(initCallback.set('init', true));
-      }
+      return this.handleInit(state, action);
     } else {
       return run(state);
     }

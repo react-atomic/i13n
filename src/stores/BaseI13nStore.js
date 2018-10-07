@@ -48,12 +48,17 @@ class BaseI13nStore extends Store {
 
   mergeWithLazy(action, key) {
     const lazyAction = lStore.get('lazyAction');
-    const {stop, wait, lazeInfo, ...lazeParams} = get(lazyAction, [key, PARAMS], {});
+    const {stop, wait, lazeInfo, ...lazeParams} = get(
+      lazyAction,
+      [key, PARAMS],
+      {},
+    );
     keys(lazeParams).forEach(pKey => {
       const p = lazeParams[pKey];
-      const newP = ('object' === typeof p) ?
-        {...p, ...get(action, [PARAMS, pKey], {})} : 
-        get(action, [PARAMS, pKey], p);
+      const newP =
+        'object' === typeof p
+          ? {...p, ...get(action, [PARAMS, pKey], {})}
+          : get(action, [PARAMS, pKey], p);
       set(action, [PARAMS, pKey], newP);
     });
     delete lazyAction[key];

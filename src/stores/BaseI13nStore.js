@@ -10,6 +10,7 @@ const lStore = new Storage(localStorage);
 const docUrl = () => document.URL;
 const isArray = Array.isArray;
 const keys = Object.keys;
+const PARAMS = 'params';
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -17,9 +18,7 @@ class BaseI13nStore extends Store {
   }
 
   processAction(state, action) {
-    const query = get(action, ['params', 'query'], {});
-    query.vpvid = state.get('vpvid');
-    set(action, ['params', 'query'], query);
+    set(action, [PARAMS, 'query', 'vpvid'], state.get('vpvid'));
     return this.sendBeacon(state, action);
   }
 
@@ -29,9 +28,9 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action, key) {
-    const {stop, ...params} = get(action, ['params'], {});
+    const {stop, ...params} = get(action, [PARAMS], {});
     const thisAction = {params};
-    set(thisAction, ['params', 'lazeInfo'], {
+    set(thisAction, [PARAMS, 'lazeInfo'], {
       from: docUrl(),
       time: getTime().toString(),
     });
@@ -47,28 +46,30 @@ class BaseI13nStore extends Store {
     lStore.set('lazyAction', lazyAction);
   }
 
-  getWithLazy(action, key) {
+  mergeWithLazy(action, key) {
     const lazyAction = lStore.get('lazyAction');
-    const {stop, wait, ...lazeParams} = get(lazyAction, [key, 'params'], {});
+    const {stop, wait, lazeInfo, ...lazeParams} = get(lazyAction, [key, PARAMS], {});
     keys(lazeParams).forEach(pKey => {
       const p = lazeParams[pKey];
-      action.params[pKey] = {
-        ...p,
-        ...action.params[pKey],
-      };
+      const newP = ('object' === typeof p) ?
+        {...p, ...get(action, [PARAMS, pKey], {})} : 
+        get(action, [PARAMS, pKey], p);
+      set(action, [PARAMS, pKey], newP);
     });
     delete lazyAction[key];
     lStore.set('lazyAction', lazyAction);
+    delete action.params.withLazy;
+    return action;
   }
 
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
-    const {stop, withLazy} = get(action, ['params'], {});
+    const {stop, withLazy} = get(action, [PARAMS], {});
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
     if (withLazy) {
-      action = getWithLazy(action, withLazy);
+      action = mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
     if (!stop) {
@@ -120,7 +121,7 @@ class BaseI13nStore extends Store {
         impressionHandler = this.processView.bind(this);
       }
       const next = impressionHandler(state, action);
-      if (!get(action, ['params', 'stop'])) {
+      if (!get(action, [PARAMS, 'stop'])) {
         this.nextEmits.push('impression');
       }
       return next;

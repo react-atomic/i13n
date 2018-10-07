@@ -21,7 +21,14 @@ const keys = Object.keys;
 const pageScripts = [];
 
 const numReg = /\d+/g;
-const getNum = s => get(s.replace(',', '').match(numReg), null, [])[0];
+const getNum = s => {
+  const match = s.replace(',', '').match(numReg);
+  if (!match) {
+    console.error('Get number fail', s);
+  } else {
+    return match[0];
+  }
+};
 
 const addSectionEvents = configs => section => {
   const events = get(configs, ['sec', section]);
@@ -138,7 +145,7 @@ const initHandler = (state, action) => {
       const accountConfig = nest(ini(text), '_');
       initTags(accountConfig);
       const timeout = initRouter(accountConfig);
-      setTimeout(()=>{
+      setTimeout(() => {
         state = state.merge(accountConfig);
         i13nStore.addListener(initPageScript, 'init');
         // The last Line

@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -26,6 +26,8 @@
     "babel-preset-env": "*",
     "babel-preset-stage-0": "*",
     "chai": "*",
+    "jsdom": "*",
+    "jsdom-global": "*",
     "mocha": "*",
     "sinon": "*"
   },
@@ -35,7 +37,7 @@
     "build:es": "BABEL_ENV=es babel src -d build/es/src",
     "build:test": "BABEL_ENV=build babel tests -d build/tests",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
-    "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js'",
+    "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js' -r jsdom-global/register",
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [

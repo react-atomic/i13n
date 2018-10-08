@@ -137,22 +137,32 @@ const initTags = configs => {
   });
 };
 
-const initHandler = (state, action) => {
+const mergeConfig = (conf, merges) => {
+  if (!merges) {
+     return conf; 
+  }
+  merges.forEach(
+    ({path, value, append}) => set(conf, path, value, append)
+  );
+  return conf;
+}
+
+const initHandler = (state, action, done) => {
   const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
   state = state.set('initTrigerBy', initTrigerBy);
-  req(iniPath, req => e => {
-    const processText = text => {
-      const accountConfig = nest(ini(text), '_');
-      initTags(accountConfig);
-      const timeout = initRouter(accountConfig);
+  req(iniPath, oReq => e => {
+    const processText = (text, arrMerge) => {
+      const userConfig = mergeConfig(nest(ini(text), '_'), arrMerge);
+      initTags(userConfig);
+      const timeout = initRouter(userConfig);
       setTimeout(() => {
-        state = state.merge(accountConfig);
+        state = state.merge(userConfig);
         i13nStore.addListener(initPageScript, 'init');
         // The last Line
-        i13nStore.handleAfterInit(state);
+        done(state);
       }, get(timeout, null, 0));
     };
-    const text = req.responseText;
+    const text = oReq.responseText;
     return 'function' === typeof iniCb
       ? iniCb(text, processText)
       : processText(text);
@@ -227,3 +237,4 @@ const getIni = (iniPath, iniCb) => {
 };
 
 export default getIni;
+export {mergeConfig};

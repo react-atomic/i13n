@@ -2003,8 +2003,8 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
 
 electron-to-chromium@^1.3.47:
-  version "1.3.73"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.73.tgz#aa67787067d58cc3920089368b3b8d6fe0fc12f6"
+  version "1.3.75"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.75.tgz#dd04551739e7371862b0ac7f4ddaa9f3f95b7e68"
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -2834,8 +2834,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.31.tgz#b222e7a170094f7a47bbf52071866d3fb7329bb0"
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.34.tgz#5df8be23cef03cb32376aa6256cf3f69a10b6251"
   dependencies:
     get-object-value "*"
     get-storage "*"

@@ -44,7 +44,7 @@ describe('Test I13N', ()=>{
 
   it('test init', ()=>{
     const impressionHandler = sinon.spy(state => state)
-    const initHandler = sinon.spy(state=>i13nStore.handleAfterInit(state))
+    const initHandler = sinon.spy((state, action, done)=>done(state))
     i13nDispatch(
       'config/set',
       {impressionHandler, initHandler}

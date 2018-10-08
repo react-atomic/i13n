@@ -86,7 +86,7 @@ class BaseI13nStore extends Store {
   handleInit(state, action) {
     const initHandler = state.get('initHandler');
     if ('function' === typeof initHandler) {
-      return initHandler(state, action);
+      return initHandler(state, action, this.handleAfterInit);
     } else {
       return this.handleAfterInit(state);
     }

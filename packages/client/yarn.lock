@@ -2834,8 +2834,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.38.tgz#d5e41f0b5dfd9628850d645f630eb60b3c74f6a7"
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.39.tgz#a29e59d3a72eecfe008d39431959729ffd518245"
   dependencies:
     get-object-value "*"
     get-storage "*"

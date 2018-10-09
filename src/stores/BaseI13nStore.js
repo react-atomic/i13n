@@ -48,7 +48,7 @@ class BaseI13nStore extends Store {
 
   mergeWithLazy(action, key) {
     const lazyAction = lStore.get('lazyAction');
-    const {stop, wait, lazeInfo, ...lazeParams} = get(
+    const {stop, wait, waitToSend, lazeInfo, ...lazeParams} = get(
       lazyAction,
       [key, PARAMS],
       {},
@@ -105,16 +105,16 @@ class BaseI13nStore extends Store {
       delete lazyAction.__seq;
       keys(lazyAction).forEach(key => {
         const laze = lazyAction[key];
-        let wait = get(laze, [PARAMS, 'wait']);
-        if ('undefined' === typeof wait) {
-          i13nDispatch(laze);
-        } else {
-          wait--;
-        }
+        const params = get(laze, [PARAMS], {});
+        const {waitToSend} = params; 
+        let {wait} = params;
         if (!wait || wait <= 0) {
+          if (waitToSend || 'undefined' === typeof wait) {
+            i13nDispatch(laze);
+          }
           delete lazyAction[key];
         } else {
-          laze.params.wait = wait;
+          laze.params.wait = --wait;
         }
       });
       lStore.set('lazyAction', lazyAction);

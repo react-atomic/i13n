@@ -96,13 +96,13 @@ describe('Test getWithLazy', ()=>{
 
 describe('Test after init', ()=>{
   it('should handle wait well', ()=>{
-    i13nStore.pushLazyAction({params: {wait: 2, foo: 'bar'}}, 'foo');
+    i13nStore.pushLazyAction({params: {wait: 1, foo: 'bar'}}, 'foo');
     let lazyAction = lStore.get('lazyAction');
-    expect(lazyAction.foo.params.wait).to.equal(2);
+    expect(lazyAction.foo.params.wait).to.equal(1);
     const state = i13nStore.getState();
     i13nStore.handleAfterInit(state);
     lazyAction = lStore.get('lazyAction');
-    expect(lazyAction.foo.params.wait).to.equal(1);
+    expect(lazyAction.foo.params.wait).to.equal(0);
     i13nStore.handleAfterInit(state);
     lazyAction = lStore.get('lazyAction');
     expect(!!lazyAction.foo).to.be.false;

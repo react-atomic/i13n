@@ -109,7 +109,7 @@ describe('Test after init', ()=>{
   });
 
   it('should handle wait undefined well', ()=>{
-    i13nStore.pushLazyAction({params: {foo: 'bar'}}, 'foo');
+    i13nStore.pushLazyAction({type: 'action', params: {foo: 'bar'}}, 'foo');
     let lazyAction = lStore.get('lazyAction');
     expect(lazyAction.foo.params).to.have.property('lazeInfo');
     const state = i13nStore.getState();
@@ -119,5 +119,19 @@ describe('Test after init', ()=>{
     lazyAction = lStore.get('lazyAction');
     expect(cb.called).to.be.true;
     expect(!!lazyAction.foo).to.be.false;
+  });
+
+  it('should handle lazy action well', ()=>{
+    const actionHandler = sinon.spy((state, action) => state.merge(action.params));
+    i13nDispatch(
+      'config/set',
+      {actionHandler}
+    )
+    i13nStore.pushLazyAction({type: 'action', params: {I13N:{a: 1, b: 2}}});
+    const state = i13nStore.getState();
+    i13nStore.handleAfterInit(state);
+    expect(actionHandler.called).to.be.true;
+    const I13N = i13nStore.getState().get('I13N').toJS();
+    expect(I13N).to.deep.equal({a: 1, b: 2});
   });
 });

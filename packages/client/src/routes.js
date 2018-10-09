@@ -8,12 +8,12 @@
  * @return {Object}
  */
 
-const Route = path => {
+const Route = (path, fn) => {
   const keys = [];
   const re = pathToRegExp(path, keys);
   const src = path;
 
-  return { re, src, keys, };
+  return {re, src, keys, fn};
 };
 
 /**
@@ -64,6 +64,33 @@ var pathToRegExp = function(path, keys) {
   return new RegExp('^' + path + '$', 'i');
 };
 
+const paraseParms = (captures, route) => {
+  const {keys, src, fn} = route;
+  const params = {};
+  const splats = [];
+  Object.keys(captures).forEach(
+    (cKey, index) => {
+      const item = captures[cKey];
+      const key = keys[index];
+      const val = ('string' === typeof item) ? 
+        decodeURI(item) :
+        item;
+      if (key) {
+        params[key] = val;
+      } else {
+        splats.push(val);
+      }
+    }
+  );
+  const result = {
+    fn,
+    params,
+    splats,
+    route: src,
+  };
+  return result;
+}
+
 /**
  * Attempt to match the given request to
  * one of the routes. When successful
@@ -73,38 +100,21 @@ var pathToRegExp = function(path, keys) {
  * @param  {String} uri
  * @return {Object}
  */
-var match = function(routes, uri, startAt) {
-  var captures,
-    i = startAt || 0;
-
-  for (var len = routes.length; i < len; ++i) {
-    var route = routes[i],
-      re = route.re,
-      keys = route.keys,
-      splats = [],
-      params = {};
-
-    if ((captures = uri.match(re))) {
-      for (var j = 1, len = captures.length; j < len; ++j) {
-        var key = keys[j - 1],
-          val =
-            typeof captures[j] === 'string'
-              ? unescape(captures[j])
-              : captures[j];
-        if (key) {
-          params[key] = val;
-        } else {
-          splats.push(val);
-        }
-      }
-      return {
-        params: params,
-        splats: splats,
-        route: route.src,
-        next: i + 1,
-      };
+const match = (routes, uri) => {
+  let result;
+  routes.some(
+    (route, index) => {
+    const {re} = route;
+    const captures = uri.match(re);
+    if (captures) {
+      result = paraseParms(captures, route);
+      result.nextIndex = index + 1;
+      return true;
+    } else {
+      return false;
     }
-  }
+  });
+  return result;
 };
 
 /**
@@ -116,36 +126,27 @@ var match = function(routes, uri, startAt) {
  * @return {Object}
  */
 
-class Router
-{
-  routes = []
-  routeMap = {}
+class Router {
+  routes = [];
 
-  addRoute(path, fn)
-  {
-      if (!path) throw new Error(' route requires a path');
-      if (!fn)
-        throw new Error(' route ' + path.toString() + ' requires a callback');
-
-      if (this.routeMap[path]) {
-        throw new Error('path is already defined: ' + path);
-      }
-
-      var route = Route(path);
-      route.fn = fn;
-
-      this.routes.push(route);
-      this.routeMap[path] = fn;
+  addRoute(path, fn) {
+    if (!path) {
+      throw new Error('Route requires a path');
+    }
+    if (!fn) {
+      throw new Error('Route ' + path.toString() + ' requires a callback');
+    }
+    this.routes.push(Route(path, fn));
   }
 
-  match(pathname, startAt)
-  {
-      const route = match(this.routes, pathname, startAt);
-      if (route) {
-        route.fn = this.routeMap[route.route];
-        route.next = this.match.bind(this, pathname, route.next);
-      }
-      return route;
+  match(pathname, startAt) {
+    startAt = (startAt) ? startAt : 0;
+    const routes = this.routes.slice(startAt);
+    const route = match(routes, pathname);
+    if (route) {
+      route.next = this.match.bind(this, pathname, startAt + route.nextIndex);
+    }
+    return route;
   }
 }
 

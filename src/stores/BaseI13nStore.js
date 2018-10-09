@@ -29,7 +29,7 @@ class BaseI13nStore extends Store {
 
   pushLazyAction(action, key) {
     const {stop, ...params} = get(action, [PARAMS], {});
-    const thisAction = {params};
+    const thisAction = {params, type: action.type};
     set(thisAction, [PARAMS, 'lazeInfo'], {
       from: docUrl(),
       time: getTime().toString(),
@@ -100,14 +100,14 @@ class BaseI13nStore extends Store {
     if (lazyAction) {
       const seq = get(lazyAction, ['__seq']);
       if (isArray(seq)) {
-        seq.forEach(action => this.handleAction(state, action));
+        seq.forEach(action => i13nDispatch(action));
       }
       delete lazyAction.__seq;
       keys(lazyAction).forEach(key => {
         const laze = lazyAction[key];
         let wait = get(laze, [PARAMS, 'wait']);
         if ('undefined' === typeof wait) {
-          this.handleAction(state, laze);
+          i13nDispatch(laze);
         } else {
           wait--;
         }

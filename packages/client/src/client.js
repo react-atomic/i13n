@@ -91,10 +91,9 @@ const initPageScript = () => {
       I13N: {
         action: 'error',
         label: {
-          e: {
-            message: err.message,
-            script: getLastScript(),
-          },
+          message: err.message,
+          url: doc().URL,
+          script: getLastScript(),
         }
       }
     });

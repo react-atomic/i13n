@@ -93,6 +93,9 @@ class BaseI13nStore extends Store {
   }
 
   handleAfterInit = state => {
+    this.nextEmits.push('init');
+    state = state.set('init', true);
+    i13nDispatch('config/set', state); // for async, need located before lazyAction
     const lazyAction = lStore.get('lazyAction');
     if (lazyAction) {
       const seq = get(lazyAction, ['__seq']);
@@ -116,9 +119,6 @@ class BaseI13nStore extends Store {
       });
       lStore.set('lazyAction', lazyAction);
     }
-    this.nextEmits.push('init');
-    state = state.set('init', true);
-    i13nDispatch('config/set', state); // for async
     i13nDispatch('view');
     return state;
   };

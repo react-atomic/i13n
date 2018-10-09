@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",

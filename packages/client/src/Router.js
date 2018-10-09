@@ -68,20 +68,16 @@ const paraseParms = (captures, route) => {
   const {keys, src, fn} = route;
   const params = {};
   const splats = [];
-  Object.keys(captures).forEach(
-    (cKey, index) => {
-      const item = captures[cKey];
-      const key = keys[index];
-      const val = ('string' === typeof item) ? 
-        decodeURI(item) :
-        item;
-      if (key) {
-        params[key] = val;
-      } else {
-        splats.push(val);
-      }
+  Object.keys(captures).forEach((cKey, index) => {
+    const item = captures[cKey];
+    const key = keys[index];
+    const val = 'string' === typeof item ? decodeURI(item) : item;
+    if (key) {
+      params[key] = val;
+    } else {
+      splats.push(val);
     }
-  );
+  });
   const result = {
     fn,
     params,
@@ -89,7 +85,7 @@ const paraseParms = (captures, route) => {
     route: src,
   };
   return result;
-}
+};
 
 /**
  * Attempt to match the given request to
@@ -102,8 +98,7 @@ const paraseParms = (captures, route) => {
  */
 const match = (routes, uri) => {
   let result;
-  routes.some(
-    (route, index) => {
+  routes.some((route, index) => {
     const {re} = route;
     const captures = uri.match(re);
     if (captures) {
@@ -140,7 +135,7 @@ class Router {
   }
 
   match(pathname, startAt) {
-    startAt = (startAt) ? startAt : 0;
+    startAt = startAt ? startAt : 0;
     const routes = this.routes.slice(startAt);
     const route = match(routes, pathname);
     if (route) {

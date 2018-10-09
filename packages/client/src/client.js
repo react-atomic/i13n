@@ -8,7 +8,7 @@ import set from 'set-object-value';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 
-import Router from './routes';
+import Router from './Router';
 import req from './req';
 import debugTag from './debug.tag';
 import googleTag from './google.tag';

@@ -29,8 +29,8 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.2.tgz#16947fce5f57258d01f1688fdc32723093c55d3f"
 
 "@types/node@*":
-  version "10.11.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.5.tgz#6489ebda4452592d3fd37aefa57eedc01ed13378"
+  version "10.11.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.6.tgz#ce5690df6cd917a9178439a1013e39a7e565c46e"
 
 JSONStream@^1.3.1:
   version "1.3.4"
@@ -2834,8 +2834,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.36.tgz#065a2ede8a843b55d6dc6e0f8511d58d7d9acde8"
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.38.tgz#d5e41f0b5dfd9628850d645f630eb60b3c74f6a7"
   dependencies:
     get-object-value "*"
     get-storage "*"

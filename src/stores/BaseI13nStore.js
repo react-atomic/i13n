@@ -155,7 +155,7 @@ class BaseI13nStore extends Store {
       case 'config/reset':
         return this.getInitialState();
       default:
-        return state;
+        return !!keys(action).length ? state.merge(action) : state;
     }
   }
 }

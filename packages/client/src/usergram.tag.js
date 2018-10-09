@@ -38,6 +38,20 @@ class UsergramTag extends BaseTag {
     win().usergram.push(config);
   }
 
+  assignUid(att) {
+    const state = this.getState();
+    const uid = state.get('uid');
+    if (!uid && !(uid+'').length) {
+      return att;
+    } else {
+      if (!att) {
+        att = {}
+      }
+      att.serviceId = uid;
+      return att;
+    }
+  }
+
   convertOne(attrKeys, arr, result) {
     keys(attrKeys).forEach(key => {
       const to = attrKeys[key];
@@ -92,6 +106,7 @@ class UsergramTag extends BaseTag {
     if ('cv' === type) {
       attribute = this.converAttr(attr, flat, I13N);
     }
+    attribute = this.assignUid(attribute);
     const send = [type, action];
     if (attribute && keys(attribute).length) {
       send.push(attribute);
@@ -104,7 +119,9 @@ class UsergramTag extends BaseTag {
   impression() {
     const state = this.getState();
     const I13N = get(toJS(state.get('i13nPage')), null, {});
-    this.push(['pv']);
+    let attribute;
+    attribute = this.assignUid(attribute);
+    this.push(['pv', attribute]);
   }
 }
 

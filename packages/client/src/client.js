@@ -2,7 +2,7 @@ import {i13nDispatch} from 'i13n';
 import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
-import exec from 'exec-script';
+import exec, {getLastScript} from 'exec-script';
 import get from 'get-object-value';
 import set from 'set-object-value';
 import query from 'css-query-selector';
@@ -77,7 +77,7 @@ const pushPageScript = configs => name => {
   });
 };
 
-const initPageScript = () =>
+const initPageScript = () => {
   pageScripts.forEach(script => {
     if (script[1]) {
       i13nDispatch('config/set', {
@@ -86,6 +86,20 @@ const initPageScript = () =>
     }
     exec(script[0]);
   });
+  win().addEventListener('error', (err)=>{
+    i13nDispatch('action', {
+      I13N: {
+        action: 'error',
+        label: {
+          e: {
+            message: err.message,
+            script: getLastScript(),
+          },
+        }
+      }
+    });
+  });
+};
 
 const initRouter = configs => {
   const router = new Router();
@@ -139,13 +153,11 @@ const initTags = configs => {
 
 const mergeConfig = (conf, merges) => {
   if (!merges) {
-     return conf; 
+    return conf;
   }
-  merges.forEach(
-    ({path, value, append}) => set(conf, path, value, append)
-  );
+  merges.forEach(({path, value, append}) => set(conf, path, value, append));
   return conf;
-}
+};
 
 const initHandler = (state, action, done) => {
   const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});

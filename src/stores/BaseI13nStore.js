@@ -102,11 +102,16 @@ class BaseI13nStore extends Store {
       delete lazyAction.__seq;
       keys(lazyAction).forEach(key => {
         const laze = lazyAction[key];
-        if (get(laze, ['wait'], 0) <= 0) {
+        let wait = get(laze, [PARAMS, 'wait']);
+        if ('undefined' === typeof wait) {
           this.handleAction(state, laze);
+        } else {
+          wait--;
+        }
+        if (!wait || wait <= 0) {
           delete lazyAction[key];
         } else {
-          laze.wait--;
+          laze.params.wait = wait;
         }
       });
       lStore.set('lazyAction', lazyAction);

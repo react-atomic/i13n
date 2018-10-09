@@ -6,6 +6,7 @@ jsdom(null, {url: 'http://localhost'});
 import {i13nDispatch} from '../cjs/src/index';
 import i13nStore from '../cjs/src/stores/i13nStore';
 import {localStorage, Storage} from 'get-storage';
+const lStore = new Storage(localStorage);
 
 describe('Test I13N', ()=>{
   afterEach( () => {
@@ -59,7 +60,10 @@ describe('Test I13N', ()=>{
     expect(impressionHandler.callCount).to.equal(2)
   })
 
-  it('test getWithLazy - simple', ()=>{
+})
+
+describe('Test getWithLazy', ()=>{
+  it('simple', ()=>{
      i13nStore.pushLazyAction(
       {params: {foo:'bar'}},
       'foo'
@@ -74,7 +78,7 @@ describe('Test I13N', ()=>{
      );
   });
 
-  it('test getWithLazy - complex', ()=>{
+  it('complex', ()=>{
      i13nStore.pushLazyAction(
       {params: {foo: {abc: 'def', bar: 'def'}}},
       'foo'
@@ -87,4 +91,33 @@ describe('Test I13N', ()=>{
       }}
      );
   });
-})
+});
+
+
+describe('Test after init', ()=>{
+  it('should handle wait well', ()=>{
+    i13nStore.pushLazyAction({params: {wait: 2, foo: 'bar'}}, 'foo');
+    let lazyAction = lStore.get('lazyAction');
+    expect(lazyAction.foo.params.wait).to.equal(2);
+    const state = i13nStore.getState();
+    i13nStore.handleAfterInit(state);
+    lazyAction = lStore.get('lazyAction');
+    expect(lazyAction.foo.params.wait).to.equal(1);
+    i13nStore.handleAfterInit(state);
+    lazyAction = lStore.get('lazyAction');
+    expect(!!lazyAction.foo).to.be.false;
+  });
+
+  it('should handle wait undefined well', ()=>{
+    i13nStore.pushLazyAction({params: {foo: 'bar'}}, 'foo');
+    let lazyAction = lStore.get('lazyAction');
+    expect(lazyAction.foo.params).to.have.property('lazeInfo');
+    const state = i13nStore.getState();
+    const cb = sinon.spy(i13nStore, 'handleAction');
+    expect(cb.called).to.be.false;
+    i13nStore.handleAfterInit(state);
+    lazyAction = lStore.get('lazyAction');
+    expect(cb.called).to.be.true;
+    expect(!!lazyAction.foo).to.be.false;
+  });
+});

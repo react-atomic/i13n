@@ -41,11 +41,11 @@ class UsergramTag extends BaseTag {
   assignUid(att) {
     const state = this.getState();
     const uid = state.get('uid');
-    if (!uid && !(uid+'').length) {
+    if ('undefined' === typeof uid) {
       return att;
     } else {
       if (!att) {
-        att = {}
+        att = {};
       }
       att.serviceId = uid;
       return att;
@@ -100,19 +100,23 @@ class UsergramTag extends BaseTag {
     const tagData = this.getTagData();
     const {cv, attr, flat} = tagData;
     const I13N = get(toJS(state.get('I13N')), null, {});
-    const {p, action, category, label, value} = I13N;
-    const type = -1 !== cv.indexOf(action) ? 'cv' : 'event';
+    const {p, action, category, label, value, ...others} = I13N;
+    const type = cv && action && -1 !== cv.indexOf(action) ? 'cv' : 'event';
     let attribute;
     if ('cv' === type) {
       attribute = this.converAttr(attr, flat, I13N);
     }
-    attribute = this.assignUid(attribute);
     const send = [type, action];
-    if (attribute && keys(attribute).length) {
-      send.push(attribute);
-    } else {
-      send.push({category, label, value});
+    if (!attribute || !keys(attribute).length) {
+      attribute = {
+        p,
+        category,
+        label,
+        value,
+        ...others,
+      };
     }
+    send.push(this.assignUid(attribute));
     this.push(send);
   }
 

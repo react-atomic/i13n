@@ -32,32 +32,39 @@ const getNum = s => {
   }
 };
 
-const addSectionEvents = configs => section => {
-  const events = get(configs, ['sec', section]);
-  if (!events) {
+const addSectionEvents = (configs, delgates) => section => {
+  const secs = get(configs, ['sec', section]);
+  if (!secs) {
     console.error('Section: [' + section + '] not found.');
     return;
   }
-  get(events, ['selects'], []).forEach((select, skey) => {
-    query.all(select).forEach(el => {
-      el.addEventListener(get(events, ['types', skey]), e => {
-        i13nDispatch('config/set', {
-          lastEvent: e,
-          i13nCbParams: JSON.parse(get(events, ['params', skey])),
-        });
-        const scriptName = get(events, ['scripts', skey]);
-        if (!scriptName) {
-          console.error('Script name not found', events, skey);
-          return;
-        }
-        const scriptCode = get(configs, ['script', scriptName]);
-        if (scriptCode) {
-          exec(scriptCode);
-        } else {
-          console.error('Script: [' + scriptName + '] not found.');
-        }
+  get(secs, ['selects'], []).forEach((select, skey) => {
+    const type = get(secs, ['types', skey]);
+    const func = e => {
+      i13nDispatch('config/set', {
+        lastEvent: e,
+        i13nCbParams: JSON.parse(get(secs, ['params', skey])),
       });
-    });
+      const scriptName = get(secs, ['scripts', skey]);
+      if (!scriptName) {
+        console.error('Script name not found', secs, skey);
+        return;
+      }
+      const scriptCode = get(configs, ['script', scriptName]);
+      if (scriptCode) {
+        exec(scriptCode);
+      } else {
+        console.error('Script: [' + scriptName + '] not found.');
+      }
+    };
+    const sels = query.all(select);
+    if (sels.length) {
+      sels.forEach(el => el.addEventListener(type, func));
+    } else {
+      if ('click' === type) {
+        delgates.push({select, func});
+      }
+    }
   });
 };
 
@@ -81,14 +88,19 @@ const pushPageScript = configs => name => {
 
 const handleError = e => {
   const {message, filename, lineno, colno, error} = e;
+  if (!error) {
+    return;
+  }
+  const stackArr = get(error, ['stack'], '').split(/\n/);
   i13nDispatch('action', {
     I13N: {
-      action: 'error',
+      action: 'Error',
       label: {
         message,
         filename,
         lineno,
         colno,
+        stackArr,
         url: doc().URL,
         lastExec: getLastScript(),
       },
@@ -110,7 +122,8 @@ const initPageScript = () => {
 
 const initRouter = configs => {
   const router = new Router();
-  const addEvent = addSectionEvents(configs);
+  const delgates = [];
+  const addEvent = addSectionEvents(configs, delgates);
   const exePushPageScript = pushPageScript(configs);
   get(configs, ['router', 'rules'], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
@@ -131,6 +144,23 @@ const initRouter = configs => {
     timeouts.push(match.fn());
     while ((match = match.next())) {
       timeouts.push(match.fn());
+    }
+    if (delgates.length) {
+      doc().addEventListener('click', e => {
+        const t = e.target;
+        delgates.some(({select, func}) => {
+          const dSel = query.one(select);
+          if (!dSel) {
+            return false;
+          }
+          if (t.isSameNode(dSel) || query.ancestor(t, select)) {
+            func(e);
+            return true;
+          } else {
+            return false;
+          }
+        });
+      });
     }
     return Math.max(...timeouts);
   }

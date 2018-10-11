@@ -8,6 +8,8 @@ import set from 'set-object-value';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 
+// local import
+import getOptionText from './getOptionText';
 import Router from './Router';
 import req from './req';
 import debugTag from './debug.tag';
@@ -77,7 +79,25 @@ const pushPageScript = configs => name => {
   });
 };
 
+const handleError = e => {
+  const {message, filename, lineno, colno, error} = e;
+  i13nDispatch('action', {
+    I13N: {
+      action: 'error',
+      label: {
+        message,
+        filename,
+        lineno,
+        colno,
+        url: doc().URL,
+        lastExec: getLastScript(),
+      },
+    },
+  });
+};
+
 const initPageScript = () => {
+  win().addEventListener('error', handleError);
   pageScripts.forEach(script => {
     if (script[1]) {
       i13nDispatch('config/set', {
@@ -85,18 +105,6 @@ const initPageScript = () => {
       });
     }
     exec(script[0]);
-  });
-  win().addEventListener('error', (err)=>{
-    i13nDispatch('action', {
-      I13N: {
-        action: 'error',
-        label: {
-          message: err.message,
-          url: doc().URL,
-          script: getLastScript(),
-        }
-      }
-    });
   });
 };
 
@@ -135,6 +143,7 @@ const initTags = configs => {
     getUrl,
     getNum,
     get,
+    getOptionText,
   };
   const tagMap = {
     debug: debugTag,

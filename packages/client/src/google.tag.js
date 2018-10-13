@@ -1,8 +1,8 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
-import set from 'set-object-value';
 
 import BaseTag, {toJS} from './BaseTag';
+import {getViewEcommerce, getActionEcommerce} from './google.ecommerce'; 
 
 const getScript = gtagId => {
   const script = ` 
@@ -41,18 +41,9 @@ class GoogleTag extends BaseTag {
       category,
       label,
       value,
-      products,
-      promotions,
-      currencyCode,
-      stepNo,
-      stepOption,
     } = I13N;
     const p = get(I13N, ['p'], null);
     const thisCategory = category ? category : action;
-    let thisCurrencyCode = currencyCode;
-    if (!thisCurrencyCode) {
-      thisCurrencyCode = state.get('currencyCode');
-    }
 
     let thisLabel = label;
     if (lazeInfo) {
@@ -69,63 +60,6 @@ class GoogleTag extends BaseTag {
       thisLabel = JSON.stringify(thisLabel);
     }
 
-    let ecommerce = {};
-    switch (action) {
-      case 'Checkout':
-        ecommerce = {
-          checkout: {
-            products,
-            actionField: {
-              step: stepNo,
-              option: stepOption,
-            },
-          },
-        };
-        break;
-      case 'CheckoutOption':
-        ecommerce = {
-          checkout_option: {
-            actionField: {
-              step: stepNo,
-              option: stepOption,
-            },
-          },
-        };
-        break;
-      case 'ClickPromotion':
-        ecommerce = {
-          promoClick: {promotions},
-        };
-        break;
-      case 'ClickProduct':
-        ecommerce = {
-          click: {
-            products,
-            actionField: {
-              list: p,
-            },
-          },
-        };
-        break;
-      case 'AddToCart':
-        ecommerce = {
-          currencyCode: thisCurrencyCode,
-          add: {products},
-        };
-        break;
-      case 'RemoveFromCart':
-        ecommerce = {
-          currencyCode: thisCurrencyCode,
-          remove: {products},
-        };
-        break;
-      case 'Purchase':
-        ecommerce = this.handlePurchase(I13N, ecommerce);
-        break;
-      case 'Refund':
-        ecommerce = this.handlePurchase(I13N, ecommerce);
-        break;
-    }
     const config = {
       event: 'lucencyEventAction',
       p,
@@ -134,87 +68,38 @@ class GoogleTag extends BaseTag {
       label: thisLabel,
       value,
     };
+    
+    const ecommerce = getActionEcommerce(
+      I13N,
+      state.get('currencyCode')
+    );
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
       config.category = 'Ecommerce';
     }
+
     this.push(config);
   }
 
-  handlePurchase(I13N, ecommerce)
-  {
-    const {
-      purchaseId,
-      refundId,
-      products,
-    } = I13N;
-    const affiliation = get(I13N, ['affiliation'], '');
-    const coupon = get(I13N, ['coupon'], '');
-    const revenue = get(I13N, ['revenue'], 0);
-    const tax = get(I13N, ['tax'], 0);
-    const shipping = get(I13N, ['shipping'], 0);
-    if (purchaseId) {
-      set(ecommerce, ['purchase', 'actionField'], {
-        id: purchaseId,
-        affiliation,
-        revenue,
-        tax,
-        shipping,
-        coupon
-      });
-      set(ecommerce, ['purchase', 'products'], products);
-    }
-    if (refundId) {
-      set(ecommerce, ['refund', 'actionField', 'id'], refundId);
-      if (products) {
-        set(ecommerce, ['refund', 'products'], products);
-      }
-    }
-    return ecommerce;
-  }
 
   impression() {
     const state = this.getState();
     const I13N = get(toJS(state.get('i13nPage')), null, {});
-    const {
-      fromP,
-      impressions,
-      detailProducts,
-      promotions,
-      currencyCode,
-    } = I13N;
     const p = get(I13N, ['p'], null);
-    let ecommerce = {};
-    if (impressions) {
-      let thisCurrencyCode = currencyCode;
-      if (!thisCurrencyCode) {
-        thisCurrencyCode = state.get('currencyCode');
-      }
-      if (thisCurrencyCode) {
-        set(ecommerce, ['currencyCode'], thisCurrencyCode);
-      }
-      set(ecommerce, ['impressions'], impressions);
-    }
-    if (detailProducts) {
-      if (fromP) {
-        set(ecommerce, ['detail', 'actionField', 'list'], fromP);
-      }
-      set(ecommerce, ['detail', 'products'], detailProducts);
-    }
-    if (promotions) {
-      set(ecommerce, ['promoView', 'promotions'], promotions);
-    }
-    ecommerce = this.handlePurchase(
-      I13N,
-      ecommerce
-    );
+
     const config = {
       event: 'lucencyEventView',
       p,
     };
+
+    const ecommerce = getViewEcommerce(
+      I13N,
+      state.get('currencyCode')
+    );
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
     }
+
     this.push(config);
   }
 }

@@ -29,15 +29,7 @@ import get from 'get-object-value';
 import set from 'set-object-value';
 
 const getActionEcommerce = (I13N, defaultCurrencyCode) => {
-  const {
-    p,
-    action,
-    products,
-    promotions,
-    currencyCode,
-    stepNo,
-    stepOption,
-  } = I13N;
+  const {p, action, products, promotions, stepNo, stepOption} = I13N;
   let ecommerce = {};
   switch (action) {
     case 'Checkout':

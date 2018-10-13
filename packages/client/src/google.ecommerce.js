@@ -29,31 +29,9 @@ import get from 'get-object-value';
 import set from 'set-object-value';
 
 const getActionEcommerce = (I13N, defaultCurrencyCode) => {
-  const {p, action, products, promotions, stepNo, stepOption} = I13N;
+  const {p, action, products, promotions} = I13N;
   let ecommerce = {};
   switch (action) {
-    case 'Checkout':
-      setCurrency(I13N, ecommerce, defaultCurrencyCode);
-      ecommerce = {
-        checkout: {
-          actionField: {
-            step: stepNo,
-            option: stepOption,
-          },
-          products,
-        },
-      };
-      break;
-    case 'CheckoutOption':
-      ecommerce = {
-        checkout_option: {
-          actionField: {
-            step: stepNo,
-            option: stepOption,
-          },
-        },
-      };
-      break;
     case 'ClickPromotion':
       ecommerce = {
         promoClick: {promotions},
@@ -78,13 +56,10 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {remove: {products}};
       break;
-    case 'Purchase':
-      handlePurchase(I13N, ecommerce, defaultCurrencyCode);
-      break;
-    case 'Refund':
-      handlePurchase(I13N, ecommerce, defaultCurrencyCode);
-      break;
   }
+
+  handleStep(I13N, ecommerce, defaultCurrencyCode);
+  handlePurchase(I13N, ecommerce, defaultCurrencyCode);
   return ecommerce;
 };
 
@@ -108,6 +83,7 @@ const getViewEcommerce = (I13N, defaultCurrencyCode) => {
     set(ecommerce, ['promoView', 'promotions'], promotions);
   }
   handlePurchase(I13N, ecommerce, defaultCurrencyCode);
+  handleStep(I13N, ecommerce, defaultCurrencyCode);
   return ecommerce;
 };
 
@@ -119,6 +95,25 @@ const setCurrency = (I13N, ecommerce, defaultCurrencyCode) => {
   }
 };
 
+const stepSend = {};
+const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
+  const {stepNo: step, stepOption: option, products} = I13N;
+  if (!step) {
+    return;
+  }
+  const actionField = {step, option};
+  if (!stepSend[stepNo] || (products && products.length) || !option) {
+    stepSend[stepNo] = {
+      actionField,
+      products,
+    };
+    setCurrency(I13N, ecommerce, defaultCurrencyCode);
+    set(ecommerce, ['checkout'], stepSend[stepNo]);
+  } else {
+    set(ecommerce, ['checkout_option'], {actionField});
+  }
+};
+
 const handlePurchase = (I13N, ecommerce, defaultCurrencyCode) => {
   const {purchaseId, refundId, products} = I13N;
   const affiliation = get(I13N, ['affiliation'], '');
@@ -126,8 +121,8 @@ const handlePurchase = (I13N, ecommerce, defaultCurrencyCode) => {
   const revenue = get(I13N, ['revenue'], 0);
   const tax = get(I13N, ['tax'], 0);
   const shipping = get(I13N, ['shipping'], 0);
-  setCurrency(I13N, ecommerce, defaultCurrencyCode);
   if (purchaseId) {
+    setCurrency(I13N, ecommerce, defaultCurrencyCode);
     set(ecommerce, ['purchase', 'actionField'], {
       id: purchaseId,
       affiliation,
@@ -141,6 +136,7 @@ const handlePurchase = (I13N, ecommerce, defaultCurrencyCode) => {
   if (refundId) {
     set(ecommerce, ['refund', 'actionField', 'id'], refundId);
     if (products) {
+      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       set(ecommerce, ['refund', 'products'], products);
     }
   }

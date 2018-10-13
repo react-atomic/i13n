@@ -9,6 +9,7 @@ import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 
 // local import
+import delegate from './delegate';
 import getOptionText from './getOptionText';
 import Router from './Router';
 import req from './req';
@@ -32,7 +33,7 @@ const getNum = s => {
   }
 };
 
-const addSectionEvents = (configs, delgates) => section => {
+const addSectionEvents = (configs, delegates) => section => {
   const secs = get(configs, ['sec', section]);
   if (!secs) {
     console.error('Section: [' + section + '] not found.');
@@ -58,12 +59,10 @@ const addSectionEvents = (configs, delgates) => section => {
       }
     };
     const sels = query.all(select);
-    if (sels.length) {
-      sels.forEach(el => el.addEventListener(type, func));
+    if ((!sels.length && 'click' === type) || 'delegate' === type) {
+      delegates.push({select, func});
     } else {
-      if ('click' === type) {
-        delgates.push({select, func});
-      }
+      sels.forEach(el => el.addEventListener(type, func));
     }
   });
 };
@@ -122,8 +121,8 @@ const initPageScript = () => {
 
 const initRouter = configs => {
   const router = new Router();
-  const delgates = [];
-  const addEvent = addSectionEvents(configs, delgates);
+  const delegates = [];
+  const addEvent = addSectionEvents(configs, delegates);
   const exePushPageScript = pushPageScript(configs);
   get(configs, ['router', 'rules'], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
@@ -145,23 +144,7 @@ const initRouter = configs => {
     while ((match = match.next())) {
       timeouts.push(match.fn());
     }
-    if (delgates.length) {
-      doc().addEventListener('click', e => {
-        const t = e.target;
-        delgates.some(({select, func}) => {
-          const dSel = query.one(select);
-          if (!dSel) {
-            return false;
-          }
-          if (t.isSameNode(dSel) || dSel.contains(t)) {
-            func(e);
-            return true;
-          } else {
-            return false;
-          }
-        });
-      });
-    }
+    delegate(doc(), 'click', delegates);
     return Math.max(...timeouts);
   }
 };
@@ -174,6 +157,7 @@ const initTags = configs => {
     getNum,
     get,
     getOptionText,
+    delegate,
   };
   const tagMap = {
     debug: debugTag,

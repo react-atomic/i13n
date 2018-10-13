@@ -102,13 +102,13 @@ const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
     return;
   }
   const actionField = {step, option};
-  if (!stepSend[stepNo] || (products && products.length) || !option) {
-    stepSend[stepNo] = {
+  if (!stepSend[step] || (products && products.length) || !option) {
+    stepSend[step] = {
       actionField,
       products,
     };
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
-    set(ecommerce, ['checkout'], stepSend[stepNo]);
+    set(ecommerce, ['checkout'], stepSend[step]);
   } else {
     set(ecommerce, ['checkout_option'], {actionField});
   }

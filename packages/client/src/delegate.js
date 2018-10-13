@@ -22,7 +22,7 @@ const delegate = (el, type, childs, defaultFunc) => {
       }
       arrSel.some(childEl => {
         if (t.isSameNode(childEl) || childEl.contains(t)) {
-          func(e);
+          func({...e, currentTarget: childEl});
           isRun = true;
           return true;
         } else {

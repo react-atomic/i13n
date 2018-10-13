@@ -153,7 +153,7 @@ const initRouter = configs => {
           if (!dSel) {
             return false;
           }
-          if (t.isSameNode(dSel) || query.ancestor(t, select)) {
+          if (t.isSameNode(dSel) || dSel.contains(t)) {
             func(e);
             return true;
           } else {

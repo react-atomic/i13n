@@ -115,7 +115,7 @@ const CURRENCY_CODE = 'currencyCode';
 const setCurrency = (I13N, ecommerce, defaultCurrencyCode) => {
   const currencyCode = get(I13N, [CURRENCY_CODE], defaultCurrencyCode);
   if (currencyCode) {
-    set(ecommerce, [CURRENCY_CODE], thisCurrencyCode);
+    set(ecommerce, [CURRENCY_CODE], currencyCode);
   }
 };
 

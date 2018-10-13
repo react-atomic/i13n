@@ -36,11 +36,11 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {
         checkout: {
-          products,
           actionField: {
             step: stepNo,
             option: stepOption,
           },
+          products,
         },
       };
       break;
@@ -63,10 +63,10 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {
         click: {
-          products,
           actionField: {
             list: p,
           },
+          products,
         },
       };
       break;
@@ -79,10 +79,10 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       ecommerce = {remove: {products}};
       break;
     case 'Purchase':
-      ecommerce = handlePurchase(I13N, ecommerce, defaultCurrencyCode);
+      handlePurchase(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'Refund':
-      ecommerce = handlePurchase(I13N, ecommerce, defaultCurrencyCode);
+      handlePurchase(I13N, ecommerce, defaultCurrencyCode);
       break;
   }
   return ecommerce;
@@ -90,7 +90,7 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
 
 const getViewEcommerce = (I13N, defaultCurrencyCode) => {
   const {p, fromP, impressions, detailProducts, promotions} = I13N;
-  let ecommerce = {};
+  const ecommerce = {};
   if (impressions) {
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
     if (p) {
@@ -107,7 +107,7 @@ const getViewEcommerce = (I13N, defaultCurrencyCode) => {
   if (promotions) {
     set(ecommerce, ['promoView', 'promotions'], promotions);
   }
-  ecommerce = handlePurchase(I13N, ecommerce, defaultCurrencyCode);
+  handlePurchase(I13N, ecommerce, defaultCurrencyCode);
   return ecommerce;
 };
 
@@ -144,7 +144,6 @@ const handlePurchase = (I13N, ecommerce, defaultCurrencyCode) => {
       set(ecommerce, ['refund', 'products'], products);
     }
   }
-  return ecommerce;
 };
 
 export {getViewEcommerce, getActionEcommerce};

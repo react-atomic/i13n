@@ -28,16 +28,13 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action, key) {
-    const {stop, ...params} = get(action, [PARAMS], {});
+    const {...params} = get(action, [PARAMS], {});
     const thisAction = {params, type: action.type};
     set(thisAction, [PARAMS, 'lazeInfo'], {
       from: docUrl(),
       time: getTime().toString(),
     });
-    let lazyAction = lStore.get('lazyAction');
-    if ('object' !== typeof lazyAction) {
-      lazyAction = {};
-    }
+    let lazyAction = this.getLazy();
     if (key) {
       lazyAction[key] = thisAction;
     } else {
@@ -47,8 +44,8 @@ class BaseI13nStore extends Store {
   }
 
   mergeWithLazy(action, key) {
-    const lazyAction = lStore.get('lazyAction');
-    const {stop, wait, waitToSend, lazeInfo, ...lazeParams} = get(
+    const lazyAction = this.getLazy();
+    const {stop, wait, lazeInfo, ...lazeParams} = get(
       lazyAction,
       [key, PARAMS],
       {},
@@ -67,9 +64,17 @@ class BaseI13nStore extends Store {
     return action;
   }
 
+  getLazy(key) {
+    let lazyAction = lStore.get('lazyAction');
+    if ('object' !== typeof lazyAction) {
+      lazyAction = {};
+    }
+    return 'undefined' === typeof key ? lazyAction : lazyAction[key];
+  }
+
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
-    const {stop, withLazy} = get(action, [PARAMS], {});
+    const {wait, stop, withLazy} = get(action, [PARAMS], {});
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
@@ -77,7 +82,7 @@ class BaseI13nStore extends Store {
       action = mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
-    if (!stop) {
+    if ('undefined' === typeof wait && !stop) {
       this.nextEmits.push('action');
     }
     return next;
@@ -96,7 +101,7 @@ class BaseI13nStore extends Store {
     this.nextEmits.push('init');
     state = state.set('init', true);
     i13nDispatch('config/set', state); // for async, need located before lazyAction
-    const lazyAction = lStore.get('lazyAction');
+    const lazyAction = this.getLazy();
     if (lazyAction) {
       const seq = get(lazyAction, ['__seq']);
       if (isArray(seq)) {
@@ -106,10 +111,9 @@ class BaseI13nStore extends Store {
       keys(lazyAction).forEach(key => {
         const laze = lazyAction[key];
         const params = get(laze, [PARAMS], {});
-        const {waitToSend} = params; 
-        let {wait} = params;
+        let {wait, stop} = params;
         if (!wait || wait <= 0) {
-          if (waitToSend || 'undefined' === typeof wait) {
+          if (!stop) {
             i13nDispatch(laze);
           }
           delete lazyAction[key];
@@ -131,7 +135,8 @@ class BaseI13nStore extends Store {
         impressionHandler = this.processView.bind(this);
       }
       const next = impressionHandler(state, action);
-      if (!get(action, [PARAMS, 'stop'])) {
+      const {wait, stop} = get(action, [PARAMS], {});
+      if ('undefined' === typeof wait && !stop) {
         this.nextEmits.push('impression');
       }
       return next;

@@ -45,6 +45,37 @@ class I13nStore extends BaseI13nStore {
   getInitialState() {
     return new Map();
   }
+
+  handleEmit(state, action) {
+    const on = get(action, [PARAMS]);
+    this.nextEmits.push(on);
+    return state;
+  }
+
+  handleRegister(state, action) {
+    const {func, on, mod} = get(action, [PARAMS]);
+    switch(mod) {
+      case 'remove':
+        this.removeListener(func, on);
+        break;
+      case 'add':
+      default:
+        this.addListener(func, on);
+        break;
+    }
+    return state;
+  }
+
+  reduce(state, action) {
+    switch (action.type) {
+      case 'emit':
+        return this.handleEmit(state, action);
+      case 'register':
+        return this.handleRegister(state, action);
+      default:
+        return super.reduce(state, action);
+    }
+  }
 }
 
 // Export a singleton instance of the store, could do this some other way if

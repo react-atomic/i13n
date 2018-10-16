@@ -91,7 +91,7 @@ const handleError = e => {
   if (!error) {
     return;
   }
-  const stackArr = get(error, ['stack'], '').split(/\n/);
+  const stack = get(error, ['stack'], '').split(/\n/);
   i13nDispatch('action', {
     I13N: {
       action: 'Error',
@@ -100,7 +100,7 @@ const handleError = e => {
         filename,
         lineno,
         colno,
-        stackArr,
+        stack,
         url: doc().URL,
         lastExec: getLastScript(),
       },

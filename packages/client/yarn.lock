@@ -29,12 +29,12 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.2.tgz#16947fce5f57258d01f1688fdc32723093c55d3f"
 
 "@types/node@*":
-  version "10.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.7.tgz#0e75ca9357d646ca754016ca1d68a127ad7e7300"
+  version "10.12.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.0.tgz#ea6dcbddbc5b584c83f06c60e82736d8fbb0c235"
 
 JSONStream@^1.3.1:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.4.tgz#615bb2adb0cd34c8f4c447b5f6512fa1d8f16a2e"
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"
   dependencies:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
@@ -880,8 +880,8 @@ babel-plugin-transform-react-pure-class-to-function@*:
     babel-helper-is-react-class "^1.0.0"
 
 babel-plugin-transform-react-remove-prop-types@*:
-  version "0.4.18"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.18.tgz#85ff79d66047b34288c6f7cc986b8854ab384f8c"
+  version "0.4.19"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.19.tgz#dc9d8fb176a407a75efe73f231550450e29a3b17"
 
 babel-plugin-transform-regenerator@^6.22.0:
   version "6.26.0"
@@ -1265,7 +1265,7 @@ builtin-status-codes@^3.0.0:
 
 byte-size@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/byte-size/-/byte-size-3.0.0.tgz#406f9e2366aa5dabf63672eb291d7bb09495da75"
+  resolved "http://registry.npmjs.org/byte-size/-/byte-size-3.0.0.tgz#406f9e2366aa5dabf63672eb291d7bb09495da75"
 
 byte-size@^4.0.2, byte-size@^4.0.3:
   version "4.0.3"
@@ -1327,8 +1327,8 @@ camelcase@^4.1.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
 caniuse-lite@^1.0.30000844:
-  version "1.0.30000890"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000890.tgz#86a18ffcc65d79ec6a437e985761b8bf1c4efeaf"
+  version "1.0.30000892"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000892.tgz#344d2b51ee3ff5977537da4aa449c90eec40b759"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1971,8 +1971,8 @@ duplexer@^0.1.1:
   resolved "http://registry.npmjs.org/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
 duplexify@^3.4.2, duplexify@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.6.0.tgz#592903f5d80b38d037220541264d69a198fb3410"
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.6.1.tgz#b1a7a29c4abfd639585efaecce80d666b1e34125"
   dependencies:
     end-of-stream "^1.0.0"
     inherits "^2.0.1"
@@ -2821,8 +2821,8 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.0.39.tgz#a29e59d3a72eecfe008d39431959729ffd518245"
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.1.5.tgz#d5b8aabca38b39760594834c0e14805bb68e9bce"
   dependencies:
     get-object-value "*"
     get-storage "*"
@@ -3524,9 +3524,13 @@ log-symbols@^2.2.0:
   dependencies:
     chalk "^2.0.1"
 
-lolex@^2.3.2, lolex@^2.7.5:
+lolex@^2.3.2:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
+
+lolex@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-3.0.0.tgz#f04ee1a8aa13f60f1abd7b0e8f4213ec72ec193e"
 
 longest@^1.0.1:
   version "1.0.1"
@@ -3957,16 +3961,16 @@ negotiator@0.6.1:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
 neo-async@^2.5.0:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.2.tgz#489105ce7bc54e709d736b195f82135048c50fcc"
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
 
 next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
 nise@^1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/nise/-/nise-1.4.5.tgz#979a97a19c48d627bb53703726ae8d53ce8d4b3e"
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/nise/-/nise-1.4.6.tgz#76cc3915925056ae6c405dd8ad5d12bde570c19f"
   dependencies:
     "@sinonjs/formatio" "3.0.0"
     just-extend "^3.0.0"
@@ -4818,8 +4822,8 @@ reshow-app@*:
     webpack-bundle-analyzer "*"
 
 reshow-flux-base@*:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.15.tgz#76d01f37cc111dded9603644414d786f41bd88bc"
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.17.tgz#a94a1aa59f41379d348361929d7f9e52cdbfcb1e"
   dependencies:
     mitt "*"
     reshow-runtime "*"
@@ -5045,15 +5049,15 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 sinon@*:
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.5.tgz#0f6d6a5b4ebaad1f6e8e019395542d1d02c144a0"
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-7.0.0.tgz#99f2e5198d90a01ccbcebd4dc181a24827cb90dd"
   dependencies:
     "@sinonjs/commons" "^1.0.2"
     "@sinonjs/formatio" "^3.0.0"
     "@sinonjs/samsam" "^2.1.2"
     diff "^3.5.0"
     lodash.get "^4.4.2"
-    lolex "^2.7.5"
+    lolex "^3.0.0"
     nise "^1.4.5"
     supports-color "^5.5.0"
     type-detect "^4.0.8"
@@ -5708,8 +5712,8 @@ webidl-conversions@^4.0.2:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
 webpack-bundle-analyzer@*:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.2.tgz#22f19ea6d1b5a15fd7a90baae0bc0f39bd1e4d48"
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.3.tgz#dbc7fff8f52058b6714a20fddf309d0790e3e0a0"
   dependencies:
     acorn "^5.7.3"
     bfj "^6.1.1"

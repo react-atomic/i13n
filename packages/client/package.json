@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -30,5 +30,10 @@
     "build": "npm run clean && npm run build:cjs && npm run build:es",
     "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js' -r jsdom-global/register",
     "prepublishOnly": "npm run test && npm run build"
-  }
+  },
+  "files": [
+    "build",
+    "package.json",
+    "README.md"
+  ]
 }

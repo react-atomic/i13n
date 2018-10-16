@@ -32,7 +32,7 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-acorn-globals@^4.1.0:
+acorn-globals@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-4.3.0.tgz#e3b6f8da3c1552a95ae627571f7dd6923bb54103"
   dependencies:
@@ -43,11 +43,7 @@ acorn-walk@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-6.1.0.tgz#c957f4a1460da46af4a0388ce28b4c99355b0cbc"
 
-acorn@^5.7.1:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-
-acorn@^6.0.1:
+acorn@^6.0.1, acorn@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.0.2.tgz#6a459041c320ab17592c6317abbfdf4bbaa98ca4"
 
@@ -921,8 +917,8 @@ cache-base@^1.0.1:
     unset-value "^1.0.0"
 
 caniuse-lite@^1.0.30000844:
-  version "1.0.30000889"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000889.tgz#53e266c83e725ad3bd2e4a3ea76d5031a8aa4c3e"
+  version "1.0.30000892"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000892.tgz#344d2b51ee3ff5977537da4aa449c90eec40b759"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1032,8 +1028,8 @@ commander@2.15.1:
   resolved "http://registry.npmjs.org/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
 commander@^2.11.0:
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.18.0.tgz#2bf063ddee7c7891176981a2cc798e5754bc6970"
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
 
 component-emitter@^1.2.1:
   version "1.2.1"
@@ -1065,7 +1061,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
+cssom@0.3.x, cssom@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/cssom/-/cssom-0.3.4.tgz#8cd52e8a3acfd68d3aed38ee0a640177d2f9d797"
 
@@ -1174,8 +1170,8 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.3.47:
-  version "1.3.74"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.74.tgz#443f60655e0de630491ca4e48e4436bc375debd1"
+  version "1.3.79"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.79.tgz#774718f06284a4bf8f578ac67e74508fe659f13a"
 
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2:
   version "1.0.5"
@@ -1747,33 +1743,33 @@ jsdom-global@*:
   resolved "https://registry.yarnpkg.com/jsdom-global/-/jsdom-global-3.0.2.tgz#6bd299c13b0c4626b2da2c0393cd4385d606acb9"
 
 jsdom@*:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-12.1.0.tgz#2c8fbd12a2c690c8a8e14cce164afa11879e57f4"
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-12.2.0.tgz#7cf3f5b5eafd47f8f09ca52315d367ff6e95de23"
   dependencies:
     abab "^2.0.0"
-    acorn "^5.7.1"
-    acorn-globals "^4.1.0"
+    acorn "^6.0.2"
+    acorn-globals "^4.3.0"
     array-equal "^1.0.0"
-    cssom ">= 0.3.2 < 0.4.0"
+    cssom "^0.3.4"
     cssstyle "^1.1.1"
     data-urls "^1.0.1"
     domexception "^1.0.1"
     escodegen "^1.11.0"
     html-encoding-sniffer "^1.0.2"
-    nwsapi "^2.0.8"
+    nwsapi "^2.0.9"
     parse5 "5.1.0"
     pn "^1.1.0"
     request "^2.88.0"
     request-promise-native "^1.0.5"
-    saxes "^3.1.2"
+    saxes "^3.1.3"
     symbol-tree "^3.2.2"
     tough-cookie "^2.4.3"
     w3c-hr-time "^1.0.1"
     webidl-conversions "^4.0.2"
-    whatwg-encoding "^1.0.4"
-    whatwg-mimetype "^2.1.0"
+    whatwg-encoding "^1.0.5"
+    whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
-    ws "^6.0.0"
+    ws "^6.1.0"
     xml-name-validator "^3.0.0"
 
 jsesc@^1.3.0:
@@ -1856,9 +1852,13 @@ lodash@^4.13.1, lodash@^4.17.4:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
-lolex@^2.3.2, lolex@^2.7.5:
+lolex@^2.3.2:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
+
+lolex@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-3.0.0.tgz#f04ee1a8aa13f60f1abd7b0e8f4213ec72ec193e"
 
 loose-envify@^1.0.0:
   version "1.4.0"
@@ -1948,8 +1948,8 @@ minipass@^2.2.1, minipass@^2.3.3:
     yallist "^3.0.0"
 
 minizlib@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-1.1.0.tgz#11e13658ce46bc3a70a267aac58359d1e0c29ceb"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-1.1.1.tgz#6734acc045a46e61d596a43bb9d9cd326e19cc42"
   dependencies:
     minipass "^2.2.1"
 
@@ -2019,8 +2019,8 @@ needle@^2.2.1:
     sax "^1.2.4"
 
 nise@^1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/nise/-/nise-1.4.5.tgz#979a97a19c48d627bb53703726ae8d53ce8d4b3e"
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/nise/-/nise-1.4.6.tgz#76cc3915925056ae6c405dd8ad5d12bde570c19f"
   dependencies:
     "@sinonjs/formatio" "3.0.0"
     just-extend "^3.0.0"
@@ -2061,8 +2061,8 @@ npm-bundled@^1.0.1:
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
 
 npm-packlist@^1.1.6:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.1.11.tgz#84e8c683cbe7867d34b1d357d893ce29e28a02de"
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.1.12.tgz#22bde2ebc12e72ca482abd67afc51eb49377243a"
   dependencies:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
@@ -2080,7 +2080,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nwsapi@^2.0.8:
+nwsapi@^2.0.9:
   version "2.0.9"
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.0.9.tgz#77ac0cdfdcad52b6a1151a84e73254edc33ed016"
 
@@ -2384,8 +2384,8 @@ request@^2.88.0:
     uuid "^3.3.2"
 
 reshow-flux-base@*:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.15.tgz#76d01f37cc111dded9603644414d786f41bd88bc"
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.0.17.tgz#a94a1aa59f41379d348361929d7f9e52cdbfcb1e"
   dependencies:
     mitt "*"
     reshow-runtime "*"
@@ -2426,15 +2426,15 @@ sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
-saxes@^3.1.2:
+saxes@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/saxes/-/saxes-3.1.3.tgz#334ab3b802a465ccda96fff9bdefbd505546ffa8"
   dependencies:
     xmlchars "^1.3.1"
 
 semver@^5.3.0:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.1.tgz#7dfdd8814bdb7cabc7be0fb1d734cfb66c940477"
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
 
 set-blocking@~2.0.0:
   version "2.0.0"
@@ -2467,15 +2467,15 @@ signal-exit@^3.0.0:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 sinon@*:
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.3.5.tgz#0f6d6a5b4ebaad1f6e8e019395542d1d02c144a0"
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-7.0.0.tgz#99f2e5198d90a01ccbcebd4dc181a24827cb90dd"
   dependencies:
     "@sinonjs/commons" "^1.0.2"
     "@sinonjs/formatio" "^3.0.0"
     "@sinonjs/samsam" "^2.1.2"
     diff "^3.5.0"
     lodash.get "^4.4.2"
-    lolex "^2.7.5"
+    lolex "^3.0.0"
     nise "^1.4.5"
     supports-color "^5.5.0"
     type-detect "^4.0.8"
@@ -2546,18 +2546,17 @@ split-string@^3.0.1, split-string@^3.0.2:
     extend-shallow "^3.0.0"
 
 sshpk@^1.7.0:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.14.2.tgz#c6fc61648a3d9c4e764fd3fcdf4ea105e492ba98"
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.1.tgz#b79a089a732e346c6e0714830f36285cd38191a2"
   dependencies:
     asn1 "~0.2.3"
     assert-plus "^1.0.0"
-    dashdash "^1.12.0"
-    getpass "^0.1.1"
-    safer-buffer "^2.0.2"
-  optionalDependencies:
     bcrypt-pbkdf "^1.0.0"
+    dashdash "^1.12.0"
     ecc-jsbn "~0.1.1"
+    getpass "^0.1.1"
     jsbn "~0.1.0"
+    safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
 static-extend@^0.1.1:
@@ -2771,13 +2770,13 @@ webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.4:
+whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/whatwg-encoding/-/whatwg-encoding-1.0.5.tgz#5abacf777c32166a51d085d6b4f3e7d27113ddb0"
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-mimetype@^2.1.0:
+whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/whatwg-mimetype/-/whatwg-mimetype-2.2.0.tgz#a3d58ef10b76009b042d03e25591ece89b88d171"
 
@@ -2803,7 +2802,7 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-ws@^6.0.0:
+ws@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-6.1.0.tgz#119a9dbf92c54e190ec18d10e871d55c95cf9373"
   dependencies:

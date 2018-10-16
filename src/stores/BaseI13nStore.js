@@ -34,9 +34,9 @@ class BaseI13nStore extends Store {
       from: docUrl(),
       time: getTime().toString(),
     });
-    let lazyAction = this.getLazy();
+    const lazyAction = this.getLazy();
     if (key) {
-      lazyAction[key] = thisAction;
+      set(lazyAction, ['__hash', key], thisAction);
     } else {
       set(lazyAction, ['__seq'], thisAction, true);
     }
@@ -47,7 +47,7 @@ class BaseI13nStore extends Store {
     const lazyAction = this.getLazy();
     const {stop, wait, lazeInfo, ...lazeParams} = get(
       lazyAction,
-      [key, PARAMS],
+      ['__hash', key, PARAMS],
       {},
     );
     keys(lazeParams).forEach(pKey => {
@@ -58,7 +58,7 @@ class BaseI13nStore extends Store {
           : get(action, [PARAMS, pKey], p);
       set(action, [PARAMS, pKey], newP);
     });
-    delete lazyAction[key];
+    delete lazyAction.__hash[key];
     lStore.set('lazyAction', lazyAction);
     delete action.params.withLazy;
     return action;
@@ -69,7 +69,7 @@ class BaseI13nStore extends Store {
     if ('object' !== typeof lazyAction) {
       lazyAction = {};
     }
-    return 'undefined' === typeof key ? lazyAction : lazyAction[key];
+    return 'undefined' === typeof key ? lazyAction : lazyAction.__hash[key];
   }
 
   handleAction(state, action) {
@@ -103,24 +103,34 @@ class BaseI13nStore extends Store {
     i13nDispatch('config/set', state); // for async, need located before lazyAction
     const lazyAction = this.getLazy();
     if (lazyAction) {
-      const seq = get(lazyAction, ['__seq']);
-      if (isArray(seq)) {
-        seq.forEach(action => i13nDispatch(action));
-      }
-      delete lazyAction.__seq;
-      keys(lazyAction).forEach(key => {
-        const laze = lazyAction[key];
-        const params = get(laze, [PARAMS], {});
-        let {wait, stop} = params;
+
+      const handleLazy = (lazeArr, key) => {
+        const laze = lazeArr[key];
+        let {wait, stop} = get(laze, [PARAMS], {});
         if (!wait || wait <= 0) {
           if (!stop) {
+            if ('undefined' !== typeof get(laze, ['params', 'wait'])) {
+              delete laze.params.wait;
+            }
             i13nDispatch(laze);
           }
-          delete lazyAction[key];
+          delete lazeArr[key];
         } else {
           laze.params.wait = --wait;
         }
-      });
+        return lazeArr[key];
+      };
+
+      let seq = get(lazyAction, ['__seq']);
+      if (isArray(seq)) {
+        lazyAction.__seq = seq.forEach((action, key) => handleLazy(seq, key));
+      }
+
+      const hash = get(lazyAction, ['__hash']);
+      if (hash) {
+        keys(hash).forEach(key => handleLazy(hash, key));
+      }
+
       lStore.set('lazyAction', lazyAction);
     }
     i13nDispatch('view');
@@ -158,7 +168,7 @@ class BaseI13nStore extends Store {
       case 'config/set':
         return state.merge(action.params);
       case 'config/reset':
-        return this.getInitialState();
+        return this.reset();
       default:
         return !!keys(action).length ? state.merge(action) : state;
     }

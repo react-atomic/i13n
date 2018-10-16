@@ -5,6 +5,7 @@ import {nest} from 'object-nested';
 import exec, {getLastScript} from 'exec-script';
 import get from 'get-object-value';
 import set from 'set-object-value';
+import {sessionStorage, Storage} from 'get-storage';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 
@@ -149,6 +150,19 @@ const initRouter = configs => {
   }
 };
 
+const sStore = new Storage(sessionStorage);
+const lazyAttr = key => val => {
+  const arr = sStore.get('lazyAttr');
+  if ('undefined' === typeof key) {
+    return arr;
+  }
+  if ('undefined' !== typeof value) {
+    arr[key] = val;
+    sStore.set('lazyAttr', arr);
+  }
+  return arr[key];
+};
+
 const initTags = configs => {
   win().i13n = {
     dispatch: i13nDispatch,
@@ -158,6 +172,7 @@ const initTags = configs => {
     get,
     getOptionText,
     delegate,
+    lazyAttr,
   };
   const tagMap = {
     debug: debugTag,
@@ -207,7 +222,7 @@ const initHandler = (state, action, done) => {
 const actionHandler = (state, action) => {
   const params = get(action, ['params'], {});
   let I13N = params.I13N;
-  const {i13nCb, lazeInfo, i13nPageCb, stop, lazyKey} = params;
+  const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   const i13nCbParams = toJS(state.get('i13nCbParams'));
   if ('function' === typeof i13nCb) {
     I13N = i13nCb(
@@ -227,7 +242,7 @@ const actionHandler = (state, action) => {
   if (!I13N) {
     set(action, ['params', 'stop'], true);
   } else {
-    if (stop) {
+    if ('undefined' !== typeof wait) {
       set(action, ['params', 'I13N'], I13N);
       i13nStore.pushLazyAction(action, lazyKey);
     }
@@ -248,17 +263,18 @@ const actionHandler = (state, action) => {
 
 const impressionHandler = (state, action) => state;
 
-i13nDispatch('config/set', {
-  initHandler,
-  actionHandler,
-  impressionHandler,
-});
-
 const getIni = (iniPath, iniCb) => {
   let isLoad = false;
+  i13nDispatch('config/reset');
+
   const run = e => {
     if (!isLoad) {
       isLoad = true;
+      i13nDispatch({
+        initHandler,
+        actionHandler,
+        impressionHandler,
+      });
       i13nDispatch('view', {
         iniPath,
         iniCb,

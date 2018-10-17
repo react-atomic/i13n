@@ -38,7 +38,6 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       };
       break;
     case 'ClickProduct':
-      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {
         click: {
           actionField: {
@@ -47,14 +46,15 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
           products,
         },
       };
+      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'AddToCart':
-      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {add: {products}};
+      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'RemoveFromCart':
-      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       ecommerce = {remove: {products}};
+      setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
   }
 
@@ -77,6 +77,7 @@ const getViewEcommerce = (I13N, defaultCurrencyCode) => {
     if (fromP) {
       set(ecommerce, ['detail', 'actionField', 'list'], fromP);
     }
+    setCurrency(I13N, ecommerce, defaultCurrencyCode);
     set(ecommerce, ['detail', 'products'], detailProducts);
   }
   if (promotions) {

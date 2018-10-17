@@ -18,7 +18,10 @@ class BaseI13nStore extends Store {
   }
 
   processAction(state, action) {
-    set(action, [PARAMS, 'query', 'vpvid'], state.get('vpvid'));
+    const vpvid = state.get('vpvid');
+    if (vpvid) {
+      set(action, [PARAMS, 'query', 'vpvid'], vpvid);
+    }
     return this.sendBeacon(state, action);
   }
 
@@ -79,7 +82,7 @@ class BaseI13nStore extends Store {
       actionHandler = this.processAction.bind(this);
     }
     if (withLazy) {
-      action = mergeWithLazy(action, withLazy);
+      action = this.mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
     if ('undefined' === typeof wait && !stop) {
@@ -103,7 +106,6 @@ class BaseI13nStore extends Store {
     i13nDispatch('config/set', state); // for async, need located before lazyAction
     const lazyAction = this.getLazy();
     if (lazyAction) {
-
       const handleLazy = (lazeArr, key) => {
         const laze = lazeArr[key];
         let {wait, stop} = get(laze, [PARAMS], {});

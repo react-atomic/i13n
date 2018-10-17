@@ -22,7 +22,7 @@ import {toJS} from './BaseTag';
 const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
-const pageScripts = [];
+let pageScripts;
 
 const numReg = /\d+/g;
 const getNum = s => {
@@ -266,10 +266,10 @@ const impressionHandler = (state, action) => state;
 const getIni = (iniPath, iniCb) => {
   let isLoad = false;
   i13nDispatch('config/reset');
-
   const run = e => {
     if (!isLoad) {
       isLoad = true;
+      pageScripts = [];
       i13nDispatch({
         initHandler,
         actionHandler,

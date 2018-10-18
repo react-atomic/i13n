@@ -96,10 +96,9 @@ class UsergramTag extends BaseTag {
   }
 
   action() {
-    const state = this.getState();
     const tagData = this.getTagData();
     const {cv, attr, flat} = tagData;
-    const I13N = get(toJS(state.get('I13N')), null, {});
+    const I13N = this.getClone('I13N');
     const {p, action, category, label, value, ...others} = I13N;
     const type = cv && action && -1 !== cv.indexOf(action) ? 'cv' : 'event';
     let attribute;
@@ -121,8 +120,7 @@ class UsergramTag extends BaseTag {
   }
 
   impression() {
-    const state = this.getState();
-    const I13N = get(toJS(state.get('i13nPage')), null, {});
+    const I13N = this.getClone('i13nPage');
     let attribute;
     attribute = this.assignUid(attribute);
     this.push(['pv', attribute]);

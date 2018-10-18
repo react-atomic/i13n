@@ -2,7 +2,7 @@ import exec from 'exec-script';
 import get from 'get-object-value';
 
 import BaseTag, {toJS} from './BaseTag';
-import {getViewEcommerce, getActionEcommerce} from './google.ecommerce'; 
+import {getViewEcommerce, getActionEcommerce} from './google.ecommerce';
 
 const getScript = gtagId => {
   const script = ` 
@@ -34,14 +34,8 @@ class GoogleTag extends BaseTag {
 
   action() {
     const state = this.getState();
-    const I13N = get(toJS(state.get('I13N')), null, {});
-    const {
-      lazeInfo,
-      action,
-      category,
-      label,
-      value,
-    } = I13N;
+    const I13N = this.getClone('I13N');
+    const {lazeInfo, action, category, label, value} = I13N;
     const p = get(I13N, ['p'], null);
     const thisCategory = category ? category : action;
 
@@ -68,11 +62,8 @@ class GoogleTag extends BaseTag {
       label: thisLabel,
       value,
     };
-    
-    const ecommerce = getActionEcommerce(
-      I13N,
-      state.get('currencyCode')
-    );
+
+    const ecommerce = getActionEcommerce(I13N, state.get('currencyCode'));
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
       config.category = 'Ecommerce';
@@ -81,10 +72,9 @@ class GoogleTag extends BaseTag {
     this.push(config);
   }
 
-
   impression() {
     const state = this.getState();
-    const I13N = get(toJS(state.get('i13nPage')), null, {});
+    const I13N = this.getClone('i13nPage');
     const p = get(I13N, ['p'], null);
 
     const config = {
@@ -92,10 +82,7 @@ class GoogleTag extends BaseTag {
       p,
     };
 
-    const ecommerce = getViewEcommerce(
-      I13N,
-      state.get('currencyCode')
-    );
+    const ecommerce = getViewEcommerce(I13N, state.get('currencyCode'));
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
     }

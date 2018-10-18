@@ -35,6 +35,12 @@ class BaseTag {
     return tagData;
   }
 
+  getClone(key) {
+    const state = this.getState();
+    const data = get(toJS(state.get(key)), null, {});
+    return JSON.parse(JSON.stringify(data));
+  }
+
   init() {}
 
   action() {}

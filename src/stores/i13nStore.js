@@ -8,7 +8,7 @@ class Map {
 
   constructor(obj) {
     if (obj) {
-      this._state = obj;
+      this._state = {...obj};
     }
   }
 

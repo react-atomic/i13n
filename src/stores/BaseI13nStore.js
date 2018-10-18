@@ -125,7 +125,7 @@ class BaseI13nStore extends Store {
 
       let seq = get(lazyAction, ['__seq']);
       if (isArray(seq)) {
-        lazyAction.__seq = seq.forEach((action, key) => handleLazy(seq, key));
+        lazyAction.__seq = seq.filter((action, key) => handleLazy(seq, key));
       }
 
       const hash = get(lazyAction, ['__hash']);

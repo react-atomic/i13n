@@ -99,7 +99,7 @@ class UsergramTag extends BaseTag {
     const tagData = this.getTagData();
     const {cv, attr, flat} = tagData;
     const I13N = this.getClone('I13N');
-    const {p, action, category, label, value, ...others} = I13N;
+    const {p, action, category, value, ...others} = I13N;
     const type = cv && action && -1 !== cv.indexOf(action) ? 'cv' : 'event';
     let attribute;
     if ('cv' === type) {
@@ -107,12 +107,12 @@ class UsergramTag extends BaseTag {
     }
     const send = [type, action];
     if (!attribute || !keys(attribute).length) {
+      const label = get(I13N, ['label'], others);
       attribute = {
         p,
         category,
         label,
         value,
-        ...others,
       };
     }
     send.push(this.assignUid(attribute));

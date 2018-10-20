@@ -43,6 +43,6 @@ describe('Test Usergram', () => {
       });
       Usergram.action();
       const last = window.usergram.pop();
-      expect(last[4]).to.deep.include({stepNo:1, stepOption: "pay"});
+      expect(last[4]).to.deep.include({label: {stepNo:1, stepOption: "pay"}});
   });
 });

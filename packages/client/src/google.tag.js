@@ -32,6 +32,24 @@ class GoogleTag extends BaseTag {
     win().dataLayer.push(config);
   }
 
+  mergeLabel(label, more) {
+    let thisLabel = label;
+    if (keys(more).length) {
+      if ('object' !== typeof thisLabel) {
+        thisLabel = {
+          label,
+          ...more,
+        };
+      } else {
+        thisLabel = {...thisLabel, ...more};
+      }
+    }
+    if ('object' === typeof thisLabel) {
+      thisLabel = JSON.stringify(thisLabel);
+    }
+    return thisLabel;
+  }
+
   action() {
     const state = this.getState();
     const I13N = this.getClone('I13N');
@@ -39,19 +57,9 @@ class GoogleTag extends BaseTag {
     const p = get(I13N, ['p'], null);
     const thisCategory = category ? category : action;
 
-    let thisLabel = label;
+    const more = {};
     if (lazeInfo) {
-      if ('object' !== typeof thisLabel) {
-        thisLabel = {
-          label: thisLabel,
-          lazeInfo: lazeInfo,
-        };
-      } else {
-        thisLabel.lazeInfo = lazeInfo;
-      }
-    }
-    if ('object' === typeof thisLabel) {
-      thisLabel = JSON.stringify(thisLabel);
+      more.lazeInfo = lazeInfo;
     }
 
     const config = {
@@ -59,7 +67,6 @@ class GoogleTag extends BaseTag {
       p,
       action,
       category: thisCategory,
-      label: thisLabel,
       value,
     };
 
@@ -67,8 +74,9 @@ class GoogleTag extends BaseTag {
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
       config.category = 'Ecommerce';
+      more.ecommerce = ecommerce;
     }
-
+    config.label = this.mergeLabel(label, more);
     this.push(config);
   }
 

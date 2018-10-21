@@ -163,6 +163,8 @@ const lazyAttr = key => val => {
   return arr[key];
 };
 
+const text = el => (el ? el.innerText.trim() : null);
+
 const initTags = configs => {
   win().i13n = {
     dispatch: i13nDispatch,
@@ -173,6 +175,7 @@ const initTags = configs => {
     getOptionText,
     delegate,
     lazyAttr,
+    text,
   };
   const tagMap = {
     debug: debugTag,

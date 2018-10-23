@@ -8,6 +8,7 @@ import set from 'set-object-value';
 import {sessionStorage, Storage} from 'get-storage';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
+import getCookie from 'get-cookie';
 
 // local import
 import delegate from './delegate';
@@ -173,6 +174,7 @@ const initTags = configs => {
     getNum,
     get,
     getOptionText,
+    getCookie,
     delegate,
     lazyAttr,
     text,

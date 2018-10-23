@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -17,6 +17,7 @@
     "i13n-store": "*",
     "object-nested": "*",
     "parse-ini-string": "*",
+    "get-cookie": "*",
     "seturl": "*"
   },
   "devDependencies": {

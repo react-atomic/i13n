@@ -2548,6 +2548,12 @@ get-caller-file@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
 
+get-cookie@*:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/get-cookie/-/get-cookie-0.0.3.tgz#28fa08ac49a59e630c749e2bbefc0a4f51a969a2"
+  dependencies:
+    get-safe-reg "*"
+
 get-func-name@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.0.tgz#ead774abee72e20409433a066366023dd6887a41"

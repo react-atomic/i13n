@@ -27,13 +27,16 @@ class GoogleTag extends BaseTag {
   }
 
   push(config) {
-    const tagData = this.getTagData();
+    const {gaId, bCookieIndex} = this.getTagData();
     const state = this.getState();
     const uid = state.get('uid');
     if (uid) {
       config.bCookie = uid;
+      if (bCookieIndex) {
+        config.bCookieIndex = bCookieIndex;
+      }
     }
-    config.gaId = tagData.gaId;
+    config.gaId = gaId;
     win().dataLayer.push(config);
   }
 

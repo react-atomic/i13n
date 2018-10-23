@@ -11,6 +11,7 @@ const docUrl = () => document.URL;
 const isArray = Array.isArray;
 const keys = Object.keys;
 const PARAMS = 'params';
+const getParams = action => get(action, [PARAMS], {});
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -31,7 +32,7 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action, key) {
-    const {...params} = get(action, [PARAMS], {});
+    const {...params} = getParams(action);
     const thisAction = {params, type: action.type};
     set(thisAction, [PARAMS, 'lazeInfo'], {
       from: docUrl(),
@@ -77,7 +78,7 @@ class BaseI13nStore extends Store {
 
   handleAction(state, action) {
     let actionHandler = state.get('actionHandler');
-    const {wait, stop, withLazy} = get(action, [PARAMS], {});
+    const {withLazy} = getParams(action);
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
@@ -85,6 +86,7 @@ class BaseI13nStore extends Store {
       action = this.mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
+    const {wait, stop} = getParams(action); // need locate after next
     if ('undefined' === typeof wait && !stop) {
       this.nextEmits.push('action');
     }
@@ -108,7 +110,7 @@ class BaseI13nStore extends Store {
     if (lazyAction) {
       const handleLazy = (lazeArr, key) => {
         const laze = lazeArr[key];
-        let {wait, stop} = get(laze, [PARAMS], {});
+        let {wait, stop} = getParams(laze);
         if (!wait || wait <= 0) {
           if (!stop) {
             if ('undefined' !== typeof get(laze, ['params', 'wait'])) {
@@ -147,7 +149,7 @@ class BaseI13nStore extends Store {
         impressionHandler = this.processView.bind(this);
       }
       const next = impressionHandler(state, action);
-      const {wait, stop} = get(action, [PARAMS], {});
+      const {wait, stop} = getParams(action); // need locate after next
       if ('undefined' === typeof wait && !stop) {
         this.nextEmits.push('impression');
       }

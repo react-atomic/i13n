@@ -119,11 +119,24 @@ class UsergramTag extends BaseTag {
     this.push(send);
   }
 
+  handleEcImpression(I13N) {
+    const {p, fromP, impressions, detailProducts, promotions} = I13N;
+    if (impressions) {
+      this.push(['event', 'ProductImpression', {impressions}]);
+    }
+    if (detailProducts) {
+      this.push(['event', 'ProductDetailImpression', {detailProducts}]);
+    }
+    if (promotions) {
+      this.push(['event', 'PromotionImpression', {promotions}]);
+    }
+  }
+
   impression() {
     const I13N = this.getClone('i13nPage');
-    let attribute;
-    attribute = this.assignUid(attribute);
+    const attribute = this.assignUid(attribute);
     this.push(['pv', attribute]);
+    this.handleEcImpression(I13N);
   }
 }
 

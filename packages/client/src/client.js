@@ -186,9 +186,9 @@ const initTags = configs => {
   };
   const tags = get(configs, ['tag'], {});
   keys(tags).forEach(key => {
-    const tag = tags[key];
-    if (tag.enabled && tagMap[key]) {
-      tagMap[key].register(i13nStore, key);
+    const TAG = tagMap[key];
+    if (tags[key].enabled && TAG) {
+      TAG.register(i13nStore, key);
     }
   });
 };

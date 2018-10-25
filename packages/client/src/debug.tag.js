@@ -1,23 +1,21 @@
-import BaseTag, {toJS} from './BaseTag';
+import BaseTag from './BaseTag';
+
+const c = console;
 
 class DebugTag extends BaseTag {
   init() {
-    const state = this.getState();
-    console.log('init', state.toJS());
+    const state = this.getState().toJS();
+    c.log('init', state, JSON.stringify(state));
   }
 
   action() {
-    var i13n = toJS(
-      this.getState().get('I13N')
-    );
-    console.log('action', i13n);
+    const i13n = this.getClone('I13N');
+    c.log('action', i13n, JSON.stringify(i13n));
   }
 
   impression() {
-    var i13n = toJS(
-      this.getState().get('i13nPage')
-    );
-    console.log('impression', i13n);
+    const i13n = this.getClone('i13nPage');
+    c.log('impression', i13n, JSON.stringify(i13n));
   }
 }
 

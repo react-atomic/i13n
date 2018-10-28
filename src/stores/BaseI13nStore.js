@@ -105,7 +105,7 @@ class BaseI13nStore extends Store {
   handleAfterInit = state => {
     this.nextEmits.push('init');
     state = state.set('init', true);
-    i13nDispatch('config/set', state); // for async, need located before lazyAction
+    i13nDispatch(state); // for async, need located before lazyAction
     const lazyAction = this.getLazy();
     if (lazyAction) {
       const handleLazy = (lazeArr, key) => {

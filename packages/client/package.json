@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.0.32",
+  "version": "0.1.0",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -21,14 +21,13 @@
     "seturl": "*"
   },
   "devDependencies": {
-    "babel-cli": "*",
-    "reshow-app": "*"
+    "reshow-app": "0.7.0-beta.3"
   },
   "scripts": {
     "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
-    "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src",
-    "build:es": "BABEL_ENV=es babel src -d build/es/src",
-    "build:test": "BABEL_ENV=build babel tests -d build/tests",
+    "build:cjs": "BABEL_ENV=build babel src -d build/cjs/src --root-mode upward",
+    "build:es": "BABEL_ENV=es babel src -d build/es/src --root-mode upward",
+    "build:test": "BABEL_ENV=build babel tests -d build/tests --root-mode upward",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
     "test": "npm run build && npm run build:test && mocha 'build/tests/**/*.js' -r jsdom-global/register",
     "prepublishOnly": "npm run test && npm run build"

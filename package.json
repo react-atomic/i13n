@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -11,7 +11,7 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "*",
+    "reshow-runtime": "*",
     "get-object-value": "*",
     "get-storage": "*",
     "reshow-flux-base": "*",
@@ -24,8 +24,8 @@
     "@babel/plugin-proposal-object-rest-spread": "*",
     "@babel/plugin-syntax-dynamic-import": "*",
     "@babel/plugin-transform-object-assign": "*",
-    "@babel/plugin-transform-runtime": "*",
     "@babel/preset-env": "*",
+    "babel-plugin-reshow-transform-runtime": "*",
     "chai": "*",
     "jsdom": "*",
     "jsdom-global": "*",

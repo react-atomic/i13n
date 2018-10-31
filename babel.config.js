@@ -13,7 +13,7 @@ module.exports = function(api) {
         ],
         plugins: [
           [
-            '@babel/plugin-transform-runtime',
+            'reshow-transform-runtime',
             {
               regenerator: false,
             },
@@ -36,7 +36,7 @@ module.exports = function(api) {
         ],
         plugins: [
           [
-            '@babel/plugin-transform-runtime',
+            'reshow-transform-runtime',
             {
               regenerator: false,
               useESModules: true,

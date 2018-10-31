@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -21,7 +21,7 @@
     "seturl": "*"
   },
   "devDependencies": {
-    "reshow-app": "0.7.0-beta.3"
+    "reshow-app": "*"
   },
   "scripts": {
     "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",

@@ -4500,9 +4500,9 @@ require-main-filename@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
 
-reshow-app@0.7.0-beta.3:
-  version "0.7.0-beta.3"
-  resolved "https://registry.yarnpkg.com/reshow-app/-/reshow-app-0.7.0-beta.3.tgz#735d98770cad96f30d2eb5ffd8d1aad10e076245"
+reshow-app@*:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/reshow-app/-/reshow-app-0.7.1.tgz#c91f01621f240bbebba1c954b8a6ddbae3cd0091"
   dependencies:
     "@babel/cli" "^7.x"
     "@babel/core" "^7.x"

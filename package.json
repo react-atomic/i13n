@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -11,10 +11,10 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
-    "reshow-runtime": "*",
     "get-object-value": "*",
     "get-storage": "*",
     "reshow-flux-base": "*",
+    "reshow-runtime": "*",
     "set-object-value": "*"
   },
   "devDependencies": {

@@ -1,6 +1,4 @@
-import get from 'get-object-value';
-
-const toJS = v => (v && v.toJS ? v.toJS() : v);
+import get, {toJS} from 'get-object-value';
 
 class BaseTag {
   key = null;
@@ -49,4 +47,3 @@ class BaseTag {
 }
 
 export default BaseTag;
-export {toJS};

@@ -1,7 +1,6 @@
+import {toJS} from 'get-object-value';
 import BaseI13nStore from '../stores/BaseI13nStore';
 import dispatcher from '../i13nDispatcher';
-
-const toJS = v => (v && v.toJS ? v.toJS() : v);
 
 class Map {
   _state = {};
@@ -54,7 +53,7 @@ class I13nStore extends BaseI13nStore {
 
   handleRegister(state, action) {
     const {func, on, mod} = get(action, [PARAMS]);
-    switch(mod) {
+    switch (mod) {
       case 'remove':
         this.removeListener(func, on);
         break;

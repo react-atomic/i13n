@@ -10,7 +10,7 @@ const lStore = new Storage(localStorage);
 
 describe('Test I13N', () => {
   beforeEach(() => {
-    i13nDispatch('config/reset');
+    i13nDispatch('reset');
   });
 
   it('test dispatch set', () => {
@@ -55,7 +55,7 @@ describe('Test I13N', () => {
 
 describe('Test after init', () => {
   afterEach(() => {
-    i13nDispatch('config/reset');
+    i13nDispatch('reset');
   });
 
   it('should handle wait well', () => {

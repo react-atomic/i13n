@@ -3,9 +3,8 @@ import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
 import exec, {getLastScript} from 'exec-script';
-import get from 'get-object-value';
+import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';
-import {sessionStorage, Storage} from 'get-storage';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
@@ -18,7 +17,8 @@ import req from './req';
 import debugTag from './debug.tag';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
-import {toJS} from './BaseTag';
+import lazyAttr from './lazyAttr';
+import lazyProducts from './lazyProducts';
 
 const win = () => window;
 const doc = () => document;
@@ -151,20 +151,7 @@ const initRouter = configs => {
   }
 };
 
-const sStore = new Storage(sessionStorage);
-const lazyAttr = key => val => {
-  const arr = sStore.get('lazyAttr');
-  if ('undefined' === typeof key) {
-    return arr;
-  }
-  if ('undefined' !== typeof value) {
-    arr[key] = val;
-    sStore.set('lazyAttr', arr);
-  }
-  return arr[key];
-};
-
-const text = el => (el ? el.innerText.trim() : null);
+const text = el => (el ? ( (el.innerText) ? el.innerText : el).trim() : null);
 
 const initTags = configs => {
   win().i13n = {
@@ -263,19 +250,18 @@ const actionHandler = (state, action) => {
       );
     }
   }
-  return state.delete('lastEvent').delete('i13nCbParams');
+  return lazyProducts(state.delete('lastEvent').delete('i13nCbParams'));
 };
 
-const impressionHandler = (state, action) => state;
+const impressionHandler = (state, action) => lazyProducts(state);
 
 const getIni = (iniPath, iniCb) => {
   let isLoad = false;
-  i13nDispatch('config/reset');
   const run = e => {
     if (!isLoad) {
       isLoad = true;
       pageScripts = [];
-      i13nDispatch({
+      i13nDispatch('reset', {
         initHandler,
         actionHandler,
         impressionHandler,

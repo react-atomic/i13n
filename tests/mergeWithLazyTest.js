@@ -11,7 +11,7 @@ describe('Test getWithLazy', () => {
   });
   afterEach(() => {
     spy.restore() 
-    i13nDispatch('config/reset');
+    i13nDispatch('reset');
   });
   it('simple', () => {
     i13nStore.pushLazyAction({params: {foo: 'bar'}}, 'foo');

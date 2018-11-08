@@ -2,7 +2,7 @@ import exec from 'exec-script';
 import get from 'get-object-value';
 import set from 'set-object-value';
 
-import BaseTag, {toJS} from './BaseTag';
+import BaseTag from './BaseTag';
 
 const getScript = tagData => {
   const jsName = tagData.test ? 'usergram_test.js' : 'usergram.js';

@@ -1,7 +1,7 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
 
-import BaseTag, {toJS} from './BaseTag';
+import BaseTag from './BaseTag';
 import {getViewEcommerce, getActionEcommerce} from './google.ecommerce';
 
 const getScript = gtagId => {

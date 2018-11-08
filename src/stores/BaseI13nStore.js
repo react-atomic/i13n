@@ -171,8 +171,8 @@ class BaseI13nStore extends Store {
         return this.handleImpression(state, action);
       case 'config/set':
         return state.merge(action.params);
-      case 'config/reset':
-        return this.reset();
+      case 'reset':
+        return this.reset().merge(action.params);
       default:
         return !!keys(action).length ? state.merge(action) : state;
     }

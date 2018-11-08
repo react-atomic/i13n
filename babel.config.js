@@ -5,7 +5,7 @@ module.exports = function(api) {
       build: {
         presets: [
           [
-            '@babel/env',
+            '@babel/preset-env',
             {
               targets: ['last 2 versions', 'ie >= 8'],
             },
@@ -27,7 +27,7 @@ module.exports = function(api) {
       es: {
         presets: [
           [
-            '@babel/env',
+            '@babel/preset-env',
             {
               modules: false,
               targets: ['last 2 versions', 'ie >= 8'],

@@ -153,7 +153,7 @@ const initRouter = configs => {
 
 const text = el => (el ? (el.innerText ? el.innerText : el).trim() : null);
 
-const category = arr => arr.map(item => text(item).replace('/', '-')).join('/');
+const joinCategory = arr => arr.map(item => text(item).replace('/', '-')).join('/');
 
 const initTags = configs => {
   win().i13n = {
@@ -167,7 +167,7 @@ const initTags = configs => {
     delegate,
     lazyAttr,
     text,
-    category,
+    joinCategory,
   };
   const tagMap = {
     debug: debugTag,

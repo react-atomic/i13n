@@ -138,7 +138,7 @@ const initRouter = configs => {
     });
   });
   const loc = doc().location;
-  const url = loc.pathname + loc.search;
+  const url = loc.pathname;
   let match = router.match(url);
   if (match) {
     const timeouts = [];

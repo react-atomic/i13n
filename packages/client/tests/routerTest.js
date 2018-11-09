@@ -14,4 +14,13 @@ describe('Test Router', () => {
     const next = match.next();
     expect(!!next).to.be.false;
   });
+  it('root only test', () => {
+    const cb = sinon.spy(() => {});
+    const router = new Router();
+    router.addRoute('/', cb);
+    let match = router.match('/?abc=def#foo');
+    expect(cb.called).to.be.false;
+    match.fn();
+    expect(cb.called).to.be.true;
+  });
 });

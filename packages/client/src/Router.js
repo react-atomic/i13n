@@ -8,6 +8,8 @@
  * @return {Object}
  */
 
+import {getPath} from 'seturl';
+
 const Route = (path, fn) => {
   const keys = [];
   const re = pathToRegExp(path, keys);
@@ -29,18 +31,18 @@ const Route = (path, fn) => {
  * @param  {Array} keys
  * @return {RegExp}
  */
-var pathToRegExp = function(path, keys) {
+const pathToRegExp = (path, keys) => {
   path = path
     .concat('/?')
     .replace(/\/\(/g, '(?:/')
-    .replace(/(\/)?(\.)?:(\w+)(?:(\(.*?\)))?(\?)?|\*/g, function(
+    .replace(/(\/)?(\.)?:(\w+)(?:(\(.*?\)))?(\?)?|\*/g, (
       _,
       slash,
       format,
       key,
       capture,
       optional,
-    ) {
+    ) => {
       if (_ === '*') {
         keys.push(undefined);
         return _;
@@ -97,10 +99,14 @@ const paraseParms = (captures, route) => {
  * @return {Object}
  */
 const match = (routes, uri) => {
+  const thisUri = getPath(uri);
+  if (!thisUri) {
+    return false;
+  }
   let result;
   routes.some((route, index) => {
     const {re} = route;
-    const captures = uri.match(re);
+    const captures = thisUri.match(re);
     if (captures) {
       result = paraseParms(captures, route);
       result.nextIndex = index + 1;

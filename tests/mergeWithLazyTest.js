@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import {i13nDispatch} from '../cjs/src/index';
 import i13nStore from '../cjs/src/stores/i13nStore';
 
-describe('Test getWithLazy', () => {
+describe('Test mergeWithLazy', () => {
   let spy;
   beforeEach(() => {
     spy = sinon.spy(i13nStore, 'mergeWithLazy');

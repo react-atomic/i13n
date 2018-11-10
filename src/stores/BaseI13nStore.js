@@ -1,5 +1,5 @@
 import {Store} from 'reshow-flux-base';
-import get from 'get-object-value';
+import get, {toMap} from 'get-object-value';
 import set from 'set-object-value';
 import {localStorage, Storage} from 'get-storage';
 
@@ -11,6 +11,10 @@ const docUrl = () => document.URL;
 const isArray = Array.isArray;
 const keys = Object.keys;
 const PARAMS = 'params';
+const hashKey = '__hash';
+const seqKey = '__seq';
+const undefKey = 'undefined';
+const lazyActionKey = 'lazyAction';
 const getParams = action => get(action, [PARAMS], {});
 
 class BaseI13nStore extends Store {
@@ -40,18 +44,18 @@ class BaseI13nStore extends Store {
     });
     const lazyAction = this.getLazy();
     if (key) {
-      set(lazyAction, ['__hash', key], thisAction);
+      set(lazyAction, [hashKey, key], thisAction);
     } else {
-      set(lazyAction, ['__seq'], thisAction, true);
+      set(lazyAction, [seqKey], thisAction, true);
     }
-    lStore.set('lazyAction', lazyAction);
+    lStore.set(lazyActionKey, lazyAction);
   }
 
   mergeWithLazy(action, key) {
     const lazyAction = this.getLazy();
     const {stop, wait, lazeInfo, ...lazeParams} = get(
       lazyAction,
-      ['__hash', key, PARAMS],
+      [hashKey, key, PARAMS],
       {},
     );
     keys(lazeParams).forEach(pKey => {
@@ -62,18 +66,19 @@ class BaseI13nStore extends Store {
           : get(action, [PARAMS, pKey], p);
       set(action, [PARAMS, pKey], newP);
     });
-    delete lazyAction.__hash[key];
-    lStore.set('lazyAction', lazyAction);
     delete action.params.withLazy;
     return action;
   }
 
+  removeLazy(key) {
+    const lazyAction = this.getLazy();
+    delete lazyAction.__hash[key];
+    lStore.set(lazyActionKey, lazyAction);
+  }
+
   getLazy(key) {
-    let lazyAction = lStore.get('lazyAction');
-    if ('object' !== typeof lazyAction) {
-      lazyAction = {};
-    }
-    return 'undefined' === typeof key ? lazyAction : lazyAction.__hash[key];
+    const lazyAction = toMap(lStore.get(lazyActionKey));
+    return undefKey === typeof key ? lazyAction : lazyAction.__hash[key];
   }
 
   handleAction(state, action) {
@@ -86,9 +91,12 @@ class BaseI13nStore extends Store {
       action = this.mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
-    const {wait, stop} = getParams(action); // need locate after next
-    if ('undefined' === typeof wait && !stop) {
+    const {wait, stop, lazyKey} = getParams(action); // need locate after next
+    if (undefKey === typeof wait && !stop) {
       this.nextEmits.push('action');
+      if (withLazy && withLazy !== lazyKey) {
+        this.removeLazy(withLazy);
+      }
     }
     return next;
   }
@@ -113,7 +121,7 @@ class BaseI13nStore extends Store {
         let {wait, stop} = getParams(laze);
         if (!wait || wait <= 0) {
           if (!stop) {
-            if ('undefined' !== typeof get(laze, ['params', 'wait'])) {
+            if (undefKey !== typeof get(laze, ['params', 'wait'])) {
               delete laze.params.wait;
             }
             i13nDispatch(laze);
@@ -125,17 +133,17 @@ class BaseI13nStore extends Store {
         return lazeArr[key];
       };
 
-      let seq = get(lazyAction, ['__seq']);
+      const seq = get(lazyAction, [seqKey]);
       if (isArray(seq)) {
         lazyAction.__seq = seq.filter((action, key) => handleLazy(seq, key));
       }
 
-      const hash = get(lazyAction, ['__hash']);
+      const hash = get(lazyAction, [hashKey]);
       if (hash) {
         keys(hash).forEach(key => handleLazy(hash, key));
       }
 
-      lStore.set('lazyAction', lazyAction);
+      lStore.set(lazyActionKey, lazyAction);
     }
     i13nDispatch('view');
     return state;
@@ -150,7 +158,7 @@ class BaseI13nStore extends Store {
       }
       const next = impressionHandler(state, action);
       const {wait, stop} = getParams(action); // need locate after next
-      if ('undefined' === typeof wait && !stop) {
+      if (undefKey === typeof wait && !stop) {
         this.nextEmits.push('impression');
       }
       return next;

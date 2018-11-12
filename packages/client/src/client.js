@@ -12,6 +12,7 @@ import getCookie from 'get-cookie';
 // local import
 import delegate from './delegate';
 import getOptionText from './getOptionText';
+import getRadioValue from './getRadioValue';
 import Router from './Router';
 import req from './req';
 import debugTag from './debug.tag';
@@ -152,6 +153,7 @@ const initRouter = configs => {
 };
 
 const text = el => (el ? (el.innerText ? el.innerText : el).trim() : null);
+const getElValue = el => get(query.el(el), ['value']);
 
 const joinCategory = arr => arr.map(item => text(item).replace('/', '-')).join('/');
 
@@ -163,6 +165,8 @@ const initTags = configs => {
     getNum,
     get,
     getOptionText,
+    getElValue,
+    getRadioValue,
     getCookie,
     delegate,
     lazyAttr,

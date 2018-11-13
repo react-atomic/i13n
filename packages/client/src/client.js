@@ -8,6 +8,7 @@ import set from 'set-object-value';
 import query from 'css-query-selector';
 import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
+import getRandomId from 'get-random-id';
 
 // local import
 import delegate from './delegate';
@@ -26,20 +27,10 @@ const doc = () => document;
 const keys = Object.keys;
 let pageScripts;
 
-const numReg = /\d+/g;
-const getNum = s => {
-  const match = s.replace(',', '').match(numReg);
-  if (!match) {
-    console.error('Get number fail', s);
-  } else {
-    return match[0];
-  }
-};
-
 const addSectionEvents = (configs, delegates) => section => {
   const secs = get(configs, ['sec', section]);
   if (!secs) {
-    console.error('Section: [' + section + '] not found.');
+    console.warn('Section: [' + section + '] not found.');
     return;
   }
   get(secs, ['selects'], []).forEach((select, skey) => {
@@ -51,14 +42,14 @@ const addSectionEvents = (configs, delegates) => section => {
       });
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
-        console.error('Script name not found', secs, skey);
+        console.warn('Script name not found', secs, skey);
         return;
       }
       const scriptCode = get(configs, ['script', scriptName]);
       if (scriptCode) {
         exec(scriptCode);
       } else {
-        console.error('Script: [' + scriptName + '] not found.');
+        console.warn('Script: [' + scriptName + '] not found.');
       }
     };
     const sels = query.all(select);
@@ -152,10 +143,25 @@ const initRouter = configs => {
   }
 };
 
-const text = el => (el ? (el.innerText ? el.innerText : el).trim() : null);
+const text = el =>
+  el ? (el.innerText ? el.innerText : el.trim ? el : '').trim() : '';
 const getElValue = el => get(query.el(el), ['value']);
 
-const joinCategory = arr => arr.map(item => text(item).replace('/', '-')).join('/');
+const joinCategory = arr =>
+  arr.map(item => text(item).replace('/', '-')).join('/');
+
+const numReg = /\d+/g;
+const getNum = s => {
+  const match = text(s)
+    .replace(',', '')
+    .match(numReg);
+  if (!match) {
+    console.warn('Get number fail', s);
+    return 0;
+  } else {
+    return match[0];
+  }
+};
 
 const initTags = configs => {
   win().i13n = {
@@ -168,6 +174,7 @@ const initTags = configs => {
     getElValue,
     getRadioValue,
     getCookie,
+    getRandomId,
     delegate,
     lazyAttr,
     text,

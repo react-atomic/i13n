@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -14,6 +14,7 @@
     "css-query-selector": "*",
     "exec-script": "*",
     "get-cookie": "*",
+    "get-random-id": "*",
     "i13n": "*",
     "i13n-store": "*",
     "object-nested": "*",

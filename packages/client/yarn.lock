@@ -1561,8 +1561,8 @@ crypto-browserify@^3.11.0:
     randomfill "^1.0.3"
 
 css-query-selector@*:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/css-query-selector/-/css-query-selector-0.2.0.tgz#23943ef65042b8e3e2a7365a25e328dbb5be70fc"
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/css-query-selector/-/css-query-selector-0.2.1.tgz#da2955c6d268ee79d95e7e396e28dafc96423753"
   dependencies:
     reshow-runtime "*"
 

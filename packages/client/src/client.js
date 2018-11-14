@@ -37,7 +37,7 @@ const addSectionEvents = (configs, delegates) => section => {
   get(secs, ['selects'], []).forEach((select, skey) => {
     const type = get(secs, ['types', skey]);
     const func = e => {
-      i13nDispatch('config/set', {
+      i13nDispatch({
         lastEvent: e,
         i13nCbParams: JSON.parse(get(secs, ['params', skey])),
       });
@@ -111,7 +111,7 @@ const initPageScript = () => {
   win().addEventListener('error', handleError);
   pageScripts.forEach(script => {
     if (script[1]) {
-      i13nDispatch('config/set', {
+      i13nDispatch({
         i13nCbParams: script[1],
       });
     }
@@ -247,7 +247,7 @@ const actionHandler = (state, action) => {
       toJS(state.get('lastEvent')),
       get(I13N, null, {}),
       i13nCbParams,
-      i13nStore.getState(),
+      state,
     );
     delete action.params.i13nCb;
   }

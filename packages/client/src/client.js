@@ -102,7 +102,7 @@ const logError = (error, action) => {
 
 const handleError = e => {
   const error = get(e, ['error'], {});
-  const type = (error) ? 'WindowError' : 'ExternalScriptError';
+  const type = error ? 'WindowError' : 'ExternalScriptError';
   logError(error, type);
 };
 
@@ -150,6 +150,7 @@ const initRouter = configs => {
 
 const text = el =>
   el ? (el.innerText ? el.innerText : el.trim ? el : '').trim() : '';
+
 const getElValue = el => get(query.el(el), ['value']);
 
 const joinCategory = arr =>

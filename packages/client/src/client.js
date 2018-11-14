@@ -84,6 +84,7 @@ const logError = (error, action) => {
   let {message, stack} = error;
   stack = get(error, ['stack'], '').split(/\n/);
   i13nDispatch('action', {
+    wait: 0,
     I13N: {
       action,
       category: 'Error',

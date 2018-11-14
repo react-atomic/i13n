@@ -100,12 +100,10 @@ const logError = (error, action) => {
   }
 };
 
-const handleError = (e, type) => {
-  if (!e.error) {
-    logError({}, 'ExternalScriptError');
-  } else {
-    logError({}, 'WindowError');
-  }
+const handleError = e => {
+  const error = get(e, ['error'], {});
+  const type = (error) ? 'WindowError' : 'ExternalScriptError';
+  logError(error, type);
 };
 
 const initPageScript = () => {

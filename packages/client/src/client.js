@@ -86,6 +86,7 @@ const logError = (error, action) => {
   i13nDispatch('action', {
     I13N: {
       action,
+      category: 'Error',
       label: {
         message,
         stack,

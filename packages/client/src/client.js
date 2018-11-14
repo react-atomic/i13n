@@ -5,7 +5,7 @@ import {nest} from 'object-nested';
 import exec, {getLastScript} from 'exec-script';
 import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';
-import query from 'css-query-selector';
+import query, {queryFrom} from 'css-query-selector';
 import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
@@ -172,8 +172,10 @@ const getNum = s => {
 
 const initTags = configs => {
   win().i13n = {
+    arrayFrom: arr => [...arr],
     dispatch: i13nDispatch,
     query,
+    queryFrom,
     getUrl,
     getNum,
     get,

@@ -1,7 +1,7 @@
 import {toMap} from 'get-object-value';
 import lazyAttr from './lazyAttr';
 
-const _prods = lazyAttr('__prods');
+const sessionStore = lazyAttr('__prods');
 const keys = Object.keys;
 const isArray = Array.isArray;
 
@@ -28,18 +28,21 @@ const storeProducts = (products, arrP) => {
   });
 };
 
+const forEachGoStore = arr => {
+  const arrP = toMap(sessionStore());
+  [arr.impressions, arr.detailProducts, arr.products].forEach(prods => {
+    if (prods) {
+      storeProducts(prods, arrP);
+    }
+  });
+  sessionStore(arrP);
+  return arr;
+};
+
 const lazyProducts = state => {
-  const arrP = toMap(_prods());
-  const I13N = toMap(state.get('I13N'));
-  const i13nPage = toMap(state.get('i13nPage'));
-  [i13nPage.impressions, i13nPage.detailProducts, I13N.products].forEach(
-    prods => {
-      if (prods) {
-        storeProducts(prods, arrP);
-      }
-    },
-  );
-  _prods(arrP);
+  const I13N = forEachGoStore(toMap(state.get('I13N')));
+  const i13nPage = forEachGoStore(toMap(state.get('i13nPage')));
   return state.set('I13N', I13N).set('i13nPage', i13nPage);
 };
 export default lazyProducts;
+export {forEachGoStore};

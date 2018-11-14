@@ -20,7 +20,7 @@ import debugTag from './debug.tag';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
 import lazyAttr from './lazyAttr';
-import lazyProducts from './lazyProducts';
+import lazyProducts, {forEachGoStore} from './lazyProducts';
 
 const win = () => window;
 const doc = () => document;
@@ -259,7 +259,7 @@ const actionHandler = (state, action) => {
     set(action, ['params', 'stop'], true);
   } else {
     if ('undefined' !== typeof wait) {
-      set(action, ['params', 'I13N'], I13N);
+      set(action, ['params', 'I13N'], forEachGoStore(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
   }

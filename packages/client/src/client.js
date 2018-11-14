@@ -26,6 +26,7 @@ const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
 let pageScripts;
+let debugFlag = false;
 
 const addSectionEvents = (configs, delegates) => section => {
   const secs = get(configs, ['sec', section]);
@@ -47,7 +48,7 @@ const addSectionEvents = (configs, delegates) => section => {
       }
       const scriptCode = get(configs, ['script', scriptName]);
       if (scriptCode) {
-        exec(scriptCode);
+        exec(scriptCode, null, null, e => logError(e, 'ScriptError'));
       } else {
         console.warn('Script: [' + scriptName + '] not found.');
       }
@@ -79,26 +80,31 @@ const pushPageScript = configs => name => {
   });
 };
 
-const handleError = e => {
-  const {message, filename, lineno, colno, error} = e;
-  if (!error) {
-    return;
-  }
-  const stack = get(error, ['stack'], '').split(/\n/);
+const logError = (error, action) => {
+  let {message, stack} = error;
+  stack = get(error, ['stack'], '').split(/\n/);
   i13nDispatch('action', {
     I13N: {
-      action: 'Error',
+      action,
       label: {
         message,
-        filename,
-        lineno,
-        colno,
         stack,
         url: doc().URL,
         lastExec: getLastScript(),
       },
     },
   });
+  if (debugFlag) {
+    throw error;
+  }
+};
+
+const handleError = (e, type) => {
+  if (!e.error) {
+    logError({}, 'ExternalScriptError');
+  } else {
+    logError({}, 'WindowError');
+  }
 };
 
 const initPageScript = () => {
@@ -109,7 +115,7 @@ const initPageScript = () => {
         i13nCbParams: script[1],
       });
     }
-    exec(script[0]);
+    exec(script[0], null, null, e => logError(e, 'InitScriptError'));
   });
 };
 
@@ -189,6 +195,9 @@ const initTags = configs => {
   keys(tags).forEach(key => {
     const TAG = tagMap[key];
     if (tags[key].enabled && TAG) {
+      if ('debug' === key) {
+        debugFlag = true;
+      }
       TAG.register(i13nStore, key);
     }
   });

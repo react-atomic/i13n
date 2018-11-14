@@ -3,14 +3,18 @@ import lazyAttr from './lazyAttr';
 
 const _prods = lazyAttr('__prods');
 const keys = Object.keys;
+const isArray = Array.isArray;
 
 const storeProducts = (products, arrP) => {
+  if (!products || !isArray(products)) {
+    return;
+  }
   products.forEach((p, key) => {
-    if (!p.id) {
+    if (!p || !p.id) {
       return;
     }
     const save = {};
-    keys(p).forEach( fKey => {
+    keys(p).forEach(fKey => {
       const field = p[fKey];
       if (field) {
         save[fKey] = field;

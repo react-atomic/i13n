@@ -187,6 +187,7 @@ const initTags = configs => {
     delegate,
     lazyAttr,
     text,
+    toJS,
     joinCategory,
   };
   const tagMap = {

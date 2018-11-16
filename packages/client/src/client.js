@@ -16,6 +16,8 @@ import getOptionText from './getOptionText';
 import getRadioValue from './getRadioValue';
 import Router from './Router';
 import req from './req';
+import text from './text';
+import getElValue from './getElValue';
 import debugTag from './debug.tag';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
@@ -25,10 +27,40 @@ import lazyProducts, {forEachGoStore} from './lazyProducts';
 const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
-let pageScripts;
 let debugFlag = false;
 
-const addSectionEvents = (configs, delegates) => section => {
+/**
+ * tool
+ */
+
+const joinCategory = arr =>
+  arr.map(item => text(item).replace('/', '-')).join('/');
+
+const numReg = /\d+/g;
+const getNum = s => {
+  const match = text(s)
+    .replace(',', '')
+    .match(numReg);
+  if (!match) {
+    console.warn('Get number fail', s);
+    return 0;
+  } else {
+    return match[0];
+  }
+};
+
+/**
+ * functions
+ */
+const mergeConfig = (conf, merges) => {
+  if (!merges) {
+    return conf;
+  }
+  merges.forEach(({path, value, append}) => set(conf, path, value, append));
+  return conf;
+};
+
+const addSectionEvent = (configs, nextDelegates) => section => {
   const secs = get(configs, ['sec', section]);
   if (!secs) {
     console.warn('Section: [' + section + '] not found.');
@@ -55,14 +87,14 @@ const addSectionEvents = (configs, delegates) => section => {
     };
     const sels = query.all(select);
     if ((!sels.length && 'click' === type) || 'delegate' === type) {
-      delegates.push({select, func});
+      nextDelegates.push({select, func});
     } else {
       sels.forEach(el => el.addEventListener(type, func));
     }
   });
 };
 
-const pushPageScript = configs => name => {
+const pushPageScript = (configs, nextConfigs) => name => {
   const arrScriptName = get(configs, ['page', name, 'scripts']);
   if (!arrScriptName) {
     return;
@@ -75,7 +107,7 @@ const pushPageScript = configs => name => {
       if (scriptParam) {
         script.push(JSON.parse(scriptParam));
       }
-      pageScripts.push(script);
+      nextConfigs.nextScripts.push(script);
     }
   });
 };
@@ -107,70 +139,11 @@ const handleError = e => {
   logError(error, type);
 };
 
+/**
+ * init functions
+ */
 const initPageScript = () => {
   win().addEventListener('error', handleError);
-  pageScripts.forEach(script => {
-    if (script[1]) {
-      i13nDispatch({
-        i13nCbParams: script[1],
-      });
-    }
-    exec(script[0], null, null, e => logError(e, 'InitScriptError'));
-  });
-};
-
-const initRouter = configs => {
-  const router = new Router();
-  const delegates = [];
-  const addEvent = addSectionEvents(configs, delegates);
-  const exePushPageScript = pushPageScript(configs);
-  get(configs, ['router', 'rules'], []).forEach((rule, key) => {
-    router.addRoute(rule, () => {
-      const pageName = get(configs, ['router', 'pages', key]);
-      const pageConfigs = get(configs, ['page', pageName]);
-      exePushPageScript(pageName);
-      get(pageConfigs, ['secs'], []).forEach(sec => {
-        addEvent(sec);
-      });
-      return get(pageConfigs, ['timeout'], 0);
-    });
-  });
-  const loc = doc().location;
-  const url = loc.pathname;
-  let match = router.match(url);
-  if (match) {
-    const timeouts = [];
-    timeouts.push(match.fn());
-    while ((match = match.next())) {
-      timeouts.push(match.fn());
-    }
-    delegate(doc(), 'click', delegates);
-    return Math.max(...timeouts);
-  }
-};
-
-const text = el =>
-  el ? (el.innerText ? el.innerText : el.trim ? el : '').trim() : '';
-
-const getElValue = el => get(query.el(el), ['value']);
-
-const joinCategory = arr =>
-  arr.map(item => text(item).replace('/', '-')).join('/');
-
-const numReg = /\d+/g;
-const getNum = s => {
-  const match = text(s)
-    .replace(',', '')
-    .match(numReg);
-  if (!match) {
-    console.warn('Get number fail', s);
-    return 0;
-  } else {
-    return match[0];
-  }
-};
-
-const initTags = configs => {
   win().i13n = {
     arrayFrom: arr => [...arr],
     dispatch: i13nDispatch,
@@ -190,6 +163,62 @@ const initTags = configs => {
     toJS,
     joinCategory,
   };
+  const state = i13nStore.getState();
+  const {nextScripts, nextSections} = toJS(state.get('nextConfigs'));
+  nextScripts.forEach(script => {
+    if (script[1]) {
+      i13nDispatch({
+        i13nCbParams: script[1],
+      });
+    }
+    exec(script[0], null, null, e => logError(e, 'InitScriptError'));
+  });
+  const nextDelegates = [];
+  const doAddSectionEvent = addSectionEvent(
+    {
+      sec: toJS(state.get('sec')),
+      script: toJS(state.get('script')),
+    },
+    nextDelegates,
+  );
+  keys(nextSections).forEach(sec => doAddSectionEvent(sec));
+  delegate(doc(), 'click', nextDelegates);
+};
+
+const initRouter = configs => {
+  const router = new Router();
+  const nextConfigs = {
+    nextScripts: [],
+    nextSections: {},
+    timeout: 0,
+  };
+  const exePushPageScript = pushPageScript(configs, nextConfigs);
+  get(configs, ['router', 'rules'], []).forEach((rule, key) => {
+    router.addRoute(rule, () => {
+      const pageName = get(configs, ['router', 'pages', key]);
+      const pageConfigs = get(configs, ['page', pageName]);
+      exePushPageScript(pageName);
+      get(pageConfigs, ['secs'], []).forEach(
+        sec => (nextConfigs.nextSections[sec] = 1),
+      );
+      return get(pageConfigs, ['timeout'], 0);
+    });
+  });
+  const loc = doc().location;
+  const url = loc.pathname;
+  let match = router.match(url);
+  if (match) {
+    const timeouts = [];
+    timeouts.push(match.fn());
+    while ((match = match.next())) {
+      timeouts.push(match.fn());
+    }
+    nextConfigs.timeout = Math.max(...timeouts);
+  }
+  return nextConfigs;
+};
+
+const initTags = configs => {
   const tagMap = {
     debug: debugTag,
     gtag: googleTag,
@@ -207,34 +236,26 @@ const initTags = configs => {
   });
 };
 
-const mergeConfig = (conf, merges) => {
-  if (!merges) {
-    return conf;
-  }
-  merges.forEach(({path, value, append}) => set(conf, path, value, append));
-  return conf;
+const processText = (state, done) => (text, arrMerge) => {
+  const userConfig = mergeConfig(nest(ini(text), '_'), arrMerge);
+  initTags(userConfig);
+  const nextConfigs = initRouter(userConfig);
+  setTimeout(() => {
+    state = state.merge(userConfig);
+    i13nStore.addListener(initPageScript, 'init');
+    // The last Line
+    done(state.set('nextConfigs', nextConfigs));
+  }, get(nextConfigs, ['timeout'], 0));
 };
 
 const initHandler = (state, action, done) => {
   const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
-  state = state.set('initTrigerBy', initTrigerBy);
-  req(iniPath, oReq => e => {
-    const processText = (text, arrMerge) => {
-      const userConfig = mergeConfig(nest(ini(text), '_'), arrMerge);
-      initTags(userConfig);
-      const timeout = initRouter(userConfig);
-      setTimeout(() => {
-        state = state.merge(userConfig);
-        i13nStore.addListener(initPageScript, 'init');
-        // The last Line
-        done(state);
-      }, get(timeout, null, 0));
-    };
-    const text = oReq.responseText;
-    return 'function' === typeof iniCb
-      ? iniCb(text, processText)
-      : processText(text);
-  });
+  const process = processText(state.set('initTrigerBy', initTrigerBy), done);
+  req(iniPath, oReq => e =>
+    'function' === typeof iniCb
+      ? iniCb(oReq.responseText, process)
+      : process(oReq.responseText),
+  );
   return state;
 };
 
@@ -287,7 +308,6 @@ const getIni = (iniPath, iniCb) => {
   const run = e => {
     if (!isLoad) {
       isLoad = true;
-      pageScripts = [];
       i13nDispatch('reset', {
         initHandler,
         actionHandler,

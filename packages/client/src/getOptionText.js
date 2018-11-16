@@ -1,17 +1,13 @@
+import query from 'css-query-selector';
+import get from 'get-object-value';
+
 const getOptionText = sel => {
+  const thisSel = query.el(sel);
   if (!sel) {
     return;
   }
-  const val = sel.value;
-  if (!val) {
-    return;
-  }
-  const option = sel.querySelector("option[value='" + val + "']");
-  let text;
-  if (option) {
-    text = option.text;
-  }
-  return text;
+  const val = get(thisSel, ['value'], '');
+  return get(thisSel.querySelector("option[value='" + val + "']"), ['text'], '');
 };
 
 export default getOptionText;

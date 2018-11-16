@@ -134,8 +134,8 @@ const logError = (error, action) => {
 };
 
 const handleError = e => {
-  const error = get(e, ['error'], {});
-  const type = error ? 'WindowError' : 'ExternalScriptError';
+  const error = get(e, ['error'], {message: get(e, ['message'])});
+  const type = e.error ? 'WindowError' : 'ExternalScriptError';
   logError(error, type);
 };
 

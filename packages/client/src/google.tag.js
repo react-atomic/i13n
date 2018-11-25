@@ -76,7 +76,7 @@ class GoogleTag extends BaseTag {
       action,
       category: thisCategory,
       value,
-      lazeInfo,
+      lazeInfo: JSON.stringify(lazeInfo),
     };
 
     const ecommerce = getActionEcommerce(I13N, state.get('currencyCode'));

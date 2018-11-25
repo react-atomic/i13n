@@ -27,7 +27,7 @@ class GoogleTag extends BaseTag {
   }
 
   push(config) {
-    const {gaId, bCookieIndex} = this.getTagData();
+    const {gaId, bCookieIndex, lazeInfoIndex} = this.getTagData();
     const state = this.getState();
     const uid = state.get('uid');
     if (uid) {
@@ -35,6 +35,9 @@ class GoogleTag extends BaseTag {
       if (bCookieIndex) {
         config.bCookieIndex = bCookieIndex;
       }
+    }
+    if (lazeInfoIndex) {
+      config.lazeInfoIndex = lazeInfoIndex;
     }
     config.gaId = gaId;
     win().dataLayer.push(config);
@@ -66,9 +69,6 @@ class GoogleTag extends BaseTag {
     const thisCategory = category ? category : action;
 
     const more = {};
-    if (lazeInfo) {
-      more.lazeInfo = lazeInfo;
-    }
 
     const config = {
       event: 'lucencyEventAction',
@@ -76,6 +76,7 @@ class GoogleTag extends BaseTag {
       action,
       category: thisCategory,
       value,
+      lazeInfo,
     };
 
     const ecommerce = getActionEcommerce(I13N, state.get('currencyCode'));

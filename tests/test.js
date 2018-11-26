@@ -9,7 +9,7 @@ import {localStorage, Storage} from 'get-storage';
 const lStore = new Storage(localStorage);
 
 describe('Test I13N', () => {
-  beforeEach(() => {
+  afterEach(() => {
     i13nDispatch('reset');
   });
 

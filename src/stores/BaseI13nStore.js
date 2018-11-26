@@ -78,7 +78,7 @@ class BaseI13nStore extends Store {
 
   getLazy(key) {
     const lazyAction = toMap(lStore.get(lazyActionKey));
-    return undefKey === typeof key ? lazyAction : lazyAction.__hash[key];
+    return undefKey === typeof key ? lazyAction : toMap(lazyAction.__hash)[key];
   }
 
   handleAction(state, action) {
@@ -180,6 +180,7 @@ class BaseI13nStore extends Store {
       case 'config/set':
         return state.merge(action.params);
       case 'reset':
+        lStore.set(lazyActionKey, null);
         return this.reset().merge(action.params);
       default:
         return !!keys(action).length ? state.merge(action) : state;

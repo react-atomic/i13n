@@ -145,6 +145,7 @@ const handleError = e => {
 const initPageScript = () => {
   win().addEventListener('error', handleError);
   win().i13n = {
+    error: message => logError({message}, 'CustomError'),
     arrayFrom: arr => [...arr],
     dispatch: i13nDispatch,
     query,

@@ -43,10 +43,25 @@ describe('Test mergeWithLazy', () => {
     expect(spyArg).to.equal('foo');
   });
 
-  it('with handle action', () => {
+  it('with handle stop', () => {
     i13nStore.pushLazyAction({params: {wait: 999, stop: true, a: 'b'}}, 'foo');
     i13nDispatch('action', {withLazy: 'foo', wait: 777, stop: false});
     const lastReturnValue = spy.lastCall.returnValue;
     expect(lastReturnValue).to.deep.equal({params: {a: 'b', wait: 777, stop: false}, type: 'action'});
+  });
+});
+
+describe('Test remove lazy', () => {
+  afterEach(() => {
+    i13nDispatch('reset');
+  });
+
+  it('should not exists after merge', ()=>{
+    i13nStore.pushLazyAction({params: {wait: 999, stop: true, a: 'b', lazyKey: 'foo'}}, 'foo');
+    const laze = i13nStore.getLazy('foo');
+    expect(Object.keys(laze)).to.have.lengthOf(1);
+    i13nDispatch('action', {withLazy: 'foo'});
+    const afterWithLazy = i13nStore.getLazy('foo');
+    expect(afterWithLazy).to.be.undefined;
   });
 });

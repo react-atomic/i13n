@@ -53,7 +53,7 @@ class BaseI13nStore extends Store {
 
   mergeWithLazy(action, key) {
     const lazyAction = this.getLazy();
-    const {stop, wait, lazeInfo, ...lazeParams} = get(
+    const {stop, wait, lazeInfo, lazyKey, ...lazeParams} = get(
       lazyAction,
       [hashKey, key, PARAMS],
       {},

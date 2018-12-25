@@ -1,8 +1,8 @@
 import {toMap} from 'get-object-value';
 import lazyAttr from './lazyAttr';
+import removeEmpty from './removeEmpty';
 
 const sessionStore = lazyAttr('__prods');
-const keys = Object.keys;
 const isArray = Array.isArray;
 
 const storeProducts = (products, arrP) => {
@@ -13,16 +13,9 @@ const storeProducts = (products, arrP) => {
     if (!p || !p.id) {
       return;
     }
-    const save = {};
-    keys(p).forEach(fKey => {
-      const field = p[fKey];
-      if (field) {
-        save[fKey] = field;
-      }
-    });
     arrP[p.id] = {
       ...arrP[p.id],
-      ...save,
+      ...removeEmpty(p),
     };
     products[key] = {...p, ...arrP[p.id]};
   });

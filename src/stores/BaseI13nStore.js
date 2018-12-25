@@ -72,8 +72,10 @@ class BaseI13nStore extends Store {
 
   removeLazy(key) {
     const lazyAction = this.getLazy();
-    delete lazyAction.__hash[key];
-    lStore.set(lazyActionKey, lazyAction);
+    if (get(lazyAction, [hashKey, key])) {
+      delete lazyAction.__hash[key];
+      lStore.set(lazyActionKey, lazyAction);
+    }
   }
 
   getLazy(key) {
@@ -180,7 +182,11 @@ class BaseI13nStore extends Store {
       case 'config/set':
         return state.merge(action.params);
       case 'reset':
-        lStore.set(lazyActionKey, null);
+        /**
+         * !!Important!!
+         * Keep in mind, always don't reset localstorage
+         * It will effect lazy action
+         */
         return this.reset().merge(action.params);
       default:
         return !!keys(action).length ? state.merge(action) : state;

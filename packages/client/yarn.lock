@@ -3005,9 +3005,9 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.2.6.tgz#acaefbe8a7a603e3f723d9ce529978bac6a253f6"
-  integrity sha512-XZq+OYBGrQJ7IAvBWwUTIpDFywwA7u1E2nzfNho5ARYVclsv8gnLnQQpJ+8K6Mcf8Z5lbK6rp9PDyKBWctofsA==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.2.7.tgz#975ca0b71b37ca81bbad7bd17f288d68a4ec66eb"
+  integrity sha512-gl8xUFOqEJvQ6ZqGYpuy0jbDWDfoC7FF3UcQ6M88vKgHoJOoS9XiX1NJDJgAt7qFV2WjZt5mb25qW85Oan0PEw==
   dependencies:
     get-object-value "*"
     get-storage "*"

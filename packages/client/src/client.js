@@ -11,6 +11,7 @@ import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
 
 // local import
+import removeEmpty from './removeEmpty';
 import delegate from './delegate';
 import getOptionText from './getOptionText';
 import getRadioValue from './getRadioValue';
@@ -27,6 +28,7 @@ import lazyProducts, {forEachGoStore} from './lazyProducts';
 const win = () => window;
 const doc = () => document;
 const keys = Object.keys;
+const isArray = Array.isArray;
 let debugFlag = false;
 
 /**
@@ -145,9 +147,18 @@ const handleError = e => {
 const initPageScript = () => {
   win().addEventListener('error', handleError);
   win().i13n = {
+    merge: (...args) => {
+      let results = {};
+      args.forEach(a => (results = {...results, ...a}));
+      return results;
+    },
     error: message => logError({message}, 'CustomError'),
     arrayFrom: arr => [...arr],
+    objectToArray: obj => keys(obj).map(key=>obj[key]),
     dispatch: i13nDispatch,
+    keys,
+    isArray,
+    removeEmpty,
     query,
     queryFrom,
     getUrl,

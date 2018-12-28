@@ -82,7 +82,7 @@ const addSectionEvent = (configs, nextDelegates) => section => {
       }
       const scriptCode = get(configs, ['script', scriptName]);
       if (scriptCode) {
-        exec(scriptCode, null, null, e => logError(e, 'ScriptError'));
+        exec(scriptCode, null, null, e => logError(e, 'I13nScriptErr'));
       } else {
         console.warn('Script: [' + scriptName + '] not found.');
       }
@@ -137,7 +137,7 @@ const logError = (error, action) => {
 
 const handleError = e => {
   const error = get(e, ['error'], {message: get(e, ['message'])});
-  const type = e.error ? 'WindowError' : 'ExternalScriptError';
+  const type = e.error ? 'WindowScriptErr' : 'ExternalScriptErr';
   logError(error, type);
 };
 
@@ -183,7 +183,7 @@ const initPageScript = () => {
         i13nCbParams: script[1],
       });
     }
-    exec(script[0], null, null, e => logError(e, 'InitScriptError'));
+    exec(script[0], null, null, e => logError(e, 'InitI13nScriptErr'));
   });
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(

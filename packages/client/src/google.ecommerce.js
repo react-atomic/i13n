@@ -1,21 +1,23 @@
 /**
  * Actions ->
  * click: ClickProduct
- * [x] detail: [view]
  * add: AddToCart
  * remove: RemoveFromCart
- * checkout: Checkout
- * checkout_option: CheckoutOption
- * purchase: Purchase | [view]
- * refund: Refund | [view]
  * promo_click: ClickPromotion
+ * [x] detail: [view]
+ * [x] checkout: [handleStep: stepNo]
+ * [x] checkout_option: [handleStep: stepOption]
+ * [x] purchase: [handlePurchase: purchaseId]
+ * [x] refund: [handlePurchase: refundId]
  *
  * View ->
  * Product: impressions
  * Promotion: promotions
  * detail: detailProducts
- * purchase: purchaseId
- * refund: refundId
+ * checkout: [handleStep: stepNo]
+ * checkout_option: [handleStep: stepOption]
+ * purchase: [handlePurchase: purchaseId]
+ * refund: [handlePurchase: refundId]
  *
  * fromP (list) ->
  * detail

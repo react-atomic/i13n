@@ -9,9 +9,9 @@ import query, {queryFrom} from 'css-query-selector';
 import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
+import {removeEmpty} from 'array.merge';
 
 // local import
-import removeEmpty from './removeEmpty';
 import delegate from './delegate';
 import getOptionText from './getOptionText';
 import getRadioValue from './getRadioValue';

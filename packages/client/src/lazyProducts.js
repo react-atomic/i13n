@@ -1,6 +1,7 @@
 import {toMap} from 'get-object-value';
+import {removeEmpty} from 'array.merge';
+
 import lazyAttr from './lazyAttr';
-import removeEmpty from './removeEmpty';
 
 const sessionStore = lazyAttr('__prods');
 const isArray = Array.isArray;

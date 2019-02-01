@@ -11,6 +11,7 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
+    "array.merge": "*",
     "css-query-selector": "*",
     "exec-script": "*",
     "get-cookie": "*",

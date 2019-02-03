@@ -10,6 +10,7 @@ import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
+import {win, doc} from 'win-doc';
 
 // local import
 import delegate from './delegate';
@@ -25,8 +26,6 @@ import usergramTag from './usergram.tag';
 import lazyAttr from './lazyAttr';
 import lazyProducts, {forEachGoStore} from './lazyProducts';
 
-const win = () => window;
-const doc = () => document;
 const keys = Object.keys;
 const isArray = Array.isArray;
 let debugFlag = false;

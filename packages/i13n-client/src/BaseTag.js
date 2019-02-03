@@ -30,6 +30,9 @@ class BaseTag {
       .get('tag')
       .get(key)
       .toJS();
+    tagData.tagId = state.get('tagId');
+    tagData.mpHost = state.get('mpHost');
+    tagData.defaultMpHost = state.get('defaultMpHost');
     return tagData;
   }
 

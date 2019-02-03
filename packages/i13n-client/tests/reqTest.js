@@ -26,14 +26,14 @@ describe('Test Request', () => {
       'foo=bar&a=b',
     ]);
   });
-  it('test xhr', () => {
+  it('test xhr with get', () => {
     const uReq = sinon.spy(() => {});
     beacon('http://localhost', {foo: 'bar', a: 'b'}, uReq);
     expect(uReq.getCall(0).args).to.deep.equal([
-      'http://localhost',
+      'http://localhost?foo=bar&a=b',
       null,
       'GET',
-      'foo=bar&a=b',
+      undefined
     ]);
   });
 

@@ -20,11 +20,12 @@ const req = (url, callback, type, query) => {
 };
 
 const beaconApi = (url, query) => {
-  const oSendBeacon = win().navigator.sendBeacon;
+  const navigator = win().navigator;
+  const oSendBeacon = navigator.sendBeacon;
   if (!oSendBeacon) {
     return false;
   }
-  oSendBeacon(url, query);
+  (oSendBeacon.bind(navigator))(url, query);
   return true;
 };
 
@@ -45,7 +46,13 @@ const beacon = (url, data, ajax) => {
   }
   const query = dataToQuery(data);
   const type = 2036 >= query.length ? GET : POST;
-  beaconApi(url, query) || ajax(url, null, type, query);
+  let thisUrl = url;
+  let thisQuery = query;
+  if (type === GET) {
+    thisUrl += '?' + query;
+    thisQuery = undefined;
+  }
+  beaconApi(url, query) || ajax(thisUrl, null, type, thisQuery);
 };
 
 export default req;

@@ -1,29 +1,34 @@
-import exec from 'exec-script';
 import get from 'get-object-value';
 
 import BaseTag from './BaseTag';
 import {getViewEcommerce, getActionEcommerce} from './google.ecommerce';
+import OfficialGTag from './official.gtag';
+import MpGTag from './mp.gtag';
 
-const getScript = gtagId => {
-  const script = ` 
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtagId}');</script>
-`;
-  return script;
-};
-
-const win = () => window;
 const keys = Object.keys;
+const downstreamMap = {
+  official: OfficialGTag,
+  mp: MpGTag
+};
 
 class GoogleTag extends BaseTag {
   isInit = false;
 
+  downstreams = [];
+
   init() {
     const tagData = this.getTagData();
-    exec(getScript(tagData.id));
+    const {id, downstreams} = tagData;
+    get(downstreams, null, []).forEach( downstreamKey => {
+      const obj = downstreamMap[downstreamKey];
+      if (!obj) {
+        console.warn('Downstream is not found. ['+downstreamKey+']');
+        return;
+      }
+      const oDownstream = new obj(tagData);
+      this.downstreams.push(oDownstream);
+      oDownstream.init(); 
+    });
   }
 
   push(config) {
@@ -40,7 +45,7 @@ class GoogleTag extends BaseTag {
       config.lazeInfoIndex = lazeInfoIndex;
     }
     config.gaId = gaId;
-    win().dataLayer.push(config);
+    this.downstreams.forEach(downstream => downstream.push(config));
   }
 
   mergeLabel(label, more) {

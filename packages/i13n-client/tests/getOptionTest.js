@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import sinon from 'sinon';
 import {create} from 'create-el';
 
 import getOptionText from '../cjs/src/getOptionText';

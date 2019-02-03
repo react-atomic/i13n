@@ -1,15 +1,18 @@
 import {expect} from 'chai';
-import sinon from 'sinon';
 import Usergram from '../cjs/src/usergram.tag';
 import i13nStore from 'i13n-store';
 import {i13nDispatch} from 'i13n';
+import jsdom from 'jsdom-global';
 
 describe('Test Usergram', () => {
   Usergram.register(i13nStore, 'usergram');
+  let uGlobal;
   beforeEach(()=> {
     window.usergram = [];
     i13nDispatch('config/reset');
   });
+  before(()=>uGlobal = jsdom());
+  after(() => uGlobal());
 
   it('test with cv', () => {
       i13nDispatch({

@@ -20,7 +20,8 @@
     "i13n-store": "*",
     "object-nested": "*",
     "parse-ini-string": "*",
-    "seturl": "*"
+    "seturl": "*",
+    "win-doc": "*"
   },
   "devDependencies": {
     "reshow-app": "*"

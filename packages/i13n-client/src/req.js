@@ -9,6 +9,10 @@ const req = (url, callback, type, query) => {
   if (!type) {
     type = GET;
   }
+  if (type === GET && 'function' !== typeof callback) {
+    new Image().src = url;
+    return true;
+  }
   const request =
     'undefined' !== typeof XDomainRequest ? XDomainRequest : XMLHttpRequest;
   const oReq = new request();
@@ -17,15 +21,17 @@ const req = (url, callback, type, query) => {
   }
   oReq.open(type, url);
   oReq.send(query);
+  return true;
 };
 
 const beaconApi = (url, query) => {
+  return false;
   const navigator = win().navigator;
   const oSendBeacon = navigator.sendBeacon;
   if (!oSendBeacon) {
     return false;
   }
-  (oSendBeacon.bind(navigator))(url, query);
+  oSendBeacon.bind(navigator)(url, query);
   return true;
 };
 

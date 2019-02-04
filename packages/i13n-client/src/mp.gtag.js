@@ -3,6 +3,8 @@ import get from 'get-object-value';
 import getCookie from 'get-cookie';
 import {localStorage, Storage} from 'get-storage';
 import getRandomId from 'get-random-id';
+import {removeEmpty} from 'array.merge';
+import {toNum} from 'topercent';
 
 import BaseGTag from './BaseGTag';
 import {beacon} from './req';
@@ -27,6 +29,21 @@ class MpGTag extends BaseGTag {
     return c;
   }
 
+  getActionData(config) {
+    const {action, category, label, value} = get(config, null, {});
+    const data = {
+      ec: category, 
+      ea: action,
+      el: label,
+      ev: toNum(value) 
+    };
+    return removeEmpty(data, true);
+  }
+
+  getEcData(config) {
+
+  }
+
   push(config) {
     const host = this.getHost();
     const oDoc = get(doc(), null, {});
@@ -37,6 +54,8 @@ class MpGTag extends BaseGTag {
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
     const d = {
+      ...this.getActionData(config),
+      ...this.getEcData(config),
       _s: seq,
       dl: oDoc.URL,
       ul: (nav.language || nav.browserLanguage || '').toLowerCase(),

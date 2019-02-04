@@ -21,6 +21,7 @@
     "object-nested": "*",
     "parse-ini-string": "*",
     "seturl": "*",
+    "topercent": "*",
     "win-doc": "*"
   },
   "devDependencies": {

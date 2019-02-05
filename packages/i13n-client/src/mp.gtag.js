@@ -13,7 +13,7 @@ let seq = 1;
 const X = 'x';
 const MP_CLIENT_ID = 'mpClientId';
 const lStore = new Storage(localStorage);
-const isArray = Array.isArray;
+const isArray = a => a && Array.isArray(a) && a.length;
 
 class MpGTag extends BaseGTag {
   getHost() {
@@ -42,17 +42,52 @@ class MpGTag extends BaseGTag {
   }
 
   getProductsData(products) {
+    if (!isArray(products)) {
+      return;
+    }
+    let pLen = 1;
+    const data = {};
+    products.forEach(prod => {
+      const key = 'pr'+  pLen;
+      pLen++;
+      this.setOneProduct(key, data, prod);
+    });
+    return data;
+  }
 
+  setOneProduct(key, data, config) {
+    const {id, name, category, brand, variant, position, price} = config;
+    data[key+'id'] = id; 
+    data[key+'nm'] = name; 
+    data[key+'ca'] = category; 
+    data[key+'br'] = brand;
+    data[key+'va'] = variant;
+    data[key+'ps'] = position;
+    data[key+'pr'] = price;
+  }
+
+  getEcClickData(click) {
+    if (!click) {
+      return;
+    }
+    const {actionField, products} = click;
+    const {action, list} = get(actionField, null, {});
+    const data = {
+      ...this.getProductsData(products),
+      pa: action,
+      pal: list,
+    };
+    return data;
   }
 
   getImpressionsData(impressions) {
-    if (!impressions || !isArray(impressions) || !impressions.length) {
+    if (!isArray(impressions)) {
       return;
     }
     let listLen = 1;
     const aList = {};
     const data = {};
-    impressions.forEach( ({list, name, position, price, variant, category, brand}) => {
+    impressions.forEach( ({list, ...prod}) => {
       if (!aList[list]) {
         aList[list] = {
           key: 'il'+listLen,
@@ -63,11 +98,7 @@ class MpGTag extends BaseGTag {
       }
       const key = aList[list].key+ 'pi'+ aList[list].n;
       aList[list].n++;
-      data[key+'nm'] = name; 
-      data[key+'ca'] = category; 
-      data[key+'br'] = brand;
-      data[key+'va'] = variant;
-      data[key+'ps'] = position;
+      this.setOneProduct(key, data, prod);
     });
     return data;
   }
@@ -77,9 +108,11 @@ class MpGTag extends BaseGTag {
     if (!ecommerce) {
       return;
     }
-    const {impressions} = ecommerce;
+    const {impressions, click, currencyCode} = ecommerce;
     const data = {
-      ...this.getImpressionsData(impressions)
+      ...this.getImpressionsData(impressions),
+      ...this.getEcClickData(click),
+      cu: currencyCode
     };
     return data;
   }

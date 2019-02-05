@@ -4,7 +4,7 @@ import getCookie from 'get-cookie';
 import {localStorage, Storage} from 'get-storage';
 import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
-import {toNum} from 'topercent';
+import {toNum} from 'to-percent-js';
 
 import BaseGTag from './BaseGTag';
 import {beacon} from './req';

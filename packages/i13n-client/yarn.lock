@@ -6198,6 +6198,13 @@ to-object-path@^0.3.0:
   dependencies:
     kind-of "^3.0.2"
 
+to-percent-js@*:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/to-percent-js/-/to-percent-js-0.1.1.tgz#30ca4d3822b4de152ade77d1774120de28efac68"
+  integrity sha512-k/vnJHjwMdZsEwjfXDKtardFoOgYeP6o+SNTvjXTbQr3aFLk6dhw2J/KKMseKrSjKYmQKrga2vm9p9Jq5lspiA==
+  dependencies:
+    reshow-runtime "*"
+
 to-regex-range@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-2.1.1.tgz#7c80c17b9dfebe599e27367e0d4dd5590141db38"
@@ -6220,13 +6227,6 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
-
-topercent@*:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/topercent/-/topercent-0.0.6.tgz#a228bef5cdb0ec816395c8fab5e1f02ac5be515d"
-  integrity sha512-OUt7srG/HjFD0GvAukTJfUHybJfV6I3oDDSSGLFOhMjAtrrSTXlqXtBrskMK2aFYC6zMK6kYDOppysJ8+MXlXQ==
-  dependencies:
-    reshow-runtime "*"
 
 tough-cookie@>=2.3.3:
   version "3.0.0"

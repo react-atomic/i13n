@@ -11,6 +11,7 @@ import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
 import {win, doc} from 'win-doc';
+import {getNum} from 'to-percent-js';
 
 // local import
 import delegate from './delegate';
@@ -37,18 +38,6 @@ let debugFlag = false;
 const joinCategory = arr =>
   arr.map(item => text(item).replace('/', '-')).join('/');
 
-const numReg = /\d+/g;
-const getNum = s => {
-  const match = text(s)
-    .replace(',', '')
-    .match(numReg);
-  if (!match) {
-    console.warn('Get number fail', s);
-    return 0;
-  } else {
-    return match[0];
-  }
-};
 
 /**
  * functions
@@ -154,6 +143,7 @@ const initPageScript = () => {
     error: message => logError({message}, 'CustomError'),
     arrayFrom: arr => [...arr],
     objectToArray: obj => keys(obj).map(key=>obj[key]),
+    getNum: s => getNum(text(s)),
     dispatch: i13nDispatch,
     keys,
     isArray,
@@ -161,7 +151,6 @@ const initPageScript = () => {
     query,
     queryFrom,
     getUrl,
-    getNum,
     get,
     getOptionText,
     getElValue,

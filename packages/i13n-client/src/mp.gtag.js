@@ -13,6 +13,7 @@ let seq = 1;
 const X = 'x';
 const MP_CLIENT_ID = 'mpClientId';
 const lStore = new Storage(localStorage);
+const isArray = Array.isArray;
 
 class MpGTag extends BaseGTag {
   getHost() {
@@ -37,11 +38,50 @@ class MpGTag extends BaseGTag {
       el: label,
       ev: toNum(value) 
     };
-    return removeEmpty(data, true);
+    return data;
+  }
+
+  getProductsData(products) {
+
+  }
+
+  getImpressionsData(impressions) {
+    if (!impressions || !isArray(impressions) || !impressions.length) {
+      return;
+    }
+    let listLen = 1;
+    const aList = {};
+    const data = {};
+    impressions.forEach( ({list, name, position, price, variant, category, brand}) => {
+      if (!aList[list]) {
+        aList[list] = {
+          key: 'il'+listLen,
+          n: 1,
+        };
+        listLen++;
+        data[aList[list].key+'nm'] = list;
+      }
+      const key = aList[list].key+ 'pi'+ aList[list].n;
+      aList[list].n++;
+      data[key+'nm'] = name; 
+      data[key+'ca'] = category; 
+      data[key+'br'] = brand;
+      data[key+'va'] = variant;
+      data[key+'ps'] = position;
+    });
+    return data;
   }
 
   getEcData(config) {
-
+    const {ecommerce} = get(config, null, {});
+    if (!ecommerce) {
+      return;
+    }
+    const {impressions} = ecommerce;
+    const data = {
+      ...this.getImpressionsData(impressions)
+    };
+    return data;
   }
 
   push(config) {
@@ -68,11 +108,13 @@ class MpGTag extends BaseGTag {
       cid: this.getClientId(),
       z: getRandomId(),
     };
-    const {event: ev} = get(config, null, {});
+    const {event: ev, bCookieIndex, bCookie, lazeInfoIndex, lazeInfo} = get(config, null, {});
     d.t = -1 !== ev.toLowerCase().indexOf('view') ? 'pageview' : 'event';
+    d['cd'+bCookieIndex] = bCookie;
+    d['cd'+lazeInfoIndex] = lazeInfo;
 
     console.log([this.props, config, host, d]);
-    beacon(host, d);
+    beacon(host, removeEmpty(d, true));
     seq++;
   }
 }

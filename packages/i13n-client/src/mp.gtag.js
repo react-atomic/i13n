@@ -66,12 +66,12 @@ class MpGTag extends BaseGTag {
     data[key+'pr'] = price;
   }
 
-  getEcClickData(click) {
-    if (!click) {
+  getEcActionData(config, action) {
+    if (!config) {
       return;
     }
-    const {actionField, products} = click;
-    const {action, list} = get(actionField, null, {});
+    const {actionField, products} = config;
+    const {list} = get(actionField, null, {});
     const data = {
       ...this.getProductsData(products),
       pa: action,
@@ -108,10 +108,11 @@ class MpGTag extends BaseGTag {
     if (!ecommerce) {
       return;
     }
-    const {impressions, click, currencyCode} = ecommerce;
+    const {impressions, click, add, currencyCode} = ecommerce;
     const data = {
       ...this.getImpressionsData(impressions),
-      ...this.getEcClickData(click),
+      ...this.getEcActionData(click, 'click'),
+      ...this.getEcActionData(add, 'add'),
       cu: currencyCode
     };
     return data;

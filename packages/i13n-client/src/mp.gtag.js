@@ -127,6 +127,7 @@ class MpGTag extends BaseGTag {
     const docEl = get(oDoc, ['documentElement'], {});
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
+    const {tagId} = this.props;
     const d = {
       ...this.getActionData(config),
       ...this.getEcData(config),
@@ -139,6 +140,7 @@ class MpGTag extends BaseGTag {
       sr: screen.width + X + screen.height,
       vp: vw + X + vh,
       je: ('function' === typeof nav.javaEnabled && nav.javaEnabled()) || false,
+      tid: tagId,
       cid: this.getClientId(),
       z: getRandomId(),
     };

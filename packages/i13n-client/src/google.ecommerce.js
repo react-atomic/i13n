@@ -1,5 +1,8 @@
 /**
  * Actions ->
+ *
+ * https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#action-types
+ *
  * click: ClickProduct
  * add: AddToCart
  * remove: RemoveFromCart

@@ -108,11 +108,12 @@ class MpGTag extends BaseGTag {
     if (!ecommerce) {
       return;
     }
-    const {impressions, click, add, currencyCode} = ecommerce;
+    const {impressions, click, add, remove, currencyCode} = ecommerce;
     const data = {
       ...this.getImpressionsData(impressions),
       ...this.getEcActionData(click, 'click'),
       ...this.getEcActionData(add, 'add'),
+      ...this.getEcActionData(remove, 'remove'),
       cu: currencyCode
     };
     return data;

@@ -33,37 +33,113 @@ class MpGTag extends BaseGTag {
   getActionData(config) {
     const {action, category, label, value} = get(config, null, {});
     const data = {
-      ec: category, 
+      ec: category,
       ea: action,
       el: label,
-      ev: toNum(value) 
+      ev: toNum(value),
     };
     return data;
   }
 
-  getProductsData(products) {
-    if (!isArray(products)) {
+  getEcPromotionData(promoView, promoClick) {
+    if (promoView || promoClick) {
+      let action;
+      const {promotions} = promoView || promoClick;
+      if (promoView) {
+        action = 'view';
+      } else {
+        action = 'click';
+      }
+      const data = {
+        promoa: action,
+        ...this.getPromotionsData(promotions),
+      };
+      return data;
+    }
+  }
+
+  getItemsData(items, itemKey, itemCb) {
+    if (!isArray(items)) {
       return;
     }
-    let pLen = 1;
+    let sn = 1;
     const data = {};
-    products.forEach(prod => {
-      const key = 'pr'+  pLen;
-      pLen++;
-      this.setOneProduct(key, data, prod);
+    items.forEach(item => {
+      const key = itemKey + sn;
+      sn++;
+      itemCb(key, data, item);
     });
     return data;
   }
 
-  setOneProduct(key, data, config) {
-    const {id, name, category, brand, variant, position, price} = config;
-    data[key+'id'] = id; 
-    data[key+'nm'] = name; 
-    data[key+'ca'] = category; 
-    data[key+'br'] = brand;
-    data[key+'va'] = variant;
-    data[key+'ps'] = position;
-    data[key+'pr'] = price;
+  getPromotionsData(promotions) {
+    return this.getItemsData(promotions, 'promo', this.setOnePromotion);
+  }
+
+  setOnePromotion = (key, data, item) => {
+    const {id, name, creative, position} = item;
+    data[key + 'id'] = id;
+    data[key + 'nm'] = name;
+    data[key + 'cr'] = creative;
+    data[key + 'ps'] = position;
+  };
+
+  getProductsData(products) {
+    return this.getItemsData(promotions, 'pr', this.setOnePromotion);
+  }
+
+  setOneProduct(key, data, item) {
+    const {id, name, category, brand, variant, position, price} = item;
+    data[key + 'id'] = id;
+    data[key + 'nm'] = name;
+    data[key + 'ca'] = category;
+    data[key + 'br'] = brand;
+    data[key + 'va'] = variant;
+    data[key + 'ps'] = position;
+    data[key + 'pr'] = price;
+  }
+
+  getEcPurchaseData(purchase, refund) {
+    const {actionField, products} = purchase || refund;
+    const {id, affiliation, revenue, tax, shipping, coupon} = actionField;
+    let data;
+    if (purchase) {
+      data = {
+        pa: 'purchase',
+        ti: id,
+        ta: affiliation,
+        tr: revenue,
+        tt: tax,
+        ts: shipping,
+        tcc: coupon,
+      };
+    } else {
+      data = {
+        pa: 'refund',
+        ti: id,
+      };
+    }
+    if (products) {
+      data = {
+        ...data,
+        ...this.getProductsData(products),
+      };
+    }
+    return data;
+  }
+
+  getEcStepData(checkout, checkout_option) {
+    if (checkout || checkout_option) {
+      const {actionField, products} = checkout || checkout_option;
+      const {step, option} = get(actionField, null, {});
+      const data = {
+        cos: step,
+        col: option,
+        pa: checkout_option ? 'checkout_option' : 'checkout',
+        ...this.getProductsData(products),
+      };
+      return data;
+    }
   }
 
   getEcActionData(config, action) {
@@ -77,26 +153,27 @@ class MpGTag extends BaseGTag {
       pa: action,
       pal: list,
     };
-    return data;
+    // use removeEmtpy to clean non-use pa
+    return removeEmpty(data, true);
   }
 
-  getImpressionsData(impressions) {
+  getEcImpressionsData(impressions) {
     if (!isArray(impressions)) {
       return;
     }
     let listLen = 1;
     const aList = {};
     const data = {};
-    impressions.forEach( ({list, ...prod}) => {
+    impressions.forEach(({list, ...prod}) => {
       if (!aList[list]) {
         aList[list] = {
-          key: 'il'+listLen,
+          key: 'il' + listLen,
           n: 1,
         };
         listLen++;
-        data[aList[list].key+'nm'] = list;
+        data[aList[list].key + 'nm'] = list;
       }
-      const key = aList[list].key+ 'pi'+ aList[list].n;
+      const key = aList[list].key + 'pi' + aList[list].n;
       aList[list].n++;
       this.setOneProduct(key, data, prod);
     });
@@ -108,13 +185,30 @@ class MpGTag extends BaseGTag {
     if (!ecommerce) {
       return;
     }
-    const {impressions, click, add, remove, currencyCode} = ecommerce;
+    const {
+      impressions,
+      detail,
+      click,
+      add,
+      remove,
+      checkout,
+      checkout_option,
+      purchase,
+      refund,
+      promoView,
+      promoClick,
+      currencyCode,
+    } = ecommerce;
     const data = {
-      ...this.getImpressionsData(impressions),
+      ...this.getEcImpressionsData(impressions),
+      ...this.getEcActionData(detail, 'detail'),
       ...this.getEcActionData(click, 'click'),
       ...this.getEcActionData(add, 'add'),
       ...this.getEcActionData(remove, 'remove'),
-      cu: currencyCode
+      ...this.getEcStepData(checkout, checkout_option),
+      ...this.getEcPurchaseData(purchase, refund),
+      ...this.getEcPromotionData(promoView, promoClick),
+      cu: currencyCode,
     };
     return data;
   }
@@ -143,12 +237,21 @@ class MpGTag extends BaseGTag {
       je: ('function' === typeof nav.javaEnabled && nav.javaEnabled()) || false,
       tid: tagId,
       cid: this.getClientId(),
+      v: 1, //version
       z: getRandomId(),
     };
-    const {event: ev, bCookieIndex, bCookie, lazeInfoIndex, lazeInfo} = get(config, null, {});
+    const {event: ev, bCookieIndex, bCookie, lazeInfoIndex, lazeInfo} = get(
+      config,
+      null,
+      {},
+    );
     d.t = -1 !== ev.toLowerCase().indexOf('view') ? 'pageview' : 'event';
-    d['cd'+bCookieIndex] = bCookie;
-    d['cd'+lazeInfoIndex] = lazeInfo;
+    if (bCookieIndex) {
+      d['cd' + bCookieIndex] = bCookie;
+    }
+    if (lazeInfoIndex) {
+      d['cd' + lazeInfoIndex] = lazeInfo;
+    }
 
     console.log([this.props, config, host, d]);
     beacon(host, removeEmpty(d, true));

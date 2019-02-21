@@ -149,18 +149,17 @@ class MpGTag extends BaseGTag {
   }
 
   getEcActionData(config, action) {
-    if (!config) {
-      return;
+    if (config) {
+      const {actionField, products} = config;
+      const {list} = get(actionField, null, {});
+      const data = {
+        ...this.getProductsData(products),
+        pa: action,
+        pal: list,
+      };
+      // use removeEmtpy to clean non-use pa
+      return removeEmpty(data, true);
     }
-    const {actionField, products} = config;
-    const {list} = get(actionField, null, {});
-    const data = {
-      ...this.getProductsData(products),
-      pa: action,
-      pal: list,
-    };
-    // use removeEmtpy to clean non-use pa
-    return removeEmpty(data, true);
   }
 
   getEcImpressionsData(impressions) {

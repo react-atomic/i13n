@@ -100,32 +100,38 @@ class MpGTag extends BaseGTag {
   }
 
   getEcPurchaseData(purchase, refund) {
-    const {actionField, products} = purchase || refund;
-    const {id, affiliation, revenue, tax, shipping, coupon} = actionField;
-    let data;
-    if (purchase) {
-      data = {
-        pa: 'purchase',
-        ti: id,
-        ta: affiliation,
-        tr: revenue,
-        tt: tax,
-        ts: shipping,
-        tcc: coupon,
-      };
-    } else {
-      data = {
-        pa: 'refund',
-        ti: id,
-      };
+    if (purchase || refund) {
+      const {actionField, products} = purchase || refund;
+      const {id, affiliation, revenue, tax, shipping, coupon} = get(
+        actionField,
+        null,
+        {},
+      );
+      let data;
+      if (purchase) {
+        data = {
+          pa: 'purchase',
+          ti: id,
+          ta: affiliation,
+          tr: revenue,
+          tt: tax,
+          ts: shipping,
+          tcc: coupon,
+        };
+      } else {
+        data = {
+          pa: 'refund',
+          ti: id,
+        };
+      }
+      if (products) {
+        data = {
+          ...data,
+          ...this.getProductsData(products),
+        };
+      }
+      return data;
     }
-    if (products) {
-      data = {
-        ...data,
-        ...this.getProductsData(products),
-      };
-    }
-    return data;
   }
 
   getEcStepData(checkout, checkout_option) {

@@ -59,17 +59,16 @@ class MpGTag extends BaseGTag {
   }
 
   getItemsData(items, itemKey, itemCb) {
-    if (!isArray(items)) {
-      return;
+    if (isArray(items)) {
+      let sn = 1;
+      const data = {};
+      items.forEach(item => {
+        const key = itemKey + sn;
+        sn++;
+        itemCb(key, data, item);
+      });
+      return data;
     }
-    let sn = 1;
-    const data = {};
-    items.forEach(item => {
-      const key = itemKey + sn;
-      sn++;
-      itemCb(key, data, item);
-    });
-    return data;
   }
 
   getPromotionsData(promotions) {
@@ -163,59 +162,57 @@ class MpGTag extends BaseGTag {
   }
 
   getEcImpressionsData(impressions) {
-    if (!isArray(impressions)) {
-      return;
+    if (isArray(impressions)) {
+      let listLen = 1;
+      const aList = {};
+      const data = {};
+      impressions.forEach(({list, ...prod}) => {
+        if (!aList[list]) {
+          aList[list] = {
+            key: 'il' + listLen,
+            n: 1,
+          };
+          listLen++;
+          data[aList[list].key + 'nm'] = list;
+        }
+        const key = aList[list].key + 'pi' + aList[list].n;
+        aList[list].n++;
+        this.setOneProduct(key, data, prod);
+      });
+      return data;
     }
-    let listLen = 1;
-    const aList = {};
-    const data = {};
-    impressions.forEach(({list, ...prod}) => {
-      if (!aList[list]) {
-        aList[list] = {
-          key: 'il' + listLen,
-          n: 1,
-        };
-        listLen++;
-        data[aList[list].key + 'nm'] = list;
-      }
-      const key = aList[list].key + 'pi' + aList[list].n;
-      aList[list].n++;
-      this.setOneProduct(key, data, prod);
-    });
-    return data;
   }
 
   getEcData(config) {
     const {ecommerce} = get(config, null, {});
-    if (!ecommerce) {
-      return;
+    if (ecommerce) {
+      const {
+        impressions,
+        detail,
+        click,
+        add,
+        remove,
+        checkout,
+        checkout_option,
+        purchase,
+        refund,
+        promoView,
+        promoClick,
+        currencyCode,
+      } = ecommerce;
+      const data = {
+        ...this.getEcImpressionsData(impressions),
+        ...this.getEcActionData(detail, 'detail'),
+        ...this.getEcActionData(click, 'click'),
+        ...this.getEcActionData(add, 'add'),
+        ...this.getEcActionData(remove, 'remove'),
+        ...this.getEcStepData(checkout, checkout_option),
+        ...this.getEcPurchaseData(purchase, refund),
+        ...this.getEcPromotionData(promoView, promoClick),
+        cu: currencyCode,
+      };
+      return data;
     }
-    const {
-      impressions,
-      detail,
-      click,
-      add,
-      remove,
-      checkout,
-      checkout_option,
-      purchase,
-      refund,
-      promoView,
-      promoClick,
-      currencyCode,
-    } = ecommerce;
-    const data = {
-      ...this.getEcImpressionsData(impressions),
-      ...this.getEcActionData(detail, 'detail'),
-      ...this.getEcActionData(click, 'click'),
-      ...this.getEcActionData(add, 'add'),
-      ...this.getEcActionData(remove, 'remove'),
-      ...this.getEcStepData(checkout, checkout_option),
-      ...this.getEcPurchaseData(purchase, refund),
-      ...this.getEcPromotionData(promoView, promoClick),
-      cu: currencyCode,
-    };
-    return data;
   }
 
   push(config) {
@@ -258,7 +255,7 @@ class MpGTag extends BaseGTag {
       d['cd' + lazeInfoIndex] = lazeInfo;
     }
 
-    console.log([this.props, config, host, d]);
+    // console.log([this.props, config, host, d]);
     beacon(host, removeEmpty(d, true));
     seq++;
   }

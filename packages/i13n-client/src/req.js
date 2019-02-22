@@ -13,7 +13,6 @@ const req = (url, callback, type, query) => {
   const w = win();
   const request =
     'undefined' !== typeof w.XDomainRequest ? w.XDomainRequest : w.XMLHttpRequest;
-  console.log(request);
   if (!request) {
     return false;
   }

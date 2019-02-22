@@ -13,27 +13,30 @@ const genString = len => {
 
 describe('Test Request', () => {
   let uGlobal;
+  const fakeLargeVal = genString(10);
+
   beforeEach(() => {
     uGlobal = jsdom();
   });
+
   afterEach(() => uGlobal());
+
   it('test beacon api', () => {
     window.navigator.sendBeacon = () => {};
     const uBeacon = sinon.spy(window.navigator, 'sendBeacon');
-    beacon('http://localhost', {foo: 'bar', a: 'b'});
+    beacon('http://localhost', {foo: 'bar', a: fakeLargeVal});
     expect(uBeacon.getCall(0).args).to.deep.equal([
       'http://localhost',
-      'foo=bar&a=b',
+      'foo=bar&a='+fakeLargeVal,
     ]);
   });
+
   it('test xhr with get', () => {
-    const uReq = sinon.spy(() => {});
-    beacon('http://localhost', {foo: 'bar', a: 'b'}, uReq);
-    expect(uReq.getCall(0).args).to.deep.equal([
+    window.navigator.sendBeacon = false;
+    const uImage = sinon.spy(() => {});
+    beacon('http://localhost', {foo: 'bar', a: 'b'}, null, uImage);
+    expect(uImage.getCall(0).args).to.deep.equal([
       'http://localhost?foo=bar&a=b',
-      null,
-      'GET',
-      undefined
     ]);
   });
 
@@ -41,5 +44,15 @@ describe('Test Request', () => {
     const uReq = sinon.spy(() => {});
     beacon('http://localhost', {foo: 'bar', a: genString(10)}, uReq);
     expect(uReq.getCall(0).args[2]).to.equal('POST');
+  });
+
+  it('test xhr not support fallback to image-tag', () => {
+    window.XMLHttpRequest = null;
+    window.XDomainRequest = null;
+    const uImage = sinon.spy(() => {});
+    beacon('http://localhost', {foo: 'bar', a: fakeLargeVal}, null, uImage);
+    expect(uImage.getCall(0).args).to.deep.equal([
+      'http://localhost?foo=bar&a='+fakeLargeVal,
+    ]);
   });
 });

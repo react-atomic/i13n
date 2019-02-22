@@ -1,5 +1,6 @@
 import setUrl from 'seturl';
 import {win} from 'win-doc';
+import get from 'get-object-value';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -9,12 +10,13 @@ const req = (url, callback, type, query) => {
   if (!type) {
     type = GET;
   }
-  if (type === GET && 'function' !== typeof callback) {
-    new Image().src = url;
-    return true;
-  }
+  const w = win();
   const request =
-    'undefined' !== typeof XDomainRequest ? XDomainRequest : XMLHttpRequest;
+    'undefined' !== typeof w.XDomainRequest ? w.XDomainRequest : w.XMLHttpRequest;
+  console.log(request);
+  if (!request) {
+    return false;
+  }
   const oReq = new request();
   if ('function' === typeof callback) {
     oReq.onload = callback(oReq);
@@ -24,9 +26,10 @@ const req = (url, callback, type, query) => {
   return true;
 };
 
+const imageTag = url => (new Image().src = url);
+
 const beaconApi = (url, query) => {
-  return false;
-  const navigator = win().navigator;
+  const navigator = get(win(), ['navigator'], {});
   const oSendBeacon = navigator.sendBeacon;
   if (!oSendBeacon) {
     return false;
@@ -46,19 +49,21 @@ const dataToQuery = data => {
   return url.substring(2);
 };
 
-const beacon = (url, data, ajax) => {
+const beacon = (url, data, ajax, imgTag) => {
   if (!ajax) {
     ajax = req;
   }
-  const query = dataToQuery(data);
-  const type = 2036 >= query.length ? GET : POST;
-  let thisUrl = url;
-  let thisQuery = query;
-  if (type === GET) {
-    thisUrl += '?' + query;
-    thisQuery = undefined;
+  if (!imgTag) {
+    imgTag = imageTag;
   }
-  beaconApi(url, query) || ajax(thisUrl, null, type, thisQuery);
+  const thisUrl = url;
+  const query = dataToQuery(data);
+  const getUrl = thisUrl + '?' + query;
+  if (2036 >= getUrl.length) {
+    imgTag(getUrl);
+  } else {
+    beaconApi(url, query) || ajax(thisUrl, null, POST, query) || imgTag(getUrl);
+  }
 };
 
 export default req;

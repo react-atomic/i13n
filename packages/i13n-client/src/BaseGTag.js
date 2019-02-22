@@ -1,6 +1,6 @@
 class BaseGTag {
   constructor(props) {
-    this.props = props;
+    this.props = props || {};
   }
   init() {}
   push(config) {}

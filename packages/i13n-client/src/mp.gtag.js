@@ -71,9 +71,8 @@ class MpGTag extends BaseGTag {
     }
   }
 
-  getPromotionsData(promotions) {
-    return this.getItemsData(promotions, 'promo', this.setOnePromotion);
-  }
+  getPromotionsData = promotions =>
+    this.getItemsData(promotions, 'promo', this.setOnePromotion);
 
   setOnePromotion = (key, data, item) => {
     const {id, name, creative, position} = item;
@@ -83,9 +82,8 @@ class MpGTag extends BaseGTag {
     data[key + 'ps'] = position;
   };
 
-  getProductsData(products) {
-    return this.getItemsData(promotions, 'pr', this.setOnePromotion);
-  }
+  getProductsData = products =>
+    this.getItemsData(products, 'pr', this.setOneProduct);
 
   setOneProduct(key, data, item) {
     const {id, name, category, brand, variant, position, price} = item;
@@ -247,7 +245,7 @@ class MpGTag extends BaseGTag {
       null,
       {},
     );
-    d.t = -1 !== ev.toLowerCase().indexOf('view') ? 'pageview' : 'event';
+    d.t = -1 !== (ev || '').toLowerCase().indexOf('view') ? 'pageview' : 'event';
     if (bCookieIndex) {
       d['cd' + bCookieIndex] = bCookie;
     }

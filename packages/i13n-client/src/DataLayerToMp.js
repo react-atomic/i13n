@@ -14,10 +14,10 @@ const isArray = a => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
 
 class DataLayerToMp {
-  getGaClientId() {}
+  getClientIdCookie = () => getCookie(MP_CLIENT_ID) || '';
 
   getClientId() {
-    const cookies = (getCookie(MP_CLIENT_ID) || '' ).split('.');
+    const cookies = this.getClientIdCookie().split('.');
     let c;
     if (cookies[2] && cookies[3]) {
       c = cookies[2] + '.' + cookies[3];

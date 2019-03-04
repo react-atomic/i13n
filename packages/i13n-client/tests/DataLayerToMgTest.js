@@ -15,4 +15,9 @@ describe('Test setOneProduct', ()=>{
     oDlToMp.setOneProduct('foo', data, item); 
     expect(data).to.include({foocd2: 'abc', foocm3: 100});
   });
+
+  it('Test get client id', ()=>{
+    const id = oDlToMp.getClientId(); 
+    expect(oDlToMp.getClientIdCookie()).to.equal('GA1.2.'+id);
+  });
 });

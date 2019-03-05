@@ -46,7 +46,9 @@ class DataLayerToMp {
       items.forEach(item => {
         const key = itemKey + sn;
         sn++;
-        itemCb(key, data, item);
+        if ('fuction' === typeof itemCb) {
+          itemCb(key, data, item);
+        }
       });
       return data;
     }
@@ -239,7 +241,7 @@ class DataLayerToMp {
     const docEl = get(oDoc, ['documentElement'], {});
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
-    const {tagId} = props;
+    const {tagId} = props || {};
     const d = {
       ...this.getActionData(data),
       ...this.getEcData(data),

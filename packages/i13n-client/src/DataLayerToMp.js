@@ -15,16 +15,18 @@ const keys = Object.keys;
 const pvid = getRandomId();
 
 class DataLayerToMp {
-  getClientIdCookie = () => getCookie(MP_CLIENT_ID) || '';
+  getClientIdCookie(key) {
+    const cookies = (getCookie(key || '') || '').split('.');
+    if (cookies[2] && cookies[3]) {
+      return cookies[2] + '.' + cookies[3];
+    }
+  }
 
   getClientId() {
-    const cookies = this.getClientIdCookie().split('.');
-    let c;
-    if (cookies[2] && cookies[3]) {
-      c = cookies[2] + '.' + cookies[3];
-    } else {
+    let c = this.getClientIdCookie(MP_CLIENT_ID);
+    if (!c) {
       c = getRandomId();
-      setCookie(MP_CLIENT_ID, 'GA1.2.' + c, 365 * 2);
+      setCookie(MP_CLIENT_ID, 'GA1.3.' + c, 365 * 2);
     }
     return c;
   }
@@ -285,7 +287,7 @@ class DataLayerToMp {
       ),
       tid: tagId,
       cid: this.getClientId(),
-      _gid: getCookie('_gid'), 
+      _gid: this.getClientIdCookie('_gid'), 
       v: 1, //version
       z: getRandomId(),
       a: pvid,

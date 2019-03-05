@@ -16,7 +16,7 @@ describe('Test DataLayerToMp', () => {
 
   it('Test getClientId', () => {
     const id = oDlToMp.getClientId();
-    expect(oDlToMp.getClientIdCookie()).to.equal('GA1.2.' + id);
+    expect(oDlToMp.getClientIdCookie()).to.equal(id);
   });
 
   it('Test isSameHost', () => {

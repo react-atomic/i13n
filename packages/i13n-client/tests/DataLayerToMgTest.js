@@ -7,10 +7,10 @@ describe('Test DataLayerToMp', () => {
   const oDlToMp = new DataLayerToMp();
   let resetDom;
 
-  beforeEach(()=>{
+  beforeEach(() => {
     resetDom = jsdom(null, {url: 'http://localhost'});
   });
-  afterEach(()=>{
+  afterEach(() => {
     resetDom();
   });
 
@@ -29,9 +29,9 @@ describe('Test DataLayerToMp', () => {
 
   it('Test getReferrer', () => {
     const data = oDlToMp.getReferrer({
-      referrer: 'https://fake.com'
+      referrer: 'https://fake.com',
     });
-    expect(data).to.deep.equal({ dr: 'https://fake.com' });
+    expect(data).to.deep.equal({dr: 'https://fake.com'});
   });
 
   it('Test getReferrer (empty)', () => {
@@ -42,7 +42,7 @@ describe('Test DataLayerToMp', () => {
   it('Test getReferrer (same host)', () => {
     const data = oDlToMp.getReferrer({
       location: {hostname: 'localhost'},
-      referrer: 'http://localhost/shopping'
+      referrer: 'http://localhost/shopping',
     });
     expect(data).to.be.undefined;
   });
@@ -134,6 +134,20 @@ describe('Test DataLayerToMp', () => {
   it('Test getEcActionData', () => {
     const data = oDlToMp.getEcActionData({});
     expect(data).to.deep.equal({});
+  });
+
+  it('Test getEcActionData (detail)', () => {
+    const data = oDlToMp.getEcActionData(
+      {
+        products: [
+          {
+            category: 'uCategory',
+          },
+        ],
+      },
+      'detail',
+    );
+    expect(data).to.deep.equal({pr1ca: 'uCategory', pa: 'detail'});
   });
 
   it('Test getEcImpressionsData', () => {

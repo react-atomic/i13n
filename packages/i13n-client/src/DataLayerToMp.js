@@ -32,7 +32,7 @@ class DataLayerToMp {
   }
 
   isSameHost = hostName => test => {
-    const thisHost = '//'+hostName;
+    const thisHost = '//' + hostName;
     const i = test.indexOf(thisHost);
     if (5 === i || 6 === i) {
       const check = test.charAt(i + thisHost.length);
@@ -41,7 +41,7 @@ class DataLayerToMp {
       }
     }
     return false;
-  }
+  };
 
   getReferrer(oDoc) {
     if (!oDoc) {
@@ -51,8 +51,8 @@ class DataLayerToMp {
     const referrer = get(oDoc, ['referrer']);
     if (referrer && !this.isSameHost(hostname)(referrer)) {
       return {
-        dr: referrer 
-      }
+        dr: referrer,
+      };
     }
   }
 
@@ -74,7 +74,7 @@ class DataLayerToMp {
       items.forEach(item => {
         const key = itemKey + sn;
         sn++;
-        if ('fuction' === typeof itemCb) {
+        if ('function' === typeof itemCb) {
           itemCb(key, data, item);
         }
       });
@@ -287,7 +287,7 @@ class DataLayerToMp {
       ),
       tid: tagId,
       cid: this.getClientId(),
-      _gid: this.getClientIdCookie('_gid'), 
+      _gid: this.getClientIdCookie('_gid'),
       v: 1, //version
       z: getRandomId(),
       a: pvid,

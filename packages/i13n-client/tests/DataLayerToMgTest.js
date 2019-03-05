@@ -142,6 +142,7 @@ describe('Test DataLayerToMp', () => {
         products: [
           {
             category: 'uCategory',
+            list: 'uList',
           },
         ],
       },

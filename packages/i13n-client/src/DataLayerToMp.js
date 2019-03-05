@@ -139,8 +139,10 @@ class DataLayerToMp {
       if (0 === k.indexOf(METRIC)) {
         endKey = 'cm';
       }
-      const sn = getNum(k);
-      data[key + endKey + sn] = others[k];
+      if (endKey) {
+        const sn = getNum(k);
+        data[key + endKey + sn] = others[k];
+      }
     });
   }
 

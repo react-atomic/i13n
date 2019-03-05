@@ -12,6 +12,7 @@ const X = 'x';
 const MP_CLIENT_ID = '_ga';
 const isArray = a => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
+const pvid = getRandomId();
 
 class DataLayerToMp {
   getClientIdCookie = () => getCookie(MP_CLIENT_ID) || '';
@@ -286,6 +287,7 @@ class DataLayerToMp {
       cid: this.getClientId(),
       v: 1, //version
       z: getRandomId(),
+      a: pvid,
     };
     seq++;
     const {event: ev, bCookieIndex, bCookie, lazeInfoIndex, lazeInfo} =

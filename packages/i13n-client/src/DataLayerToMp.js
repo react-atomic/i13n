@@ -28,6 +28,31 @@ class DataLayerToMp {
     return c;
   }
 
+  isSameHost = hostName => test => {
+    const thisHost = '//'+hostName;
+    const i = test.indexOf(thisHost);
+    if (5 === i || 6 === i) {
+      const check = test.charAt(i + thisHost.length);
+      if ('/' === check || '?' === check || '' === check || ':' === check) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getReferrer(oDoc) {
+    if (!oDoc) {
+      oDoc = doc();
+    }
+    const hostname = get(oDoc, ['location', 'hostname']);
+    const referrer = get(oDoc, ['referrer']);
+    if (referrer && !this.isSameHost(hostname)(referrer)) {
+      return {
+        dr: referrer 
+      }
+    }
+  }
+
   getActionData(config) {
     const {action, category, label, value} = get(config, null, {});
     const data = {
@@ -245,6 +270,7 @@ class DataLayerToMp {
     const d = {
       ...this.getActionData(data),
       ...this.getEcData(data),
+      ...this.getReferrer(),
       _s: seq,
       dl: oDoc.URL,
       ul: (nav.language || nav.browserLanguage || '').toLowerCase(),

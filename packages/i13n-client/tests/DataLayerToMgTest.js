@@ -1,15 +1,50 @@
 import {expect} from 'chai';
 import jsdom from 'jsdom-global';
-jsdom(null, {url: 'http://localhost'});
 
 import DataLayerToMp from '../cjs/src/DataLayerToMp';
 
 describe('Test DataLayerToMp', () => {
   const oDlToMp = new DataLayerToMp();
+  let resetDom;
+
+  beforeEach(()=>{
+    resetDom = jsdom(null, {url: 'http://localhost'});
+  });
+  afterEach(()=>{
+    resetDom();
+  });
 
   it('Test getClientId', () => {
     const id = oDlToMp.getClientId();
     expect(oDlToMp.getClientIdCookie()).to.equal('GA1.2.' + id);
+  });
+
+  it('Test isSameHost', () => {
+    const isSame = oDlToMp.isSameHost('localhost');
+    const same = isSame('http://localhost');
+    expect(same).to.be.true;
+    const diff = isSame('http://google.com');
+    expect(diff).to.be.false;
+  });
+
+  it('Test getReferrer', () => {
+    const data = oDlToMp.getReferrer({
+      referrer: 'https://fake.com'
+    });
+    expect(data).to.deep.equal({ dr: 'https://fake.com' });
+  });
+
+  it('Test getReferrer (empty)', () => {
+    const data = oDlToMp.getReferrer();
+    expect(data).to.be.undefined;
+  });
+
+  it('Test getReferrer (same host)', () => {
+    const data = oDlToMp.getReferrer({
+      location: {hostname: 'localhost'},
+      referrer: 'http://localhost/shopping'
+    });
+    expect(data).to.be.undefined;
   });
 
   it('Test getActionData', () => {

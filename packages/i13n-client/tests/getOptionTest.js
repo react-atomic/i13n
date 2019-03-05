@@ -1,10 +1,17 @@
 import {expect} from 'chai';
 import {create} from 'create-el';
+import jsdom from 'jsdom-global';
 
 import getOptionText from '../cjs/src/getOptionText';
 
 describe('Test Get Option', ()=>{
-  before(()=>{
+  let resetDom;
+
+  beforeEach(()=>{
+    resetDom = jsdom(null, {url: 'http://localhost'});
+  });
+  afterEach(()=>{
+    resetDom();
   });
   it('simple test', ()=>{
     const innerHTML =`

@@ -285,6 +285,7 @@ class DataLayerToMp {
       ),
       tid: tagId,
       cid: this.getClientId(),
+      _gid: getCookie('_gid'), 
       v: 1, //version
       z: getRandomId(),
       a: pvid,

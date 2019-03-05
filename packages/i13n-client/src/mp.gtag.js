@@ -8,19 +8,21 @@ const oDataLayerToMp = new DataLayerToMp();
 class MpGTag extends BaseGTag {
   getHost() {
     const {mpHost, defaultMpHost} = this.props;
-    let host = mpHost || defaultMpHost;
-    host += '/collect';
-    return host;
+    return mpHost || defaultMpHost;
   }
 
   push(config, send) {
     const host = this.getHost();
-    const d = oDataLayerToMp.getMp(this.props, config);
-    // console.log([this.props, config, host, d]);
-    if (!send) {
-      send = beacon;
+    if (host) {
+      const d = oDataLayerToMp.getMp(this.props, config);
+      // console.log([this.props, config, host, d]);
+      if (!send) {
+        send = beacon;
+      }
+      send(host+ '/collect', removeEmpty(d, true));
+    } else {
+      console.log('mp host not found');
     }
-    send(host, removeEmpty(d, true));
   }
 }
 

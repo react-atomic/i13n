@@ -22,7 +22,7 @@ const storeProducts = (products, arrP) => {
   });
 };
 
-const forEachGoStore = arr => {
+const forEachStoreProducts = arr => {
   const arrP = toMap(sessionStore());
   [arr.impressions, arr.detailProducts, arr.products].forEach(prods => {
     if (prods) {
@@ -34,9 +34,9 @@ const forEachGoStore = arr => {
 };
 
 const lazyProducts = state => {
-  const I13N = forEachGoStore(toMap(state.get('I13N')));
-  const i13nPage = forEachGoStore(toMap(state.get('i13nPage')));
+  const I13N = forEachStoreProducts(toMap(state.get('I13N')));
+  const i13nPage = forEachStoreProducts(toMap(state.get('i13nPage')));
   return state.set('I13N', I13N).set('i13nPage', i13nPage);
 };
 export default lazyProducts;
-export {forEachGoStore};
+export {forEachStoreProducts};

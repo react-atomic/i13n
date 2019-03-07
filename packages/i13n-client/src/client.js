@@ -25,7 +25,7 @@ import debugTag from './debug.tag';
 import googleTag from './google.tag';
 import usergramTag from './usergram.tag';
 import lazyAttr from './lazyAttr';
-import lazyProducts, {forEachGoStore} from './lazyProducts';
+import lazyProducts, {forEachStoreProducts} from './lazyProducts';
 
 const keys = Object.keys;
 const isArray = Array.isArray;
@@ -37,7 +37,6 @@ let debugFlag = false;
 
 const joinCategory = arr =>
   arr.map(item => text(item).replace('/', '-')).join('/');
-
 
 /**
  * functions
@@ -142,7 +141,7 @@ const initPageScript = () => {
     },
     error: message => logError({message}, 'CustomError'),
     arrayFrom: arr => [...arr],
-    objectToArray: obj => keys(obj).map(key=>obj[key]),
+    objectToArray: obj => keys(obj).map(key => obj[key]),
     getNum: s => getNum(text(s)),
     dispatch: i13nDispatch,
     keys,
@@ -283,7 +282,7 @@ const actionHandler = (state, action) => {
     set(action, ['params', 'stop'], true);
   } else {
     if ('undefined' !== typeof wait) {
-      set(action, ['params', 'I13N'], forEachGoStore(I13N));
+      set(action, ['params', 'I13N'], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
   }

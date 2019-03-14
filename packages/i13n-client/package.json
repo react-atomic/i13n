@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -20,6 +20,7 @@
     "i13n-store": "*",
     "object-nested": "*",
     "parse-ini-string": "*",
+    "reshow-constant": "*",
     "seturl": "*",
     "to-percent-js": "*",
     "win-doc": "*"

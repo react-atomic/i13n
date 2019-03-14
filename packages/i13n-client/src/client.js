@@ -12,6 +12,7 @@ import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
 import {win, doc} from 'win-doc';
 import {getNum} from 'to-percent-js';
+import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 
 // local import
 import delegate from './delegate';
@@ -29,14 +30,13 @@ import lazyProducts, {forEachStoreProducts} from './lazyProducts';
 
 const keys = Object.keys;
 const isArray = Array.isArray;
+const PARAMS = 'params';
 let debugFlag = false;
 
 /**
  * tool
  */
-
-const joinCategory = arr =>
-  arr.map(item => text(item).replace('/', '-')).join('/');
+const getParams = action => get(action, [PARAMS], {});
 
 /**
  * functions
@@ -60,7 +60,7 @@ const addSectionEvent = (configs, nextDelegates) => section => {
     const func = e => {
       i13nDispatch({
         lastEvent: e,
-        i13nCbParams: JSON.parse(get(secs, ['params', skey])),
+        i13nCbParams: JSON.parse(get(secs, [PARAMS, skey])),
       });
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
@@ -92,7 +92,7 @@ const pushPageScript = (configs, nextConfigs) => name => {
     const pageScript = get(configs, ['script', scriptName]);
     if (pageScript) {
       const script = [pageScript];
-      const scriptParam = get(configs, ['page', name, 'params', key]);
+      const scriptParam = get(configs, ['page', name, PARAMS, key]);
       if (scriptParam) {
         script.push(JSON.parse(scriptParam));
       }
@@ -143,6 +143,8 @@ const initPageScript = () => {
     arrayFrom: arr => [...arr],
     objectToArray: obj => keys(obj).map(key => obj[key]),
     getNum: s => getNum(text(s)),
+    joinCategory: arr =>
+      arr.map(item => text(item).replace('/', '-')).join('/'),
     dispatch: i13nDispatch,
     keys,
     isArray,
@@ -160,7 +162,6 @@ const initPageScript = () => {
     lazyAttr,
     text,
     toJS,
-    joinCategory,
   };
   const state = i13nStore.getState();
   const {nextScripts, nextSections} = toJS(state.get('nextConfigs'));
@@ -235,8 +236,10 @@ const initTags = configs => {
   });
 };
 
-const processText = (state, done) => (text, arrMerge) => {
-  const userConfig = mergeConfig(nest(ini(text), '_'), arrMerge);
+const processText = (state, done) => (maybeText, arrMerge) => {
+  const oConfig =
+    STRING === typeof maybeText ? nest(ini(maybeText), '_') : maybeText;
+  const userConfig = mergeConfig(oConfig, arrMerge);
   initTags(userConfig);
   const nextConfigs = initRouter(userConfig);
   setTimeout(() => {
@@ -247,23 +250,27 @@ const processText = (state, done) => (text, arrMerge) => {
   }, get(nextConfigs, ['timeout'], 0));
 };
 
-const initHandler = (state, action, done) => {
-  const {iniPath, initTrigerBy, iniCb} = get(action, ['params'], {});
-  const process = processText(state.set('initTrigerBy', initTrigerBy), done);
-  req(iniPath, oReq => e =>
-    'function' === typeof iniCb
-      ? iniCb(oReq.responseText, process)
-      : process(oReq.responseText),
-  );
+const initHandler = (state, action, initDone) => {
+  const params = getParams(action);
+  state = state.merge(params);
+  const {iniUrl, iniCb} = params;
+  const process = processText(state, initDone);
+  const cb = maybeText =>
+    FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
+  if (STRING === typeof initUrl) {
+    req(iniUrl, oReq => e => cb(oReq.responseText));
+  } else {
+    cb(iniUrl); // assign config object
+  }
   return state;
 };
 
 const actionHandler = (state, action) => {
-  const params = get(action, ['params'], {});
+  const params = getParams(action);
   let I13N = params.I13N;
   const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   const i13nCbParams = toJS(state.get('i13nCbParams'));
-  if ('function' === typeof i13nCb) {
+  if (FUNCTION === typeof i13nCb) {
     I13N = i13nCb(
       toJS(state.get('lastEvent')),
       get(I13N, null, {}),
@@ -279,15 +286,15 @@ const actionHandler = (state, action) => {
   // reset I13N
   state = state.set('I13N', I13N);
   if (!I13N) {
-    set(action, ['params', 'stop'], true);
+    set(action, [PARAMS, 'stop'], true);
   } else {
-    if ('undefined' !== typeof wait) {
-      set(action, ['params', 'I13N'], forEachStoreProducts(I13N));
+    if (UNDEFINED !== typeof wait) {
+      set(action, [PARAMS, 'I13N'], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
   }
 
-  if ('function' === typeof i13nPageCb) {
+  if (FUNCTION === typeof i13nPageCb) {
     const i13nPage = i13nPageCb(action, I13N, i13nCbParams);
     if (i13nPage) {
       const stateI13nPage = state.get('i13nPage');
@@ -302,7 +309,7 @@ const actionHandler = (state, action) => {
 
 const impressionHandler = (state, action) => lazyProducts(state);
 
-const getIni = (iniPath, iniCb) => {
+const getIni = (iniUrl, iniCb) => {
   let isLoad = false;
   const run = e => {
     if (!isLoad) {
@@ -313,7 +320,7 @@ const getIni = (iniPath, iniCb) => {
         impressionHandler,
       });
       i13nDispatch('view', {
-        iniPath,
+        iniUrl,
         iniCb,
         initTrigerBy: e.type,
       });

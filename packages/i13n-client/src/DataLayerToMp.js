@@ -295,17 +295,32 @@ class DataLayerToMp {
       a: pvid,
     };
     seq++;
-    const {event: ev, bCookieIndex, bCookie, lazeInfoIndex, lazeInfo} =
-      data || {};
+    const {
+      event: ev,
+      bCookieIndex,
+      bCookie,
+      lazeInfoIndex,
+      lazeInfo,
+      expId,
+      expVar,
+    } = data || {};
     d.t =
       -1 !== (ev || '').toLowerCase().indexOf('view') ? 'pageview' : 'event';
-    if (bCookieIndex) {
-      d['cd' + bCookieIndex] = bCookie;
+    d.xid = expId;
+    d.xvar = expVar;
+    if (bCookie) {
+      if (bCookieIndex) {
+        d['cd' + bCookieIndex] = bCookie;
+      }
+      d.uid = bCookie;
     }
-    if (lazeInfoIndex) {
-      d['cd' + lazeInfoIndex] = lazeInfo;
+    if (lazeInfo) {
+      if (lazeInfoIndex) {
+        d['cd' + lazeInfoIndex] = lazeInfo;
+      }
+      d.qt = new Date().getTime() - new Date(lazeInfo.time).getTime();
     }
-    return d;
+    return removeEmpty(d, true);
   }
 }
 

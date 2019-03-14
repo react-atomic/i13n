@@ -44,6 +44,8 @@ class GoogleTag extends BaseTag {
     if (lazeInfoIndex) {
       config.lazeInfoIndex = lazeInfoIndex;
     }
+    config.expId = state.get('expId');
+    config.expVar = state.get('expVar');
     config.gaId = gaId;
     this.downstreams.forEach(downstream => downstream.push(config));
   }

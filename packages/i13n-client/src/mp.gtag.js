@@ -1,4 +1,3 @@
-import {removeEmpty} from 'array.merge';
 import BaseGTag from './BaseGTag';
 import {beacon} from './req';
 import DataLayerToMp from './DataLayerToMp';
@@ -14,12 +13,12 @@ class MpGTag extends BaseGTag {
   push(config, send) {
     const host = this.getHost();
     if (host) {
-      const d = oDataLayerToMp.getMp(this.props, config);
-      // console.log([this.props, config, host, d]);
       if (!send) {
         send = beacon;
       }
-      send(host+ '/collect', removeEmpty(d, true));
+      const d = oDataLayerToMp.getMp(this.props, config);
+      // console.log([this.props, config, host, d]);
+      send(host+ '/collect', d);
     } else {
       console.log('mp host not found');
     }

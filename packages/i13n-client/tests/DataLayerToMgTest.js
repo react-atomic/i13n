@@ -197,10 +197,6 @@ describe('Test DataLayerToMp', () => {
   it('Test getMp', () => {
     const data = oDlToMp.getMp();
     expect(data).to.include({
-      ec: undefined,
-      ea: undefined,
-      el: undefined,
-      ev: undefined,
       _s: 1,
       dl: 'http://localhost/',
       ul: 'en-us',
@@ -210,7 +206,6 @@ describe('Test DataLayerToMp', () => {
       sr: '0x0',
       vp: '1024x768',
       je: 0,
-      tid: undefined,
       v: 1,
       t: 'event',
     });

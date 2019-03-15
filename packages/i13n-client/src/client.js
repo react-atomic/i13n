@@ -326,8 +326,7 @@ const getIni = (iniUrl, iniCb) => {
       });
     }
   };
-  win().addEventListener('load', run);
-  setTimeout(() => run({type: 'timeout'}), 500);
+  run({type: 'directly'});
 };
 
 export default getIni;

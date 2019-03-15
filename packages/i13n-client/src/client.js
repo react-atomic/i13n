@@ -257,7 +257,7 @@ const initHandler = (state, action, initDone) => {
   const process = processText(state, initDone);
   const cb = maybeText =>
     FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
-  if (STRING === typeof initUrl) {
+  if (STRING === typeof iniUrl) {
     req(iniUrl, oReq => e => cb(oReq.responseText));
   } else {
     cb(iniUrl); // assign config object

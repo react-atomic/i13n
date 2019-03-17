@@ -7,8 +7,8 @@ import MpGTag from './mp.gtag';
 
 const keys = Object.keys;
 const downstreamMap = {
+  mp: MpGTag,
   official: OfficialGTag,
-  mp: MpGTag
 };
 
 class GoogleTag extends BaseTag {
@@ -41,7 +41,7 @@ class GoogleTag extends BaseTag {
         config.bCookieIndex = bCookieIndex;
       }
     }
-    if (lazeInfoIndex) {
+    if (config.lazeInfo && lazeInfoIndex) {
       config.lazeInfoIndex = lazeInfoIndex;
     }
     config.expId = state.get('expId');

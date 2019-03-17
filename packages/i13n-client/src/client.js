@@ -131,9 +131,8 @@ const handleError = e => {
 /**
  * init functions
  */
-const initPageScript = () => {
-  win().addEventListener('error', handleError);
-  win().i13n = {
+const utils = () => {
+  const o = {
     merge: (...args) => {
       let results = {};
       args.forEach(a => (results = {...results, ...a}));
@@ -163,6 +162,12 @@ const initPageScript = () => {
     text,
     toJS,
   };
+  return o;
+};
+
+const initPageScript = () => {
+  win().addEventListener('error', handleError);
+  win().i13n = utils();
   const state = i13nStore.getState();
   const {nextScripts, nextSections} = toJS(state.get('nextConfigs'));
   nextScripts.forEach(script => {
@@ -330,4 +335,4 @@ const getIni = (iniUrl, iniCb) => {
 };
 
 export default getIni;
-export {mergeConfig};
+export {mergeConfig, utils};

@@ -2418,6 +2418,11 @@ request@^2.88.0:
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
+reshow-constant@*:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/reshow-constant/-/reshow-constant-0.0.4.tgz#2f99298ce239b46a51281c2a1ddeb3e8a633befe"
+  integrity sha512-/AgRbzAI8xfdIj+/u9P+dmQGbiDBhaSkI08D4UXPHiiEN7/dzqI+wsTDzkFIZOhb+Ylj6lGXePUelmILK4DTTA==
+
 reshow-flux-base@*:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.1.5.tgz#1c9080d3f26d11b2aad3078ca639176970482b30"
@@ -2924,6 +2929,14 @@ wide-align@^1.1.0:
   integrity sha512-QGkOQc8XL6Bt5PwnsExKBPuMKBxnGxWWW3fU55Xt4feHozMUhdUMaBCk290qpm/wG5u/RSKzwdAC4i51YigihA==
   dependencies:
     string-width "^1.0.2 || 2"
+
+win-doc@*:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.0.2.tgz#facec0899aa14deca11ec98332a890f3ea88a297"
+  integrity sha512-QFE4JBWo/qSqLlX/Ly+uHUb+gA/pr93JZ37yvZEEaZ1f2Gfute8fErd7csYFOEXf2MIasMcKmvNu70WXIMaXSw==
+  dependencies:
+    reshow-constant "*"
+    reshow-runtime "*"
 
 wordwrap@~1.0.0:
   version "1.0.0"

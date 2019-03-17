@@ -3,51 +3,37 @@ import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
 import exec, {getLastScript} from 'exec-script';
+import {localStorage, Storage} from 'get-storage';
 import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';
-import query, {queryFrom} from 'css-query-selector';
-import {getUrl} from 'seturl';
-import getCookie from 'get-cookie';
-import getRandomId from 'get-random-id';
-import {removeEmpty} from 'array.merge';
+import query from 'css-query-selector';
 import {win, doc} from 'win-doc';
-import {getNum} from 'to-percent-js';
 import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 
 // local import
+import logError, {setDebugFlag} from './logError';
+import utils from './utils';
 import delegate from './delegate';
-import getOptionText from './getOptionText';
-import getRadioValue from './getRadioValue';
 import Router from './Router';
 import req from './req';
-import text from './text';
-import getElValue from './getElValue';
-import debugTag from './debug.tag';
-import googleTag from './google.tag';
-import usergramTag from './usergram.tag';
+import mergeConfig from './mergeConfig';
 import lazyAttr from './lazyAttr';
 import lazyProducts, {forEachStoreProducts} from './lazyProducts';
 
-const keys = Object.keys;
-const isArray = Array.isArray;
-const PARAMS = 'params';
-let debugFlag = false;
+// tags
+import debugTag from './debug.tag';
+import googleTag from './google.tag';
+import usergramTag from './usergram.tag';
 
-/**
- * tool
- */
-const getParams = action => get(action, [PARAMS], {});
+// constant
+const keys = Object.keys;
+const lStore = new Storage(localStorage);
+const PARAMS = 'params';
 
 /**
  * functions
  */
-const mergeConfig = (conf, merges) => {
-  if (!merges) {
-    return conf;
-  }
-  merges.forEach(({path, value, append}) => set(conf, path, value, append));
-  return conf;
-};
+const getParams = action => get(action, [PARAMS], {});
 
 const addSectionEvent = (configs, nextDelegates) => section => {
   const secs = get(configs, ['sec', section]);
@@ -101,70 +87,29 @@ const pushPageScript = (configs, nextConfigs) => name => {
   });
 };
 
-const logError = (error, action) => {
-  let {message, stack} = error;
-  stack = get(error, ['stack'], '').split(/\n/);
-  i13nDispatch('action', {
-    wait: 0,
-    I13N: {
-      action,
-      category: 'Error',
-      label: {
-        message,
-        stack,
-        url: doc().URL,
-        lastExec: getLastScript(),
-      },
-    },
-  });
-  if (debugFlag) {
-    throw error;
-  }
-};
-
 const handleError = e => {
   const error = get(e, ['error'], {message: get(e, ['message'])});
   const type = e.error ? 'WindowScriptErr' : 'ExternalScriptErr';
   logError(error, type);
 };
 
+const processText = (state, done) => (maybeText, arrMerge) => {
+  const oConfig =
+    STRING === typeof maybeText ? nest(ini(maybeText), '_') : maybeText;
+  const userConfig = mergeConfig(oConfig, arrMerge);
+  initTags(userConfig);
+  const nextConfigs = initRouter(userConfig);
+  setTimeout(() => {
+    state = state.merge(userConfig);
+    i13nStore.addListener(initPageScript, 'init');
+    // The last Line
+    done(state.set('nextConfigs', nextConfigs));
+  }, get(nextConfigs, ['timeout'], 0));
+};
+
 /**
  * init functions
  */
-const utils = () => {
-  const o = {
-    merge: (...args) => {
-      let results = {};
-      args.forEach(a => (results = {...results, ...a}));
-      return results;
-    },
-    error: message => logError({message}, 'CustomError'),
-    arrayFrom: arr => [...arr],
-    objectToArray: obj => keys(obj).map(key => obj[key]),
-    getNum: s => getNum(text(s)),
-    joinCategory: arr =>
-      arr.map(item => text(item).replace('/', '-')).join('/'),
-    dispatch: i13nDispatch,
-    keys,
-    isArray,
-    removeEmpty,
-    query,
-    queryFrom,
-    getUrl,
-    get,
-    getOptionText,
-    getElValue,
-    getRadioValue,
-    getCookie,
-    getRandomId,
-    delegate,
-    lazyAttr,
-    text,
-    toJS,
-  };
-  return o;
-};
-
 const initPageScript = () => {
   win().addEventListener('error', handleError);
   win().i13n = utils();
@@ -234,27 +179,16 @@ const initTags = configs => {
     const TAG = tagMap[key];
     if (tags[key].enabled && TAG) {
       if ('debug' === key) {
-        debugFlag = true;
+        setDebugFlag(true);
       }
       TAG.register(i13nStore, key);
     }
   });
 };
 
-const processText = (state, done) => (maybeText, arrMerge) => {
-  const oConfig =
-    STRING === typeof maybeText ? nest(ini(maybeText), '_') : maybeText;
-  const userConfig = mergeConfig(oConfig, arrMerge);
-  initTags(userConfig);
-  const nextConfigs = initRouter(userConfig);
-  setTimeout(() => {
-    state = state.merge(userConfig);
-    i13nStore.addListener(initPageScript, 'init');
-    // The last Line
-    done(state.set('nextConfigs', nextConfigs));
-  }, get(nextConfigs, ['timeout'], 0));
-};
-
+/**
+ * Handler
+ */
 const initHandler = (state, action, initDone) => {
   const params = getParams(action);
   state = state.merge(params);
@@ -263,7 +197,17 @@ const initHandler = (state, action, initDone) => {
   const cb = maybeText =>
     FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
   if (STRING === typeof iniUrl) {
-    req(iniUrl, oReq => e => cb(oReq.responseText));
+    const localIni = lStore.get(iniUrl);
+    const sessionIni = lazyAttr(iniUrl);
+    if (sessionIni() && localIni) {
+      cb(localIni);
+    } else {
+      req(iniUrl, oReq => e => {
+        cb(oReq.responseText);
+        lStore.set(iniUrl, oReq.responseText);
+        sessionIni(true);
+      });
+    }
   } else {
     cb(iniUrl); // assign config object
   }
@@ -335,4 +279,3 @@ const getIni = (iniUrl, iniCb) => {
 };
 
 export default getIni;
-export {mergeConfig, utils};

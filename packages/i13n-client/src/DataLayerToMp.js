@@ -4,6 +4,8 @@ import getCookie, {setCookie} from 'get-cookie';
 import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
 import {toNum, getNum} from 'to-percent-js';
+import callfunc from 'call-func';
+import {UNDEFINED} from 'reshow-constant';
 
 let seq = 1;
 const DIMENSION = 'dimension';
@@ -62,7 +64,7 @@ class DataLayerToMp {
       ec: category,
       ea: action,
       el: label,
-      ev: 'undefined' !== typeof value ? toNum(value) : value,
+      ev: UNDEFINED !== typeof value ? toNum(value) : value,
     };
     return data;
   }
@@ -74,9 +76,7 @@ class DataLayerToMp {
       items.forEach(item => {
         const key = itemKey + sn;
         sn++;
-        if ('function' === typeof itemCb) {
-          itemCb(key, data, item);
-        }
+        callfunc(itemCb, [key, data, item]);
       });
       return data;
     }
@@ -284,9 +284,7 @@ class DataLayerToMp {
       sd: screen.colorDepth + '-bit',
       sr: screen.width + X + screen.height,
       vp: vw + X + vh,
-      je: toNum(
-        ('function' === typeof nav.javaEnabled && nav.javaEnabled()) || false,
-      ),
+      je: toNum(callfunc(nav.javaEnabled, null, nav)),
       tid: tagId,
       cid: this.getClientId(),
       _gid: this.getClientIdCookie('_gid'),

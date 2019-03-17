@@ -1,6 +1,7 @@
 import exec from 'exec-script';
 import get from 'get-object-value';
 import set from 'set-object-value';
+import {UNDEFINED} from 'reshow-constant';
 
 import BaseTag from './BaseTag';
 
@@ -41,7 +42,7 @@ class UsergramTag extends BaseTag {
   assignUid(att) {
     const state = this.getState();
     const uid = state.get('uid');
-    if ('undefined' === typeof uid) {
+    if (UNDEFINED === typeof uid) {
       return att;
     } else {
       if (!att) {

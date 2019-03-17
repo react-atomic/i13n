@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "array.merge": "*",
+    "call-func": "*",
     "css-query-selector": "*",
     "exec-script": "*",
     "get-cookie": "*",

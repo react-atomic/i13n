@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "0.2.10",
+  "version": "0.3.0",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -15,6 +15,8 @@
     "get-storage": "*",
     "reshow-flux-base": "*",
     "reshow-runtime": "*",
+    "reshow-constant": "*",
+    "win-doc": "*",
     "set-object-value": "*"
   },
   "devDependencies": {

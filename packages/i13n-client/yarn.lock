@@ -1419,6 +1419,13 @@ cache-content-type@^1.0.0:
     mime-types "^2.1.18"
     ylru "^1.2.0"
 
+call-func@*:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/call-func/-/call-func-0.0.2.tgz#fb68ba1472a5e9fb1454a8c49c8a911937211a8a"
+  integrity sha512-IThNuZIzqq03ecJlb/Mo7t+4cmkSUqRgmc4/6dKbJTuwgQXQX3VjwDC03/SU89YwwgiLgsQmF06N7MMis8d5rA==
+  dependencies:
+    reshow-constant "*"
+
 camelcase@^1.0.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-1.2.1.tgz#9bb5304d2e0b56698b2c758b08a3eaa9daa58a39"
@@ -2805,12 +2812,14 @@ get-scroll-info@*:
   integrity sha512-QPXCbKUAocdouNZO245Fdb1iHHxAKisenAMNwTMWAIWygxCxHpTNHlidOyl86s/EfbieJxHezmfWF8JaryGE2g==
 
 get-storage@*:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.1.4.tgz#0d73723ed4fddb493d50b3f656f1ddcdbebc0215"
-  integrity sha512-zQot9XLSoN4qnRoW138/pYzIRS6UYy8JE5HMTZ7iru7PN/qqUQ29eaMjwDRSJZhvFUN9TYgxBGOJNULJRAcsCg==
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.1.5.tgz#6a30c5453bf287d32cf98796f75f6391e3453160"
+  integrity sha512-fM1LOFvdxzYibpVQ6Hhd5SfYQ9ih5fjpbOnpOpwVm91xFJMHwHLZzowVUSKv2uzPbfhJhArYDDFHe/u4idwWFA==
   dependencies:
     get-object-value "*"
+    reshow-constant "*"
     reshow-runtime "*"
+    win-doc "*"
 
 get-stream@^3.0.0:
   version "3.0.0"
@@ -3072,15 +3081,17 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.2.10.tgz#475d45f6558a134892a4b6efc50c1c247e0ae0bb"
-  integrity sha512-dGxPrx7hxgxOR1kVBa6enY7SJUJXjaIsgv4zaW6wPbbI53gaTZjvewJb99FJb50aDnjrKyMlESIXL3VfWGJnrw==
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-0.3.0.tgz#bfc817d0d1d9d2a68dae7de02b22a36a0dbce719"
+  integrity sha512-3UCAVOtTsVrnY7BIioO8RGLWqBE/iz3QLHkCleAoUucMPQvwxORL2RdkEYEWF0DahwxE//KXRRD9SKTO4UzoDg==
   dependencies:
     get-object-value "*"
     get-storage "*"
+    reshow-constant "*"
     reshow-flux-base "*"
     reshow-runtime "*"
     set-object-value "*"
+    win-doc "*"
 
 iconv-lite@0.4.23:
   version "0.4.23"
@@ -5394,9 +5405,9 @@ reshow-flux@*:
     reshow-runtime "*"
 
 reshow-runtime@*:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.1.8.tgz#6ba343b3346bc005a85f7aa3014e0ecbac670489"
-  integrity sha512-FlWVMzi/Ge6mukxWR+W+njrjmdrwz3TxVzQJqoEaS5QI30SJIUOk05johlfL3AHTcZXTli7gyo63cG46A2Xg/A==
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.1.9.tgz#b670d58daaf3df369f87979c8de9efc6f37351e7"
+  integrity sha512-mMl1YOA4WJ1n427tDn2WWaeUM5nCFECJLVVSNLnju0P7WufSojXf9oJ0SSKkp1W4+iJA221vtsV46S339EutkQ==
   dependencies:
     reshow-constant "*"
 
@@ -6548,11 +6559,9 @@ wide-align@^1.1.0:
     string-width "^1.0.2 || 2"
 
 win-doc@*:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.0.1.tgz#00d8684e7c17fbcdb2d2f164cab68dde3a8e35de"
-  integrity sha512-vpDbiIVWcpHARGonS2tJCX8Xrb9RsTfSC8qPX25rvMTEjNmGCeooZrRs4q4hjp9L/qNju7KchnBW9byrDCkeWw==
-  dependencies:
-    reshow-runtime "*"
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.0.3.tgz#db9120caff7c22eb110286e1da4e1e1c49a5d72b"
+  integrity sha512-1NBd0aTNvN+nRYo8q+GFQQXPZiR1HRKIUEPswk1xKQ3vhmQB10YfXCZrjxB5rWpdaXTt1hhg5jOg6IZFrUn6Vg==
 
 window-size@0.1.0:
   version "0.1.0"

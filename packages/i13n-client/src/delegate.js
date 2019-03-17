@@ -1,4 +1,6 @@
 import query from 'css-query-selector';
+import callfunc from 'call-func';
+import {FUNCTION} from 'reshow-constant';
 
 const isArray = Array.isArray;
 
@@ -17,12 +19,12 @@ const delegate = (el, type, childs, defaultFunc) => {
       if (!arrSel.length) {
         return false;
       }
-      if ('function' !== typeof func) {
+      if (FUNCTION !== typeof func) {
         func = defaultFunc;
       }
       arrSel.some(childEl => {
         if (t.isSameNode(childEl) || childEl.contains(t)) {
-          func({...e, currentTarget: childEl});
+          callfunc(func, [{...e, currentTarget: childEl}]);
           isRun = true;
           return true;
         } else {

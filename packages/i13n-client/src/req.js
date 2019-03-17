@@ -1,6 +1,7 @@
 import setUrl from 'seturl';
 import {win} from 'win-doc';
 import get from 'get-object-value';
+import {UNDEFINED, FUNCTION} from 'reshow-constant';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -12,12 +13,12 @@ const req = (url, callback, type, query) => {
   }
   const w = win();
   const request =
-    'undefined' !== typeof w.XDomainRequest ? w.XDomainRequest : w.XMLHttpRequest;
+    UNDEFINED !== typeof w.XDomainRequest ? w.XDomainRequest : w.XMLHttpRequest;
   if (!request) {
     return false;
   }
   const oReq = new request();
-  if ('function' === typeof callback) {
+  if (FUNCTION === typeof callback) {
     oReq.onload = callback(oReq);
   }
   oReq.open(type, url);

@@ -2,18 +2,19 @@ import {Store} from 'reshow-flux-base';
 import get, {toMap} from 'get-object-value';
 import set from 'set-object-value';
 import {localStorage, Storage} from 'get-storage';
+import {UNDEFINED, FUNCTION, OBJECT} from 'reshow-constant';
+import {doc} from 'win-doc';
 
 import {i13nDispatch} from '../i13nDispatcher';
 import getTime from '../getTime';
 
 const lStore = new Storage(localStorage);
-const docUrl = () => document.URL;
+const docUrl = () => doc().URL;
 const isArray = Array.isArray;
 const keys = Object.keys;
 const PARAMS = 'params';
 const hashKey = '__hash';
 const seqKey = '__seq';
-const undefKey = 'undefined';
 const lazyActionKey = 'lazyAction';
 const getParams = action => get(action, [PARAMS], {});
 
@@ -61,7 +62,7 @@ class BaseI13nStore extends Store {
     keys(lazeParams).forEach(pKey => {
       const p = lazeParams[pKey];
       const newP =
-        'object' === typeof p
+        OBJECT === typeof p
           ? {...p, ...get(action, [PARAMS, pKey], {})}
           : get(action, [PARAMS, pKey], p);
       set(action, [PARAMS, pKey], newP);
@@ -80,7 +81,9 @@ class BaseI13nStore extends Store {
 
   getLazy(key) {
     const lazyAction = toMap(lStore.get(lazyActionKey));
-    return undefKey === typeof key ? lazyAction : toMap(lazyAction.__hash)[key];
+    return UNDEFINED === typeof key
+      ? lazyAction
+      : toMap(lazyAction.__hash)[key];
   }
 
   handleAction(state, action) {
@@ -94,7 +97,7 @@ class BaseI13nStore extends Store {
     }
     const next = actionHandler(state, action);
     const {wait, stop, lazyKey} = getParams(action); // need locate after next
-    if (undefKey === typeof wait && !stop) {
+    if (UNDEFINED === typeof wait && !stop) {
       this.nextEmits.push('action');
       if (withLazy && withLazy !== lazyKey) {
         this.removeLazy(withLazy);
@@ -105,7 +108,7 @@ class BaseI13nStore extends Store {
 
   handleInit(state, action) {
     const initHandler = state.get('initHandler');
-    if ('function' === typeof initHandler) {
+    if (FUNCTION === typeof initHandler) {
       return initHandler(state, action, this.handleAfterInit);
     } else {
       return this.handleAfterInit(state);
@@ -123,7 +126,7 @@ class BaseI13nStore extends Store {
         let {wait, stop} = getParams(laze);
         if (!wait || wait <= 0) {
           if (!stop) {
-            if (undefKey !== typeof get(laze, ['params', 'wait'])) {
+            if (UNDEFINED !== typeof get(laze, ['params', 'wait'])) {
               delete laze.params.wait;
             }
             i13nDispatch(laze);
@@ -160,7 +163,7 @@ class BaseI13nStore extends Store {
       }
       const next = impressionHandler(state, action);
       const {wait, stop} = getParams(action); // need locate after next
-      if (undefKey === typeof wait && !stop) {
+      if (UNDEFINED === typeof wait && !stop) {
         this.nextEmits.push('impression');
       }
       return next;

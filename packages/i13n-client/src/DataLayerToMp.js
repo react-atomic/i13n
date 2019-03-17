@@ -59,7 +59,7 @@ class DataLayerToMp {
   }
 
   getActionData(config) {
-    const {action, category, label, value} = get(config, null, {});
+    const {action, category, label, value} = config || {};
     const data = {
       ec: category,
       ea: action,
@@ -74,6 +74,9 @@ class DataLayerToMp {
       let sn = 1;
       const data = {};
       items.forEach(item => {
+        if (!item) {
+          return;
+        }
         const key = itemKey + sn;
         sn++;
         callfunc(itemCb, [key, data, item]);
@@ -149,11 +152,7 @@ class DataLayerToMp {
   getEcPurchaseData(purchase, refund) {
     if (purchase || refund) {
       const {actionField, products} = purchase || refund;
-      const {id, affiliation, revenue, tax, shipping, coupon} = get(
-        actionField,
-        null,
-        {},
-      );
+      const {id, affiliation, revenue, tax, shipping, coupon} = actionField || {};
       let data;
       if (purchase) {
         data = {
@@ -184,7 +183,7 @@ class DataLayerToMp {
   getEcStepData(checkout, checkout_option) {
     if (checkout || checkout_option) {
       const {actionField, products} = checkout || checkout_option;
-      const {step, option} = get(actionField, null, {});
+      const {step, option} = actionField || {};
       const data = {
         cos: step,
         col: option,
@@ -198,7 +197,7 @@ class DataLayerToMp {
   getEcActionData(config, action) {
     if (config) {
       const {actionField, products} = config;
-      const {list} = get(actionField, null, {});
+      const {list} = actionField || {};
       const data = {
         ...this.getProductsData(products),
         pa: action,
@@ -232,7 +231,7 @@ class DataLayerToMp {
   }
 
   getEcData(config) {
-    const {ecommerce} = get(config, null, {});
+    const {ecommerce} = config || {};
     if (ecommerce) {
       const {
         impressions,

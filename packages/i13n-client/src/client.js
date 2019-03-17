@@ -2,7 +2,7 @@ import {i13nDispatch} from 'i13n';
 import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
-import exec, {getLastScript} from 'exec-script';
+import exec from 'exec-script';
 import {localStorage, Storage} from 'get-storage';
 import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';

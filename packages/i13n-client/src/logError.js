@@ -1,10 +1,12 @@
 import get from 'get-object-value';
 import {i13nDispatch} from 'i13n';
+import {getLastScript} from 'exec-script';
+import {doc} from 'win-doc';
 
 let debugFlag = false;
 
 const logError = (error, action) => {
-  let {message, stack} = error;
+  let {message, stack} = error || {};
   stack = get(error, ['stack'], '').split(/\n/);
   i13nDispatch('action', {
     wait: 0,

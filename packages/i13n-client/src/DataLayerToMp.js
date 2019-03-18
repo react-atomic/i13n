@@ -315,7 +315,10 @@ class DataLayerToMp {
       if (lazeInfoIndex) {
         d['cd' + lazeInfoIndex] = lazeInfo;
       }
-      d.qt = new Date().getTime() - new Date(lazeInfo.time).getTime();
+      const oLazyInfo = JSON.parse(lazeInfo);
+      if (oLazyInfo.time) {
+        d.qt = new Date().getTime() - new Date(oLazyInfo.time).getTime();
+      }
     }
     return removeEmpty(d, true);
   }

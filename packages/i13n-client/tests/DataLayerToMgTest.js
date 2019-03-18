@@ -195,7 +195,10 @@ describe('Test DataLayerToMp', () => {
   });
 
   it('Test getMp', () => {
-    const data = oDlToMp.getMp();
+    const data = oDlToMp.getMp(null, {
+      lazeInfoIndex: 1,
+      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}'
+    });
     expect(data).to.include({
       _s: 1,
       dl: 'http://localhost/',
@@ -209,5 +212,14 @@ describe('Test DataLayerToMp', () => {
       v: 1,
       t: 'event',
     });
+    expect(data.qt+'').to.not.empty;
+  });
+
+  it('Test worng lazeInfo time format with getmp', ()=>{
+    const data = oDlToMp.getMp(null, {
+      lazeInfoIndex: 0,
+      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}'
+    });
+    expect(data.qt).to.be.undefined;
   });
 });

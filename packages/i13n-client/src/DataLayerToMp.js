@@ -317,7 +317,10 @@ class DataLayerToMp {
       }
       const oLazyInfo = JSON.parse(lazeInfo);
       if (oLazyInfo.time) {
-        d.qt = new Date().getTime() - new Date(oLazyInfo.time).getTime();
+        const past =  new Date(oLazyInfo.time).getTime();
+        if (!isNaN(past)) {
+          d.qt = new Date().getTime() - past;
+        }
       }
     }
     return removeEmpty(d, true);

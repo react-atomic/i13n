@@ -152,7 +152,8 @@ class DataLayerToMp {
   getEcPurchaseData(purchase, refund) {
     if (purchase || refund) {
       const {actionField, products} = purchase || refund;
-      const {id, affiliation, revenue, tax, shipping, coupon} = actionField || {};
+      const {id, affiliation, revenue, tax, shipping, coupon} =
+        actionField || {};
       let data;
       if (purchase) {
         data = {
@@ -271,10 +272,31 @@ class DataLayerToMp {
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
     const {tagId} = props || {};
+    const {
+      event: ev,
+      bCookieIndex,
+      bCookie,
+      lazeInfoIndex,
+      lazeInfo,
+      expId,
+      expVar,
+      p,
+      p2,
+      p3,
+      p4,
+      p5,
+    } = data || {};
     const d = {
       ...this.getActionData(data),
       ...this.getEcData(data),
       ...this.getReferrer(),
+      xid: expId,
+      xvar: expVar,
+      cg1: p,
+      cg2: p2,
+      cg3: p3,
+      cg4: p4,
+      cg5: p5,
       _s: seq,
       dl: oDoc.URL,
       ul: (nav.language || nav.browserLanguage || '').toLowerCase(),
@@ -292,19 +314,8 @@ class DataLayerToMp {
       a: pvid,
     };
     seq++;
-    const {
-      event: ev,
-      bCookieIndex,
-      bCookie,
-      lazeInfoIndex,
-      lazeInfo,
-      expId,
-      expVar,
-    } = data || {};
     d.t =
       -1 !== (ev || '').toLowerCase().indexOf('view') ? 'pageview' : 'event';
-    d.xid = expId;
-    d.xvar = expVar;
     if (bCookie) {
       if (bCookieIndex) {
         d['cd' + bCookieIndex] = bCookie;
@@ -317,7 +328,7 @@ class DataLayerToMp {
       }
       const oLazyInfo = JSON.parse(lazeInfo);
       if (oLazyInfo.time) {
-        const past =  new Date(oLazyInfo.time).getTime();
+        const past = new Date(oLazyInfo.time).getTime();
         if (!isNaN(past)) {
           d.qt = new Date().getTime() - past;
         }

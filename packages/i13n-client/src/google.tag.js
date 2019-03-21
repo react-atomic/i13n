@@ -72,7 +72,7 @@ class GoogleTag extends BaseTag {
     const state = this.getState();
     const I13N = this.getClone('I13N');
     const {lazeInfo, action, category, label, value} = I13N;
-    const p = get(I13N, ['p'], null);
+    const p = get(I13N, ['p']);
     const thisCategory = category ? category : action;
 
     const more = {};
@@ -99,7 +99,7 @@ class GoogleTag extends BaseTag {
   impression() {
     const state = this.getState();
     const I13N = this.getClone('i13nPage');
-    const p = get(I13N, ['p'], null);
+    const p = get(I13N, ['p']);
 
     const config = {
       event: 'lucencyEventView',

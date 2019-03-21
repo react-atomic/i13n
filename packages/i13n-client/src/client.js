@@ -9,6 +9,7 @@ import set from 'set-object-value';
 import query from 'css-query-selector';
 import {win, doc} from 'win-doc';
 import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
+import callfunc from 'call-func';
 
 // local import
 import logError, {setDebugFlag} from './logError';
@@ -133,6 +134,7 @@ const initPageScript = () => {
   );
   keys(nextSections).forEach(sec => doAddSectionEvent(sec));
   delegate(doc(), 'click', nextDelegates);
+  callfunc(toJS(state.get('nextCallback')));
 };
 
 const initRouter = configs => {
@@ -154,9 +156,8 @@ const initRouter = configs => {
       return get(pageConfigs, ['timeout'], 0);
     });
   });
-  const loc = get(configs, ['location'], () => doc().location);
-  const url = loc.pathname;
-  let match = router.match(url);
+  const urlPathName = get(configs, ['location'], () => doc().location.pathname);
+  let match = router.match(urlPathName);
   if (match) {
     const timeouts = [];
     timeouts.push(match.fn());

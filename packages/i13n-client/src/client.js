@@ -94,9 +94,9 @@ const handleError = e => {
 };
 
 const processText = (state, done) => (maybeText, arrMerge) => {
-  const oConfig =
+  const userConfig =
     STRING === typeof maybeText ? nest(ini(maybeText), '_') : maybeText;
-  const userConfig = mergeConfig(oConfig, arrMerge);
+  mergeConfig(userConfig, arrMerge);
   initTags(userConfig);
   const nextConfigs = initRouter(userConfig);
   setTimeout(() => {
@@ -154,7 +154,7 @@ const initRouter = configs => {
       return get(pageConfigs, ['timeout'], 0);
     });
   });
-  const loc = doc().location;
+  const loc = get(configs, ['location'], () => doc().location);
   const url = loc.pathname;
   let match = router.match(url);
   if (match) {

@@ -264,11 +264,11 @@ class DataLayerToMp {
   }
 
   getMp(props, data) {
-    const oDoc = get(doc(), null, {});
-    const oWin = get(win(), null, {});
-    const nav = get(oWin, ['navigator'], {});
-    const screen = get(oWin, ['screen'], {});
-    const docEl = get(oDoc, ['documentElement'], {});
+    const oDoc = doc();
+    const oWin = win();
+    const nav = oWin.navigator || {};
+    const screen = oWin.screen || {};
+    const docEl = oDoc.documentElement || {};
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
     const {tagId} = props || {};

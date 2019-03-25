@@ -74,7 +74,7 @@ const getViewEcommerce = (I13N, defaultCurrencyCode) => {
   if (impressions) {
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
     if (p) {
-      impressions.forEach(item => (item.list = p));
+      impressions.forEach(item => (item.list = item.list || p));
     }
     set(ecommerce, ['impressions'], impressions);
   }

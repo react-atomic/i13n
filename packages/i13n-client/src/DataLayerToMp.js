@@ -135,9 +135,7 @@ class DataLayerToMp {
     data[key + 'va'] = variant;
     data[key + 'ps'] = position;
     data[key + 'pr'] = price;
-    if (0 === key.indexOf('pr')) {
-      data[key + 'cc'] = coupon;
-    }
+    data[key + 'cc'] = coupon;
     keys(others).forEach(k => {
       let endKey;
       if (0 === k.indexOf(DIMENSION)) {

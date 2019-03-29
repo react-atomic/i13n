@@ -70,15 +70,16 @@ describe('Test DataLayerToMp', () => {
   it('Test setOnePromotion', () => {
     const item = {};
     const data = {};
-    oDlToMp.setOneProduct('foo', data, item);
+    oDlToMp.setOneProduct('pr1', data, item);
     expect(data).to.deep.equal({
-      fooid: undefined,
-      foonm: undefined,
-      fooca: undefined,
-      foobr: undefined,
-      foova: undefined,
-      foops: undefined,
-      foopr: undefined,
+      pr1id: undefined,
+      pr1nm: undefined,
+      pr1ca: undefined,
+      pr1cc: undefined,
+      pr1br: undefined,
+      pr1va: undefined,
+      pr1ps: undefined,
+      pr1pr: undefined,
     });
   });
 

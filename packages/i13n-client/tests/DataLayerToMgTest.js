@@ -70,6 +70,18 @@ describe('Test DataLayerToMp', () => {
   it('Test setOnePromotion', () => {
     const item = {};
     const data = {};
+    oDlToMp.setOnePromotion('promo1', data, item);
+    expect(data).to.deep.equal({
+      promo1id: undefined,
+      promo1nm: undefined,
+      promo1cr: undefined,
+      promo1ps: undefined,
+    });
+  });
+
+  it('Test setOneProduct', () => {
+    const item = {};
+    const data = {};
     oDlToMp.setOneProduct('pr1', data, item);
     expect(data).to.deep.equal({
       pr1id: undefined,
@@ -80,17 +92,18 @@ describe('Test DataLayerToMp', () => {
       pr1va: undefined,
       pr1ps: undefined,
       pr1pr: undefined,
+      pr1qt: undefined,
     });
   });
 
-  it('Test setOneProduct', () => {
+  it('Test product custom dimension and metric', () => {
     const item = {
       dimension2: 'abc',
       metric3: 100,
     };
     const data = {};
-    oDlToMp.setOneProduct('foo', data, item);
-    expect(data).to.include({foocd2: 'abc', foocm3: 100});
+    oDlToMp.setOneProduct('pr1', data, item);
+    expect(data).to.include({pr1cd2: 'abc', pr1cm3: 100});
   });
 
   it('Test getEcPurchaseData', () => {
@@ -164,6 +177,7 @@ describe('Test DataLayerToMp', () => {
       il1pi1va: undefined,
       il1pi1ps: undefined,
       il1pi1pr: undefined,
+      il1pi1qt: undefined,
     });
     const data = oDlToMp.getEcImpressionsData([
       {
@@ -183,6 +197,7 @@ describe('Test DataLayerToMp', () => {
       il1pi1nm: 'Triblend Android T-Shirt',
       il1pi1ca: 'Apparel',
       il1pi1cc: undefined,
+      il1pi1qt: undefined,
       il1pi1br: 'Google',
       il1pi1va: 'Gray',
       il1pi1ps: 1,
@@ -200,7 +215,7 @@ describe('Test DataLayerToMp', () => {
   it('Test getMp', () => {
     const data = oDlToMp.getMp(null, {
       lazeInfoIndex: 1,
-      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}'
+      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}',
     });
     expect(data).to.include({
       _s: 1,
@@ -215,13 +230,13 @@ describe('Test DataLayerToMp', () => {
       v: 1,
       t: 'event',
     });
-    expect(data.qt+'').to.not.empty;
+    expect(data.qt + '').to.not.empty;
   });
 
-  it('Test worng lazeInfo time format with getmp', ()=>{
+  it('Test worng lazeInfo time format with getmp', () => {
     const data = oDlToMp.getMp(null, {
       lazeInfoIndex: 0,
-      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}'
+      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}',
     });
     expect(data.qt).to.be.undefined;
   });

@@ -1,4 +1,5 @@
 import get from 'get-object-value';
+import {UNDEFINED} from 'reshow-constant';
 
 import BaseTag from './BaseTag';
 import {getViewEcommerce, getActionEcommerce} from './google.ecommerce';
@@ -86,11 +87,14 @@ class GoogleTag extends BaseTag {
       lazeInfo: JSON.stringify(lazeInfo),
     };
 
-    const ecommerce = getActionEcommerce(I13N, state.get('currencyCode'));
+    const {ecommerce, value:eValue} = getActionEcommerce(I13N, state.get('currencyCode'));
     if (keys(ecommerce).length) {
       config.ecommerce = ecommerce;
       config.category = 'Ecommerce';
       more.ecommerce = ecommerce;
+      if (UNDEFINED === typeof value && !isNaN(eValue)) {
+        config.value = eValue;
+      }
     }
     config.label = this.mergeLabel(label, more);
     this.push(config);

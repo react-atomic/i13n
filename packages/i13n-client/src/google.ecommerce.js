@@ -36,6 +36,7 @@ import set from 'set-object-value';
 const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   const {p, action, products, promotions} = I13N;
   let ecommerce = {};
+  let value;
   switch (action) {
     case 'ClickPromotion':
       ecommerce = {
@@ -51,6 +52,7 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
           products,
         },
       };
+      value = get(products, [0, 'price']);
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'AddToCart':
@@ -64,8 +66,8 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   }
 
   handleStep(I13N, ecommerce, defaultCurrencyCode);
-  handlePurchase(I13N, ecommerce, defaultCurrencyCode);
-  return ecommerce;
+  handlePurchase(I13N, ecommerce, defaultCurrencyCode, value);
+  return {ecommerce, value};
 };
 
 const getViewEcommerce = (I13N, defaultCurrencyCode) => {
@@ -118,11 +120,12 @@ const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
   }
 };
 
-const handlePurchase = (I13N, ecommerce, defaultCurrencyCode) => {
+const handlePurchase = (I13N, ecommerce, defaultCurrencyCode, value) => {
   const {purchaseId, refundId, products} = I13N;
   const affiliation = get(I13N, ['affiliation'], '');
   const coupon = get(I13N, ['coupon'], '');
   const revenue = get(I13N, ['revenue'], 0);
+  value = revenue;
   const tax = get(I13N, ['tax'], 0);
   const shipping = get(I13N, ['shipping'], 0);
   if (purchaseId) {

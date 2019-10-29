@@ -49,6 +49,13 @@ const utils = () => {
     lazyAttr,
     text,
     toJS,
+    parseJson: strJson => {
+      try {
+        return JSON.parse(strJson);
+      } catch (e) {
+        logError(e, 'I13nScriptErr');
+      }
+    },
   };
   return o;
 };

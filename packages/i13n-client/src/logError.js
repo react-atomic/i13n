@@ -8,8 +8,7 @@ let debugFlag = false;
 const logError = (error, action) => {
   let {message, stack} = error || {};
   stack = get(error, ['stack'], '').split(/\n/);
-  const wait = action && -1 !== action.indexOf('I13nScript') ?
-    0 : undefined;
+  const wait = action && -1 !== action.indexOf('I13nScript') ? 0 : undefined;
   i13nDispatch('action', {
     wait,
     I13N: {

@@ -1,8 +1,9 @@
 import {expect} from 'chai';
-import Usergram from '../cjs/src/usergram.tag';
 import i13nStore from 'i13n-store';
 import {i13nDispatch} from 'i13n';
 import jsdom from 'jsdom-global';
+
+import Usergram from '../usergram.tag';
 
 describe('Test Usergram', () => {
   Usergram.register(i13nStore, 'usergram');

@@ -1,7 +1,7 @@
 import jsdom from 'jsdom-global';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import req, {beacon} from '../cjs/src/req';
+import req, {beacon} from '../req';
 
 const genString = len => {
   let x = '1234567890';

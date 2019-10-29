@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import mergeConfig from '../cjs/src/mergeConfig';
+import mergeConfig from '../mergeConfig';
 
 describe('Test merge', ()=>{
   it('test replace', ()=>{

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import jsdom from 'jsdom-global';
 
-import DataLayerToMp from '../cjs/src/DataLayerToMp';
+import DataLayerToMp from '../DataLayerToMp';
 
 describe('Test DataLayerToMp', () => {
   const oDlToMp = new DataLayerToMp();

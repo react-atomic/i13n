@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {create} from 'create-el';
 import jsdom from 'jsdom-global';
 
-import getOptionText from '../cjs/src/getOptionText';
+import getOptionText from '../getOptionText';
 
 describe('Test Get Option', ()=>{
   let resetDom;

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import i13nStore from 'i13n-store';
 import jsdom from 'jsdom-global';
-import client from '../cjs/src/client';
+import client from '../client';
 
 jsdom(null, {url: 'http://localhost'});
 

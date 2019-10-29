@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {getViewEcommerce, getActionEcommerce} from '../cjs/src/google.ecommerce.js';
+import {getViewEcommerce, getActionEcommerce} from '../google.ecommerce.js';
 
 describe('Test Google Action Ecommerce', ()=>{
   it('simple test', ()=>{

@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
-import Router from '../cjs/src/Router';
+import Router from '../Router';
 
 describe('Test Router', () => {
   it('simple test', () => {

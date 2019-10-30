@@ -24,7 +24,7 @@ import lazyProducts, {forEachStoreProducts} from './lazyProducts';
 // tags
 import debugTag from './debug.tag';
 import googleTag from './google.tag';
-import usergramTag from './usergram.tag';
+// import usergramTag from './usergram.tag';
 
 // constant
 const keys = Object.keys;
@@ -173,7 +173,7 @@ const initTags = configs => {
   const tagMap = {
     debug: debugTag,
     gtag: googleTag,
-    usergram: usergramTag,
+//    usergram: usergramTag,
   };
   const tags = get(configs, ['tag'], {});
   keys(tags).forEach(key => {

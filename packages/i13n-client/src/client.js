@@ -269,7 +269,7 @@ const actionHandler = (state, action) => {
         i13nDispatch(state);
       }
     }, delay);
-    if (!isNaN(wait)) {
+    if (isNaN(wait)) {
       set(action, [PARAMS, 'wait'], 0);
     }
   } else {

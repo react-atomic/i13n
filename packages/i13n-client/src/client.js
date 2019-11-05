@@ -173,7 +173,7 @@ const initTags = configs => {
   const tagMap = {
     debug: debugTag,
     gtag: googleTag,
-//    usergram: usergramTag,
+    //    usergram: usergramTag,
   };
   const tags = get(configs, ['tag'], {});
   keys(tags).forEach(key => {
@@ -215,18 +215,14 @@ const initHandler = (state, action, initDone) => {
   return state;
 };
 
-const actionHandler = (state, action) => {
-  const params = getParams(action);
-  let I13N = params.I13N;
-  const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
+const maybeDelayAction = (state, action) => () => {
   const i13nCbParams = toJS(state.get('i13nCbParams'));
+  const i13nLastEvent = toJS(state.get('lastEvent'));
+  const params = getParams(action);
+  const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
+  let I13N = params.I13N;
   if (FUNCTION === typeof i13nCb) {
-    I13N = i13nCb(
-      toJS(state.get('lastEvent')),
-      get(I13N, null, {}),
-      i13nCbParams,
-      state,
-    );
+    I13N = i13nCb(i13nLastEvent, get(I13N, null, {}), i13nCbParams, state);
     delete action.params.i13nCb;
   }
   if (lazeInfo) {
@@ -242,6 +238,7 @@ const actionHandler = (state, action) => {
       set(action, [PARAMS, 'I13N'], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
+    state = state.delete('lastEvent').delete('i13nCbParams');
   }
 
   if (FUNCTION === typeof i13nPageCb) {
@@ -254,7 +251,23 @@ const actionHandler = (state, action) => {
       );
     }
   }
-  return lazyProducts(state.delete('lastEvent').delete('i13nCbParams'));
+  return lazyProducts(state);
+};
+
+const actionHandler = (state, action) => {
+  const {delay} = getParams(action);
+  const run = maybeDelayAction(state.merge(), action);
+  if (!isNaN(delay)) {
+    setTimeout(() => {
+      const state = run();
+      if (state) {
+        i13nDispatch(state);
+      }
+    }, delay);
+  } else {
+    state = run();
+  }
+  return state;
 };
 
 const impressionHandler = (state, action) => lazyProducts(state);

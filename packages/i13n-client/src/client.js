@@ -223,15 +223,15 @@ const maybeDelayAction = (state, action) => () => {
   const params = getParams(action);
   const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   let I13N = params.I13N;
+  if (lazeInfo) {
+    I13N.lazeInfo = lazeInfo;
+  }
   if (FUNCTION === typeof i13nCb) {
     if (currentTarget && !i13nCbParams.currentTarget) {
       i13nCbParams.currentTarget = currentTarget;
     }
     I13N = i13nCb(i13nLastEvent, get(I13N, null, {}), i13nCbParams, state);
     delete action.params.i13nCb;
-  }
-  if (lazeInfo) {
-    I13N.lazeInfo = lazeInfo;
   }
 
   // reset I13N

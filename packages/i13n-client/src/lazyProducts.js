@@ -18,6 +18,7 @@ const storeProducts = (products, arrP) => {
       ...arrP[p.id],
       ...removeEmpty(p),
     };
+    delete arrP[p.id].quantity;
     products[key] = {...p, ...arrP[p.id]};
   });
 };

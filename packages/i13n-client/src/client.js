@@ -260,7 +260,7 @@ const maybeDelayAction = (state, action) => () => {
 };
 
 const actionHandler = (state, action) => {
-  const {delay} = getParams(action);
+  const {delay, wait} = getParams(action);
   const run = maybeDelayAction(state.merge(), action);
   if (!isNaN(delay)) {
     setTimeout(() => {
@@ -269,6 +269,9 @@ const actionHandler = (state, action) => {
         i13nDispatch(state);
       }
     }, delay);
+    if (!isNaN(wait)) {
+      set(action, [PARAMS, 'wait'], 0);
+    }
   } else {
     state = run();
   }

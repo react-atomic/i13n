@@ -13,29 +13,22 @@ const delegate = (el, type, childs, defaultFunc) => {
   }
   query.el(el).addEventListener(type, e => {
     const t = e.target;
-    let isRun;
     childs.some(({select, func}) => {
-      const arrSel = query.all(select);
-      if (!arrSel.length) {
+      const doms = query.all(select);
+      if (!doms.length) {
         return false;
       }
       if (FUNCTION !== typeof func) {
         func = defaultFunc;
       }
-      arrSel.some(childEl => {
+      return doms.some(childEl => {
         if (t.isSameNode(childEl) || childEl.contains(t)) {
-          callfunc(func, [{...e, currentTarget: childEl}]);
-          isRun = true;
+          callfunc(func, [{...e, currentTarget: childEl}, e]);
           return true;
         } else {
           return false;
         }
       });
-      if (isRun) {
-        return true;
-      } else {
-        return false;
-      }
     });
   });
 };

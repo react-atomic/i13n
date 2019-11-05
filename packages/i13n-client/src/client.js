@@ -30,6 +30,8 @@ import googleTag from './google.tag';
 const keys = Object.keys;
 const lStore = new Storage(localStorage);
 const PARAMS = 'params';
+const lastEvent = 'lastEvent';
+const i13nCbParams = 'i13nCbParams';
 
 /**
  * functions
@@ -46,8 +48,8 @@ const addSectionEvent = (configs, nextDelegates) => section => {
     const type = get(secs, ['types', skey]);
     const func = e => {
       i13nDispatch({
-        lastEvent: e,
-        i13nCbParams: JSON.parse(get(secs, [PARAMS, skey])),
+        [lastEvent]: [e, e.currentTarget],
+        [i13nCbParams]: JSON.parse(get(secs, [PARAMS, skey])),
       });
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
@@ -119,7 +121,7 @@ const initPageScript = () => {
   nextScripts.forEach(script => {
     if (script[1]) {
       i13nDispatch({
-        i13nCbParams: script[1],
+        [i13nCbParams]: script[1],
       });
     }
     exec(script[0], null, null, e => logError(e, 'InitI13nScriptErr'));
@@ -216,12 +218,15 @@ const initHandler = (state, action, initDone) => {
 };
 
 const maybeDelayAction = (state, action) => () => {
-  const i13nCbParams = toJS(state.get('i13nCbParams'));
-  const i13nLastEvent = toJS(state.get('lastEvent'));
+  const i13nCbParams = toJS(state.get(i13nCbParams)) || {};
+  const {0: i13nLastEvent, 1: currentTarget} = toJS(state.get(lastEvent)) || {};
   const params = getParams(action);
   const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   let I13N = params.I13N;
   if (FUNCTION === typeof i13nCb) {
+    if (currentTarget && !i13nCbParams.currentTarget) {
+      i13nCbParams.currentTarget = currentTarget;
+    }
     I13N = i13nCb(i13nLastEvent, get(I13N, null, {}), i13nCbParams, state);
     delete action.params.i13nCb;
   }
@@ -238,7 +243,7 @@ const maybeDelayAction = (state, action) => () => {
       set(action, [PARAMS, 'I13N'], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
-    state = state.delete('lastEvent').delete('i13nCbParams');
+    state = state.delete(lastEvent).delete(i13nCbParams);
   }
 
   if (FUNCTION === typeof i13nPageCb) {

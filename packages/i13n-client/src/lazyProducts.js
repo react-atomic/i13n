@@ -20,6 +20,7 @@ const storeProducts = (products, arrP) => {
     };
     delete arrP[p.id].quantity;
     delete arrP[p.id].variant;
+    delete arrP[p.id].position;
     products[key] = {...p, ...arrP[p.id]};
   });
 };

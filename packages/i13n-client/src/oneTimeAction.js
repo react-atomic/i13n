@@ -1,11 +1,12 @@
-import get from 'get-object-value';
 import lazyAttr from './lazyAttr';
 
+const ONE_TIME_ACTION = 'oneTimeAction';
+
 const oneTimeAction = (I13N, state) => {
-  const oneTimeActions = state && state.get('oneTime');
-  const action = get(I13N, ['action']);
+  const oneTimeActions = state && state.get(ONE_TIME_ACTION);
+  const action = I13N && I13N.action;
   if (action && oneTimeActions && oneTimeActions.length) {
-    const storeOneTime = lazyAttr('oneTime');
+    const storeOneTime = lazyAttr(ONE_TIME_ACTION);
     const arrOneTime = storeOneTime() || {};
     if (arrOneTime[action]) {
       return false;

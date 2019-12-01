@@ -103,6 +103,9 @@ class BaseI13nStore extends Store {
         this.removeLazy(withLazy);
       }
     }
+    if (stop && lazyKey) {
+      this.removeLazy(lazyKey);
+    }
     return next;
   }
 

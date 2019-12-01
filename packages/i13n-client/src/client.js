@@ -189,34 +189,6 @@ const initTags = configs => {
   });
 };
 
-/**
- * Handler
- */
-const initHandler = (state, action, initDone) => {
-  const params = getParams(action);
-  state = state.merge(params);
-  const {iniUrl, iniCb, forceRefresh} = params;
-  const process = processText(state, initDone);
-  const cb = maybeText =>
-    FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
-  if (STRING === typeof iniUrl) {
-    const localIni = lStore.get(iniUrl);
-    const sessionIni = lazyAttr(iniUrl);
-    if (!forceRefresh && sessionIni() && localIni) {
-      cb(localIni);
-    } else {
-      req(iniUrl, oReq => e => {
-        cb(oReq.responseText);
-        lStore.set(iniUrl, oReq.responseText);
-        sessionIni(true);
-      });
-    }
-  } else {
-    cb(iniUrl); // assign config object
-  }
-  return state;
-};
-
 const maybeDelayAction = (state, action) => () => {
   const i13nCbParams = toJS(state.get(i13nCbParams)) || {};
   const {0: i13nLastEvent, 1: currentTarget} = toJS(state.get(lastEvent)) || {};
@@ -257,6 +229,34 @@ const maybeDelayAction = (state, action) => () => {
     }
   }
   return lazyProducts(state);
+};
+
+/**
+ * Handler
+ */
+const initHandler = (state, action, initDone) => {
+  const params = getParams(action);
+  state = state.merge(params);
+  const {iniUrl, iniCb, forceRefresh} = params;
+  const process = processText(state, initDone);
+  const cb = maybeText =>
+    FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
+  if (STRING === typeof iniUrl) {
+    const localIni = lStore.get(iniUrl);
+    const sessionIni = lazyAttr(iniUrl);
+    if (!forceRefresh && sessionIni() && localIni) {
+      cb(localIni);
+    } else {
+      req(iniUrl, oReq => e => {
+        cb(oReq.responseText);
+        lStore.set(iniUrl, oReq.responseText);
+        sessionIni(true);
+      });
+    }
+  } else {
+    cb(iniUrl); // assign config object
+  }
+  return state;
 };
 
 const actionHandler = (state, action) => {

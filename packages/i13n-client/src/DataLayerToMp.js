@@ -7,6 +7,9 @@ import {toNum, getNum} from 'to-percent-js';
 import callfunc from 'call-func';
 import {UNDEFINED} from 'reshow-constant';
 
+import getTimestamp from './getTimestamp';
+import parseJson from './parseJson';
+
 let seq = 1;
 const DIMENSION = 'dimension';
 const METRIC = 'metric';
@@ -330,11 +333,11 @@ class DataLayerToMp {
       if (lazeInfoIndex) {
         d['cd' + lazeInfoIndex] = lazeInfo;
       }
-      const oLazyInfo = JSON.parse(lazeInfo);
+      const oLazyInfo = parseJson(lazeInfo);
       if (oLazyInfo.time) {
-        const past = new Date(oLazyInfo.time).getTime();
+        const past = getTimestamp(oLazyInfo.time);
         if (!isNaN(past)) {
-          d.qt = new Date().getTime() - past;
+          d.qt = getTimestamp() - past;
         }
       }
     }

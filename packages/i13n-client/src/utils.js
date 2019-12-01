@@ -15,6 +15,7 @@ import getElValue from './getElValue';
 import getRadioValue from './getRadioValue';
 import delegate from './delegate';
 import lazyAttr from './lazyAttr';
+import parseJson from './parseJson';
 
 // constant
 const keys = Object.keys;
@@ -35,14 +36,6 @@ const getNum = s => Num(text(s));
 
 const joinCategory = arr =>
   arr.map(item => text(item).replace('/', '-')).join('/');
-
-const parseJson = strJson => {
-  try {
-    return JSON.parse(strJson);
-  } catch (e) {
-    logError(e, 'I13nScriptErr');
-  }
-};
 
 const utils = () => {
   const o = {

@@ -4,24 +4,24 @@ import jsdom from 'jsdom-global';
 
 import getOptionText from '../getOptionText';
 
-describe('Test Get Option', ()=>{
+describe('Test getOptionText', () => {
   let resetDom;
 
-  beforeEach(()=>{
+  beforeEach(() => {
     resetDom = jsdom(null, {url: 'http://localhost'});
   });
-  afterEach(()=>{
+  afterEach(() => {
     resetDom();
   });
-  it('simple test', ()=>{
-    const innerHTML =`
+  it('simple test', () => {
+    const innerHTML = `
       <select>
         <option value="1">foo</option>
         <option selected value="2">bar</option>
       </select>
     `;
     const d = create('div')()({
-      innerHTML
+      innerHTML,
     });
     const sel = d.querySelector('select');
     expect(getOptionText(sel)).to.equal('bar');

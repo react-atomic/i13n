@@ -12,6 +12,7 @@ import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 import callfunc from 'call-func';
 
 // local import
+import parseJson from './parseJson';
 import logError, {setDebugFlag} from './logError';
 import utils from './utils';
 import delegate from './delegate';
@@ -20,6 +21,7 @@ import req from './req';
 import mergeConfig from './mergeConfig';
 import lazyAttr from './lazyAttr';
 import lazyProducts, {forEachStoreProducts} from './lazyProducts';
+import oneTimeAction from './oneTimeAction';
 
 // tags
 import debugTag from './debug.tag';
@@ -49,7 +51,7 @@ const addSectionEvent = (configs, nextDelegates) => section => {
     const func = e => {
       i13nDispatch({
         [lastEvent]: [e, e.currentTarget],
-        [i13nCbParams]: JSON.parse(get(secs, [PARAMS, skey])),
+        [i13nCbParams]: parseJson(get(secs, [PARAMS, skey])),
       });
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
@@ -83,7 +85,7 @@ const pushPageScript = (configs, nextConfigs) => name => {
       const script = [pageScript];
       const scriptParam = get(configs, ['page', name, PARAMS, key]);
       if (scriptParam) {
-        script.push(JSON.parse(scriptParam));
+        script.push(parseJson(scriptParam));
       }
       nextConfigs.nextScripts.push(script);
     }
@@ -207,6 +209,7 @@ const maybeDelayAction = (state, action) => () => {
   }
 
   // reset I13N
+  I13N = oneTimeAction(I13N, state);
   state = state.set('I13N', I13N);
   if (!I13N) {
     set(action, [PARAMS, 'stop'], true);

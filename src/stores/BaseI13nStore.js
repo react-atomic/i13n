@@ -85,42 +85,46 @@ class BaseI13nStore extends Store {
       : toMap(lazyAction.__hash)[key];
   }
 
-  initDone = state => {
+  processLazyAction(lazyAction) {
+    const processLazy = (lazeArr, key) => {
+      const laze = lazeArr[key];
+      let {wait, stop} = getParams(laze);
+      if (!wait || wait <= 0) {
+        if (!stop) {
+          if (UNDEFINED !== typeof get(laze, ['params', 'wait'])) {
+            delete laze.params.wait;
+          }
+          i13nDispatch(laze);
+        }
+        delete lazeArr[key];
+      } else {
+        laze.params.wait = --wait;
+      }
+      return lazeArr[key];
+    };
+
+    const seq = get(lazyAction, [seqKey]);
+    if (isArray(seq)) {
+      lazyAction.__seq = seq.filter((action, key) => processLazy(seq, key));
+    }
+
+    const hash = get(lazyAction, [hashKey]);
+    if (hash) {
+      keys(hash).forEach(key => processLazy(hash, key));
+    }
+
+    lStore.set(lazyActionKey, lazyAction);
+  }
+
+  initDone = (state, action) => {
     this.nextEmits.push('init');
     state = state.set('init', true);
     i13nDispatch(state); // for async, need located before lazyAction
     const lazyAction = this.getLazy();
     if (lazyAction) {
-      const handleLazy = (lazeArr, key) => {
-        const laze = lazeArr[key];
-        let {wait, stop} = getParams(laze);
-        if (!wait || wait <= 0) {
-          if (!stop) {
-            if (UNDEFINED !== typeof get(laze, ['params', 'wait'])) {
-              delete laze.params.wait;
-            }
-            i13nDispatch(laze);
-          }
-          delete lazeArr[key];
-        } else {
-          laze.params.wait = --wait;
-        }
-        return lazeArr[key];
-      };
-
-      const seq = get(lazyAction, [seqKey]);
-      if (isArray(seq)) {
-        lazyAction.__seq = seq.filter((action, key) => handleLazy(seq, key));
-      }
-
-      const hash = get(lazyAction, [hashKey]);
-      if (hash) {
-        keys(hash).forEach(key => handleLazy(hash, key));
-      }
-
-      lStore.set(lazyActionKey, lazyAction);
+      this.processLazyAction(lazyAction);
     }
-    i13nDispatch('view');
+    i13nDispatch(action || 'view');
     return state;
   };
 
@@ -129,7 +133,7 @@ class BaseI13nStore extends Store {
     if (FUNCTION === typeof initHandler) {
       return initHandler(state, action, this.initDone);
     } else {
-      return this.initDone(state);
+      return this.initDone(state, action);
     }
   }
 

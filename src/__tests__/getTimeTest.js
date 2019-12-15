@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {getTime} from '../cjs/src/index';
+import {getTime} from '../index';
 
 describe('Test getTime', () => {
   it('simple test', ()=>{

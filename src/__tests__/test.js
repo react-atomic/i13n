@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import jsdom from 'jsdom-global';
 jsdom(null, {url: 'http://localhost'});
 
-import {i13nDispatch} from '../cjs/src/index';
-import i13nStore from '../cjs/src/stores/i13nStore';
+import {i13nDispatch} from '../index';
+import i13nStore from '../stores/i13nStore';
 import {localStorage, Storage} from 'get-storage';
 const lStore = new Storage(localStorage);
 
@@ -62,9 +62,9 @@ describe('Test after init', () => {
     i13nStore.pushLazyAction({params: {wait: 1, foo: 'bar'}}, 'foo');
     expect(i13nStore.getLazy('foo').params.wait).to.equal(1);
     const state = i13nStore.getState();
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     expect(i13nStore.getLazy('foo').params.wait).to.equal(0);
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     expect(!!i13nStore.getLazy('foo')).to.be.false;
   });
 
@@ -79,7 +79,7 @@ describe('Test after init', () => {
     let foo = i13nStore.getLazy('foo');
     expect(foo.params.wait).to.equal(0);
     const state = i13nStore.getState();
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     foo = i13nStore.getLazy('foo');
     expect(!!foo).to.be.false;
     expect(actionHandler.called).to.be.true;
@@ -96,7 +96,7 @@ describe('Test after init', () => {
     let foo = i13nStore.getLazy('foo');
     expect(foo.params.wait).to.equal(0);
     const state = i13nStore.getState();
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     foo = i13nStore.getLazy('foo');
     expect(!!foo).to.be.false;
     expect(actionHandler.called).to.be.false;
@@ -109,7 +109,7 @@ describe('Test after init', () => {
     const state = i13nStore.getState();
     const cb = sinon.spy(i13nStore, 'handleAction');
     expect(cb.called).to.be.false;
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     foo = i13nStore.getLazy('foo');
     expect(cb.called).to.be.true;
     expect(!!foo).to.be.false;
@@ -122,7 +122,7 @@ describe('Test after init', () => {
     i13nDispatch('config/set', {actionHandler});
     i13nStore.pushLazyAction({type: 'action', params: {I13N: {a: 1, b: 2}}});
     const state = i13nStore.getState();
-    i13nStore.handleAfterInit(state);
+    i13nStore.initDone(state);
     expect(actionHandler.called).to.be.true;
     const I13N = i13nStore
       .getState()

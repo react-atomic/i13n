@@ -32,8 +32,7 @@ class BaseI13nStore extends Store {
   }
 
   processView(state, action) {
-    state = this.sendBeacon(state, action);
-    return state;
+    return this.sendBeacon(state, action);
   }
 
   pushLazyAction(action, key) {
@@ -86,39 +85,7 @@ class BaseI13nStore extends Store {
       : toMap(lazyAction.__hash)[key];
   }
 
-  handleAction(state, action) {
-    let actionHandler = state.get('actionHandler');
-    const {withLazy} = getParams(action);
-    if (!actionHandler) {
-      actionHandler = this.processAction.bind(this);
-    }
-    if (withLazy) {
-      action = this.mergeWithLazy(action, withLazy);
-    }
-    const next = actionHandler(state, action);
-    const {wait, stop, lazyKey} = getParams(action); // need locate after next
-    if (UNDEFINED === typeof wait && !stop) {
-      this.nextEmits.push('action');
-      if (withLazy && withLazy !== lazyKey) {
-        this.removeLazy(withLazy);
-      }
-    }
-    if (stop && lazyKey) {
-      this.removeLazy(lazyKey);
-    }
-    return next;
-  }
-
-  handleInit(state, action) {
-    const initHandler = state.get('initHandler');
-    if (FUNCTION === typeof initHandler) {
-      return initHandler(state, action, this.handleAfterInit);
-    } else {
-      return this.handleAfterInit(state);
-    }
-  }
-
-  handleAfterInit = state => {
+  initDone = state => {
     this.nextEmits.push('init');
     state = state.set('init', true);
     i13nDispatch(state); // for async, need located before lazyAction
@@ -157,6 +124,15 @@ class BaseI13nStore extends Store {
     return state;
   };
 
+  handleInit(state, action) {
+    const initHandler = state.get('initHandler');
+    if (FUNCTION === typeof initHandler) {
+      return initHandler(state, action, this.initDone);
+    } else {
+      return this.initDone(state);
+    }
+  }
+
   handleImpression(state, action) {
     state = state.set('lastUrl', docUrl());
     const run = state => {
@@ -179,12 +155,35 @@ class BaseI13nStore extends Store {
     }
   }
 
+  handleAction(state, action) {
+    let actionHandler = state.get('actionHandler');
+    const {withLazy} = getParams(action);
+    if (!actionHandler) {
+      actionHandler = this.processAction.bind(this);
+    }
+    if (withLazy) {
+      action = this.mergeWithLazy(action, withLazy);
+    }
+    const next = actionHandler(state, action);
+    const {wait, stop, lazyKey} = getParams(action); // need locate after next
+    if (UNDEFINED === typeof wait && !stop) {
+      this.nextEmits.push('action');
+      if (withLazy && withLazy !== lazyKey) {
+        this.removeLazy(withLazy);
+      }
+    }
+    if (stop && lazyKey) {
+      this.removeLazy(lazyKey);
+    }
+    return next;
+  }
+
   reduce(state, action) {
     switch (action.type) {
-      case 'action':
-        return this.handleAction(state, action);
       case 'view':
         return this.handleImpression(state, action);
+      case 'action':
+        return this.handleAction(state, action);
       case 'config/set':
         return state.merge(action.params);
       case 'reset':

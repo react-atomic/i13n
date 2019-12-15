@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {i13nDispatch} from '../cjs/src/index';
-import i13nStore from '../cjs/src/stores/i13nStore';
+import {i13nDispatch} from '../index';
+import i13nStore from '../stores/i13nStore';
 
 describe('Test mergeWithLazy', () => {
   let spy;

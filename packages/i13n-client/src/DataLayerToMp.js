@@ -346,3 +346,4 @@ class DataLayerToMp {
 }
 
 export default DataLayerToMp;
+export {MP_CLIENT_ID};

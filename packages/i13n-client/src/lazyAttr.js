@@ -1,8 +1,7 @@
-import {sessionStorage, Storage} from 'get-storage';
 import {toMap} from 'get-object-value';
 import {UNDEFINED} from 'reshow-constant';
+import {sStore} from './storage'; 
 
-const sStore = new Storage(sessionStorage);
 const lazyKey = 'lazyAttr';
 const lazyAttr = key => value => {
   const arr = toMap(sStore.get(lazyKey));

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import jsdom from 'jsdom-global';
 
-import DataLayerToMp from '../DataLayerToMp';
+import DataLayerToMp, {MP_CLIENT_ID} from '../DataLayerToMp';
 
 describe('Test DataLayerToMp', () => {
   const oDlToMp = new DataLayerToMp();
@@ -16,7 +16,7 @@ describe('Test DataLayerToMp', () => {
 
   it('Test getClientId', () => {
     const id = oDlToMp.getClientId();
-    expect(oDlToMp.getClientIdCookie()).to.equal(id);
+    expect(oDlToMp.getClientIdCookie(MP_CLIENT_ID)).to.equal(id);
   });
 
   it('Test isSameHost', () => {

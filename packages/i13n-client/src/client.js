@@ -3,7 +3,6 @@ import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
 import exec from 'exec-script';
-import {localStorage, Storage} from 'get-storage';
 import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';
 import query from 'css-query-selector';
@@ -12,6 +11,7 @@ import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 import callfunc from 'call-func';
 
 // local import
+import {lStore} from './storage'; 
 import parseJson from './parseJson';
 import logError, {setDebugFlag} from './logError';
 import utils from './utils';
@@ -30,7 +30,6 @@ import googleTag from './google.tag';
 
 // constant
 const keys = Object.keys;
-const lStore = new Storage(localStorage);
 const PARAMS = 'params';
 const lastEvent = 'lastEvent';
 const i13nCbParams = 'i13nCbParams';

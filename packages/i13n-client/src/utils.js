@@ -8,7 +8,7 @@ import getRandomId from 'get-random-id';
 import get, {toJS} from 'get-object-value';
 
 // local
-import {lStore, sStore} from './storage'; 
+import {lStorage, sStorage} from './storage';
 import logError from './logError';
 import text from './text';
 import getOptionText from './getOptionText';
@@ -64,8 +64,8 @@ const utils = () => {
     text,
     toJS,
     parseJson,
-    lStore,
-    sStore,
+    lStorage,
+    sStorage,
   };
   return o;
 };

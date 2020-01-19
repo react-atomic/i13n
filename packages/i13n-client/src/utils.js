@@ -11,7 +11,7 @@ import get, {toJS} from 'get-object-value';
 import {lStorage, sStorage} from './storage';
 import logError from './logError';
 import text from './text';
-import getOptionText from './getOptionText';
+import getOptionText, {getOptionEl} from './getOptionText';
 import getElValue from './getElValue';
 import getRadioValue from './getRadioValue';
 import delegate from './delegate';
@@ -55,6 +55,7 @@ const utils = () => {
     getUrl,
     get,
     getOptionText,
+    getOptionEl,
     getElValue,
     getRadioValue,
     getCookie,

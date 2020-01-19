@@ -37,30 +37,25 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   const {p, action, products, promotions} = I13N;
   let ecommerce = {};
   let value;
+  let actionField;
+  if (p) {
+    actionField = {list: p};
+  }
   switch (action) {
     case 'ClickPromotion':
-      ecommerce = {
-        promoClick: {promotions},
-      };
+      ecommerce = {promoClick: {promotions}};
       break;
     case 'ClickProduct':
-      ecommerce = {
-        click: {
-          actionField: {
-            list: p,
-          },
-          products,
-        },
-      };
+      ecommerce = {click: {actionField, products}};
       value = get(products, [0, 'price']);
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'AddToCart':
-      ecommerce = {add: {products}};
+      ecommerce = {add: {actionField, products}};
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'RemoveFromCart':
-      ecommerce = {remove: {products}};
+      ecommerce = {remove: {actionField, products}};
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
   }

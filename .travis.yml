@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - 8
+  - 10 
 cache:
   - pip
   - yarn
@@ -12,4 +12,4 @@ before_install:
 env:
   - TEST_DIR=./
   - TEST_DIR=packages/i13n-client
-script: cd $TEST_DIR && yarn install && npm test
+script: cd $TEST_DIR && yarn --ignore-engines && npm test

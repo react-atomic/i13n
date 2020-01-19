@@ -1,13 +1,12 @@
-import query, {queryFrom} from 'css-query-selector';
+import {queryFrom} from 'css-query-selector';
 import get from 'get-object-value';
+import getElValue from './getElValue';
 
-const getOptionText = sel => {
-  const thisSel = query.el(sel);
-  if (!thisSel) {
-    return;
-  }
-  const val = get(thisSel, ['value'], '');
-  return get(queryFrom(thisSel).one("option[value='" + val + "']"), ['text'], '');
-};
+const getOptionText = sel =>
+  get(
+    queryFrom(sel).one("option[value='" + getElValue(sel) + "']"),
+    ['text'],
+    '',
+  );
 
 export default getOptionText;

@@ -13,11 +13,11 @@
   "dependencies": {
     "get-object-value": "*",
     "get-storage": "*",
+    "reshow-constant": "*",
     "reshow-flux-base": "*",
     "reshow-runtime": "*",
-    "reshow-constant": "*",
-    "win-doc": "*",
-    "set-object-value": "*"
+    "set-object-value": "*",
+    "win-doc": "*"
   },
   "devDependencies": {
     "@babel/cli": "^7.x",

@@ -10,6 +10,10 @@ import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 import callfunc from 'call-func';
 
 // local import
+import storeCbParams, {
+  _LAST_EVENT,
+  _I13N_CB_PARAMS,
+} from './storeCbParams';
 import execScript from './execScript';
 import {lStore} from './storage';
 import parseJson from './parseJson';
@@ -31,8 +35,6 @@ import googleTag from './google.tag';
 // constant
 const keys = Object.keys;
 const PARAMS = 'params';
-const lastEvent = 'lastEvent';
-const i13nCbParams = 'i13nCbParams';
 
 /**
  * functions
@@ -48,10 +50,10 @@ const addSectionEvent = (configs, nextDelegates) => section => {
   get(secs, ['selects'], []).forEach((select, skey) => {
     const type = get(secs, ['types', skey]);
     const func = e => {
-      i13nDispatch({
-        [lastEvent]: [e, e.currentTarget],
-        [i13nCbParams]: parseJson(get(secs, [PARAMS, skey])),
-      });
+      storeCbParams(
+        parseJson(get(secs, [PARAMS, skey])),
+        e
+      );
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
         console.warn('Script name not found', secs, skey);
@@ -115,9 +117,7 @@ const initPageScript = () => {
   const {nextScripts, nextSections} = toJS(state.get('nextConfigs'));
   nextScripts.forEach(script => {
     if (script[1]) {
-      i13nDispatch({
-        [i13nCbParams]: script[1],
-      });
+      storeCbParams(script[1]);
     }
     execScript(script[0]);
   });
@@ -185,8 +185,8 @@ const initTags = configs => {
 };
 
 const maybeDelayAction = (state, action) => () => {
-  const i13nCbParams = toJS(state.get(i13nCbParams)) || {};
-  const {0: i13nLastEvent, 1: currentTarget} = toJS(state.get(lastEvent)) || {};
+  const cbParams = toJS(state.get(_I13N_CB_PARAMS)) || {};
+  const {0: i13nLastEvent, 1: currentTarget} = toJS(state.get(_LAST_EVENT)) || {};
   const params = getParams(action);
   const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   let I13N = params.I13N;
@@ -194,10 +194,10 @@ const maybeDelayAction = (state, action) => () => {
     I13N.lazeInfo = lazeInfo;
   }
   if (FUNCTION === typeof i13nCb) {
-    if (currentTarget && !i13nCbParams.currentTarget) {
-      i13nCbParams.currentTarget = currentTarget;
+    if (currentTarget && !cbParams.currentTarget) {
+      cbParams.currentTarget = currentTarget;
     }
-    I13N = i13nCb(i13nLastEvent, get(I13N, null, {}), i13nCbParams, state);
+    I13N = i13nCb(i13nLastEvent, get(I13N, null, {}), cbParams, state);
     delete action.params.i13nCb;
   }
 
@@ -211,11 +211,11 @@ const maybeDelayAction = (state, action) => () => {
       set(action, [PARAMS, 'I13N'], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
-    state = state.delete(lastEvent).delete(i13nCbParams);
+    state = state.delete(_LAST_EVENT).delete(_I13N_CB_PARAMS);
   }
 
   if (FUNCTION === typeof i13nPageCb) {
-    const i13nPage = i13nPageCb(action, I13N, i13nCbParams);
+    const i13nPage = i13nPageCb(action, I13N, cbParams);
     if (i13nPage) {
       const stateI13nPage = state.get('i13nPage');
       state = state.set(

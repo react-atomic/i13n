@@ -18,6 +18,7 @@ import getRadioValue from './getRadioValue';
 import delegate from './delegate';
 import lazyAttr from './lazyAttr';
 import parseJson from './parseJson';
+import storeCbParams from './storeCbParams';
 
 // constant
 const keys = Object.keys;
@@ -69,6 +70,7 @@ const utils = () => {
     parseJson,
     lStorage,
     sStorage,
+    storeCbParams,
   };
   return o;
 };

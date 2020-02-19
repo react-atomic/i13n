@@ -2,7 +2,6 @@ import {i13nDispatch} from 'i13n';
 import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
-import exec from 'exec-script';
 import get, {toJS} from 'get-object-value';
 import set from 'set-object-value';
 import query from 'css-query-selector';
@@ -11,7 +10,8 @@ import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
 import callfunc from 'call-func';
 
 // local import
-import {lStore} from './storage'; 
+import execScript from './execScript';
+import {lStore} from './storage';
 import parseJson from './parseJson';
 import logError, {setDebugFlag} from './logError';
 import utils from './utils';
@@ -55,13 +55,8 @@ const addSectionEvent = (configs, nextDelegates) => section => {
       const scriptName = get(secs, ['scripts', skey]);
       if (!scriptName) {
         console.warn('Script name not found', secs, skey);
-        return;
-      }
-      const scriptCode = get(configs, ['script', scriptName]);
-      if (scriptCode) {
-        exec(scriptCode, null, null, e => logError(e, 'I13nScriptErr'));
       } else {
-        console.warn('Script: [' + scriptName + '] not found.');
+        execScript(scriptName);
       }
     };
     const sels = query.all(select);
@@ -79,9 +74,8 @@ const pushPageScript = (configs, nextConfigs) => name => {
     return;
   }
   arrScriptName.forEach((scriptName, key) => {
-    const pageScript = get(configs, ['script', scriptName]);
-    if (pageScript) {
-      const script = [pageScript];
+    if (scriptName) {
+      const script = [scriptName];
       const scriptParam = get(configs, ['page', name, PARAMS, key]);
       if (scriptParam) {
         script.push(parseJson(scriptParam));
@@ -125,7 +119,7 @@ const initPageScript = () => {
         [i13nCbParams]: script[1],
       });
     }
-    exec(script[0], null, null, e => logError(e, 'InitI13nScriptErr'));
+    execScript(script[0]);
   });
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(

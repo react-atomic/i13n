@@ -8,6 +8,7 @@ import getRandomId from 'get-random-id';
 import get, {toJS} from 'get-object-value';
 
 // local
+import execScript from './execScript';
 import {lStorage, sStorage} from './storage';
 import logError from './logError';
 import text from './text';
@@ -44,6 +45,7 @@ const utils = () => {
     isArray: Array.isArray,
     merge,
     error,
+    execScript,
     arrayFrom,
     objectToArray,
     getNum,

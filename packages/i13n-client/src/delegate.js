@@ -23,7 +23,7 @@ const delegate = (el, type, childs, defaultFunc) => {
         const doms = query.all(select);
         return (doms || []).some(childEl => {
           if (t.isSameNode(childEl) || childEl.contains(t)) {
-            callfunc(func, [{...e, currentTarget: childEl}, e]);
+            callfunc(func, [{...e, currentTarget: childEl, nativeEvent: e}]);
             return true;
           } else {
             return false;

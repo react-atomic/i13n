@@ -18,6 +18,7 @@ const MP_CLIENT_ID = '_ga';
 const isArray = a => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
 const pvid = getRandomId();
+const notUndefinedNum = v => (UNDEFINED !== typeof v ? toNum(v) : v);
 
 class DataLayerToMp {
   getClientIdCookie(key) {
@@ -67,7 +68,7 @@ class DataLayerToMp {
       ec: category,
       ea: action,
       el: label,
-      ev: UNDEFINED !== typeof value ? toNum(value) : value,
+      ev: notUndefinedNum(value),
     };
     return data;
   }
@@ -113,7 +114,7 @@ class DataLayerToMp {
     data[key + 'id'] = id;
     data[key + 'nm'] = name;
     data[key + 'cr'] = creative;
-    data[key + 'ps'] = position;
+    data[key + 'ps'] = notUndefinedNum(position);
   };
 
   getProductsData = products =>
@@ -140,7 +141,7 @@ class DataLayerToMp {
     data[key + 'pr'] = price;
     data[key + 'qt'] = quantity;
     data[key + 'cc'] = coupon;
-    data[key + 'ps'] = position;
+    data[key + 'ps'] = notUndefinedNum(position);
     keys(others).forEach(k => {
       let endKey;
       if (0 === k.indexOf(DIMENSION)) {

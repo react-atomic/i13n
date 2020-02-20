@@ -35,27 +35,30 @@ import set from 'set-object-value';
 
 const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   const {p, action, products, promotions} = I13N;
-  let ecommerce = {};
+  const ecommerce = {};
   let value;
   let actionField;
   if (p) {
     actionField = {list: p};
   }
+  const actionAndProduct = { //need put after actionField 
+    actionField, products
+  };
   switch (action) {
     case 'ClickPromotion':
-      ecommerce = {promoClick: {promotions}};
+      ecommerce.promoClick = {promotions};
       break;
     case 'ClickProduct':
-      ecommerce = {click: {actionField, products}};
+      ecommerce.click = actionAndProduct;
       value = get(products, [0, 'price']);
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'AddToCart':
-      ecommerce = {add: {actionField, products}};
+      ecommerce.add = actionAndProduct;
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
     case 'RemoveFromCart':
-      ecommerce = {remove: {actionField, products}};
+      ecommerce.remove = actionAndProduct;
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
   }

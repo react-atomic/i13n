@@ -3,13 +3,15 @@ import jsdom from 'jsdom-global';
 
 import DataLayerToMp, {MP_CLIENT_ID} from '../DataLayerToMp';
 
+const oDlToMp = new DataLayerToMp();
+
 describe('Test DataLayerToMp', () => {
-  const oDlToMp = new DataLayerToMp();
   let resetDom;
 
   beforeEach(() => {
     resetDom = jsdom(null, {url: 'http://localhost'});
   });
+
   afterEach(() => {
     resetDom();
   });
@@ -79,32 +81,6 @@ describe('Test DataLayerToMp', () => {
     });
   });
 
-  it('Test setOneProduct', () => {
-    const item = {};
-    const data = {};
-    oDlToMp.setOneProduct('pr1', data, item);
-    expect(data).to.deep.equal({
-      pr1id: undefined,
-      pr1nm: undefined,
-      pr1ca: undefined,
-      pr1cc: undefined,
-      pr1br: undefined,
-      pr1va: undefined,
-      pr1ps: undefined,
-      pr1pr: undefined,
-      pr1qt: undefined,
-    });
-  });
-
-  it('Test product custom dimension and metric', () => {
-    const item = {
-      dimension2: 'abc',
-      metric3: 100,
-    };
-    const data = {};
-    oDlToMp.setOneProduct('pr1', data, item);
-    expect(data).to.include({pr1cd2: 'abc', pr1cm3: 100});
-  });
 
   it('Test getEcPurchaseData', () => {
     const purchase = oDlToMp.getEcPurchaseData({});
@@ -239,5 +215,53 @@ describe('Test DataLayerToMp', () => {
       lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}',
     });
     expect(data.qt).to.be.undefined;
+  });
+});
+
+
+describe('Test DataLayerToMp - setOneProduct', () => {
+  it('setOneProduct basic test', () => {
+    const item = {};
+    const data = {};
+    oDlToMp.setOneProduct('pr1', data, item);
+    expect(data).to.deep.equal({
+      pr1id: undefined,
+      pr1nm: undefined,
+      pr1ca: undefined,
+      pr1cc: undefined,
+      pr1br: undefined,
+      pr1va: undefined,
+      pr1ps: undefined,
+      pr1pr: undefined,
+      pr1qt: undefined,
+    });
+  });
+
+  it('Test product custom dimension and metric', () => {
+    const item = {
+      dimension2: 'abc',
+      metric3: 100,
+    };
+    const data = {};
+    oDlToMp.setOneProduct('pr1', data, item);
+    expect(data).to.include({pr1cd2: 'abc', pr1cm3: 100});
+  });
+
+  it('Test position is not number', () => {
+    const item = {
+      position: 'foo'
+    };
+    const data = {};
+    oDlToMp.setOneProduct('pr1', data, item);
+    expect(data).to.include({pr1ps: 0});
+  });
+
+  it('Test position is number', () => {
+    const item = {
+      position: '5'
+    };
+    const data = {};
+    oDlToMp.setOneProduct('pr1', data, item);
+    expect(data).to.include({pr1ps: 5});
   });
 });

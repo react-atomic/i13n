@@ -5,7 +5,7 @@ import query, {queryFrom} from 'css-query-selector';
 import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
-import get, {toJS} from 'get-object-value';
+import get, {toMap} from 'get-object-value';
 
 // local
 import execScript from './execScript';
@@ -66,7 +66,7 @@ const utils = () => {
     delegate,
     lazyAttr,
     text,
-    toJS,
+    toMap,
     parseJson,
     lStorage,
     sStorage,

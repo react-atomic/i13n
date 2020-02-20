@@ -2,7 +2,7 @@ import {i13nDispatch} from 'i13n';
 import i13nStore from 'i13n-store';
 import ini from 'parse-ini-string';
 import {nest} from 'object-nested';
-import get, {toJS} from 'get-object-value';
+import get, {toMap} from 'get-object-value';
 import set from 'set-object-value';
 import query from 'css-query-selector';
 import {win, doc} from 'win-doc';
@@ -114,7 +114,7 @@ const initPageScript = () => {
   win().addEventListener('error', handleError);
   win().i13n = utils();
   const state = i13nStore.getState();
-  const {nextScripts, nextSections} = toJS(state.get('nextConfigs'));
+  const {nextScripts, nextSections} = get(state.get('nextConfigs'));
   nextScripts.forEach(script => {
     if (script[1]) {
       storeCbParams(script[1]);
@@ -124,14 +124,14 @@ const initPageScript = () => {
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(
     {
-      sec: toJS(state.get('sec')),
-      script: toJS(state.get('script')),
+      sec: get(state.get('sec')),
+      script: get(state.get('script')),
     },
     nextDelegates,
   );
   keys(nextSections).forEach(sec => doAddSectionEvent(sec));
   delegate(doc(), 'click', nextDelegates);
-  callfunc(toJS(state.get('nextCallback')));
+  callfunc(get(state.get('nextCallback')));
 };
 
 const initRouter = configs => {
@@ -185,8 +185,8 @@ const initTags = configs => {
 };
 
 const maybeDelayAction = (state, action) => () => {
-  const cbParams = toJS(state.get(_I13N_CB_PARAMS)) || {};
-  const {0: i13nLastEvent, 1: currentTarget} = toJS(state.get(_LAST_EVENT)) || {};
+  const cbParams = toMap(state.get(_I13N_CB_PARAMS));
+  const {0: i13nLastEvent, 1: currentTarget} = toMap(state.get(_LAST_EVENT));
   const params = getParams(action);
   const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
   let I13N = params.I13N;

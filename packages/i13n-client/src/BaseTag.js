@@ -1,4 +1,4 @@
-import get, {toJS} from 'get-object-value';
+import {toMap} from 'get-object-value';
 
 class BaseTag {
   key = null;
@@ -38,7 +38,7 @@ class BaseTag {
 
   getClone(key) {
     const state = this.getState();
-    const data = get(toJS(state.get(key)), null, {});
+    const data = toMap(state.get(key));
     return JSON.parse(JSON.stringify(data));
   }
 

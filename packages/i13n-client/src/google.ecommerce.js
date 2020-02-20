@@ -1,12 +1,16 @@
 /**
- * Actions ->
  *
+ * https://developers.google.com/tag-manager/enhanced-ecommerce
  * https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#action-types
  *
+ * Actions ->
+ *
  * click: ClickProduct
- * add: AddToCart
+ * add: AddToCart | BuyNow
  * remove: RemoveFromCart
  * promo_click: ClickPromotion
+ * 
+ * __Support with other ways__
  * [x] detail: [view]
  * [x] checkout: [handleStep: stepNo]
  * [x] checkout_option: [handleStep: stepOption]
@@ -53,6 +57,7 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
       value = get(products, [0, 'price']);
       setCurrency(I13N, ecommerce, defaultCurrencyCode);
       break;
+    case 'BuyNow':
     case 'AddToCart':
       ecommerce.add = actionAndProduct;
       setCurrency(I13N, ecommerce, defaultCurrencyCode);

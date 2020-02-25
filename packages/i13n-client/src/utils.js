@@ -8,6 +8,8 @@ import getRandomId from 'get-random-id';
 import get, {toMap} from 'get-object-value';
 
 // local
+import arraySearch from './arraySearch';
+import req from './req';
 import execScript from './execScript';
 import {lStorage, sStorage} from './storage';
 import logError from './logError';
@@ -44,10 +46,12 @@ const utils = () => {
   const o = {
     dispatch: i13nDispatch,
     isArray: Array.isArray,
+    req,
     merge,
     error,
     execScript,
     arrayFrom,
+    arraySearch,
     objectToArray,
     getNum,
     joinCategory,

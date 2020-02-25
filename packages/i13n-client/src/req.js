@@ -34,7 +34,7 @@ const beaconApi = (url, query) => {
   if (!oSendBeacon) {
     return false;
   }
-  oSendBeacon.bind(navigator)(url, query);
+  oSendBeacon.call(navigator, url, query);
   return true;
 };
 

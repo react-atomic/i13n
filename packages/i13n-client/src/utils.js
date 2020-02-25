@@ -1,5 +1,4 @@
 import {i13nDispatch} from 'i13n';
-import {getNum as Num} from 'to-percent-js';
 import {removeEmpty} from 'array.merge';
 import query, {queryFrom} from 'css-query-selector';
 import {getUrl} from 'seturl';
@@ -14,8 +13,9 @@ import execScript from './execScript';
 import {lStorage, sStorage} from './storage';
 import logError from './logError';
 import text from './text';
+import getNum from './getNum';
 import getOptionText, {getOptionEl} from './getOptionText';
-import getElValue from './getElValue';
+import getElValue, {getElNumValue} from './getElValue';
 import getRadioValue from './getRadioValue';
 import delegate from './delegate';
 import lazyAttr from './lazyAttr';
@@ -37,8 +37,6 @@ const arrayFrom = arr => [...arr];
 
 const objectToArray = obj => keys(obj).map(key => obj[key]);
 
-const getNum = s => Num(text(s));
-
 const joinCategory = arr =>
   arr.map(item => text(item).replace('/', '-')).join('/');
 
@@ -53,17 +51,18 @@ const utils = () => {
     arrayFrom,
     arraySearch,
     objectToArray,
-    getNum,
     joinCategory,
     keys,
     removeEmpty,
     query,
     queryFrom,
+    getNum,
     getUrl,
     get,
     getOptionText,
     getOptionEl,
     getElValue,
+    getElNumValue,
     getRadioValue,
     getCookie,
     getRandomId,

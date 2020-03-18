@@ -8,20 +8,21 @@ import get, {toMap} from 'get-object-value';
 
 // local
 import arraySearch from './arraySearch';
-import req from './req';
+import delegate from './delegate';
 import execScript from './execScript';
 import {lStorage, sStorage} from './storage';
 import logError from './logError';
-import text from './text';
 import getNum from './getNum';
 import getOptionText, {getOptionEl} from './getOptionText';
 import getElValue, {getElNumValue} from './getElValue';
 import getRadioValue from './getRadioValue';
-import delegate from './delegate';
+import getClientId from './getClientId';
 import lazyAttr from './lazyAttr';
 import parseJson from './parseJson';
-import storeCbParams from './storeCbParams';
+import req from './req';
 import router from './Router';
+import storeCbParams from './storeCbParams';
+import text from './text';
 
 // constant
 const keys = Object.keys;
@@ -66,6 +67,7 @@ const utils = () => {
     getRadioValue,
     getCookie,
     getRandomId,
+    getClientId,
     delegate,
     lazyAttr,
     text,

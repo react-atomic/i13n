@@ -1,12 +1,12 @@
 import {win, doc} from 'win-doc';
 import get from 'get-object-value';
-import getCookie, {setCookie} from 'get-cookie';
 import getRandomId from 'get-random-id';
 import {removeEmpty} from 'array.merge';
 import {toNum, getNum} from 'to-percent-js';
 import callfunc from 'call-func';
 import {UNDEFINED} from 'reshow-constant';
 
+import getClientId, {getClientIdCookie} from './getClientId';
 import getTimestamp from './getTimestamp';
 import parseJson from './parseJson';
 
@@ -14,29 +14,12 @@ let seq = 1;
 const DIMENSION = 'dimension';
 const METRIC = 'metric';
 const X = 'x';
-const MP_CLIENT_ID = '_ga';
 const isArray = a => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
 const pvid = getRandomId();
 const notUndefinedNum = v => (UNDEFINED !== typeof v ? toNum(v) : v);
 
 class DataLayerToMp {
-  getClientIdCookie(key) {
-    const cookies = (getCookie(key || '') || '').split('.');
-    if (cookies[2] && cookies[3]) {
-      return cookies[2] + '.' + cookies[3];
-    }
-  }
-
-  getClientId() {
-    let c = this.getClientIdCookie(MP_CLIENT_ID);
-    if (!c) {
-      c = getRandomId();
-      setCookie(MP_CLIENT_ID, 'GA1.3.' + c, 365 * 2);
-    }
-    return c;
-  }
-
   isSameHost = hostName => test => {
     const thisHost = '//' + hostName;
     const i = test.indexOf(thisHost);
@@ -315,8 +298,8 @@ class DataLayerToMp {
       vp: vw + X + vh,
       je: toNum(callfunc(nav.javaEnabled, null, nav)),
       tid: tagId,
-      cid: this.getClientId(),
-      _gid: this.getClientIdCookie('_gid'),
+      cid: getClientId(),
+      _gid: getClientIdCookie('_gid'),
       v: 1, //version
       z: getRandomId(),
       a: pvid,
@@ -347,4 +330,3 @@ class DataLayerToMp {
 }
 
 export default DataLayerToMp;
-export {MP_CLIENT_ID};

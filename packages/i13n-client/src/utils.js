@@ -21,6 +21,7 @@ import delegate from './delegate';
 import lazyAttr from './lazyAttr';
 import parseJson from './parseJson';
 import storeCbParams from './storeCbParams';
+import router from './Router';
 
 // constant
 const keys = Object.keys;
@@ -44,7 +45,6 @@ const utils = () => {
   const o = {
     dispatch: i13nDispatch,
     isArray: Array.isArray,
-    req,
     merge,
     error,
     execScript,
@@ -72,6 +72,8 @@ const utils = () => {
     toMap,
     parseJson,
     lStorage,
+    router,
+    req,
     sStorage,
     storeCbParams,
   };

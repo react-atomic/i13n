@@ -10,7 +10,7 @@ describe('Test Usergram', () => {
   let uGlobal;
   beforeEach(()=> {
     window.usergram = [];
-    i13nDispatch('config/reset');
+    i13nDispatch('reset');
   });
   before(()=>uGlobal = jsdom());
   after(() => uGlobal());

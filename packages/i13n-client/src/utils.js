@@ -17,6 +17,7 @@ import getOptionText, {getOptionEl} from './getOptionText';
 import getElValue, {getElNumValue} from './getElValue';
 import getRadioValue from './getRadioValue';
 import getClientId from './getClientId';
+import getUserId from './getUserId';
 import lazyAttr from './lazyAttr';
 import parseJson from './parseJson';
 import req from './req';
@@ -68,6 +69,7 @@ const utils = () => {
     getCookie,
     getRandomId,
     getClientId,
+    getUserId,
     delegate,
     lazyAttr,
     text,

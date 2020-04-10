@@ -1,6 +1,8 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
-import Router from '../Router';
+
+import utils from '../utils';
+const {router: Router} = utils();
 
 describe('Test Router', () => {
   it('simple test', () => {

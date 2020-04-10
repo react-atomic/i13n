@@ -5,6 +5,7 @@ import {getUrl} from 'seturl';
 import getCookie from 'get-cookie';
 import getRandomId from 'get-random-id';
 import get, {toMap} from 'get-object-value';
+import router from 'url-route';
 
 // local
 import arraySearch from './arraySearch';
@@ -21,7 +22,6 @@ import getUserId from './getUserId';
 import lazyAttr from './lazyAttr';
 import parseJson from './parseJson';
 import req from './req';
-import router from './Router';
 import storeCbParams from './storeCbParams';
 import text from './text';
 

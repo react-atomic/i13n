@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.5.19",
+  "version": "0.5.20",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -24,6 +24,7 @@
     "reshow-constant": "*",
     "seturl": "*",
     "to-percent-js": "*",
+    "url-route": "*",
     "win-doc": "*"
   },
   "devDependencies": {

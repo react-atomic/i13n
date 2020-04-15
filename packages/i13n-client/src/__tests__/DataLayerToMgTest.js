@@ -300,4 +300,43 @@ describe("Test Send Product Image", () => {
       il1pi1cd1: "http://xxx.xxx.img"
     });
   });
+
+  it("Test with getEcActionData", ()=>{
+    const data = oDlToMp.getMp(null, {
+      imageIndex: 2,
+      ecommerce: {
+        detail: {products}
+      }
+    });
+    expect(data).to.include({
+      pr1img: "http://xxx.xxx.img",
+      pr1cd2: "http://xxx.xxx.img",
+    });
+  });
+
+  it("Test with getEcStepData", ()=>{
+    const data = oDlToMp.getMp(null, {
+      imageIndex: 3,
+      ecommerce: {
+        checkout: {products}
+      }
+    });
+    expect(data).to.include({
+      pr1img: "http://xxx.xxx.img",
+      pr1cd3: "http://xxx.xxx.img",
+    });
+  });
+
+  it("Test with getEcPurchaseData", ()=>{
+    const data = oDlToMp.getMp(null, {
+      imageIndex: 4,
+      ecommerce: {
+        purchase: {products}
+      }
+    });
+    expect(data).to.include({
+      pr1img: "http://xxx.xxx.img",
+      pr1cd4: "http://xxx.xxx.img",
+    });
+  });
 });

@@ -142,6 +142,7 @@ describe('Test DataLayerToMp', () => {
     expect(empty).to.deep.equal({
       il1nm: undefined,
       il1pi1id: undefined,
+      il1pi1img: undefined,
       il1pi1nm: undefined,
       il1pi1ca: undefined,
       il1pi1cc: undefined,
@@ -166,6 +167,7 @@ describe('Test DataLayerToMp', () => {
     expect(data).to.deep.equal({
       il1nm: 'Search Results',
       il1pi1id: '12345',
+      il1pi1img: undefined,
       il1pi1nm: 'Triblend Android T-Shirt',
       il1pi1ca: 'Apparel',
       il1pi1cc: undefined,
@@ -221,15 +223,16 @@ describe('Test DataLayerToMp - setOneProduct', () => {
     const data = {};
     oDlToMp.setOneProduct('pr1', data, item);
     expect(data).to.deep.equal({
-      pr1id: undefined,
-      pr1nm: undefined,
-      pr1ca: undefined,
-      pr1cc: undefined,
-      pr1br: undefined,
-      pr1va: undefined,
-      pr1ps: undefined,
-      pr1pr: undefined,
-      pr1qt: undefined,
+      pr1id:  undefined,
+      pr1img: undefined,
+      pr1nm:  undefined,
+      pr1ca:  undefined,
+      pr1cc:  undefined,
+      pr1br:  undefined,
+      pr1va:  undefined,
+      pr1ps:  undefined,
+      pr1pr:  undefined,
+      pr1qt:  undefined,
     });
   });
 

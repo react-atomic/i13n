@@ -140,8 +140,9 @@ class DataLayerToMp {
         data[key + endKey + sn] = others[k];
       }
     });
-    if (config?.imageIndex) {
-      data[key + "cd" + imageIndex] = image;
+    const {imageIndex} = config || {};
+    if (imageIndex) {
+      data[key + "cd" + config.imageIndex] = image;
     }
   }
 

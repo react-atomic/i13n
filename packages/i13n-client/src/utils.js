@@ -1,4 +1,4 @@
-import {i13nDispatch} from 'i13n';
+import {i13nDispatch, getTime} from 'i13n';
 import {removeEmpty} from 'array.merge';
 import query, {queryFrom} from 'css-query-selector';
 import {getUrl} from 'seturl';
@@ -70,14 +70,15 @@ const utils = () => {
     getRandomId,
     getClientId,
     getUserId,
+    getTime,
     delegate,
-    lazyAttr,
     text,
     toMap,
     parseJson,
-    lStorage,
     router,
     req,
+    lazyAttr,
+    lStorage,
     sStorage,
     storeCbParams,
   };

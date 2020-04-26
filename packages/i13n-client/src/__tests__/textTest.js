@@ -9,6 +9,10 @@ describe('Test To Text', ()=>{
     expect(vInt).to.equal("1");
     const vFloat = text(1.1);
     expect(vFloat).to.equal("1.1");
+    const vZero = text(0);
+    expect(vZero).to.equal("0");
+    const vZeroFlot = text(0.0);
+    expect(vZeroFlot).to.equal("0");
   });
 
   it('test assign object', ()=>{

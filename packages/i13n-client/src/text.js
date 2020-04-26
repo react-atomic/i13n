@@ -1,5 +1,5 @@
 const text = el =>
-  el ? 
+  el != null ? 
     (el.innerText ?
       el.innerText : 
       el.trim ? 

@@ -1,6 +1,6 @@
 {
   "name": "i13n",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "i13n util",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",

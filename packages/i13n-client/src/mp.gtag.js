@@ -18,7 +18,9 @@ class MpGTag extends BaseGTag {
       }
       const d = oDataLayerToMp.getMp(this.props, config);
       // console.log([this.props, config, host, d]);
-      send(host+ '/collect', d);
+      if (d) {
+        send(host+ '/collect', d);
+      }
     } else {
       console.log('mp host not found');
     }

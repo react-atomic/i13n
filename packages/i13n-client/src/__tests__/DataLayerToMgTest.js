@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import jsdom from "jsdom-global";
 
-import DataLayerToMp from "../DataLayerToMp";
+import DataLayerToMp, {resetSeq} from "../DataLayerToMp";
 
 const oDlToMp = new DataLayerToMp();
 
@@ -184,7 +184,28 @@ describe("Test DataLayerToMp", () => {
     expect(data).to.deep.equal({ cu: undefined });
   });
 
-  it("Test getMp", () => {
+  it("Test worng lazeInfo time format with getmp", () => {
+    const data = oDlToMp.getMp(null, {
+      lazeInfoIndex: 0,
+      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}'
+    });
+    expect(data.qt).to.be.undefined;
+  });
+});
+
+describe("Test GetMp", () => {
+  let resetDom;
+
+  beforeEach(() => {
+    resetSeq(1);
+    resetDom = jsdom(null, { url: "http://localhost" });
+  });
+
+  afterEach(() => {
+    resetDom();
+  });
+
+  it("Basic getMp test", () => {
     const data = oDlToMp.getMp(null, {
       lazeInfoIndex: 1,
       lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}'
@@ -205,16 +226,46 @@ describe("Test DataLayerToMp", () => {
     expect(data.qt + "").to.not.empty;
   });
 
-  it("Test worng lazeInfo time format with getmp", () => {
-    const data = oDlToMp.getMp(null, {
-      lazeInfoIndex: 0,
-      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}'
+  it('Test checkTagId with have tagId', ()=>{
+    const data = oDlToMp.getMp({
+      tagId: 'fakeTagId',
+      needCheckTagId: true
     });
-    expect(data.qt).to.be.undefined;
+    expect(data).to.include({
+      tid: 'fakeTagId'
+    });
   });
+
+  it('Test checkTagId with tagId 0', ()=>{
+    const data = oDlToMp.getMp({
+      tagId: 0,
+      needCheckTagId: true
+    });
+    expect(data).to.include({
+      tid: 0 
+    });
+  });
+
+  it('Test checkTagId with not have tagId', ()=>{
+    const data = oDlToMp.getMp({
+      tagId: null,
+      needCheckTagId: true
+    });
+    expect(data).to.be.false;
+  });
+
 });
 
 describe("Test DataLayerToMp - setOneProduct", () => {
+  let resetDom;
+
+  beforeEach(() => {
+    resetDom = jsdom(null, { url: "http://localhost" });
+  });
+
+  afterEach(() => {
+    resetDom();
+  });
   it("setOneProduct basic test", () => {
     const item = {};
     const data = {};
@@ -263,6 +314,15 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 });
 
 describe("Test Send Product Image", () => {
+  let resetDom;
+
+  beforeEach(() => {
+    resetDom = jsdom(null, { url: "http://localhost" });
+  });
+
+  afterEach(() => {
+    resetDom();
+  });
   const products = [
     {
       name: "Triblend Android T-Shirt", // Name or ID is required.
@@ -284,7 +344,7 @@ describe("Test Send Product Image", () => {
       }
     });
     expect(data).to.include({
-      il1pi1img: "http://xxx.xxx.img",
+      il1pi1img: "http://xxx.xxx.img"
     });
   });
 
@@ -301,42 +361,42 @@ describe("Test Send Product Image", () => {
     });
   });
 
-  it("Test with getEcActionData", ()=>{
+  it("Test with getEcActionData", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 2,
       ecommerce: {
-        detail: {products}
+        detail: { products }
       }
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd2: "http://xxx.xxx.img",
+      pr1cd2: "http://xxx.xxx.img"
     });
   });
 
-  it("Test with getEcStepData", ()=>{
+  it("Test with getEcStepData", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 3,
       ecommerce: {
-        checkout: {products}
+        checkout: { products }
       }
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd3: "http://xxx.xxx.img",
+      pr1cd3: "http://xxx.xxx.img"
     });
   });
 
-  it("Test with getEcPurchaseData", ()=>{
+  it("Test with getEcPurchaseData", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 4,
       ecommerce: {
-        purchase: {products}
+        purchase: { products }
       }
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd4: "http://xxx.xxx.img",
+      pr1cd4: "http://xxx.xxx.img"
     });
   });
 });

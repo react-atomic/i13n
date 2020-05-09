@@ -268,7 +268,10 @@ class DataLayerToMp {
     const docEl = oDoc.documentElement || {};
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
-    const { tagId } = props || {};
+    const { tagId, needCheckTagId, version } = props || {};
+    if (needCheckTagId && tagId == null) {
+      return false;
+    }
     const {
       event: ev,
       bCookieIndex,
@@ -306,7 +309,7 @@ class DataLayerToMp {
       tid: tagId,
       cid: getClientId(),
       _gid: getClientIdCookie("_gid"),
-      v: 1, //version
+      v: version || 1, //version
       z: getRandomId(),
       a: pvid
     };
@@ -335,4 +338,7 @@ class DataLayerToMp {
   }
 }
 
+const resetSeq = i => seq = i;
+
 export default DataLayerToMp;
+export {resetSeq};

@@ -7,6 +7,7 @@ import {doc} from 'win-doc';
 
 import {i13nDispatch} from '../i13nDispatcher';
 import getTime from '../getTime';
+import getParams from '../getParams';
 
 const lStore = new Storage(localStorage);
 const docUrl = () => doc().URL;
@@ -16,7 +17,6 @@ const PARAMS = 'params';
 const hashKey = '__hash';
 const seqKey = '__seq';
 const lazyActionKey = 'lazyAction';
-const getParams = action => get(action, [PARAMS], {});
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -147,6 +147,7 @@ class BaseI13nStore extends Store {
       const next = impressionHandler(state, action);
       const {wait, stop} = getParams(action); // need locate after next
       if (UNDEFINED === typeof wait && !stop) {
+        // execute send beacon
         this.nextEmits.push('impression');
       }
       return next;
@@ -171,6 +172,7 @@ class BaseI13nStore extends Store {
     const next = actionHandler(state, action);
     const {wait, stop, lazyKey} = getParams(action); // need locate after next
     if (UNDEFINED === typeof wait && !stop) {
+      // execute send beacon
       this.nextEmits.push('action');
       if (withLazy && withLazy !== lazyKey) {
         this.removeLazy(withLazy);

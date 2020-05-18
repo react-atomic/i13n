@@ -1,69 +1,61 @@
-import {i13nDispatch} from 'i13n';
-import i13nStore from 'i13n-store';
-import ini from 'parse-ini-string';
-import {nest} from 'object-nested';
-import get, {toMap} from 'get-object-value';
-import set from 'set-object-value';
-import query from 'css-query-selector';
-import {win, doc} from 'win-doc';
-import {STRING, FUNCTION, UNDEFINED} from 'reshow-constant';
-import callfunc from 'call-func';
-import Router from 'url-route';
+import { i13nDispatch, getParams } from "i13n";
+import i13nStore from "i13n-store";
+import ini from "parse-ini-string";
+import { nest } from "object-nested";
+import get, { toMap } from "get-object-value";
+import set from "set-object-value";
+import query from "css-query-selector";
+import { win, doc } from "win-doc";
+import { STRING, FUNCTION, UNDEFINED } from "reshow-constant";
+import callfunc from "call-func";
+import Router from "url-route";
 
 // local import
-import storeCbParams, {
-  _LAST_EVENT,
-  _I13N_CB_PARAMS,
-} from './storeCbParams';
-import execScript from './execScript';
-import {lStore} from './storage';
-import parseJson from './parseJson';
-import logError, {setDebugFlag} from './logError';
-import utils from './utils';
-import delegate from './delegate';
-import req from './req';
-import mergeConfig from './mergeConfig';
-import lazyAttr from './lazyAttr';
-import lazyProducts, {forEachStoreProducts} from './lazyProducts';
-import oneTimeAction from './oneTimeAction';
+import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "./storeCbParams";
+import execScript from "./execScript";
+import { lStore } from "./storage";
+import parseJson from "./parseJson";
+import logError, { setDebugFlag } from "./logError";
+import utils from "./utils";
+import delegate from "./delegate";
+import req from "./req";
+import mergeConfig from "./mergeConfig";
+import lazyAttr from "./lazyAttr";
+import lazyProducts, { forEachStoreProducts } from "./lazyProducts";
+import oneTimeAction from "./oneTimeAction";
 
 // tags
-import debugTag from './debug.tag';
-import googleTag from './google.tag';
+import debugTag from "./debug.tag";
+import googleTag from "./google.tag";
 // import usergramTag from './usergram.tag';
 
 // constant
 const keys = Object.keys;
-const PARAMS = 'params';
+const PARAMS = "params";
 
 /**
  * functions
  */
-const getParams = action => get(action, [PARAMS], {});
-
 const addSectionEvent = (configs, nextDelegates) => section => {
-  const secs = get(configs, ['sec', section]);
+  const secs = get(configs, ["sec", section]);
   if (!secs) {
-    console.warn('Section: [' + section + '] not found.');
+    console.warn("Section: [" + section + "] not found.");
     return;
   }
-  get(secs, ['selects'], []).forEach((select, skey) => {
-    const type = get(secs, ['types', skey]);
+  get(secs, ["selects"], []).forEach((select, skey) => {
+    const type = get(secs, ["types", skey]);
     const func = e => {
-      storeCbParams(
-        parseJson(get(secs, [PARAMS, skey])),
-        e
-      );
-      const scriptName = get(secs, ['scripts', skey]);
+      storeCbParams(parseJson(get(secs, [PARAMS, skey])), e);
+      const scriptName = get(secs, ["scripts", skey]);
       if (!scriptName) {
-        console.warn('Script name not found', secs, skey);
+        console.warn("Script name not found", secs, skey);
       } else {
         execScript(scriptName);
       }
     };
     const sels = query.all(select);
-    if ((!sels.length && 'click' === type) || 'delegate' === type) {
-      nextDelegates.push({select, func});
+    if ((!sels.length && "click" === type) || "delegate" === type) {
+      nextDelegates.push({ select, func });
     } else {
       sels.forEach(el => el.addEventListener(type, func));
     }
@@ -71,14 +63,14 @@ const addSectionEvent = (configs, nextDelegates) => section => {
 };
 
 const pushPageScript = (configs, nextConfigs) => name => {
-  const arrScriptName = get(configs, ['page', name, 'scripts']);
+  const arrScriptName = get(configs, ["page", name, "scripts"]);
   if (!arrScriptName) {
     return;
   }
   arrScriptName.forEach((scriptName, key) => {
     if (scriptName) {
       const script = [scriptName];
-      const scriptParam = get(configs, ['page', name, PARAMS, key]);
+      const scriptParam = get(configs, ["page", name, PARAMS, key]);
       if (scriptParam) {
         script.push(parseJson(scriptParam));
       }
@@ -88,33 +80,33 @@ const pushPageScript = (configs, nextConfigs) => name => {
 };
 
 const handleError = e => {
-  const error = get(e, ['error'], {message: get(e, ['message'])});
-  const type = e.error ? 'WindowScriptErr' : 'ExternalScriptErr';
+  const error = get(e, ["error"], { message: get(e, ["message"]) });
+  const type = e.error ? "WindowScriptErr" : "ExternalScriptErr";
   logError(error, type);
 };
 
 const processText = (state, done) => (maybeText, arrMerge) => {
   const userConfig =
-    STRING === typeof maybeText ? nest(ini(maybeText), '_') : maybeText;
+    STRING === typeof maybeText ? nest(ini(maybeText), "_") : maybeText;
   mergeConfig(userConfig, arrMerge);
   initTags(userConfig);
   const nextConfigs = initRouter(userConfig);
   setTimeout(() => {
     state = state.merge(userConfig);
-    i13nStore.addListener(initPageScript, 'init');
+    i13nStore.addListener(initPageScript, "init");
     // The last Line
-    done(state.set('nextConfigs', nextConfigs));
-  }, get(nextConfigs, ['timeout'], 0));
+    done(state.set("nextConfigs", nextConfigs));
+  }, get(nextConfigs, ["timeout"], 0));
 };
 
 /**
  * init functions
  */
 const initPageScript = () => {
-  win().addEventListener('error', handleError);
+  win().addEventListener("error", handleError);
   win().i13n = utils();
   const state = i13nStore.getState();
-  const {nextScripts, nextSections} = get(state.get('nextConfigs'));
+  const { nextScripts, nextSections } = get(state.get("nextConfigs"));
   nextScripts.forEach(script => {
     if (script[1]) {
       storeCbParams(script[1]);
@@ -124,14 +116,14 @@ const initPageScript = () => {
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(
     {
-      sec: get(state.get('sec')),
-      script: get(state.get('script')),
+      sec: get(state.get("sec")),
+      script: get(state.get("script"))
     },
-    nextDelegates,
+    nextDelegates
   );
   keys(nextSections).forEach(sec => doAddSectionEvent(sec));
-  delegate(doc(), 'click', nextDelegates);
-  callfunc(get(state.get('nextCallback')));
+  delegate(doc(), "click", nextDelegates);
+  callfunc(get(state.get("nextCallback")));
 };
 
 const initRouter = configs => {
@@ -139,21 +131,21 @@ const initRouter = configs => {
   const nextConfigs = {
     nextScripts: [],
     nextSections: {},
-    timeout: 0,
+    timeout: 0
   };
   const exePushPageScript = pushPageScript(configs, nextConfigs);
-  get(configs, ['router', 'rules'], []).forEach((rule, key) => {
+  get(configs, ["router", "rules"], []).forEach((rule, key) => {
     router.addRoute(rule, () => {
-      const pageName = get(configs, ['router', 'pages', key]);
-      const pageConfigs = get(configs, ['page', pageName]);
+      const pageName = get(configs, ["router", "pages", key]);
+      const pageConfigs = get(configs, ["page", pageName]);
       exePushPageScript(pageName);
-      get(pageConfigs, ['secs'], []).forEach(
-        sec => (nextConfigs.nextSections[sec] = 1),
+      get(pageConfigs, ["secs"], []).forEach(
+        sec => (nextConfigs.nextSections[sec] = 1)
       );
-      return get(pageConfigs, ['timeout'], 0);
+      return get(pageConfigs, ["timeout"], 0);
     });
   });
-  const urlPathName = get(configs, ['location'], () => doc().location.pathname);
+  const urlPathName = get(configs, ["location"], () => doc().location.pathname);
   let match = router.match(urlPathName);
   if (match) {
     const timeouts = [];
@@ -169,14 +161,14 @@ const initRouter = configs => {
 const initTags = configs => {
   const tagMap = {
     debug: debugTag,
-    gtag: googleTag,
+    gtag: googleTag
     //    usergram: usergramTag,
   };
-  const tags = get(configs, ['tag'], {});
+  const tags = get(configs, ["tag"], {});
   keys(tags).forEach(key => {
     const TAG = tagMap[key];
     if (tags[key].enabled && TAG) {
-      if ('debug' === key) {
+      if ("debug" === key) {
         setDebugFlag(true);
       }
       TAG.register(i13nStore, key);
@@ -186,9 +178,12 @@ const initTags = configs => {
 
 const maybeDelayAction = (state, action) => () => {
   const cbParams = toMap(state.get(_I13N_CB_PARAMS));
-  const {0: i13nLastEvent, 1: currentTarget} = toMap(state.get(_LAST_EVENT));
+  const { 0: i13nLastEvent, 1: currentTarget } = toMap(state.get(_LAST_EVENT));
   const params = getParams(action);
-  const {i13nCb, lazeInfo, i13nPageCb, wait, lazyKey} = params;
+  if (!isNaN(params.delay)) {
+    delete action.params.delay;
+  }
+  const { i13nCb, lazeInfo, i13nPageCb, wait, lazyKey } = params;
   let I13N = params.I13N;
   if (lazeInfo) {
     I13N.lazeInfo = lazeInfo;
@@ -203,12 +198,12 @@ const maybeDelayAction = (state, action) => () => {
 
   // reset I13N
   I13N = oneTimeAction(I13N, state);
-  state = state.set('I13N', I13N);
+  state = state.set("I13N", I13N);
   if (!I13N) {
-    set(action, [PARAMS, 'stop'], true);
+    set(action, [PARAMS, "stop"], true);
   } else {
     if (UNDEFINED !== typeof wait) {
-      set(action, [PARAMS, 'I13N'], forEachStoreProducts(I13N));
+      set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
     state = state.delete(_LAST_EVENT).delete(_I13N_CB_PARAMS);
@@ -217,10 +212,10 @@ const maybeDelayAction = (state, action) => () => {
   if (FUNCTION === typeof i13nPageCb) {
     const i13nPage = i13nPageCb(action, I13N, cbParams);
     if (i13nPage) {
-      const stateI13nPage = state.get('i13nPage');
+      const stateI13nPage = state.get("i13nPage");
       state = state.set(
-        'i13nPage',
-        stateI13nPage ? stateI13nPage.merge(i13nPage) : i13nPage,
+        "i13nPage",
+        stateI13nPage ? stateI13nPage.merge(i13nPage) : i13nPage
       );
     }
   }
@@ -233,7 +228,7 @@ const maybeDelayAction = (state, action) => () => {
 const initHandler = (state, action, initDone) => {
   const params = getParams(action);
   state = state.merge(params);
-  const {iniUrl, iniCb, forceRefresh} = params;
+  const { iniUrl, iniCb, forceRefresh } = params;
   const process = processText(state, initDone);
   const cb = maybeText =>
     FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
@@ -256,7 +251,7 @@ const initHandler = (state, action, initDone) => {
 };
 
 const actionHandler = (state, action) => {
-  const {delay, wait} = getParams(action);
+  const { delay, wait } = getParams(action);
   const run = maybeDelayAction(state.merge(), action);
   if (!isNaN(delay)) {
     setTimeout(() => {
@@ -264,10 +259,12 @@ const actionHandler = (state, action) => {
       if (state) {
         i13nDispatch(state);
       }
+      const I13N = state.get("I13N");
+      if (UNDEFINED === typeof wait && keys(I13N.toJS()).length) {
+        i13nDispatch("action", { I13N });
+      }
     }, delay);
-    if (isNaN(wait)) {
-      set(action, [PARAMS, 'wait'], 0);
-    }
+    set(action, [PARAMS, 'stop'], true);
   } else {
     state = run();
   }
@@ -281,20 +278,20 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
   const run = e => {
     if (!isLoad) {
       isLoad = true;
-      i13nDispatch('reset', {
+      i13nDispatch("reset", {
         initHandler,
         actionHandler,
-        impressionHandler,
+        impressionHandler
       });
-      i13nDispatch('view', {
+      i13nDispatch("view", {
         forceRefresh,
         iniUrl,
         iniCb,
-        initTrigerBy: e.type,
+        initTrigerBy: e.type
       });
     }
   };
-  run({type: 'directly'});
+  run({ type: "directly" });
 };
 
 export default getIni;

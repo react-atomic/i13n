@@ -17,5 +17,11 @@ describe('Test arraySearch', ()=>{
     const acture = arraySearch(arr, 'a', 'BAR');
     expect(acture).to.deep.equal([{a: 'bar'}]);
   });
-  
+
+  it('test without key', ()=>{
+    const arr = ['FOO', 'BAR'];
+    const acture = arraySearch(arr, null, 'b');
+    expect(acture).to.deep.equal(['BAR']);
+  });
+
 });

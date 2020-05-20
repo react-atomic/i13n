@@ -1,6 +1,8 @@
 import { toMap } from "get-object-value";
 import { UNDEFINED } from "reshow-constant";
 import { sStore } from "./storage";
+import getTimestamp from "./getTimestamp";
+import expireCallback from "./expireCallback";
 
 const lazyKey = "i13nLazyAttr";
 const expireKey = "i13nLazyExpire";
@@ -11,7 +13,7 @@ const lazyAttr = (key, expireSec) => value => {
     return arr;
   }
   const expireArr = toMap(sStore.get(expireKey));
-  const now = new Date().getTime();
+  const now = getTimestamp();
   if (UNDEFINED !== typeof value) {
     arr[key] = value;
     expireArr[key] = now;
@@ -20,15 +22,11 @@ const lazyAttr = (key, expireSec) => value => {
   }
   const createTime = expireArr[key];
   const userExpire = expireSec * 1000;
-  let isUpToDate = true;
-  if (!isNaN(userExpire) && !isNaN(createTime)) {
-    if (now - createTime >= userExpire) {
-      isUpToDate = false;
-    }
-  }
-  if (isUpToDate) {
-    return arr[key];
-  }
+  return expireCallback(
+    createTime,
+    expireSec * 1000,
+    () => arr[key]
+  );
 };
 
 export default lazyAttr;

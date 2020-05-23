@@ -39,7 +39,7 @@ const error = message => logError({ message }, "CustomError");
 
 const arrayFrom = arr => [...arr];
 
-const objectToArray = obj => keys(obj).map(key => obj[key]);
+const objectToArray = obj => keys(obj || {}).map(key => obj[key]);
 
 const arrayToObject = (arr, key) => {
   const map = {};

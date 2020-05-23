@@ -41,6 +41,18 @@ const arrayFrom = arr => [...arr];
 
 const objectToArray = obj => keys(obj).map(key => obj[key]);
 
+const arrayToObject = (arr, key) => {
+  const map = {};
+  if (arr && arr.forEach) {
+    arr.forEach(a=>{
+      if (a.hasOwnProperty(key)) {
+        map[a[key]]=a
+      }
+    });
+  }
+  return map;
+}
+
 const joinCategory = arr =>
   arr.map(item => text(item).replace("/", "-")).join("/");
 
@@ -48,6 +60,7 @@ const utils = () => {
   const o = {
     dispatch: i13nDispatch,
     isArray: Array.isArray,
+    arrayToObject,
     arrayFrom,
     arraySearch,
     delegate,

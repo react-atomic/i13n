@@ -1,5 +1,5 @@
 import callfunc from "call-func";
-import getTimestamp from "./getTimestamp";
+import {getTimestamp} from "get-random-id";
 
 const expireCallback = (createTime, expire, run, expireCb) => {
   const now = getTimestamp();

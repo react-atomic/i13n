@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import getTimestamp from "../getTimestamp";
+import {getTimestamp} from "get-random-id";
 import expireCallback from '../expireCallback';
 
 describe("Test expireCallback", ()=>{

@@ -1,7 +1,9 @@
+import {getDateObject} from 'get-random-id';
+
 const fixDigit = i => (i < 10) ? 0+''+i : i;
 
 const getTime = s => {
-  const date = s ? new Date(s) : new Date();
+  const date = getDateObject(s);
   const arr = [
     date.getUTCFullYear(),
     date.getUTCMonth() + 1,

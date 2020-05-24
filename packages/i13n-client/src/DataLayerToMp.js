@@ -1,13 +1,12 @@
 import { win, doc } from "win-doc";
 import get from "get-object-value";
-import getRandomId from "get-random-id";
+import getRandomId, {getTimestamp} from "get-random-id";
 import { removeEmpty } from "array.merge";
 import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
 import { UNDEFINED } from "reshow-constant";
 
 import getClientId, { getClientIdCookie } from "./getClientId";
-import getTimestamp from "./getTimestamp";
 import parseJson from "./parseJson";
 
 let seq = 1;

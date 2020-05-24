@@ -1,6 +1,9 @@
 import {expect} from 'chai';
 
-import getTimestamp from '../getTimestamp';
+
+import utils from '../utils';
+
+const {getTimestamp} = utils();
 
 
 describe('Test getTimestamp', () => {

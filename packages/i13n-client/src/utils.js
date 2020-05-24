@@ -3,7 +3,7 @@ import { removeEmpty } from "array.merge";
 import query, { queryFrom } from "css-query-selector";
 import { getUrl } from "seturl";
 import getCookie from "get-cookie";
-import getRandomId from "get-random-id";
+import getRandomId, {getDateObject, getTimestamp} from "get-random-id";
 import get, { toMap } from "get-object-value";
 import router from "url-route";
 
@@ -79,6 +79,8 @@ const utils = () => {
     getRandomId,
     getClientId,
     getUserId,
+    getDateObject,
+    getTimestamp,
     getTime,
     joinCategory,
     keys,

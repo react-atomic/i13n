@@ -1,7 +1,7 @@
 import { toMap } from "get-object-value";
 import { UNDEFINED } from "reshow-constant";
+import { getTimestamp } from "get-random-id";
 import { sStore } from "./storage";
-import getTimestamp from "./getTimestamp";
 import expireCallback from "./expireCallback";
 
 const lazyKey = "i13nLazyAttr";

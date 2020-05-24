@@ -1650,6 +1650,11 @@ get-object-value@*:
     reshow-constant "*"
     reshow-runtime "*"
 
+get-random-id@*:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/get-random-id/-/get-random-id-0.1.0.tgz#63f52aceff6d427d52c5476f1ad2c5dbbf377572"
+  integrity sha512-nAQUS+woxX33ptlBVYh+DxUcaT1k4dBwfhLrDxEIXjJQlPmdiIuHGc9ylC/Q2RdniY/VVAVkbauc/wCegEHbIw==
+
 get-storage@*:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.1.6.tgz#4be56683434b9910535d74134e492a8488d99a0c"

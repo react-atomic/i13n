@@ -114,6 +114,7 @@ class DataLayerToMp {
       quantity,
       coupon,
       image,
+      sku,
       ...others
     } = item;
     data[key + "id"] = id;
@@ -126,6 +127,7 @@ class DataLayerToMp {
     data[key + "cc"] = coupon;
     data[key + "ps"] = notUndefinedNum(position);
     data[key + "img"] = image;
+    data[key + "sku"] = sku;
     keys(others).forEach(k => {
       let endKey;
       if (0 === k.indexOf(DIMENSION)) {

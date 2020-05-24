@@ -141,6 +141,7 @@ describe("Test DataLayerToMp", () => {
       il1nm: undefined,
       il1pi1id: undefined,
       il1pi1img: undefined,
+      il1pi1sku: undefined,
       il1pi1nm: undefined,
       il1pi1ca: undefined,
       il1pi1cc: undefined,
@@ -166,6 +167,7 @@ describe("Test DataLayerToMp", () => {
       il1nm: "Search Results",
       il1pi1id: "12345",
       il1pi1img: undefined,
+      il1pi1sku: undefined,
       il1pi1nm: "Triblend Android T-Shirt",
       il1pi1ca: "Apparel",
       il1pi1cc: undefined,
@@ -273,6 +275,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
     expect(data).to.deep.equal({
       pr1id: undefined,
       pr1img: undefined,
+      pr1sku: undefined,
       pr1nm: undefined,
       pr1ca: undefined,
       pr1cc: undefined,

@@ -24,4 +24,12 @@ describe('Test arraySearch', ()=>{
     expect(acture).to.deep.equal(['BAR']);
   });
 
+  it('test with exact', ()=>{
+    const arr = ['a', 'aaa',  'aa']; 
+    const acture1 = arraySearch(arr, null, 'a');
+    const acture2 = arraySearch(arr, null, 'a', true);
+    expect(acture1.length).to.equal(3);
+    expect(acture2.length).to.equal(1);
+  });
+
 });

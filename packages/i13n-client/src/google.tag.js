@@ -71,9 +71,8 @@ class GoogleTag extends BaseTag {
 
   action() {
     const state = this.getState();
-    const I13N = this.getClone('I13N');
-    const {lazeInfo, action, category, label, value} = I13N;
-    const p = get(I13N, ['p']);
+    const I13N = this.getClone('I13N') || {};
+    const {lazeInfo, action, category, label, value, p, p2, p3, p4, p5} = I13N;
     const thisCategory = category ? category : action;
 
     const more = {};
@@ -81,6 +80,10 @@ class GoogleTag extends BaseTag {
     const config = {
       event: 'lucencyEventAction',
       p,
+      p2,
+      p3,
+      p4,
+      p5,
       action,
       category: thisCategory,
       value,
@@ -102,12 +105,16 @@ class GoogleTag extends BaseTag {
 
   impression() {
     const state = this.getState();
-    const I13N = this.getClone('i13nPage');
-    const p = get(I13N, ['p']);
+    const I13N = this.getClone('i13nPage') || {};
+    const {p, p2, p3, p4, p5} = I13N;
 
     const config = {
       event: 'lucencyEventView',
       p,
+      p2,
+      p3,
+      p4,
+      p5
     };
 
     const ecommerce = getViewEcommerce(I13N, state.get('currencyCode'));

@@ -18,6 +18,7 @@ import parseJson from "./parseJson";
 import logError, { setDebugFlag } from "./logError";
 import utils from "./utils";
 import delegate from "./delegate";
+import register, { cleanAllRegister } from "./register";
 import req from "./req";
 import mergeConfig from "./mergeConfig";
 import lazyAttr from "./lazyAttr";
@@ -57,7 +58,7 @@ const addSectionEvent = (configs, nextDelegates) => section => {
     if ((!sels.length && "click" === type) || "delegate" === type) {
       nextDelegates.push({ select, func });
     } else {
-      sels.forEach(el => el.addEventListener(type, func));
+      sels.forEach(el => register(el).addEventListener(type, func));
     }
   });
 };
@@ -103,7 +104,7 @@ const processText = (state, done) => (maybeText, arrMerge) => {
  * init functions
  */
 const initPageScript = () => {
-  win().addEventListener("error", handleError);
+  register(win()).addEventListener("error", handleError);
   win().i13n = utils();
   const state = i13nStore.getState();
   const { nextScripts, nextSections } = get(state.get("nextConfigs"));
@@ -264,7 +265,7 @@ const actionHandler = (state, action) => {
         i13nDispatch("action", { I13N });
       }
     }, delay);
-    set(action, [PARAMS, 'stop'], true);
+    set(action, [PARAMS, "stop"], true);
   } else {
     state = run();
   }
@@ -278,6 +279,7 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
   const run = e => {
     if (!isLoad) {
       isLoad = true;
+      cleanAllRegister(); 
       i13nDispatch("reset", {
         initHandler,
         actionHandler,

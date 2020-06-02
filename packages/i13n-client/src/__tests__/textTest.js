@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import jsdom from "jsdom-global";
 import text from '../text';
-import {create, inject} from 'create-el';
+import {create} from 'create-el';
 
 
 describe('Test To Text', ()=>{

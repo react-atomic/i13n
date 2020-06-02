@@ -23,6 +23,7 @@ import getUserId from "./getUserId";
 import lazyAttr from "./lazyAttr";
 import parseJson from "./parseJson";
 import req from "./req";
+import register from "./register";
 import storeCbParams from "./storeCbParams";
 import text from "./text";
 
@@ -92,8 +93,9 @@ const utils = () => {
     query,
     queryFrom,
     removeEmpty,
-    router,
     req,
+    register,
+    router,
     sStorage,
     storeCbParams,
     text,

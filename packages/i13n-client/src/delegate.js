@@ -2,6 +2,8 @@ import query from "css-query-selector";
 import callfunc from "call-func";
 import { FUNCTION } from "reshow-constant";
 
+import register from './register';
+
 const isArray = Array.isArray;
 
 const delegate = (el, type, childs, defaultFunc) => {
@@ -11,7 +13,7 @@ const delegate = (el, type, childs, defaultFunc) => {
   if (!isArray(childs)) {
     childs = [{ select: childs }];
   }
-  query.el(el).addEventListener(type, e => {
+  register(query.el(el)).addEventListener(type, e => {
     const t = e.target;
     childs.some(({ select, func }) => {
       if (FUNCTION !== typeof func) {

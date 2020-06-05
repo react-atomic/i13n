@@ -1,8 +1,9 @@
 import {toMap} from 'get-object-value';
 import {removeEmpty} from 'array.merge';
-import utils from "./utils";
 
-const {objectToArray, lazyAttr} = utils();
+import objectToArray from "./objectToArray";
+import lazyAttr from "./lazyAttr";
+
 const sessionStore = lazyAttr('__prods');
 const isArray = Array.isArray;
 
@@ -22,8 +23,10 @@ const storeProducts = (products, arrP) => {
   });
 };
 
+const getAllLazyProducts = () => toMap(sessionStore());
+
 const forEachStoreProducts = arr => {
-  const arrP = toMap(sessionStore());
+  const arrP = getAllLazyProducts();
   ['impressions', 'detailProducts', 'products'].forEach( key => {
     const prods = isArray(arr[key]) ? arr[key] : objectToArray(arr[key]);
 
@@ -43,4 +46,4 @@ const lazyProducts = state => {
   return state.set('I13N', I13N).set('i13nPage', i13nPage);
 };
 export default lazyProducts;
-export {forEachStoreProducts};
+export {forEachStoreProducts, getAllLazyProducts};

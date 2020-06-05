@@ -279,7 +279,7 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
   const run = e => {
     if (!isLoad) {
       isLoad = true;
-      cleanAllRegister(); 
+      cleanAllRegister();
       i13nDispatch("reset", {
         initHandler,
         actionHandler,
@@ -293,7 +293,16 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
       });
     }
   };
-  run({ type: "directly" });
+  if (doc().readyState === "complete") {
+    run({ type: "directly" });
+  } else {
+    let _timer = setInterval(() => {
+      if (doc().readyState === "complete") {
+        clearInterval(_timer);
+        run({ type: "loaded" });
+      }
+    }, 10);
+  }
 };
 
 export default getIni;

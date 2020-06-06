@@ -297,11 +297,14 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
     run({ type: "directly" });
   } else {
     let _timer = setInterval(() => {
-      if (doc().readyState === "complete") {
-        clearInterval(_timer);
+      const readyState = doc().readyState;
+      if ("complete" === readyState || null == readyState) {
+        close();
         run({ type: "loaded" });
       }
     }, 10);
+    const close = () => clearInterval(_timer);
+    return close;
   }
 };
 

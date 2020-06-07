@@ -1,3 +1,4 @@
+import startTime from "./startTime"; // start time need put in first line
 import { i13nDispatch, getParams } from "i13n";
 import i13nStore from "i13n-store";
 import ini from "parse-ini-string";
@@ -34,9 +35,14 @@ import googleTag from "./google.tag";
 const keys = Object.keys;
 const PARAMS = "params";
 
+// variable
+let _timer;
+
 /**
  * functions
  */
+const close = () => _timer && clearInterval(_timer);
+
 const addSectionEvent = (configs, nextDelegates) => section => {
   const secs = get(configs, ["sec", section]);
   if (!secs) {
@@ -86,7 +92,21 @@ const handleError = e => {
   logError(error, type);
 };
 
-const processText = (state, done) => (maybeText, arrMerge) => {
+const processClose = run => {
+  if (doc().readyState === "complete") {
+    run();
+  } else {
+    _timer = setInterval(() => {
+      const readyState = doc().readyState;
+      if ("complete" === readyState || null == readyState) {
+        close();
+        run();
+      }
+    }, 10);
+  }
+};
+
+const processText = (state, initDone) => (maybeText, arrMerge) => {
   const userConfig =
     STRING === typeof maybeText ? nest(ini(maybeText), "_") : maybeText;
   mergeConfig(userConfig, arrMerge);
@@ -96,7 +116,7 @@ const processText = (state, done) => (maybeText, arrMerge) => {
     state = state.merge(userConfig);
     i13nStore.addListener(initPageScript, "init");
     // The last Line
-    done(state.set("nextConfigs", nextConfigs));
+    processClose(() => initDone(state.set("nextConfigs", nextConfigs)));
   }, get(nextConfigs, ["timeout"], 0));
 };
 
@@ -293,19 +313,8 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
       });
     }
   };
-  if (doc().readyState === "complete") {
-    run({ type: "directly" });
-  } else {
-    let _timer = setInterval(() => {
-      const readyState = doc().readyState;
-      if ("complete" === readyState || null == readyState) {
-        close();
-        run({ type: "loaded" });
-      }
-    }, 10);
-    const close = () => clearInterval(_timer);
-    return close;
-  }
+  run({ type: "directly" });
+  return close;
 };
 
 export default getIni;

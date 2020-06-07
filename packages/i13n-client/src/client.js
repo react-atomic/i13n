@@ -116,7 +116,7 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
     state = state.merge(userConfig);
     i13nStore.addListener(initPageScript, "init");
     // The last Line
-    processClose(() => initDone(state.set("nextConfigs", nextConfigs)));
+    initDone(state.set("nextConfigs", nextConfigs), {processClose});
   }, get(nextConfigs, ["timeout"], 0));
 };
 

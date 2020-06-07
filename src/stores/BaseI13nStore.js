@@ -1,22 +1,22 @@
-import {Store} from 'reshow-flux-base';
-import get, {toMap} from 'get-object-value';
-import set from 'set-object-value';
-import {localStorage, Storage} from 'get-storage';
-import {UNDEFINED, FUNCTION, OBJECT} from 'reshow-constant';
-import {doc} from 'win-doc';
+import { Store } from "reshow-flux-base";
+import get, { toMap } from "get-object-value";
+import set from "set-object-value";
+import { localStorage, Storage } from "get-storage";
+import { UNDEFINED, FUNCTION, OBJECT } from "reshow-constant";
+import { doc } from "win-doc";
 
-import {i13nDispatch} from '../i13nDispatcher';
-import getTime from '../getTime';
-import getParams from '../getParams';
+import { i13nDispatch } from "../i13nDispatcher";
+import getTime from "../getTime";
+import getParams from "../getParams";
 
 const lStore = new Storage(localStorage);
 const docUrl = () => doc().URL;
 const isArray = Array.isArray;
 const keys = Object.keys;
-const PARAMS = 'params';
-const hashKey = '__hash';
-const seqKey = '__seq';
-const lazyActionKey = 'lazyAction';
+const PARAMS = "params";
+const hashKey = "__hash";
+const seqKey = "__seq";
+const lazyActionKey = "lazyAction";
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -26,10 +26,10 @@ class BaseI13nStore extends Store {
   processLazyAction(lazyAction) {
     const processLazy = (lazeArr, key) => {
       const laze = lazeArr[key];
-      let {wait, stop} = getParams(laze);
+      let { wait, stop } = getParams(laze);
       if (!wait || wait <= 0) {
         if (!stop) {
-          if (UNDEFINED !== typeof get(laze, ['params', 'wait'])) {
+          if (UNDEFINED !== typeof get(laze, ["params", "wait"])) {
             delete laze.params.wait;
           }
           i13nDispatch(laze);
@@ -55,9 +55,9 @@ class BaseI13nStore extends Store {
   }
 
   processAction(state, action) {
-    const vpvid = state.get('vpvid');
+    const vpvid = state.get("vpvid");
     if (vpvid) {
-      set(action, [PARAMS, 'query', 'vpvid'], vpvid);
+      set(action, [PARAMS, "query", "vpvid"], vpvid);
     }
     return this.sendBeacon(state, action);
   }
@@ -67,11 +67,11 @@ class BaseI13nStore extends Store {
   }
 
   pushLazyAction(action, key) {
-    const {...params} = getParams(action);
-    const thisAction = {params, type: action.type};
-    set(thisAction, [PARAMS, 'lazeInfo'], {
+    const { ...params } = getParams(action);
+    const thisAction = { params, type: action.type };
+    set(thisAction, [PARAMS, "lazeInfo"], {
       from: docUrl(),
-      time: getTime().toString(),
+      time: getTime().toString()
     });
     const lazyAction = this.getLazy();
     if (key) {
@@ -84,16 +84,16 @@ class BaseI13nStore extends Store {
 
   mergeWithLazy(action, key) {
     const lazyAction = this.getLazy();
-    const {stop, wait, lazeInfo, lazyKey, ...lazeParams} = get(
+    const { stop, wait, lazeInfo, lazyKey, ...lazeParams } = get(
       lazyAction,
       [hashKey, key, PARAMS],
-      {},
+      {}
     );
     keys(lazeParams).forEach(pKey => {
       const p = lazeParams[pKey];
       const newP =
         OBJECT === typeof p
-          ? {...p, ...get(action, [PARAMS, pKey], {})}
+          ? { ...p, ...get(action, [PARAMS, pKey], {}) }
           : get(action, [PARAMS, pKey], p);
       set(action, [PARAMS, pKey], newP);
     });
@@ -117,19 +117,25 @@ class BaseI13nStore extends Store {
   }
 
   initDone = (state, action) => {
-    this.nextEmits.push('init');
-    state = state.set('init', true);
+    this.nextEmits.push("init");
+    state = state.set("init", true);
     i13nDispatch(state); // for async, need located before lazyAction
     const lazyAction = this.getLazy();
     if (lazyAction) {
       this.processLazyAction(lazyAction);
     }
-    i13nDispatch(action || 'view');
+    const { processClose, ...nextAction  } = action || {};
+    const run = () => i13nDispatch(keys(nextAction).length ? nextAction : "view");
+    if (FUNCTION === typeof processClose) {
+      processClose(run); 
+    } else {
+      run();
+    }
     return state;
   };
 
   handleInit(state, action) {
-    const initHandler = state.get('initHandler');
+    const initHandler = state.get("initHandler");
     if (FUNCTION === typeof initHandler) {
       return initHandler(state, action, this.initDone);
     } else {
@@ -138,21 +144,21 @@ class BaseI13nStore extends Store {
   }
 
   handleImpression(state, action) {
-    state = state.set('lastUrl', docUrl());
+    state = state.set("lastUrl", docUrl());
     const run = state => {
-      let impressionHandler = state.get('impressionHandler');
+      let impressionHandler = state.get("impressionHandler");
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);
       }
       const next = impressionHandler(state, action);
-      const {wait, stop} = getParams(action); // need locate after next
+      const { wait, stop } = getParams(action); // need locate after next
       if (UNDEFINED === typeof wait && !stop) {
         // execute send beacon
-        this.nextEmits.push('impression');
+        this.nextEmits.push("impression");
       }
       return next;
     };
-    const init = state.get('init');
+    const init = state.get("init");
     if (!init) {
       return this.handleInit(state, action);
     } else {
@@ -161,8 +167,8 @@ class BaseI13nStore extends Store {
   }
 
   handleAction(state, action) {
-    let actionHandler = state.get('actionHandler');
-    const {withLazy} = getParams(action);
+    let actionHandler = state.get("actionHandler");
+    const { withLazy } = getParams(action);
     if (!actionHandler) {
       actionHandler = this.processAction.bind(this);
     }
@@ -170,10 +176,10 @@ class BaseI13nStore extends Store {
       action = this.mergeWithLazy(action, withLazy);
     }
     const next = actionHandler(state, action);
-    const {wait, stop, lazyKey} = getParams(action); // need locate after next
+    const { wait, stop, lazyKey } = getParams(action); // need locate after next
     if (UNDEFINED === typeof wait && !stop) {
       // execute send beacon
-      this.nextEmits.push('action');
+      this.nextEmits.push("action");
       if (withLazy && withLazy !== lazyKey) {
         this.removeLazy(withLazy);
       }
@@ -183,13 +189,13 @@ class BaseI13nStore extends Store {
 
   reduce(state, action) {
     switch (action.type) {
-      case 'view':
+      case "view":
         return this.handleImpression(state, action);
-      case 'action':
+      case "action":
         return this.handleAction(state, action);
-      case 'config/set':
+      case "config/set":
         return state.merge(action.params);
-      case 'reset':
+      case "reset":
         /**
          * !!Important!!
          * Keep in mind, always don't reset localstorage

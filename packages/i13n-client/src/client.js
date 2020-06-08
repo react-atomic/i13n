@@ -10,6 +10,7 @@ import { win, doc } from "win-doc";
 import { STRING, FUNCTION, UNDEFINED } from "reshow-constant";
 import callfunc from "call-func";
 import Router from "url-route";
+import windowOnLoad from "window-onload";
 
 // local import
 import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "./storeCbParams";
@@ -35,13 +36,10 @@ import googleTag from "./google.tag";
 const keys = Object.keys;
 const PARAMS = "params";
 
-// variable
-let _timer;
-
 /**
  * functions
  */
-const close = () => _timer && clearInterval(_timer);
+const onLoad = windowOnLoad();
 
 const addSectionEvent = (configs, nextDelegates) => section => {
   const secs = get(configs, ["sec", section]);
@@ -92,20 +90,6 @@ const handleError = e => {
   logError(error, type);
 };
 
-const processClose = run => {
-  if (doc().readyState === "complete") {
-    run();
-  } else {
-    _timer = setInterval(() => {
-      const readyState = doc().readyState;
-      if ("complete" === readyState || null == readyState) {
-        close();
-        run();
-      }
-    }, 10);
-  }
-};
-
 const processText = (state, initDone) => (maybeText, arrMerge) => {
   const userConfig =
     STRING === typeof maybeText ? nest(ini(maybeText), "_") : maybeText;
@@ -116,7 +100,7 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
     state = state.merge(userConfig);
     i13nStore.addListener(initPageScript, "init");
     // The last Line
-    initDone(state.set("nextConfigs", nextConfigs), { processClose });
+    initDone(state.set("nextConfigs", nextConfigs), { processClose: onLoad.process });
   }, get(nextConfigs, ["timeout"], 0));
 };
 
@@ -317,7 +301,7 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
     }
   };
   run({ type: "directly" });
-  return close;
+  return onLoad.close;
 };
 
 export default getIni;

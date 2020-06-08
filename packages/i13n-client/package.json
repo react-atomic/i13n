@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -25,7 +25,8 @@
     "seturl": "*",
     "to-percent-js": "*",
     "url-route": "*",
-    "win-doc": "*"
+    "win-doc": "*",
+    "window-onload": "*"
   },
   "devDependencies": {
     "reshow-app": "*"

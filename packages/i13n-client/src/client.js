@@ -116,7 +116,7 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
     state = state.merge(userConfig);
     i13nStore.addListener(initPageScript, "init");
     // The last Line
-    initDone(state.set("nextConfigs", nextConfigs), {processClose});
+    initDone(state.set("nextConfigs", nextConfigs), { processClose });
   }, get(nextConfigs, ["timeout"], 0));
 };
 
@@ -125,7 +125,6 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
  */
 const initPageScript = () => {
   register(win()).addEventListener("error", handleError);
-  win().i13n = utils();
   const state = i13nStore.getState();
   const { nextScripts, nextSections } = get(state.get("nextConfigs"));
   nextScripts.forEach(script => {
@@ -199,6 +198,7 @@ const initTags = configs => {
 
 const maybeDelayAction = (state, action) => () => {
   const cbParams = toMap(state.get(_I13N_CB_PARAMS));
+  const isInit = state.get("init");
   const { 0: i13nLastEvent, 1: currentTarget } = toMap(state.get(_LAST_EVENT));
   const params = getParams(action);
   if (!isNaN(params.delay)) {
@@ -223,7 +223,7 @@ const maybeDelayAction = (state, action) => () => {
   if (!I13N) {
     set(action, [PARAMS, "stop"], true);
   } else {
-    if (UNDEFINED !== typeof wait) {
+    if (UNDEFINED !== typeof wait || !isInit) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
@@ -295,6 +295,7 @@ const actionHandler = (state, action) => {
 const impressionHandler = (state, action) => lazyProducts(state);
 
 const getIni = (iniUrl, iniCb, forceRefresh) => {
+  win().i13n = utils();
   let isLoad = false;
   const run = e => {
     if (!isLoad) {

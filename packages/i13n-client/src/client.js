@@ -197,8 +197,10 @@ const initTags = configs => {
 };
 
 const maybeDelayAction = (state, action) => () => {
+  if (!state.get("init")) {
+    set(action, [PARAMS, "wait"], 0);
+  }
   const cbParams = toMap(state.get(_I13N_CB_PARAMS));
-  const isInit = state.get("init");
   const { 0: i13nLastEvent, 1: currentTarget } = toMap(state.get(_LAST_EVENT));
   const params = getParams(action);
   if (!isNaN(params.delay)) {
@@ -223,7 +225,7 @@ const maybeDelayAction = (state, action) => () => {
   if (!I13N) {
     set(action, [PARAMS, "stop"], true);
   } else {
-    if (UNDEFINED !== typeof wait || !isInit) {
+    if (UNDEFINED !== typeof wait) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }

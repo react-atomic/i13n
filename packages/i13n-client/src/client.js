@@ -13,6 +13,7 @@ import Router from "url-route";
 import windowOnLoad from "window-onload";
 
 // local import
+import getDocUrl from './getDocUrl';
 import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "./storeCbParams";
 import execScript from "./execScript";
 import { lStore } from "./storage";
@@ -149,7 +150,7 @@ const initRouter = configs => {
       return get(pageConfigs, ["timeout"], 0);
     });
   });
-  const urlPathName = get(configs, ["location"], () => doc().location.pathname);
+  const urlPathName = getDocUrl(configs);
   let match = router.match(urlPathName);
   if (match) {
     const timeouts = [];

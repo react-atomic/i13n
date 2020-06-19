@@ -1,6 +1,6 @@
 import exec from "exec-script";
 import { win } from "win-doc";
-import startTime from './startTime';
+import startTime from "./startTime";
 
 import BaseGTag from "./BaseGTag";
 
@@ -15,14 +15,26 @@ const getScript = gtagId => {
   return script;
 };
 
+let isNotSupport = false;
+
 class OfficialGTag extends BaseGTag {
   init() {
-    const { id } = this.props;
-    exec(getScript(id));
+    try {
+      const _ = top.location.href;
+    } catch (e) {
+      console.warn("Not support GTM", { e });
+      isNotSupport = true;
+    }
+    if (!isNotSupport) {
+      const { id } = this.props;
+      exec(getScript(id));
+    }
   }
 
   push(config) {
-    win().dataLayer.push(config);
+    if (!isNotSupport) {
+      win().dataLayer.push(config);
+    }
   }
 }
 

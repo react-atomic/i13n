@@ -6,6 +6,7 @@ import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
 import { UNDEFINED } from "reshow-constant";
 
+import getDocUrl, {getHostName} from './getDocUrl';
 import getClientId, { getClientIdCookie } from "./getClientId";
 import parseJson from "./parseJson";
 
@@ -35,7 +36,7 @@ class DataLayerToMp {
     if (!oDoc) {
       oDoc = doc();
     }
-    const hostname = get(oDoc, ["location", "hostname"]);
+    const hostname = getHostName(); 
     const referrer = get(oDoc, ["referrer"]);
     if (referrer && !this.isSameHost(hostname)(referrer)) {
       return {
@@ -299,7 +300,7 @@ class DataLayerToMp {
       cg4: p4,
       cg5: p5,
       _s: seq,
-      dl: oDoc.URL,
+      dl: getDocUrl(),
       ul: (nav.language || nav.browserLanguage || "").toLowerCase(),
       de: oDoc.characterSet || oDoc.charset,
       dt: oDoc.title,

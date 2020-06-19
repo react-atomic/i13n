@@ -1,10 +1,10 @@
-import setUrl from 'seturl';
-import {win} from 'win-doc';
-import get from 'get-object-value';
-import {UNDEFINED, FUNCTION} from 'reshow-constant';
+import setUrl from "seturl";
+import { win } from "win-doc";
+import get from "get-object-value";
+import { UNDEFINED, FUNCTION } from "reshow-constant";
 
-const GET = 'GET';
-const POST = 'POST';
+const GET = "GET";
+const POST = "POST";
 const keys = Object.keys;
 
 const req = (url, callback, type, query) => {
@@ -21,15 +21,20 @@ const req = (url, callback, type, query) => {
   if (FUNCTION === typeof callback) {
     oReq.onload = callback(oReq);
   }
-  oReq.open(type, url);
-  oReq.send(query);
-  return true;
+  try {
+    oReq.open(type, url);
+    oReq.send(query);
+    return true;
+  } catch (e) {
+    console.warn('req failed.', {url, e});
+    return false;
+  }
 };
 
 const imageTag = url => (new Image().src = url);
 
 const beaconApi = (url, query) => {
-  const navigator = get(win(), ['navigator'], {});
+  const navigator = get(win(), ["navigator"], {});
   const oSendBeacon = navigator.sendBeacon;
   if (!oSendBeacon) {
     return false;
@@ -39,7 +44,7 @@ const beaconApi = (url, query) => {
 };
 
 const dataToQuery = data => {
-  let url = '?';
+  let url = "?";
   if (!data) {
     return url;
   }
@@ -58,7 +63,7 @@ const beacon = (url, data, ajax, imgTag) => {
   }
   const thisUrl = url;
   const query = dataToQuery(data);
-  const getUrl = thisUrl + '?' + query;
+  const getUrl = thisUrl + "?" + query;
   if (2036 >= getUrl.length) {
     imgTag(getUrl);
   } else {
@@ -67,4 +72,4 @@ const beacon = (url, data, ajax, imgTag) => {
 };
 
 export default req;
-export {beacon};
+export { beacon };

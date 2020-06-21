@@ -12,4 +12,4 @@ const getHostName = () => {
 };
 
 export default getDocUrl;
-export {getHostName};
+export { getHostName };

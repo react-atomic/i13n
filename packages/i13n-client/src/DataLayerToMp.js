@@ -1,12 +1,13 @@
 import { win, doc } from "win-doc";
 import get from "get-object-value";
-import getRandomId, {getTimestamp} from "get-random-id";
+import getRandomId, { getTimestamp } from "get-random-id";
 import { removeEmpty } from "array.merge";
 import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
 import { UNDEFINED } from "reshow-constant";
 
-import getDocUrl, {getHostName} from './getDocUrl';
+import shopify from "./shopify";
+import getDocUrl, { getHostName } from "./getDocUrl";
 import getClientId, { getClientIdCookie } from "./getClientId";
 import parseJson from "./parseJson";
 
@@ -36,7 +37,7 @@ class DataLayerToMp {
     if (!oDoc) {
       oDoc = doc();
     }
-    const hostname = getHostName(); 
+    const hostname = getHostName();
     const referrer = get(oDoc, ["referrer"]);
     if (referrer && !this.isSameHost(hostname)(referrer)) {
       return {
@@ -142,7 +143,7 @@ class DataLayerToMp {
         data[key + endKey + sn] = others[k];
       }
     });
-    const {imageIndex} = config || {};
+    const { imageIndex } = config || {};
     if (imageIndex) {
       data[key + "cd" + config.imageIndex] = image;
     }
@@ -310,6 +311,7 @@ class DataLayerToMp {
       je: toNum(callfunc(nav.javaEnabled, null, nav)),
       tid: tagId,
       cid: getClientId(),
+      scid: shopify.getGaId(),
       _gid: getClientIdCookie("_gid"),
       v: version || 1, //version
       z: getRandomId(),
@@ -340,7 +342,7 @@ class DataLayerToMp {
   }
 }
 
-const resetSeq = i => seq = i;
+const resetSeq = i => (seq = i);
 
 export default DataLayerToMp;
-export {resetSeq};
+export { resetSeq };

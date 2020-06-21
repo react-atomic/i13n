@@ -1,6 +1,7 @@
 import get from 'get-object-value';
 import {UNDEFINED} from 'reshow-constant';
 
+import shopify from "./shopify";
 import BaseTag from './BaseTag';
 import {getViewEcommerce, getActionEcommerce} from './google.ecommerce';
 import OfficialGTag from './official.gtag';
@@ -35,7 +36,7 @@ class GoogleTag extends BaseTag {
   push(config) {
     const {gaId, bCookieIndex, lazeInfoIndex} = this.getTagData();
     const state = this.getState();
-    const uid = state.get('uid');
+    const uid = state.get('uid') ?? shopify.getUid();
     if (uid) {
       config.bCookie = uid;
       if (bCookieIndex) {

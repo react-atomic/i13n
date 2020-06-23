@@ -15,7 +15,8 @@ const getUid = () => {
 };
 
 const getPage = () => {
-  const page = get(win(), ["__st", "t"]);
+  const oWin = win();
+  const page = get(oWin, ["__st", "t"], () => get(oWin, ["__st", "p"]));
   return page;
 };
 

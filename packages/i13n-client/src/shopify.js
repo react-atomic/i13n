@@ -33,6 +33,7 @@ const getClientId = () => {
 };
 
 const shopify = {
+  getPage,
   getUid,
   getGaId,
   getDocUrl,

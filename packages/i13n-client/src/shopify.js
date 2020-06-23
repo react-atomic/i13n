@@ -14,6 +14,11 @@ const getUid = () => {
   return uid;
 };
 
+const getPage = () => {
+  const page = get(win(), ["__st", "t"]);
+  return page;
+};
+
 const getGaId = () => {
   const url = getDocUrl();
   const ga = getUrl("_ga", url) || "";

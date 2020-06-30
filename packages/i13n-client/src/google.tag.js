@@ -142,5 +142,4 @@ class GoogleTag extends BaseTag {
   }
 }
 
-const instance = new GoogleTag();
-export default instance;
+export default GoogleTag;

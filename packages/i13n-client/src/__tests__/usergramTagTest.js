@@ -3,7 +3,8 @@ import i13nStore from 'i13n-store';
 import {i13nDispatch} from 'i13n';
 import jsdom from 'jsdom-global';
 
-import Usergram from '../usergram.tag';
+import UsergramTag from '../usergram.tag';
+const Usergram = new UsergramTag();
 
 describe('Test Usergram', () => {
   Usergram.register(i13nStore, 'usergram');

@@ -13,7 +13,7 @@ import Router from "url-route";
 import windowOnLoad from "window-onload";
 
 // local import
-import getDocUrl from './getDocUrl';
+import getDocUrl from "./getDocUrl";
 import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "./storeCbParams";
 import execScript from "./execScript";
 import { lStore } from "./storage";
@@ -31,7 +31,7 @@ import oneTimeAction from "./oneTimeAction";
 // tags
 import debugTag from "./debug.tag";
 import googleTag from "./google.tag";
-// import usergramTag from './usergram.tag';
+let tagMap;
 
 // constant
 const keys = Object.keys;
@@ -101,7 +101,9 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
     state = state.merge(userConfig);
     i13nStore.addListener(initPageScript, "init");
     // The last Line
-    initDone(state.set("nextConfigs", nextConfigs), { processClose: onLoad.process });
+    initDone(state.set("nextConfigs", nextConfigs), {
+      processClose: onLoad.process
+    });
   }, get(nextConfigs, ["timeout"], 0));
 };
 
@@ -164,11 +166,6 @@ const initRouter = configs => {
 };
 
 const initTags = configs => {
-  const tagMap = {
-    debug: debugTag,
-    gtag: googleTag
-    //    usergram: usergramTag,
-  };
   const tags = get(configs, ["tag"], {});
   keys(tags).forEach(key => {
     const TAG = tagMap[key];
@@ -288,6 +285,10 @@ const getIni = (iniUrl, iniCb, forceRefresh) => {
     if (!isLoad) {
       isLoad = true;
       cleanAllRegister();
+      tagMap = {
+        debug: new debugTag(),
+        gtag: new googleTag()
+      };
       i13nDispatch("reset", {
         initHandler,
         actionHandler,

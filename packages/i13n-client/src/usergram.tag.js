@@ -141,5 +141,4 @@ class UsergramTag extends BaseTag {
   }
 }
 
-const instance = new UsergramTag();
-export default instance;
+export default UsergramTag;

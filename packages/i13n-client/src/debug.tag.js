@@ -19,5 +19,4 @@ class DebugTag extends BaseTag {
   }
 }
 
-const instance = new DebugTag();
-export default instance;
+export default DebugTag;

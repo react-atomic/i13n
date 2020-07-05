@@ -37,6 +37,8 @@
 import get from "get-object-value";
 import set from "set-object-value";
 
+import shopify from "./shopify";
+
 const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   const { p, action, products, promotions } = I13N;
   const ecommerce = {};
@@ -98,7 +100,9 @@ const setCurrency = (I13N, ecommerce, defaultCurrencyCode) => {
 
 const stepSend = {};
 const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
-  const { stepNo: step, stepOption: option, products } = I13N;
+  const { stepNo, stepOption, products } = I13N;
+  const step = stepNo ?? shopify.getStepNo();
+  const option = stepOption ?? shopify.getStepName();
   if (!step) {
     return;
   }

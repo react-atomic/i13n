@@ -186,8 +186,8 @@ class DataLayerToMp {
       const { actionField, products } = checkout || checkout_option;
       const { step, option } = actionField || {};
       const data = {
-        cos: step ?? shopify.getStepNo(),
-        col: option ?? shopify.getStepName(),
+        cos: step,
+        col: option,
         pa: checkout_option ? "checkout_option" : "checkout",
         ...this.getProductsData(products, config)
       };

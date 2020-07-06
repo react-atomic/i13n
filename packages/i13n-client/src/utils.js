@@ -7,6 +7,7 @@ import getRandomId, { getDateObject, getTimestamp } from "get-random-id";
 import get, { toMap } from "get-object-value";
 import router from "url-route";
 import { htmlDecode } from "html-entity-js";
+import formSerialize from "form-serialize-js";
 
 // local
 import arraySearch from "./arraySearch";
@@ -59,6 +60,7 @@ const utils = () => {
     error,
     execScript,
     expireCallback,
+    formSerialize,
     get,
     getAllLazyProducts,
     getNum,

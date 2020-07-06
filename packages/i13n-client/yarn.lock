@@ -2962,6 +2962,13 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+form-serialize-js@*:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/form-serialize-js/-/form-serialize-js-0.0.0.tgz#9c17bb2c33b625950bcaa40bb3824af439e29089"
+  integrity sha512-9IvBF5GfC4DgLBENAtNQ1axy6/NNEaME9FTNoTURCo7SFZPD57kcBx/ibB+MzFWq1vK5cRPPdVZo7UCcikn02Q==
+  dependencies:
+    set-object-value "*"
+
 formidable@^1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.2.tgz#bf69aea2972982675f00865342b982986f6b8dd9"

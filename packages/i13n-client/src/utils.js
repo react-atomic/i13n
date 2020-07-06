@@ -6,6 +6,7 @@ import getCookie from "get-cookie";
 import getRandomId, { getDateObject, getTimestamp } from "get-random-id";
 import get, { toMap } from "get-object-value";
 import router from "url-route";
+import { htmlDecode } from "html-entity-js";
 
 // local
 import arraySearch from "./arraySearch";
@@ -44,8 +45,6 @@ const error = message => logError({ message }, "CustomError");
 
 const arrayFrom = arr => [...arr];
 
-
-
 const joinCategory = arr =>
   arr.map(item => text(item).replace("/", "-")).join("/");
 
@@ -76,6 +75,7 @@ const utils = () => {
     getDateObject,
     getTimestamp,
     getTime,
+    htmlDecode,
     joinCategory,
     keys,
     lazyAttr,

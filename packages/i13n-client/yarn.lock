@@ -3298,6 +3298,13 @@ html-encoding-sniffer@^2.0.1:
   dependencies:
     whatwg-encoding "^1.0.5"
 
+html-entity-js@*:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/html-entity-js/-/html-entity-js-0.0.0.tgz#c5ace16fd941566b26304b0e50b32f137b6c1f86"
+  integrity sha512-VdcG63AqBLm3TCfEQij1UTOh7GBLVbYMNhul7JU1AGQpxMEHhKDKLNYi+PEFAmGKxB98WwTN9lFZu15bIUgcPA==
+  dependencies:
+    win-doc "*"
+
 htmlparser2@^3.9.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"

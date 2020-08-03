@@ -2,7 +2,9 @@ import { win } from "win-doc";
 import get from "get-object-value";
 import { getUrl } from "seturl";
 
-const checkoutPath = ["Shopify", "Checkout"];
+const SHOPIFY = "Shopify";
+const __ST = "__st";
+const checkoutPath = [SHOPIFY, "Checkout"];
 const thankYou = "thank_you";
 
 const getStepName = () => {
@@ -24,22 +26,29 @@ const getStepNo = () => {
   }
 };
 
+const getShopId = () => {
+  const shop = get(win(), [SHOPIFY, "shop"], () =>
+    get(win(), [...checkoutPath, "apiHost"])
+  );
+  return shop;
+};
+
 const getCurrency = () => {
   const currency = get(win(), [...checkoutPath, "currency"], () =>
-    get(win(), ["Shopify", "currency", "active"])
+    get(win(), [SHOPIFY, "currency", "active"])
   );
   return currency;
 };
 
 const getDocUrl = () => {
-  const url = get(win(), ["__st", "pageurl"]);
+  const url = get(win(), [__ST, "pageurl"]);
   if (url) {
     return "https://" + url;
   }
 };
 
 const getUid = () => {
-  const uid = get(win(), ["__st", "cid"]);
+  const uid = get(win(), [__ST, "cid"]);
   return uid;
 };
 
@@ -48,7 +57,7 @@ const getPage = () => {
     return thankYou;
   }
   const oWin = win();
-  const page = get(oWin, ["__st", "t"], () => get(oWin, ["__st", "p"]));
+  const page = get(oWin, [__ST, "t"], () => get(oWin, [__ST, "p"]));
   return page;
 };
 
@@ -68,6 +77,7 @@ const getClientId = () => {
 const shopify = {
   getStepNo,
   getStepName,
+  getShopId,
   getPage,
   getUid,
   getGaId,

@@ -17,6 +17,18 @@ describe("Test Shopify", () => {
     resetDom();
   });
 
+  it("test getShopId from shop", () => {
+    set(window, ["Shopify", "shop"], "fake-shop-foo");
+    const acture = shopify.getShopId();
+    expect(acture).to.equal("fake-shop-foo");
+  });
+
+  it("test getShopId from apihost", () => {
+    set(window, [...checkoutPath, "apiHost"], "fake-shop-bar");
+    const acture = shopify.getShopId();
+    expect(acture).to.equal("fake-shop-bar");
+  });
+
   it("test getStepName", () => {
     set(window, [...checkoutPath, "step"], "contact_information");
     const acture = shopify.getStepName();

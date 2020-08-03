@@ -312,6 +312,7 @@ class DataLayerToMp {
       tid: tagId,
       cid: getClientId(),
       scid: shopify.getGaId(),
+      dh: shopify.getShopId(),
       _gid: getClientIdCookie("_gid"),
       v: version || 1, //version
       z: getRandomId(),

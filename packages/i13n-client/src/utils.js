@@ -47,7 +47,7 @@ const error = message => logError({ message }, "CustomError");
 const arrayFrom = arr => [...arr];
 
 const joinCategory = arr =>
-  arr.map(item => text(item).replace("/", "-")).join("/");
+  arr?.map(item => text(item).replace("/", "-")).join("/");
 
 const utils = () => {
   const o = {

@@ -83,7 +83,7 @@ const shopify = {
   getGaId,
   getDocUrl,
   getCurrency,
-  getClientId
+  getClientId,
 };
 
 export default shopify;

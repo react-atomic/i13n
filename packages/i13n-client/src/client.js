@@ -42,7 +42,7 @@ const PARAMS = "params";
  */
 const onLoad = windowOnLoad();
 
-const addSectionEvent = (configs, nextDelegates) => section => {
+const addSectionEvent = (configs, nextDelegates) => (section) => {
   const secs = get(configs, ["sec", section]);
   if (!secs) {
     console.warn("Section: [" + section + "] not found.");
@@ -50,7 +50,7 @@ const addSectionEvent = (configs, nextDelegates) => section => {
   }
   get(secs, ["selects"], []).forEach((select, skey) => {
     const type = get(secs, ["types", skey]);
-    const func = e => {
+    const func = (e) => {
       storeCbParams(parseJson(get(secs, [PARAMS, skey])), e);
       const scriptName = get(secs, ["scripts", skey]);
       if (!scriptName) {
@@ -63,12 +63,12 @@ const addSectionEvent = (configs, nextDelegates) => section => {
     if ((!sels.length && "click" === type) || "delegate" === type) {
       nextDelegates.push({ select, func });
     } else {
-      sels.forEach(el => register(el).addEventListener(type, func));
+      sels.forEach((el) => register(el).addEventListener(type, func));
     }
   });
 };
 
-const pushPageScript = (configs, nextConfigs) => name => {
+const pushPageScript = (configs, nextConfigs) => (name) => {
   const arrScriptName = get(configs, ["page", name, "scripts"]);
   if (!arrScriptName) {
     return;
@@ -85,7 +85,7 @@ const pushPageScript = (configs, nextConfigs) => name => {
   });
 };
 
-const handleError = e => {
+const handleError = (e) => {
   const error = get(e, ["error"], { message: get(e, ["message"]) });
   const type = e.error ? "WindowScriptErr" : "ExternalScriptErr";
   logError(error, type);
@@ -102,7 +102,7 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
     i13nStore.addListener(initPageScript, "init");
     // The last Line
     initDone(state.set("nextConfigs", nextConfigs), {
-      processClose: onLoad.process
+      processClose: onLoad.process,
     });
   }, get(nextConfigs, ["timeout"], 0));
 };
@@ -114,7 +114,7 @@ const initPageScript = () => {
   register(win()).addEventListener("error", handleError);
   const state = i13nStore.getState();
   const { nextScripts, nextSections } = get(state.get("nextConfigs"));
-  nextScripts.forEach(script => {
+  nextScripts.forEach((script) => {
     if (script[1]) {
       storeCbParams(script[1]);
     }
@@ -124,21 +124,21 @@ const initPageScript = () => {
   const doAddSectionEvent = addSectionEvent(
     {
       sec: get(state.get("sec")),
-      script: get(state.get("script"))
+      script: get(state.get("script")),
     },
     nextDelegates
   );
-  keys(nextSections).forEach(sec => doAddSectionEvent(sec));
+  keys(nextSections).forEach((sec) => doAddSectionEvent(sec));
   delegate(doc(), "click", nextDelegates);
   callfunc(get(state.get("nextCallback")));
 };
 
-const initRouter = configs => {
+const initRouter = (configs) => {
   const router = new Router();
   const nextConfigs = {
     nextScripts: [],
     nextSections: {},
-    timeout: 0
+    timeout: 0,
   };
   const exePushPageScript = pushPageScript(configs, nextConfigs);
   get(configs, ["router", "rules"], []).forEach((rule, key) => {
@@ -147,7 +147,7 @@ const initRouter = configs => {
       const pageConfigs = get(configs, ["page", pageName]);
       exePushPageScript(pageName);
       get(pageConfigs, ["secs"], []).forEach(
-        sec => (nextConfigs.nextSections[sec] = 1)
+        (sec) => (nextConfigs.nextSections[sec] = 1)
       );
       return get(pageConfigs, ["timeout"], 0);
     });
@@ -165,9 +165,9 @@ const initRouter = configs => {
   return nextConfigs;
 };
 
-const initTags = configs => {
+const initTags = (configs) => {
   const tags = get(configs, ["tag"], {});
-  keys(tags).forEach(key => {
+  keys(tags).forEach((key) => {
     const TAG = tagMap[key];
     if (tags[key].enabled && TAG) {
       if ("debug" === key) {
@@ -235,7 +235,7 @@ const initHandler = (state, action, initDone) => {
   state = state.merge(params);
   const { iniUrl, iniCb, forceRefresh } = params;
   const process = processText(state, initDone);
-  const cb = maybeText =>
+  const cb = (maybeText) =>
     FUNCTION === typeof iniCb ? iniCb(maybeText, process) : process(maybeText);
   if (STRING === typeof iniUrl) {
     const localIni = lStore.get(iniUrl);
@@ -243,7 +243,7 @@ const initHandler = (state, action, initDone) => {
     if (!forceRefresh && sessionIni() && localIni) {
       cb(localIni);
     } else {
-      req(iniUrl, oReq => e => {
+      req(iniUrl, (oReq) => (e) => {
         cb(oReq.responseText);
         lStore.set(iniUrl, oReq.responseText);
         sessionIni(true);
@@ -281,24 +281,24 @@ const impressionHandler = (state, action) => lazyProducts(state);
 const getIni = (iniUrl, iniCb, forceRefresh) => {
   win().i13n = utils();
   let isLoad = false;
-  const run = e => {
+  const run = (e) => {
     if (!isLoad) {
       isLoad = true;
       cleanAllRegister();
       tagMap = {
         debug: new debugTag(),
-        gtag: new googleTag()
+        gtag: new googleTag(),
       };
       i13nDispatch("reset", {
         initHandler,
         actionHandler,
-        impressionHandler
+        impressionHandler,
       });
       i13nDispatch("view", {
         forceRefresh,
         iniUrl,
         iniCb,
-        initTrigerBy: e.type
+        initTrigerBy: e.type,
       });
     }
   };

@@ -1,10 +1,10 @@
-import {toMap} from 'get-object-value';
-import {removeEmpty} from 'array.merge';
+import { toMap } from "get-object-value";
+import { removeEmpty } from "array.merge";
 
 import objectToArray from "./objectToArray";
 import lazyAttr from "./lazyAttr";
 
-const sessionStore = lazyAttr('__prods');
+const sessionStore = lazyAttr("__prods");
 const isArray = Array.isArray;
 
 const storeProducts = (products, arrP) => {
@@ -19,15 +19,15 @@ const storeProducts = (products, arrP) => {
     delete arrP[p.id].quantity;
     delete arrP[p.id].variant;
     delete arrP[p.id].position;
-    products[key] = {...p, ...arrP[p.id]};
+    products[key] = { ...p, ...arrP[p.id] };
   });
 };
 
 const getAllLazyProducts = () => toMap(sessionStore());
 
-const forEachStoreProducts = arr => {
+const forEachStoreProducts = (arr) => {
   const arrP = getAllLazyProducts();
-  ['impressions', 'detailProducts', 'products'].forEach( key => {
+  ["impressions", "detailProducts", "products"].forEach((key) => {
     const prods = isArray(arr[key]) ? arr[key] : objectToArray(arr[key]);
 
     if (prods.length) {
@@ -40,10 +40,10 @@ const forEachStoreProducts = arr => {
   return arr;
 };
 
-const lazyProducts = state => {
-  const I13N = forEachStoreProducts(toMap(state.get('I13N')));
-  const i13nPage = forEachStoreProducts(toMap(state.get('i13nPage')));
-  return state.set('I13N', I13N).set('i13nPage', i13nPage);
+const lazyProducts = (state) => {
+  const I13N = forEachStoreProducts(toMap(state.get("I13N")));
+  const i13nPage = forEachStoreProducts(toMap(state.get("i13nPage")));
+  return state.set("I13N", I13N).set("i13nPage", i13nPage);
 };
 export default lazyProducts;
-export {forEachStoreProducts, getAllLazyProducts};
+export { forEachStoreProducts, getAllLazyProducts };

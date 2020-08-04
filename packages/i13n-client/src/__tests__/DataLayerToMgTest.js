@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import jsdom from "jsdom-global";
 
-import DataLayerToMp, {resetSeq} from "../DataLayerToMp";
+import DataLayerToMp, { resetSeq } from "../DataLayerToMp";
 
 const oDlToMp = new DataLayerToMp();
 
@@ -26,7 +26,7 @@ describe("Test DataLayerToMp", () => {
 
   it("Test getReferrer", () => {
     const data = oDlToMp.getReferrer({
-      referrer: "https://fake.com"
+      referrer: "https://fake.com",
     });
     expect(data).to.deep.equal({ dr: "https://fake.com" });
   });
@@ -39,7 +39,7 @@ describe("Test DataLayerToMp", () => {
   it("Test getReferrer (same host)", () => {
     const data = oDlToMp.getReferrer({
       location: { hostname: "localhost" },
-      referrer: "http://localhost/shopping"
+      referrer: "http://localhost/shopping",
     });
     expect(data).to.be.undefined;
   });
@@ -50,7 +50,7 @@ describe("Test DataLayerToMp", () => {
       ec: undefined,
       ea: undefined,
       el: undefined,
-      ev: undefined
+      ev: undefined,
     });
   });
 
@@ -72,7 +72,7 @@ describe("Test DataLayerToMp", () => {
       promo1id: undefined,
       promo1nm: undefined,
       promo1cr: undefined,
-      promo1ps: undefined
+      promo1ps: undefined,
     });
   });
 
@@ -85,7 +85,7 @@ describe("Test DataLayerToMp", () => {
       tr: undefined,
       tt: undefined,
       ts: undefined,
-      tcc: undefined
+      tcc: undefined,
     });
   });
 
@@ -93,7 +93,7 @@ describe("Test DataLayerToMp", () => {
     const refund = oDlToMp.getEcPurchaseData(null, {});
     expect(refund).to.deep.equal({
       pa: "refund",
-      ti: undefined
+      ti: undefined,
     });
   });
 
@@ -102,7 +102,7 @@ describe("Test DataLayerToMp", () => {
     expect(data).to.deep.equal({
       cos: undefined,
       col: undefined,
-      pa: "checkout"
+      pa: "checkout",
     });
   });
 
@@ -111,7 +111,7 @@ describe("Test DataLayerToMp", () => {
     expect(data).to.deep.equal({
       cos: undefined,
       col: undefined,
-      pa: "checkout_option"
+      pa: "checkout_option",
     });
   });
 
@@ -126,9 +126,9 @@ describe("Test DataLayerToMp", () => {
         products: [
           {
             category: "uCategory",
-            list: "uList"
-          }
-        ]
+            list: "uList",
+          },
+        ],
       },
       "detail"
     );
@@ -149,7 +149,7 @@ describe("Test DataLayerToMp", () => {
       il1pi1va: undefined,
       il1pi1ps: undefined,
       il1pi1pr: undefined,
-      il1pi1qt: undefined
+      il1pi1qt: undefined,
     });
     const data = oDlToMp.getEcImpressionsData([
       {
@@ -160,8 +160,8 @@ describe("Test DataLayerToMp", () => {
         category: "Apparel",
         variant: "Gray",
         list: "Search Results",
-        position: 1
-      }
+        position: 1,
+      },
     ]);
     expect(data).to.deep.equal({
       il1nm: "Search Results",
@@ -175,13 +175,13 @@ describe("Test DataLayerToMp", () => {
       il1pi1br: "Google",
       il1pi1va: "Gray",
       il1pi1ps: 1,
-      il1pi1pr: "15.25"
+      il1pi1pr: "15.25",
     });
   });
 
   it("Test getEcData", () => {
     const data = oDlToMp.getEcData({
-      ecommerce: {}
+      ecommerce: {},
     });
     expect(data).to.deep.equal({ cu: undefined });
   });
@@ -189,7 +189,7 @@ describe("Test DataLayerToMp", () => {
   it("Test worng lazeInfo time format with getmp", () => {
     const data = oDlToMp.getMp(null, {
       lazeInfoIndex: 0,
-      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}'
+      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}',
     });
     expect(data.qt).to.be.undefined;
   });
@@ -210,7 +210,7 @@ describe("Test GetMp", () => {
   it("Basic getMp test", () => {
     const data = oDlToMp.getMp(null, {
       lazeInfoIndex: 1,
-      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}'
+      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}',
     });
     expect(data).to.include({
       _s: 1,
@@ -223,39 +223,38 @@ describe("Test GetMp", () => {
       vp: "1024x768",
       je: 0,
       v: 1,
-      t: "event"
+      t: "event",
     });
     expect(data.qt + "").to.not.empty;
   });
 
-  it('Test checkTagId with have tagId', ()=>{
+  it("Test checkTagId with have tagId", () => {
     const data = oDlToMp.getMp({
-      tagId: 'fakeTagId',
-      needCheckTagId: true
+      tagId: "fakeTagId",
+      needCheckTagId: true,
     });
     expect(data).to.include({
-      tid: 'fakeTagId'
+      tid: "fakeTagId",
     });
   });
 
-  it('Test checkTagId with tagId 0', ()=>{
+  it("Test checkTagId with tagId 0", () => {
     const data = oDlToMp.getMp({
       tagId: 0,
-      needCheckTagId: true
+      needCheckTagId: true,
     });
     expect(data).to.include({
-      tid: 0 
+      tid: 0,
     });
   });
 
-  it('Test checkTagId with not have tagId', ()=>{
+  it("Test checkTagId with not have tagId", () => {
     const data = oDlToMp.getMp({
       tagId: null,
-      needCheckTagId: true
+      needCheckTagId: true,
     });
     expect(data).to.be.false;
   });
-
 });
 
 describe("Test DataLayerToMp - setOneProduct", () => {
@@ -283,14 +282,14 @@ describe("Test DataLayerToMp - setOneProduct", () => {
       pr1va: undefined,
       pr1ps: undefined,
       pr1pr: undefined,
-      pr1qt: undefined
+      pr1qt: undefined,
     });
   });
 
   it("Test product custom dimension and metric", () => {
     const item = {
       dimension2: "abc",
-      metric3: 100
+      metric3: 100,
     };
     const data = {};
     oDlToMp.setOneProduct("pr1", data, item);
@@ -299,7 +298,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 
   it("Test position is not number", () => {
     const item = {
-      position: "foo"
+      position: "foo",
     };
     const data = {};
     oDlToMp.setOneProduct("pr1", data, item);
@@ -308,7 +307,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 
   it("Test position is number", () => {
     const item = {
-      position: "5"
+      position: "5",
     };
     const data = {};
     oDlToMp.setOneProduct("pr1", data, item);
@@ -336,18 +335,18 @@ describe("Test Send Product Image", () => {
       variant: "Gray",
       list: "Search Results",
       image: "http://xxx.xxx.img",
-      position: 1
-    }
+      position: 1,
+    },
   ];
 
   it("Test without imageIndex", () => {
     const data = oDlToMp.getMp(null, {
       ecommerce: {
-        impressions: products
-      }
+        impressions: products,
+      },
     });
     expect(data).to.include({
-      il1pi1img: "http://xxx.xxx.img"
+      il1pi1img: "http://xxx.xxx.img",
     });
   });
 
@@ -355,12 +354,12 @@ describe("Test Send Product Image", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 1,
       ecommerce: {
-        impressions: products
-      }
+        impressions: products,
+      },
     });
     expect(data).to.include({
       il1pi1img: "http://xxx.xxx.img",
-      il1pi1cd1: "http://xxx.xxx.img"
+      il1pi1cd1: "http://xxx.xxx.img",
     });
   });
 
@@ -368,12 +367,12 @@ describe("Test Send Product Image", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 2,
       ecommerce: {
-        detail: { products }
-      }
+        detail: { products },
+      },
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd2: "http://xxx.xxx.img"
+      pr1cd2: "http://xxx.xxx.img",
     });
   });
 
@@ -381,12 +380,12 @@ describe("Test Send Product Image", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 3,
       ecommerce: {
-        checkout: { products }
-      }
+        checkout: { products },
+      },
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd3: "http://xxx.xxx.img"
+      pr1cd3: "http://xxx.xxx.img",
     });
   });
 
@@ -394,12 +393,12 @@ describe("Test Send Product Image", () => {
     const data = oDlToMp.getMp(null, {
       imageIndex: 4,
       ecommerce: {
-        purchase: { products }
-      }
+        purchase: { products },
+      },
     });
     expect(data).to.include({
       pr1img: "http://xxx.xxx.img",
-      pr1cd4: "http://xxx.xxx.img"
+      pr1cd4: "http://xxx.xxx.img",
     });
   });
 });

@@ -59,31 +59,31 @@ describe("Test Shopify", () => {
     expect(acture).to.equal("thank_you");
   });
 
-  it("test getUid", ()=> {
+  it("test getUid", () => {
     set(window, ["__st", "cid"], "fake-cid");
     const acture = shopify.getUid();
     expect(acture).to.equal("fake-cid");
   });
 
-  it("test getGaId", ()=> {
+  it("test getGaId", () => {
     set(window, ["__st", "pageurl"], "xxx?_ga=-fakega");
     const acture = shopify.getGaId();
     expect(acture).to.equal("fakega");
   });
 
-  it("test getDocUrl", ()=> {
+  it("test getDocUrl", () => {
     set(window, ["__st", "pageurl"], "xxx");
     const acture = shopify.getDocUrl();
     expect(acture).to.equal("https://xxx");
   });
 
-  it("test getCurrency", ()=> {
+  it("test getCurrency", () => {
     set(window, [...checkoutPath, "currency"], "fakc-currency");
     const acture = shopify.getCurrency();
     expect(acture).to.equal("fakc-currency");
   });
 
-  it("test getClientId", ()=> {
+  it("test getClientId", () => {
     set(window, [...checkoutPath, "token"], "fakc-token");
     const acture = shopify.getClientId();
     expect(acture).to.equal("shopify-checkout-fakc-token");

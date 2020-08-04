@@ -1,6 +1,6 @@
-import lazyAttr from './lazyAttr';
+import lazyAttr from "./lazyAttr";
 
-const ONE_TIME_ACTION = 'oneTimeAction';
+const ONE_TIME_ACTION = "oneTimeAction";
 
 const oneTimeAction = (I13N, state) => {
   const oneTimeActions = state && state.get(ONE_TIME_ACTION);

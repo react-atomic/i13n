@@ -7,7 +7,7 @@ import expireCallback from "./expireCallback";
 const lazyKey = "i13nLazyAttr";
 const expireKey = "i13nLazyExpire";
 
-const lazyAttr = (key, expireSec) => value => {
+const lazyAttr = (key, expireSec) => (value) => {
   const arr = toMap(sStore.get(lazyKey));
   if (UNDEFINED === typeof key) {
     return arr;
@@ -22,11 +22,7 @@ const lazyAttr = (key, expireSec) => value => {
   }
   const createTime = expireArr[key];
   const userExpire = expireSec * 1000;
-  return expireCallback(
-    createTime,
-    expireSec * 1000,
-    () => arr[key]
-  );
+  return expireCallback(createTime, expireSec * 1000, () => arr[key]);
 };
 
 export default lazyAttr;

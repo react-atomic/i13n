@@ -1,12 +1,12 @@
-import exec from 'exec-script';
-import get from 'get-object-value';
-import set from 'set-object-value';
-import {UNDEFINED} from 'reshow-constant';
+import exec from "exec-script";
+import get from "get-object-value";
+import set from "set-object-value";
+import { UNDEFINED } from "reshow-constant";
 
-import BaseTag from './BaseTag';
+import BaseTag from "./BaseTag";
 
-const getScript = tagData => {
-  const jsName = tagData.test ? 'usergram_test.js' : 'usergram.js';
+const getScript = (tagData) => {
+  const jsName = tagData.test ? "usergram_test.js" : "usergram.js";
   const script = ` 
 <script>
 (function(){var a=window,b=document,c=a.usergram=a.usergram||[],d,e;
@@ -35,13 +35,13 @@ class UsergramTag extends BaseTag {
 
   push(config) {
     const tagData = this.getTagData();
-    config.unshift('send', tagData.id);
+    config.unshift("send", tagData.id);
     win().usergram.push(config);
   }
 
   assignUid(att) {
     const state = this.getState();
-    const uid = state.get('uid');
+    const uid = state.get("uid");
     if (UNDEFINED === typeof uid) {
       return att;
     } else {
@@ -54,9 +54,9 @@ class UsergramTag extends BaseTag {
   }
 
   convertOne(attrKeys, arr, result) {
-    keys(attrKeys).forEach(key => {
+    keys(attrKeys).forEach((key) => {
       const to = attrKeys[key];
-      arr.forEach(a => {
+      arr.forEach((a) => {
         if (a[key]) {
           set(result, [to], a[key], true);
         }
@@ -70,19 +70,19 @@ class UsergramTag extends BaseTag {
     }
     const result = {};
     const defFlats = [
-      'label',
-      'products',
-      'impressions',
-      'detailProducts',
-      'promotions',
+      "label",
+      "products",
+      "impressions",
+      "detailProducts",
+      "promotions",
     ];
     if (isArray(flats)) {
       flats = flats.concat(defFlats);
     } else {
       flats = defFlats;
     }
-    const thisI13N = {...I13N};
-    flats.forEach(flat => {
+    const thisI13N = { ...I13N };
+    flats.forEach((flat) => {
       let arr = thisI13N[flat];
       if (arr) {
         if (!isArray(arr)) {
@@ -98,17 +98,17 @@ class UsergramTag extends BaseTag {
 
   action() {
     const tagData = this.getTagData();
-    const {cv, attr, flat} = tagData;
-    const I13N = this.getClone('I13N');
-    const {p, action, category, value, ...others} = I13N;
-    const type = cv && action && -1 !== cv.indexOf(action) ? 'cv' : 'event';
+    const { cv, attr, flat } = tagData;
+    const I13N = this.getClone("I13N");
+    const { p, action, category, value, ...others } = I13N;
+    const type = cv && action && -1 !== cv.indexOf(action) ? "cv" : "event";
     let attribute;
-    if ('cv' === type) {
+    if ("cv" === type) {
       attribute = this.converAttr(attr, flat, I13N);
     }
     const send = [type, action];
     if (!attribute || !keys(attribute).length) {
-      const label = get(I13N, ['label'], others);
+      const label = get(I13N, ["label"], others);
       attribute = {
         p,
         category,
@@ -121,22 +121,22 @@ class UsergramTag extends BaseTag {
   }
 
   handleEcImpression(I13N) {
-    const {p, fromP, impressions, detailProducts, promotions} = I13N;
+    const { p, fromP, impressions, detailProducts, promotions } = I13N;
     if (impressions) {
-      this.push(['event', 'ProductImpression', {impressions}]);
+      this.push(["event", "ProductImpression", { impressions }]);
     }
     if (detailProducts) {
-      this.push(['event', 'ProductDetailImpression', {detailProducts}]);
+      this.push(["event", "ProductDetailImpression", { detailProducts }]);
     }
     if (promotions) {
-      this.push(['event', 'PromotionImpression', {promotions}]);
+      this.push(["event", "PromotionImpression", { promotions }]);
     }
   }
 
   impression() {
-    const I13N = this.getClone('i13nPage');
+    const I13N = this.getClone("i13nPage");
     const attribute = this.assignUid(attribute);
-    this.push(['pv', attribute]);
+    this.push(["pv", attribute]);
     this.handleEcImpression(I13N);
   }
 }

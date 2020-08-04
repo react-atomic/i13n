@@ -3,7 +3,7 @@ import { doc } from "win-doc";
 import { getPath } from "seturl";
 import shopify from "./shopify";
 
-const getDocUrl = configs =>
+const getDocUrl = (configs) =>
   get(configs, ["location"], () => shopify.getDocUrl() || doc().URL);
 
 const getHostName = () => {

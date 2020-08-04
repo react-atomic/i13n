@@ -5,7 +5,7 @@ import shopify from "./shopify";
 
 const MP_CLIENT_ID = "_ga";
 
-const getClientIdCookie = key => {
+const getClientIdCookie = (key) => {
   const cookies = (getCookie(key || "") || "").split(".");
   if (cookies[2] && cookies[3]) {
     return cookies[2] + "." + cookies[3];

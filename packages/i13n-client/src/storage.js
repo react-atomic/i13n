@@ -1,6 +1,6 @@
-import {localStorage, sessionStorage, Storage} from 'get-storage';
+import { localStorage, sessionStorage, Storage } from "get-storage";
 
 const lStore = new Storage(localStorage);
 const sStore = new Storage(sessionStorage);
 
-export {lStore, sStore, localStorage as lStorage, sessionStorage as sStorage};
+export { lStore, sStore, localStorage as lStorage, sessionStorage as sStorage };

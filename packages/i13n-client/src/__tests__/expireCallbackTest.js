@@ -1,10 +1,10 @@
-import {expect} from 'chai';
-import sinon from 'sinon';
+import { expect } from "chai";
+import sinon from "sinon";
 
-import {getTimestamp} from "get-random-id";
-import expireCallback from '../expireCallback';
+import { getTimestamp } from "get-random-id";
+import expireCallback from "../expireCallback";
 
-describe("Test expireCallback", ()=>{
+describe("Test expireCallback", () => {
   let clock;
   beforeEach(() => {
     clock = sinon.useFakeTimers();
@@ -14,13 +14,23 @@ describe("Test expireCallback", ()=>{
     clock.restore();
   });
 
-  it("test run", ()=>{
-    const acture = expireCallback(0, 1, ()=>'foo', ()=>'bar');
-    expect(acture).to.equal('foo');
+  it("test run", () => {
+    const acture = expireCallback(
+      0,
+      1,
+      () => "foo",
+      () => "bar"
+    );
+    expect(acture).to.equal("foo");
   });
 
-  it("test expire callback", ()=>{
-    const acture = expireCallback(0, 0, ()=>'foo', ()=>'bar');
-    expect(acture).to.equal('bar');
+  it("test expire callback", () => {
+    const acture = expireCallback(
+      0,
+      0,
+      () => "foo",
+      () => "bar"
+    );
+    expect(acture).to.equal("bar");
   });
 });

@@ -26,12 +26,12 @@ const req = (url, callback, type, query) => {
     oReq.send(query);
     return true;
   } catch (e) {
-    console.warn('req failed.', {url, e});
+    console.warn("req failed.", { url, e });
     return false;
   }
 };
 
-const imageTag = url => (new Image().src = url);
+const imageTag = (url) => (new Image().src = url);
 
 const beaconApi = (url, query) => {
   const navigator = get(win(), ["navigator"], {});
@@ -43,12 +43,12 @@ const beaconApi = (url, query) => {
   return true;
 };
 
-const dataToQuery = data => {
+const dataToQuery = (data) => {
   let url = "?";
   if (!data) {
     return url;
   }
-  keys(data).forEach(key => {
+  keys(data).forEach((key) => {
     url = setUrl(key, data[key], url);
   });
   return url.substring(2);

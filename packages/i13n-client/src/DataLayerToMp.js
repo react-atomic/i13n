@@ -15,13 +15,13 @@ let seq = 1;
 const DIMENSION = "dimension";
 const METRIC = "metric";
 const X = "x";
-const isArray = a => a && Array.isArray(a) && a.length;
+const isArray = (a) => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
 const pvid = getRandomId();
-const notUndefinedNum = v => (UNDEFINED !== typeof v ? toNum(v) : v);
+const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? toNum(v) : v);
 
 class DataLayerToMp {
-  isSameHost = hostName => test => {
+  isSameHost = (hostName) => (test) => {
     const thisHost = "//" + hostName;
     const i = test.indexOf(thisHost);
     if (5 === i || 6 === i) {
@@ -41,7 +41,7 @@ class DataLayerToMp {
     const referrer = get(oDoc, ["referrer"]);
     if (referrer && !this.isSameHost(hostname)(referrer)) {
       return {
-        dr: referrer
+        dr: referrer,
       };
     }
   }
@@ -52,7 +52,7 @@ class DataLayerToMp {
       ec: category,
       ea: action,
       el: label,
-      ev: notUndefinedNum(value)
+      ev: notUndefinedNum(value),
     };
     return data;
   }
@@ -61,7 +61,7 @@ class DataLayerToMp {
     if (isArray(items)) {
       let sn = 1;
       const data = {};
-      items.forEach(item => {
+      items.forEach((item) => {
         if (!item) {
           return;
         }
@@ -73,7 +73,7 @@ class DataLayerToMp {
     }
   }
 
-  getPromotionsData = promotions =>
+  getPromotionsData = (promotions) =>
     this.getItemsData(promotions, "promo", this.setOnePromotion);
 
   getEcPromotionData(promoView, promoClick) {
@@ -87,7 +87,7 @@ class DataLayerToMp {
       }
       const data = {
         promoa: action,
-        ...this.getPromotionsData(promotions)
+        ...this.getPromotionsData(promotions),
       };
       return data;
     }
@@ -130,7 +130,7 @@ class DataLayerToMp {
     data[key + "ps"] = notUndefinedNum(position);
     data[key + "img"] = image;
     data[key + "sku"] = sku;
-    keys(others).forEach(k => {
+    keys(others).forEach((k) => {
       let endKey;
       if (0 === k.indexOf(DIMENSION)) {
         endKey = "cd";
@@ -163,18 +163,18 @@ class DataLayerToMp {
           tr: revenue,
           tt: tax,
           ts: shipping,
-          tcc: coupon
+          tcc: coupon,
         };
       } else {
         data = {
           pa: "refund",
-          ti: id
+          ti: id,
         };
       }
       if (products) {
         data = {
           ...data,
-          ...this.getProductsData(products, config)
+          ...this.getProductsData(products, config),
         };
       }
       return data;
@@ -189,7 +189,7 @@ class DataLayerToMp {
         cos: step,
         col: option,
         pa: checkout_option ? "checkout_option" : "checkout",
-        ...this.getProductsData(products, config)
+        ...this.getProductsData(products, config),
       };
       return data;
     }
@@ -202,7 +202,7 @@ class DataLayerToMp {
       const data = {
         ...this.getProductsData(products, config),
         pa: action,
-        pal: list
+        pal: list,
       };
       // use removeEmtpy to clean non-use pa
       return removeEmpty(data, true);
@@ -218,7 +218,7 @@ class DataLayerToMp {
         if (!aList[list]) {
           aList[list] = {
             key: "il" + listLen,
-            n: 1
+            n: 1,
           };
           listLen++;
           data[aList[list].key + "nm"] = list;
@@ -246,7 +246,7 @@ class DataLayerToMp {
         refund,
         promoView,
         promoClick,
-        currencyCode
+        currencyCode,
       } = ecommerce;
       const data = {
         ...this.getEcImpressionsData(impressions, config),
@@ -257,7 +257,7 @@ class DataLayerToMp {
         ...this.getEcStepData(checkout, checkout_option, config),
         ...this.getEcPurchaseData(purchase, refund, config),
         ...this.getEcPromotionData(promoView, promoClick),
-        cu: currencyCode ?? shopify.getCurrency()
+        cu: currencyCode ?? shopify.getCurrency(),
       };
       return data;
     }
@@ -287,7 +287,7 @@ class DataLayerToMp {
       p2,
       p3,
       p4,
-      p5
+      p5,
     } = data || {};
     const d = {
       ...this.getActionData(data),
@@ -316,7 +316,7 @@ class DataLayerToMp {
       _gid: getClientIdCookie("_gid"),
       v: version || 1, //version
       z: getRandomId(),
-      a: pvid
+      a: pvid,
     };
     seq++;
     d.t =
@@ -343,7 +343,7 @@ class DataLayerToMp {
   }
 }
 
-const resetSeq = i => (seq = i);
+const resetSeq = (i) => (seq = i);
 
 export default DataLayerToMp;
 export { resetSeq };

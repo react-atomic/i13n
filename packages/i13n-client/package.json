@@ -11,14 +11,14 @@
   "author": "Hill <hill@kimo.com>",
   "license": "MIT",
   "dependencies": {
-    "form-serialize-js": "*",
-    "html-entity-js": "*",
     "array.merge": "*",
     "call-func": "*",
     "css-query-selector": "*",
     "exec-script": "*",
+    "form-serialize-js": "*",
     "get-cookie": "*",
     "get-random-id": "*",
+    "html-entity-js": "*",
     "i13n": "*",
     "i13n-store": "*",
     "object-nested": "*",
@@ -31,7 +31,7 @@
     "window-onload": "*"
   },
   "devDependencies": {
-    "reshow-app": "*"
+    "reshow-app": "^0.13.0-beta"
   },
   "scripts": {
     "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
@@ -40,7 +40,9 @@
     "build:test": "BABEL_ENV=build babel tests -d build/tests --root-mode upward",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
     "mocha": "mocha -r jsdom-global/register 'build/cjs/**/__tests__/*.js'",
+    "nyc": "nyc npm run mocha",
     "test": "npm run build && npm run mocha",
+    "format": "prettier-eslint --write 'src/**/*.js' 'ui/**/*.jsx'",
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [

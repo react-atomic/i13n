@@ -1,35 +1,34 @@
-import {expect} from 'chai';
+import { expect } from "chai";
 
-import arraySearch from '../arraySearch';
+import arraySearch from "../arraySearch";
 
-describe('Test arraySearch', ()=>{
-  it('basic test', ()=>{
+describe("Test arraySearch", () => {
+  it("basic test", () => {
     const arr = [
       {},
-      {a: ['xxx']},
+      { a: ["xxx"] },
       {
-        a: 'foo',
+        a: "foo",
       },
       {
-        a: 'bar',
-      }
+        a: "bar",
+      },
     ];
-    const acture = arraySearch(arr, 'a', 'BAR');
-    expect(acture).to.deep.equal([{a: 'bar'}]);
+    const acture = arraySearch(arr, "a", "BAR");
+    expect(acture).to.deep.equal([{ a: "bar" }]);
   });
 
-  it('test without key', ()=>{
-    const arr = ['FOO', 'BAR'];
-    const acture = arraySearch(arr, null, 'b');
-    expect(acture).to.deep.equal(['BAR']);
+  it("test without key", () => {
+    const arr = ["FOO", "BAR"];
+    const acture = arraySearch(arr, null, "b");
+    expect(acture).to.deep.equal(["BAR"]);
   });
 
-  it('test with exact', ()=>{
-    const arr = ['a', 'aaa',  'aa']; 
-    const acture1 = arraySearch(arr, null, 'a');
-    const acture2 = arraySearch(arr, null, 'a', true);
+  it("test with exact", () => {
+    const arr = ["a", "aaa", "aa"];
+    const acture1 = arraySearch(arr, null, "a");
+    const acture2 = arraySearch(arr, null, "a", true);
     expect(acture1.length).to.equal(3);
     expect(acture2.length).to.equal(1);
   });
-
 });

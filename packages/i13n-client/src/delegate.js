@@ -2,7 +2,7 @@ import query from "css-query-selector";
 import callfunc from "call-func";
 import { FUNCTION } from "reshow-constant";
 
-import register from './register';
+import register from "./register";
 
 const isArray = Array.isArray;
 
@@ -13,7 +13,7 @@ const delegate = (el, type, childs, defaultFunc) => {
   if (!isArray(childs)) {
     childs = [{ select: childs }];
   }
-  register(query.el(el)).addEventListener(type, e => {
+  register(query.el(el)).addEventListener(type, (e) => {
     const t = e.target;
     childs.some(({ select, func }) => {
       if (FUNCTION !== typeof func) {
@@ -23,15 +23,15 @@ const delegate = (el, type, childs, defaultFunc) => {
         return callfunc(func, [e]);
       } else {
         const doms = query.from(el).all(select);
-        return (doms || []).some(childEl => {
+        return (doms || []).some((childEl) => {
           if (t.isSameNode(childEl) || childEl.contains(t)) {
             callfunc(func, [
               {
                 type: e.type,
                 target: e.target,
                 currentTarget: childEl,
-                nativeEvent: e
-              }
+                nativeEvent: e,
+              },
             ]);
             return true;
           } else {

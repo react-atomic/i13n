@@ -3,9 +3,9 @@ import jsdom from "jsdom-global";
 import { create, inject } from "create-el";
 import query from "css-query-selector";
 
-import register, {cleanAllRegister} from "../register";
+import register, { cleanAllRegister } from "../register";
 
-const keys = Object.keys
+const keys = Object.keys;
 
 describe("Test Register", () => {
   let reset;
@@ -81,7 +81,7 @@ describe("Test Register", () => {
     expect(i).to.equal(1);
     span.dispatchEvent(new Event("mousedown"));
     expect(i).to.equal(2);
-    register(span).cleanAll('click');
+    register(span).cleanAll("click");
     span.dispatchEvent(new Event("click"));
     expect(i).to.equal(2);
     span.dispatchEvent(new Event("mousedown"));
@@ -109,7 +109,7 @@ describe("Test Register", () => {
     expect(i).to.equal(2);
   });
 
-  it("Test with document", ()=>{
+  it("Test with document", () => {
     let i = 0;
     const func = () => {
       i++;
@@ -119,7 +119,7 @@ describe("Test Register", () => {
     expect(i).to.equal(1);
   });
 
-  it("Test with window", ()=>{
+  it("Test with window", () => {
     let i = 0;
     const func = () => {
       i++;

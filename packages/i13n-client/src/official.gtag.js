@@ -4,7 +4,7 @@ import startTime from "./startTime";
 
 import BaseGTag from "./BaseGTag";
 
-const getScript = gtagId => {
+const getScript = (gtagId) => {
   const script = `<script>
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   ${startTime},event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

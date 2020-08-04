@@ -10,7 +10,7 @@ import MpGTag from "./mp.gtag";
 const keys = Object.keys;
 const downstreamMap = {
   mp: MpGTag,
-  official: OfficialGTag
+  official: OfficialGTag,
 };
 
 class GoogleTag extends BaseTag {
@@ -21,7 +21,7 @@ class GoogleTag extends BaseTag {
   init() {
     const tagData = this.getTagData();
     const { id, downstreams } = tagData;
-    get(downstreams, null, []).forEach(downstreamKey => {
+    get(downstreams, null, []).forEach((downstreamKey) => {
       const obj = downstreamMap[downstreamKey];
       if (!obj) {
         console.warn("Downstream is not found. [" + downstreamKey + "]");
@@ -50,7 +50,7 @@ class GoogleTag extends BaseTag {
     config.expId = state.get("expId");
     config.expVar = state.get("expVar");
     config.gaId = gaId;
-    this.downstreams.forEach(downstream => downstream.push(config));
+    this.downstreams.forEach((downstream) => downstream.push(config));
   }
 
   mergeLabel(label, more) {
@@ -59,7 +59,7 @@ class GoogleTag extends BaseTag {
       if ("object" !== typeof thisLabel) {
         thisLabel = {
           label,
-          ...more
+          ...more,
         };
       } else {
         thisLabel = { ...thisLabel, ...more };
@@ -84,7 +84,7 @@ class GoogleTag extends BaseTag {
       p2,
       p3,
       p4,
-      p5
+      p5,
     } = I13N;
     const thisCategory = category ? category : action;
 
@@ -100,7 +100,7 @@ class GoogleTag extends BaseTag {
       action,
       category: thisCategory,
       value,
-      lazeInfo: JSON.stringify(lazeInfo)
+      lazeInfo: JSON.stringify(lazeInfo),
     };
 
     const { ecommerce, value: eValue } = getActionEcommerce(
@@ -130,7 +130,7 @@ class GoogleTag extends BaseTag {
       p2,
       p3,
       p4,
-      p5
+      p5,
     };
 
     const ecommerce = getViewEcommerce(I13N, state.get("currencyCode"));

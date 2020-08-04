@@ -50,7 +50,7 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   const actionAndProduct = {
     //need put after actionField
     actionField,
-    products
+    products,
   };
   switch (action) {
     case "ClickPromotion":
@@ -110,7 +110,7 @@ const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
   if (!stepSend[step] || (products && products.length) || !option) {
     stepSend[step] = {
       actionField,
-      products
+      products,
     };
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
     set(ecommerce, ["checkout"], stepSend[step]);
@@ -142,7 +142,7 @@ const handleImpressions = (I13N, ecommerce, defaultCurrencyCode) => {
   if (impressions) {
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
     if (p) {
-      impressions.forEach(item => (item.list = item.list || p));
+      impressions.forEach((item) => (item.list = item.list || p));
     }
     set(ecommerce, ["impressions"], impressions);
   }
@@ -164,7 +164,7 @@ const handlePurchase = (I13N, ecommerce, defaultCurrencyCode, value) => {
       revenue,
       tax,
       shipping,
-      coupon
+      coupon,
     });
     set(ecommerce, ["purchase", "products"], products);
   }

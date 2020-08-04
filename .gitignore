@@ -1,6 +1,7 @@
 .php_cs.cache
 .*.sw?
 .env
+.nyc_output/
 coverage*
 vendor
 build

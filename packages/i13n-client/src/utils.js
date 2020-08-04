@@ -38,16 +38,16 @@ const keys = Object.keys;
 
 const merge = (...args) => {
   let results = {};
-  args.forEach(a => (results = { ...results, ...a }));
+  args.forEach((a) => (results = { ...results, ...a }));
   return results;
 };
 
-const error = message => logError({ message }, "CustomError");
+const error = (message) => logError({ message }, "CustomError");
 
-const arrayFrom = arr => [...arr];
+const arrayFrom = (arr) => [...arr];
 
-const joinCategory = arr =>
-  arr?.map(item => text(item).replace("/", "-")).join("/");
+const joinCategory = (arr) =>
+  arr?.map((item) => text(item).replace("/", "-")).join("/");
 
 const utils = () => {
   const o = {
@@ -94,7 +94,7 @@ const utils = () => {
     sStorage,
     storeCbParams,
     text,
-    toMap
+    toMap,
   };
   return o;
 };

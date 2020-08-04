@@ -1,4 +1,4 @@
-const text = el =>
+const text = (el) =>
   el != null
     ? (null != el.textContent || null != el.innerText
         ? el.textContent ?? el.innerText ?? ""

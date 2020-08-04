@@ -8,7 +8,7 @@ const i13nIdKey = "data-i13n-id";
 const i13nEventMap = {};
 const keys = Object.keys;
 
-const initEventObj = el => {
+const initEventObj = (el) => {
   let i13nElId = el.getAttribute ? el.getAttribute(i13nIdKey) : el[i13nIdKey];
   if (!i13nElId) {
     i13nElId = evElCount;
@@ -57,7 +57,7 @@ class I13NEvent {
     if (id) {
       const type = thisOptions[0];
       const thisTypeMap = initMap(this.typeMap)(type, []);
-      this.typeMap[type] = thisTypeMap.filter(item => item != id);
+      this.typeMap[type] = thisTypeMap.filter((item) => item != id);
       delete optionMap[id];
     }
   };
@@ -66,25 +66,25 @@ class I13NEvent {
     const optionMap = this.optionMap;
     if (null != type) {
       if (this.typeMap[type]) {
-        this.typeMap[type].forEach(key => {
+        this.typeMap[type].forEach((key) => {
           this.removeEventListener(key);
         });
       }
     } else {
-      keys(optionMap).forEach(key => {
+      keys(optionMap).forEach((key) => {
         this.removeEventListener(key);
       });
     }
   }
 }
 
-const register = el => {
+const register = (el) => {
   const obj = initEventObj(el);
   return obj;
 };
 
-const cleanAllRegister = type => {
-  keys(i13nEventMap).forEach(key => {
+const cleanAllRegister = (type) => {
+  keys(i13nEventMap).forEach((key) => {
     i13nEventMap[key].cleanAll(type);
   });
 };

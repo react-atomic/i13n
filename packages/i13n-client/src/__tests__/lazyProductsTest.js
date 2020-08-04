@@ -7,7 +7,7 @@ import utils from "../utils";
 import lazyProducts, { forEachStoreProducts } from "../lazyProducts";
 
 const { i13nDispatch, lazyAttr } = utils();
-const sessionStore = lazyAttr('__prods');
+const sessionStore = lazyAttr("__prods");
 
 describe("Test lazyProducts", () => {
   let resetDom;
@@ -24,16 +24,16 @@ describe("Test lazyProducts", () => {
 
   it("basic test", () => {
     forEachStoreProducts({
-      products: [{ id: "aaa", price: "100" }]
+      products: [{ id: "aaa", price: "100" }],
     });
     let state = i13nStore.getState();
     state = state.merge({ I13N: { products: [{ id: "aaa" }] } });
     expect(state.get("I13N").toJS()).to.deep.equal({
-      products: [{ id: "aaa" }]
+      products: [{ id: "aaa" }],
     });
     state = lazyProducts(state);
     expect(state.get("I13N").toJS()).to.deep.equal({
-      products: [{ id: "aaa", price: "100" }]
+      products: [{ id: "aaa", price: "100" }],
     });
   });
 });
@@ -54,10 +54,8 @@ describe("Test forEachStoreProducts", () => {
     expect(sessionStore()).to.be.undefined;
 
     forEachStoreProducts({
-      products: [{ id: "foo", price: "200" }]
+      products: [{ id: "foo", price: "200" }],
     });
-    expect(sessionStore()).to.deep.equal(
-      { foo: { id: 'foo', price: '200' } }
-    );
+    expect(sessionStore()).to.deep.equal({ foo: { id: "foo", price: "200" } });
   });
 });

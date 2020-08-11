@@ -1,3 +1,4 @@
+import "setimmediate";
 import { Store } from "reshow-flux-base";
 import get, { toMap } from "get-object-value";
 import set from "set-object-value";
@@ -48,7 +49,7 @@ class BaseI13nStore extends Store {
 
     const hash = get(lazyAction, [hashKey]);
     if (hash) {
-      keys(hash).forEach(key => processLazy(hash, key));
+      keys(hash).forEach((key) => processLazy(hash, key));
     }
 
     lStore.set(lazyActionKey, lazyAction);
@@ -71,7 +72,7 @@ class BaseI13nStore extends Store {
     const thisAction = { params, type: action.type };
     set(thisAction, [PARAMS, "lazeInfo"], {
       from: docUrl(),
-      time: getTime().toString()
+      time: getTime().toString(),
     });
     const lazyAction = this.getLazy();
     if (key) {
@@ -89,7 +90,7 @@ class BaseI13nStore extends Store {
       [hashKey, key, PARAMS],
       {}
     );
-    keys(lazeParams).forEach(pKey => {
+    keys(lazeParams).forEach((pKey) => {
       const p = lazeParams[pKey];
       const newP =
         OBJECT === typeof p
@@ -119,18 +120,23 @@ class BaseI13nStore extends Store {
   initDone = (state, action) => {
     this.nextEmits.push("init");
     state = state.set("init", true);
-    i13nDispatch(state); // for async, need located before lazyAction
-    const lazyAction = this.getLazy();
-    if (lazyAction) {
-      this.processLazyAction(lazyAction);
-    }
-    const { processClose, ...nextAction  } = action || {};
-    const run = () => i13nDispatch(keys(nextAction).length ? nextAction : "view");
-    if (FUNCTION === typeof processClose) {
-      processClose(run); 
-    } else {
-      run();
-    }
+    setImmediate(() => {
+      i13nDispatch(state); // for async, need located before lazyAction
+      const lazyAction = this.getLazy();
+      if (lazyAction) {
+        this.processLazyAction(lazyAction);
+      }
+    });
+    const { processClose, ...nextAction } = action || {};
+    const run = () =>
+      i13nDispatch(keys(nextAction).length ? nextAction : "view");
+    setImmediate(() => {
+      if (FUNCTION === typeof processClose) {
+        processClose(run);
+      } else {
+        run();
+      }
+    });
     return state;
   };
 
@@ -145,7 +151,7 @@ class BaseI13nStore extends Store {
 
   handleImpression(state, action) {
     state = state.set("lastUrl", docUrl());
-    const run = state => {
+    const run = (state) => {
       let impressionHandler = state.get("impressionHandler");
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);

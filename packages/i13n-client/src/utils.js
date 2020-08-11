@@ -1,5 +1,5 @@
 import { i13nDispatch, getTime } from "i13n";
-import { removeEmpty } from "array.merge";
+import { removeEmpty, getAllCombine } from "array.merge";
 import query, { queryFrom } from "css-query-selector";
 import { getUrl } from "seturl";
 import getCookie from "get-cookie";
@@ -62,6 +62,7 @@ const utils = () => {
     expireCallback,
     formSerialize,
     get,
+    getAllCombine,
     getAllLazyProducts,
     getNum,
     getUrl,

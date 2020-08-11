@@ -1014,10 +1014,10 @@
     "@sinonjs/commons" "^1"
     "@sinonjs/samsam" "^5.0.2"
 
-"@sinonjs/samsam@^5.0.2", "@sinonjs/samsam@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-5.0.3.tgz#86f21bdb3d52480faf0892a480c9906aa5a52938"
-  integrity sha512-QucHkc2uMJ0pFGjJUDP3F9dq5dx8QIaqISl9QgwLOh6P9yv877uONPGXh/OH/0zmM3tW1JjuJltAZV2l7zU+uQ==
+"@sinonjs/samsam@^5.0.2", "@sinonjs/samsam@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-5.1.0.tgz#3afe719232b541bb6cf3411a4c399a188de21ec0"
+  integrity sha512-42nyaQOVunX5Pm6GRJobmzbS7iLI+fhERITnETXzzwDZh+TtDr/Au3yAvXVjFmZ4wEUaE4Y3NFZfKv0bV0cbtg==
   dependencies:
     "@sinonjs/commons" "^1.6.0"
     lodash.get "^4.4.2"
@@ -1593,9 +1593,9 @@ array.dedup@*:
   integrity sha512-f3wen2zEsoH0HzvpFXkORzLCyNzmeXuyrVqbqphh0ORMqF7x1cyunY4R2IGViMqr7cP/z2Fkf9Y+NWXnhwNX1g==
 
 array.merge@*:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/array.merge/-/array.merge-0.1.0.tgz#1cb1a5a0b55c011b58ce319cbb10e01e74c78a72"
-  integrity sha512-08nzUWclSjSyaysT2tF3oJf2SaenpBWHW+8T84/Jy5NisLH1VQ0V/ib5BtpBCHX77G/e6qb2Tolo1hQsyRGECQ==
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/array.merge/-/array.merge-0.1.1.tgz#d32d5c73811ab13b2125a7aeb4677ea3a10e15e8"
+  integrity sha512-uuwllrndLw8op2m++M9IYAz/psPvG7yMekGkwPZ2h3EMAtz9wuDAcmMeTWzJBZlmAn7qE3iLYR/MTYe5f8VDFA==
   dependencies:
     get-object-value "*"
     reshow-constant "*"
@@ -2193,9 +2193,9 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001111:
-  version "1.0.30001112"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001112.tgz#0fffc3b934ff56ff0548c37bc9dad7d882bcf672"
-  integrity sha512-J05RTQlqsatidif/38aN3PGULCLrg8OYQOlJUKbeYVzC2mGZkZLIztwRlB3MtrfLmawUmjFlNJvy/uhwniIe1Q==
+  version "1.0.30001113"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001113.tgz#22016ab55b5a8b04fa00ca342d9ee1b98df48065"
+  integrity sha512-qMvjHiKH21zzM/VDZr6oosO6Ri3U0V2tC015jRXjOecwQCJtsU5zklTNTk31jQbIOP8gha0h1ccM/g0ECP+4BA==
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -3157,9 +3157,9 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.523:
-  version "1.3.527"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.527.tgz#5f59202c066c77a13e6cb0869852ef784e8f2089"
-  integrity sha512-ZlB9ySKOnS4g2Ja/TWDz4Q79NZhKV+Vsgntg85zLN08t+QsN1hK/zeDrcqwysSfbfGRVtvai6QYMczeNNUUgUA==
+  version "1.3.529"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.529.tgz#a7eed559bc848a7c8d95026be7d8929e3f9af169"
+  integrity sha512-n3sriLldqNyjBlosbnPftjCY+m1dVOY307I1Y0HaHAqDGe3hRvK7ksJwWd+qs599ybR4jobCo1+7zXM9GyNMSA==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -4558,9 +4558,9 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.4.0.tgz#e102c3e615c619dcdd3489ab3a4d80dd3adb3100"
-  integrity sha512-BtE1qkU4m6OTRw/jWrWxmYZapaCmF0r1H1jdndvwEH/dwVyfkhYlw07aIXWjQCMZ16Dxl5PSFNfjTZXZnk5+Kg==
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.4.3.tgz#9c865feea46621ed1090b8c29ad11e41e76533b7"
+  integrity sha512-wFHAZmT0XNxlXZu8gw+K4Z5iIkgf82P+IjGmmTEpzXrttwX7hfWytYHUG4b5x8gevDup//0KCi/JKhZc6Gp9Cg==
   dependencies:
     get-object-value "*"
     get-random-id "*"
@@ -6197,7 +6197,7 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-nise@^4.0.1:
+nise@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/nise/-/nise-4.0.4.tgz#d73dea3e5731e6561992b8f570be9e363c4512dd"
   integrity sha512-bTTRUNlemx6deJa+ZyoCUTRvH3liK5+N6VQZ4NIw90AgDXY6iPnsqplNFf6STcj+ePk0H/xqxnP75Lr0J0Fq3A==
@@ -7525,9 +7525,9 @@ reshow-constant@*:
   integrity sha512-PRwvxfln60W897Z8puaZhWhY4wrP6Mb+c8Wu+9n1yBgn+//6GP8AhW/xMdsy+MyM2HcTJ8d1iTmvr/G4Pm2NyA==
 
 reshow-flux-base@*:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.2.6.tgz#9df94520e6ad357eda77f7fcca7beae944a17881"
-  integrity sha512-5NG0ngzsTCQkkNMYWDMv5jm1LFKONZ2f4LlJs02SGhixC5hZOUyhHji0q6wU6jMgnarUXoVvSspCl+ZAACRj2Q==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.2.7.tgz#5493078d5c7442112e4af9eb21811b1e25ea0132"
+  integrity sha512-aWxdbZDRHHWuA/i50SbQbLp7YNoCijWpYvJZNO+gFq3hJ7O0gwewPGKSffH0Yp5PIBbIXYHuCPSYL/bRG9Dt2g==
   dependencies:
     call-func "*"
     reshow-constant "*"
@@ -7996,16 +7996,16 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
 sinon@*:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-9.0.2.tgz#b9017e24633f4b1c98dfb6e784a5f0509f5fd85d"
-  integrity sha512-0uF8Q/QHkizNUmbK3LRFqx5cpTttEVXudywY9Uwzy8bTfZUhljZ7ARzSxnRHWYWtVTeh4Cw+tTb3iU21FQVO9A==
+  version "9.0.3"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-9.0.3.tgz#bffc3ec28c936332cd2a41833547b9eed201ecff"
+  integrity sha512-IKo9MIM111+smz9JGwLmw5U1075n1YXeAq8YeSFlndCLhAL5KGn6bLgu7b/4AYHTV/LcEMcRm2wU2YiL55/6Pg==
   dependencies:
     "@sinonjs/commons" "^1.7.2"
     "@sinonjs/fake-timers" "^6.0.1"
     "@sinonjs/formatio" "^5.0.1"
-    "@sinonjs/samsam" "^5.0.3"
+    "@sinonjs/samsam" "^5.1.0"
     diff "^4.0.2"
-    nise "^4.0.1"
+    nise "^4.0.4"
     supports-color "^7.1.0"
 
 slash@^2.0.0:

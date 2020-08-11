@@ -1,5 +1,5 @@
 import { i13nDispatch, getTime } from "i13n";
-import { removeEmpty, getAllCombine } from "array.merge";
+import { combine, getAllCombine, removeEmpty } from "array.merge";
 import query, { queryFrom } from "css-query-selector";
 import { getUrl } from "seturl";
 import getCookie from "get-cookie";
@@ -56,6 +56,7 @@ const utils = () => {
     arrayToObject,
     arrayFrom,
     arraySearch,
+    combine,
     delegate,
     error,
     execScript,

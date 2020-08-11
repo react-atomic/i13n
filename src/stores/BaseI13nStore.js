@@ -119,7 +119,15 @@ class BaseI13nStore extends Store {
   }
 
   initDone = (state, action) => {
+    const { processClose, ...nextAction } = action || {};
+    const run = () =>
+      i13nDispatch(keys(nextAction).length ? nextAction : "view");
     this.nextEmits.push(INITIAL);
+    // will trigger on next dispatch
+    this.addListener(
+      () => (FUNCTION === typeof processClose ? processClose(run) : run()),
+      INITIAL
+    );
     state = state.set(INITIAL, true);
     setImmediate(() => {
       i13nDispatch(state); // for async, need located before lazyAction
@@ -128,13 +136,6 @@ class BaseI13nStore extends Store {
         this.processLazyAction(lazyAction);
       }
     });
-    const { processClose, ...nextAction } = action || {};
-    const run = () =>
-      i13nDispatch(keys(nextAction).length ? nextAction : "view");
-    setTimeout(() =>
-      FUNCTION === typeof processClose ? processClose(run) : run(),
-      10
-    );
     return state;
   };
 

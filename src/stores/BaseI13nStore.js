@@ -18,6 +18,7 @@ const PARAMS = "params";
 const hashKey = "__hash";
 const seqKey = "__seq";
 const lazyActionKey = "lazyAction";
+const INITIAL = "init";
 
 class BaseI13nStore extends Store {
   sendBeacon(state, action) {
@@ -118,8 +119,8 @@ class BaseI13nStore extends Store {
   }
 
   initDone = (state, action) => {
-    this.nextEmits.push("init");
-    state = state.set("init", true);
+    this.nextEmits.push(INITIAL);
+    state = state.set(INITIAL, true);
     setImmediate(() => {
       i13nDispatch(state); // for async, need located before lazyAction
       const lazyAction = this.getLazy();
@@ -130,13 +131,10 @@ class BaseI13nStore extends Store {
     const { processClose, ...nextAction } = action || {};
     const run = () =>
       i13nDispatch(keys(nextAction).length ? nextAction : "view");
-    setImmediate(() => {
-      if (FUNCTION === typeof processClose) {
-        processClose(run);
-      } else {
-        run();
-      }
-    });
+    setTimeout(() =>
+      FUNCTION === typeof processClose ? processClose(run) : run(),
+      10
+    );
     return state;
   };
 
@@ -164,7 +162,7 @@ class BaseI13nStore extends Store {
       }
       return next;
     };
-    const init = state.get("init");
+    const init = state.get(INITIAL);
     if (!init) {
       return this.handleInit(state, action);
     } else {

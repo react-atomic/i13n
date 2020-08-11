@@ -54,7 +54,7 @@ describe("Test I13N", () => {
     setTimeout(() => {
       expect(impressionHandler.callCount).to.equal(2);
       done();
-    });
+    }, 50);
   });
 });
 

@@ -1,5 +1,6 @@
 import { i13nDispatch, getTime } from "i13n";
 import { combine, getAllCombine, removeEmpty } from "array.merge";
+import arraySearch from "array.search.js";
 import query, { queryFrom } from "css-query-selector";
 import { getUrl } from "seturl";
 import getCookie from "get-cookie";
@@ -10,7 +11,6 @@ import { htmlDecode } from "html-entity-js";
 import formSerialize from "form-serialize-js";
 
 // local
-import arraySearch from "./arraySearch";
 import arrayToObject from "./arrayToObject";
 import objectToArray from "./objectToArray";
 

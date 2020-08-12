@@ -4,7 +4,7 @@ import get from "get-object-value";
 const _LAST_EVENT = "lastEvent";
 const _I13N_CB_PARAMS = "i13nCbParams";
 
-const storeCbParams = (params, e) => {
+const storeCbParams = (params, e, callback) => {
   const arr = {};
   if (params) {
     arr[_I13N_CB_PARAMS] = params;
@@ -12,7 +12,7 @@ const storeCbParams = (params, e) => {
   if (e) {
     arr[_LAST_EVENT] = [e, get(e, ["currentTarget"])];
   }
-  i13nDispatch(arr);
+  i13nDispatch(arr, null, callback);
 };
 
 export default storeCbParams;

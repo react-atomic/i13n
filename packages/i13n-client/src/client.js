@@ -51,13 +51,14 @@ const addSectionEvent = (configs, nextDelegates) => (section) => {
   get(secs, ["selects"], []).forEach((select, skey) => {
     const type = get(secs, ["types", skey]);
     const func = (e) => {
-      storeCbParams(parseJson(get(secs, [PARAMS, skey])), e);
-      const scriptName = get(secs, ["scripts", skey]);
-      if (!scriptName) {
-        console.warn("Script name not found", secs, skey);
-      } else {
-        execScript(scriptName);
-      }
+      storeCbParams(parseJson(get(secs, [PARAMS, skey])), e, () => {
+        const scriptName = get(secs, ["scripts", skey]);
+        if (!scriptName) {
+          console.warn("Script name not found", secs, skey);
+        } else {
+          execScript(scriptName);
+        }
+      });
     };
     const sels = query.all(select);
     if ((!sels.length && "click" === type) || "delegate" === type) {

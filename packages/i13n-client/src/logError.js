@@ -26,13 +26,15 @@ const logError = (error, action, name) => {
   if (name) {
     label.name = name;
   }
-  i13nDispatch("action", {
-    wait,
-    I13N: {
-      action,
-      category: "Error",
-      label,
-    },
+  setTimeout(() => {
+    i13nDispatch("action", {
+      wait,
+      I13N: {
+        action,
+        category: "Error",
+        label,
+      },
+    });
   });
   if (debugFlag) {
     throw error;

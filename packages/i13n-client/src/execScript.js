@@ -8,7 +8,7 @@ const execScript = (scriptName) => {
   const scriptCode = i13nStore.getState().get("script")?.get(scriptName);
   if (scriptCode) {
     exec(scriptCode, null, null, (e) => {
-      console.log(SCRIPT_ERROR, [scriptCode]);
+      console.error(SCRIPT_ERROR, scriptCode);
       logError(e, SCRIPT_ERROR, scriptName);
     });
   } else {

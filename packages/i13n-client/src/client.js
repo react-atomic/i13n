@@ -117,9 +117,11 @@ const initPageScript = () => {
   const { nextScripts, nextSections } = get(state.get("nextConfigs"));
   nextScripts.forEach((script) => {
     if (script[1]) {
-      storeCbParams(script[1]);
+      // already do parseJson on pushPageScript
+      storeCbParams(script[1], null, () => execScript(script[0]));
+    } else {
+      execScript(script[0]);
     }
-    execScript(script[0]);
   });
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(

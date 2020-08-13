@@ -32,9 +32,12 @@ import req from "./req";
 import register from "./register";
 import storeCbParams from "./storeCbParams";
 import text from "./text";
+import i13nStore from "i13n-store";
 
 // constant
 const keys = Object.keys;
+
+const getState = () => i13nStore.getState();
 
 const merge = (...args) => {
   let results = {};
@@ -78,6 +81,7 @@ const utils = () => {
     getClientId,
     getUserId,
     getDateObject,
+    getState,
     getTimestamp,
     getTime,
     htmlDecode,

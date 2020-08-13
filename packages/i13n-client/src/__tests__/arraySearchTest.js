@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import utils from "../utils";
-const {arraySearch} = utils();
+const { arraySearch } = utils();
 
 describe("Test arraySearch", () => {
   it("basic test", () => {
@@ -15,7 +15,7 @@ describe("Test arraySearch", () => {
         a: "bar",
       },
     ];
-    const acture = arraySearch(arr)({a: "BAR"});
+    const acture = arraySearch(arr)({ a: "BAR" });
     expect(acture).to.deep.equal([{ a: "bar" }]);
   });
 

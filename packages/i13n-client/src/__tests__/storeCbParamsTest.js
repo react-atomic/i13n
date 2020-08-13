@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import i13nStore from "i13n-store";
 
-import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "../storeCbParams";
+import storeCbParams, { getCbParams } from "../storeCbParams";
 
 describe("Test storeCbParams", () => {
   it("basic test", () => {
@@ -10,13 +10,16 @@ describe("Test storeCbParams", () => {
   it("test get event", () => {
     const evn = { currentTarget: "foo" };
     storeCbParams(null, { currentTarget: "foo" });
-    const thisEventArr = i13nStore.getState().get(_LAST_EVENT).toJS();
-    expect(thisEventArr).to.deep.equal([evn, evn.currentTarget]);
+    const [param , e] = getCbParams();
+    expect(e).to.deep.equal([evn, evn.currentTarget]);
+    expect(param.xxx).to.be.undefined;
   });
   it("test get params", () => {
     const params = { foo: "bar" };
     storeCbParams(params);
-    const thisParamArr = i13nStore.getState().get(_I13N_CB_PARAMS).toJS();
-    expect(thisParamArr).to.deep.equal(params);
+    const [param , e] = getCbParams();
+    expect(param).to.deep.equal(params);
+    expect(e[0]).to.be.undefined;
+    expect(e[1]).to.be.undefined;
   });
 });

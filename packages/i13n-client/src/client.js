@@ -14,7 +14,7 @@ import windowOnLoad from "window-onload";
 
 // local import
 import getDocUrl from "./getDocUrl";
-import storeCbParams, { _LAST_EVENT, _I13N_CB_PARAMS } from "./storeCbParams";
+import storeCbParams, { getCbParams } from "./storeCbParams";
 import execScript from "./execScript";
 import { lStore } from "./storage";
 import parseJson from "./parseJson";
@@ -51,14 +51,13 @@ const addSectionEvent = (configs, nextDelegates) => (section) => {
   get(secs, ["selects"], []).forEach((select, skey) => {
     const type = get(secs, ["types", skey]);
     const func = (e) => {
-      storeCbParams(parseJson(get(secs, [PARAMS, skey])), e, () => {
-        const scriptName = get(secs, ["scripts", skey]);
-        if (!scriptName) {
-          console.warn("Script name not found", secs, skey);
-        } else {
-          execScript(scriptName);
-        }
-      });
+      storeCbParams(parseJson(get(secs, [PARAMS, skey])), e);
+      const scriptName = get(secs, ["scripts", skey]);
+      if (!scriptName) {
+        console.warn("Script name not found", secs, skey);
+      } else {
+        execScript(scriptName);
+      }
     };
     const sels = query.all(select);
     if ((!sels.length && "click" === type) || "delegate" === type) {
@@ -118,10 +117,9 @@ const initPageScript = () => {
   nextScripts.forEach((script) => {
     if (script[1]) {
       // already do parseJson on pushPageScript
-      storeCbParams(script[1], null, () => execScript(script[0]));
-    } else {
-      execScript(script[0]);
+      storeCbParams(script[1]);
     }
+    execScript(script[0]);
   });
   const nextDelegates = [];
   const doAddSectionEvent = addSectionEvent(
@@ -185,8 +183,7 @@ const maybeDelayAction = (state, action) => () => {
   if (!state.get("init")) {
     set(action, [PARAMS, "wait"], 0);
   }
-  const cbParams = toMap(state.get(_I13N_CB_PARAMS));
-  const { 0: i13nLastEvent, 1: currentTarget } = toMap(state.get(_LAST_EVENT));
+  const [cbParams, { 0: i13nLastEvent, 1: currentTarget }] = getCbParams();
   const params = getParams(action);
   if (!isNaN(params.delay)) {
     delete action.params.delay;
@@ -214,7 +211,6 @@ const maybeDelayAction = (state, action) => () => {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
       i13nStore.pushLazyAction(action, lazyKey);
     }
-    state = state.delete(_LAST_EVENT).delete(_I13N_CB_PARAMS);
   }
 
   if (FUNCTION === typeof i13nPageCb) {

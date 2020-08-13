@@ -1,19 +1,12 @@
-import { i13nDispatch } from "i13n";
 import get from "get-object-value";
+const store = [{}, []];
 
-const _LAST_EVENT = "lastEvent";
-const _I13N_CB_PARAMS = "i13nCbParams";
-
-const storeCbParams = (params, e, callback) => {
-  const arr = {};
-  if (params) {
-    arr[_I13N_CB_PARAMS] = params;
-  }
-  if (e) {
-    arr[_LAST_EVENT] = [e, get(e, ["currentTarget"])];
-  }
-  i13nDispatch(arr, null, callback);
+const storeCbParams = (params, e) => {
+  store[0] = params || {};
+  store[1] = e ? [e, get(e, ["currentTarget"])] : []; 
 };
 
+const getCbParams = () => store;
+
 export default storeCbParams;
-export { _LAST_EVENT, _I13N_CB_PARAMS };
+export { getCbParams };

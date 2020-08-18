@@ -122,6 +122,7 @@ class BaseI13nStore extends Store {
     const { processClose, ...nextAction } = action || {};
     const run = () =>
       i13nDispatch(keys(nextAction).length ? nextAction : "view");
+    this.nextAsync = true;
     this.nextEmits.push(INITIAL);
     // will trigger on next dispatch
     this.addListener(

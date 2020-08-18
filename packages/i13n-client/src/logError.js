@@ -2,6 +2,7 @@ import get from "get-object-value";
 import { i13nDispatch } from "i13n";
 import { getLastScript } from "exec-script";
 import { doc } from "win-doc";
+import {SCRIPT_ERROR} from "./execScript";
 
 let debugFlag = false;
 let errorCount = 0;
@@ -16,17 +17,18 @@ const logError = (error, action, name) => {
   errorCount++;
   let { message, stack } = error || {};
   stack = get(error, ["stack"], "").split(/\n/);
-  const wait = action && -1 !== action.indexOf("I13nScript") ? 0 : undefined;
+  const lastExec = getLastScript();
   const label = {
     message,
     stack,
     url: doc().URL,
-    lastExec: getLastScript(),
+    lastExec,
   };
   if (name) {
     label.name = name;
   }
   setTimeout(() => {
+    const wait = action && -1 !== action.indexOf(SCRIPT_ERROR) ? 0 : undefined;
     i13nDispatch("action", {
       wait,
       I13N: {
@@ -37,6 +39,7 @@ const logError = (error, action, name) => {
     });
   });
   if (debugFlag) {
+    console.error({ action, name, lastExec});
     throw error;
   }
 };

@@ -2,7 +2,7 @@ import get from "get-object-value";
 import { i13nDispatch } from "i13n";
 import { getLastScript } from "exec-script";
 import { doc } from "win-doc";
-import {SCRIPT_ERROR} from "./execScript";
+import { SCRIPT_ERROR } from "./execScript";
 
 let debugFlag = false;
 let errorCount = 0;
@@ -39,7 +39,7 @@ const logError = (error, action, name) => {
     });
   });
   if (debugFlag) {
-    console.error({ action, name, lastExec});
+    console.error({ action, name }, lastExec);
     throw error;
   }
 };

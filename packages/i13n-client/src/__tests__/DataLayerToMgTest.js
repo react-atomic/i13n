@@ -160,7 +160,7 @@ describe("Test DataLayerToMp", () => {
         category: "Apparel",
         variant: "Gray",
         list: "Search Results",
-        position: 1,
+        position: "1",
       },
     ]);
     expect(data).to.deep.equal({
@@ -175,7 +175,7 @@ describe("Test DataLayerToMp", () => {
       il1pi1br: "Google",
       il1pi1va: "Gray",
       il1pi1ps: 1,
-      il1pi1pr: "15.25",
+      il1pi1pr: 15.25,
     });
   });
 

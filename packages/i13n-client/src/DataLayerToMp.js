@@ -18,7 +18,7 @@ const X = "x";
 const isArray = (a) => a && Array.isArray(a) && a.length;
 const keys = Object.keys;
 const pvid = getRandomId();
-const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? toNum(v) : v);
+const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? getNum(v) : v);
 
 class DataLayerToMp {
   isSameHost = (hostName) => (test) => {
@@ -124,7 +124,7 @@ class DataLayerToMp {
     data[key + "br"] = brand;
     data[key + "ca"] = category;
     data[key + "va"] = variant;
-    data[key + "pr"] = price;
+    data[key + "pr"] = notUndefinedNum(price);
     data[key + "qt"] = quantity;
     data[key + "cc"] = coupon;
     data[key + "ps"] = notUndefinedNum(position);
@@ -160,9 +160,9 @@ class DataLayerToMp {
           pa: "purchase",
           ti: id,
           ta: affiliation,
-          tr: revenue,
-          tt: tax,
-          ts: shipping,
+          tr: notUndefinedNum(revenue),
+          tt: notUndefinedNum(tax),
+          ts: notUndefinedNum(shipping),
           tcc: coupon,
         };
       } else {

@@ -2201,9 +2201,9 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001111:
-  version "1.0.30001115"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001115.tgz#c04cd828883ba47f6f776312e0817bcc9040cfa4"
-  integrity sha512-NZrG0439ePYna44lJX8evHX2L7Z3/z3qjVLnHgbBb/duNEnGo348u+BQS5o4HTWcrb++100dHFrU36IesIrC1Q==
+  version "1.0.30001116"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001116.tgz#f3a3dea347f9294a3bdc4292309039cc84117fb8"
+  integrity sha512-f2lcYnmAI5Mst9+g0nkMIznFGsArRmZ0qU+dnq8l91hymdc2J3SFbiPhOJEeDqC1vtE8nc1qNQyklzB8veJefQ==
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -3165,9 +3165,9 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.523:
-  version "1.3.533"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.533.tgz#d7e5ca4d57e9bc99af87efbe13e7be5dde729b0f"
-  integrity sha512-YqAL+NXOzjBnpY+dcOKDlZybJDCOzgsq4koW3fvyty/ldTmsb4QazZpOWmVvZ2m0t5jbBf7L0lIGU3BUipwG+A==
+  version "1.3.539"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.539.tgz#9952fb0bf3fb4295282e7df35f6e7a2a8b89d3fd"
+  integrity sha512-rM0LWDIstdqfaRUADZetNrL6+zd/0NBmavbMEhBXgc2u/CC1d1GaDyN5hho29fFvBiOVFwrSWZkzmNcZnCEDog==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -4084,9 +4084,9 @@ get-random-id@*:
   integrity sha512-nAQUS+woxX33ptlBVYh+DxUcaT1k4dBwfhLrDxEIXjJQlPmdiIuHGc9ylC/Q2RdniY/VVAVkbauc/wCegEHbIw==
 
 get-safe-reg@*:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/get-safe-reg/-/get-safe-reg-0.1.0.tgz#3ba7c05d594e3c95b9762beed2aed118b2f18472"
-  integrity sha512-OIWh0lzPS72wZSmOFZ0Wa8Z9Iu8yGrR/xW4qomC68LSVBeNDbDgAL+PRdzhv62knFZNq05xjLu7G/Y4uceYWRA==
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/get-safe-reg/-/get-safe-reg-0.2.0.tgz#ab4a7bec6289180240088915d2e0211f74c32cb7"
+  integrity sha512-26M3QSvZhcUbklBKyyEJodL6kdBffoWQUMOUlaZHUh6CUOD/Lckgz1xp7IDw+onKaJBdsg9QsTd+Ow2OHUQkeg==
 
 get-scroll-info@*:
   version "0.1.11"
@@ -4566,9 +4566,9 @@ i13n-store@*:
     i13n "*"
 
 i13n@*:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.4.3.tgz#9c865feea46621ed1090b8c29ad11e41e76533b7"
-  integrity sha512-wFHAZmT0XNxlXZu8gw+K4Z5iIkgf82P+IjGmmTEpzXrttwX7hfWytYHUG4b5x8gevDup//0KCi/JKhZc6Gp9Cg==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.5.0.tgz#b37ce11e61957f083ddf818d23f9bba6606aee7f"
+  integrity sha512-L9blUQha9mMfP7XPqvg7ipggqilxBhLeuKwonWqYwgOt2swArb5hWW7ae2qjGCyg7ZN6VgsOTD/W05mxVXAkLg==
   dependencies:
     get-object-value "*"
     get-random-id "*"
@@ -6180,9 +6180,9 @@ natural-compare@^1.4.0:
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
 nearley@^2.7.10:
-  version "2.19.5"
-  resolved "https://registry.yarnpkg.com/nearley/-/nearley-2.19.5.tgz#6be78e4942eeb9a043b17c563413111d4ad849b7"
-  integrity sha512-qoh1ZXXl0Kpn40tFhmgvffUAlbpRMcjLUagNVnT1JmliUIsB4tFabmCNhD97+tkf9FZ/SLhhYzNow0V3GitzDg==
+  version "2.19.6"
+  resolved "https://registry.yarnpkg.com/nearley/-/nearley-2.19.6.tgz#22663fd7326eb708b4c18bfdd7e4ce204b7239b0"
+  integrity sha512-OV3Lx+o5iIGWVY38zs+7aiSnBqaHTFAOQiz83VHJje/wOOaSgzE3H0S/xfISxJhFSoPcX611OEDV9sCT8F283g==
   dependencies:
     commander "^2.19.0"
     moo "^0.5.0"
@@ -7532,9 +7532,9 @@ reshow-constant@*:
   integrity sha512-PRwvxfln60W897Z8puaZhWhY4wrP6Mb+c8Wu+9n1yBgn+//6GP8AhW/xMdsy+MyM2HcTJ8d1iTmvr/G4Pm2NyA==
 
 reshow-flux-base@*:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.2.9.tgz#dd64f0600111b1ea71111428b86d1167e032f82f"
-  integrity sha512-XIw5+luHT9IzCLyiiuKbcF2N3pTfaI93bOG5e6T0EizNMcmwGDvU4xIz9R75rKF5gQNMwGP1A1ouyuMvygxKGg==
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.3.0.tgz#dbc057e1e571d48c221bb645cabefd7a71f15445"
+  integrity sha512-UwgpZuH3Sr7gtNtBgr+UebqAFEx0tcZ0NXvcn/3u2gad0i66rwbVyzLxr2RqlxqWMWdecQeuULVHJkehP6f95g==
   dependencies:
     call-func "*"
     reshow-constant "*"
@@ -7542,9 +7542,9 @@ reshow-flux-base@*:
     setimmediate "*"
 
 reshow-flux@*:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/reshow-flux/-/reshow-flux-0.9.1.tgz#4895614e1979f67bfae49bc132ff35d741722ac3"
-  integrity sha512-DJtm/ahy5pcdA0wLkxppUyAAZTTr8dB8m/rFRLrIcrFNWpo0e0TAzwMS1Yyn6oQ073WjQwJVwem3zJkke9TwbA==
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/reshow-flux/-/reshow-flux-0.9.2.tgz#2fd826b561a3b346ccfdc04dd4a0a599abedbe30"
+  integrity sha512-bJHUgZ9ptizIkWz6gZYgiXo2goJEKoGStEtpyVMu9uXQnYDy02qQcDoN6j96/9QDRWlumGZaRsBt/kp7zVAt2w==
   dependencies:
     array.dedup "*"
     get-object-value "*"
@@ -7950,9 +7950,9 @@ setprototypeof@1.2.0:
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
 seturl@*:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.3.0.tgz#6a286d55616ff3a2202b626a54381ef93eda7e77"
-  integrity sha512-Bj0DVF6BZuwo7ch5Kg27wus8tweUcfQwhQtBMmZgeQ70D1pqJYs+mHBj4s/CGUqUkvzcAQO7kWUP2c23nllJ+A==
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.3.1.tgz#6c546fae0d735b843d378e1a807fcec39706c389"
+  integrity sha512-IoO9OIRFjYV+Ayg1fnd/S+XSXYP1aCTNs55ZSBz3YK3FJfG/ChBicmPjhVE4kbDFG7PKWx9gzOA0X9LgiMnwIQ==
   dependencies:
     get-object-value "*"
     get-safe-reg "*"
@@ -8541,9 +8541,9 @@ terser@^4.1.2:
     source-map-support "~0.5.12"
 
 terser@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.1.0.tgz#1f4ab81c8619654fdded51f3157b001e1747281d"
-  integrity sha512-pwC1Jbzahz1ZPU87NQ8B3g5pKbhyJSiHih4gLH6WZiPU8mmS1IlGbB0A2Nuvkj/LCNsgIKctg6GkYwWCeTvXZQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-5.2.1.tgz#40b971b8d28b4fe98c9e8c0d073ab48e7bb96cd8"
+  integrity sha512-/AOtjRtAMNGO0fIF6m8HfcvXTw/2AKpsOzDn36tA5RfhRdeXyb4RvHxJ5Pah7iL6dFkLk+gOnCaNHGwJPl6TrQ==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
@@ -9242,9 +9242,9 @@ win-doc@*:
   integrity sha512-06XqgthHvKl70LhB9EdKclMDhAKeAf1XnIzMpAnggvX+FkdrojpW+iUaRGy4aYuzmhXNvfs7VGDQrg0btTWxLQ==
 
 window-onload@*:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/window-onload/-/window-onload-0.0.3.tgz#17e385d08a5346f03e88e0208e365c934a58acc8"
-  integrity sha512-EZcoZhgmWUmnJuv6z8t8j6nfOF/ZyObaaG3mQ5Q/QnjfVul5EfYquAN/nfwiiXEjz6RI/DU1PqVOrRnmSrNVFw==
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/window-onload/-/window-onload-0.1.0.tgz#64772800ab166e2002bb5f8655eecddf0e7bee01"
+  integrity sha512-EsghMQWAlmowGBnch+NuWltUpguv5/e7SxMR1R9tFetFGxV7z4cIiJJ2G2lTzqPbXODalaR9k6Mjrx84V0lxjQ==
   dependencies:
     reshow-constant "*"
 

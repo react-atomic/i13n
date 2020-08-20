@@ -40,7 +40,7 @@ const PARAMS = "params";
 /**
  * functions
  */
-const onLoad = windowOnLoad();
+const onLoad = windowOnLoad({ domReady: true });
 
 const addSectionEvent = (configs, nextDelegates) => (section) => {
   const secs = get(configs, ["sec", section]);

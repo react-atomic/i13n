@@ -1,4 +1,5 @@
 import { i13nDispatch, getTime } from "i13n";
+import { getNum as Num } from "to-percent-js";
 import { combine, getAllCombine, removeEmpty } from "array.merge";
 import arraySearch, { arraySearchFirst } from "array.search.js";
 import query, { queryFrom } from "css-query-selector";
@@ -52,6 +53,8 @@ const arrayFrom = (arr) => [...arr];
 const joinCategory = (arr) =>
   arr?.map((item) => text(item).replace("/", "-")).join("/");
 
+const nonZero = (n, bNum) => (n * 1 > 0 ? (bNum ? Num(n) : n) : undefined);
+
 const utils = () => {
   const o = {
     dispatch: i13nDispatch,
@@ -90,6 +93,7 @@ const utils = () => {
     lazyAttr,
     lStorage,
     merge,
+    nonZero,
     objectToArray,
     parseJson,
     query,

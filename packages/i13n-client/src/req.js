@@ -1,11 +1,13 @@
 import setUrl from "seturl";
 import { win } from "win-doc";
 import get from "get-object-value";
-import { FUNCTION } from "reshow-constant";
+import callfunc from "call-func";
 
 const GET = "GET";
 const POST = "POST";
 const keys = Object.keys;
+const timeout = 5000;
+let first;
 
 // https://humanwhocodes.com/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing
 const createCORSRequest = (method, url) => {
@@ -24,13 +26,15 @@ const createCORSRequest = (method, url) => {
 };
 
 const req = (url, callback, type, query) => {
-  const oReq = createCORSRequest(url, type);
+  const oReq = createCORSRequest(type, url);
   if (!oReq) {
     return false;
   }
-  if (FUNCTION === typeof callback) {
-    oReq.onload = callback(oReq);
-  }
+  oReq.timeout = timeout;
+  oReq.onload = () => {
+    first = true;
+    callfunc(callfunc(callback, [oReq]));
+  };
   try {
     oReq.send(query);
     return true;
@@ -40,15 +44,25 @@ const req = (url, callback, type, query) => {
   }
 };
 
-const imageTag = (url) => (new Image().src = url);
+const imageTag = (url) => {
+  const oImg = new Image();
+  let _timer;
+  oImg.onload = () => {
+    _timer && clearTimeout(_timer);
+    first = true;
+  };
+  oImg.src = url;
+  _timer = setTimeout(() => {
+    oImg.src = "";
+  }, timeout);
+};
 
 const beaconApi = (url, query) => {
-  const navigator = get(win(), ["navigator"], {});
-  const oSendBeacon = navigator.sendBeacon;
-  if (!oSendBeacon) {
+  const oSendBeacon = get(win(), ["navigator", "sendBeacon"]);
+  if (!oSendBeacon || !first) {
     return false;
   }
-  oSendBeacon.call(navigator, url, query);
+  oSendBeacon.call(win().navigator, url, query);
   return true;
 };
 
@@ -80,5 +94,7 @@ const beacon = (url, data, ajax, imgTag) => {
   }
 };
 
+const setFirst = (bool) => (first = bool);
+
 export default req;
-export { beacon };
+export { beacon, setFirst };

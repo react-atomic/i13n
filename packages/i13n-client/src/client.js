@@ -242,7 +242,7 @@ const initHandler = (state, action, initDone) => {
     if (!forceRefresh && sessionIni() && localIni) {
       cb(localIni);
     } else {
-      req(iniUrl, (oReq) => (e) => {
+      req(iniUrl, (oReq) => () => {
         cb(oReq.responseText);
         lStore.set(iniUrl, oReq.responseText);
         sessionIni(true);

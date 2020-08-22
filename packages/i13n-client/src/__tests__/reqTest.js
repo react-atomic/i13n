@@ -1,7 +1,7 @@
 import jsdom from "jsdom-global";
 import { expect } from "chai";
 import sinon from "sinon";
-import req, { beacon } from "../req";
+import req, { beacon, setFirst } from "../req";
 
 const genString = (len) => {
   let x = "1234567890";
@@ -24,6 +24,7 @@ describe("Test Request", () => {
   it("test beacon api", () => {
     window.navigator.sendBeacon = () => {};
     const uBeacon = sinon.spy(window.navigator, "sendBeacon");
+    setFirst(true);
     beacon("http://localhost", { foo: "bar", a: fakeLargeVal });
     expect(uBeacon.getCall(0).args).to.deep.equal([
       "http://localhost",
@@ -41,8 +42,8 @@ describe("Test Request", () => {
   });
 
   it("test xhr with post", () => {
-    const uReq = sinon.spy(() => {});
-    beacon("http://localhost", { foo: "bar", a: genString(10) }, uReq);
+    const uReq = sinon.spy(() => { return true; });
+    beacon("http://localhost", { a: genString(20), b: genString(20)}, uReq);
     expect(uReq.getCall(0).args[2]).to.equal("POST");
   });
 

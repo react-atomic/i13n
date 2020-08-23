@@ -54,7 +54,7 @@ const imageTag = (url) => {
   oImg.src = url;
   _timer = setTimeout(() => {
     oImg.src = "";
-  }, timeout + 30000);
+  }, timeout + 60000);
 };
 
 const beaconApi = (url, query) => {

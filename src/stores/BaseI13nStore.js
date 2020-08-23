@@ -1,4 +1,3 @@
-import "setimmediate";
 import { Store } from "reshow-flux-base";
 import get, { toMap } from "get-object-value";
 import set from "set-object-value";
@@ -130,7 +129,7 @@ class BaseI13nStore extends Store {
       INITIAL
     );
     state = state.set(INITIAL, true);
-    setImmediate(() => {
+    setTimeout(() => {
       i13nDispatch(state); // for async, need located before lazyAction
       const lazyAction = this.getLazy();
       if (lazyAction) {

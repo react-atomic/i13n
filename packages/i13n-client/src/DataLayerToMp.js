@@ -119,6 +119,9 @@ class DataLayerToMp {
       sku,
       ...others
     } = item;
+    if (id == null && name == null) {
+      return;
+    }
     data[key + "id"] = id;
     data[key + "nm"] = name;
     data[key + "br"] = brand;

@@ -125,6 +125,7 @@ describe("Test DataLayerToMp", () => {
       {
         products: [
           {
+            id: 0,
             category: "uCategory",
             list: "uList",
           },
@@ -132,14 +133,14 @@ describe("Test DataLayerToMp", () => {
       },
       "detail"
     );
-    expect(data).to.deep.equal({ pr1ca: "uCategory", pa: "detail" });
+    expect(data).to.deep.equal({ pr1id: 0, pr1ca: "uCategory", pa: "detail" });
   });
 
   it("Test getEcImpressionsData", () => {
-    const empty = oDlToMp.getEcImpressionsData([{}]);
+    const empty = oDlToMp.getEcImpressionsData([{id: 0}]);
     expect(empty).to.deep.equal({
       il1nm: undefined,
-      il1pi1id: undefined,
+      il1pi1id: 0,
       il1pi1img: undefined,
       il1pi1sku: undefined,
       il1pi1nm: undefined,
@@ -268,11 +269,11 @@ describe("Test DataLayerToMp - setOneProduct", () => {
     resetDom();
   });
   it("setOneProduct basic test", () => {
-    const item = {};
+    const item = {id: 0};
     const data = {};
     oDlToMp.setOneProduct("pr1", data, item);
     expect(data).to.deep.equal({
-      pr1id: undefined,
+      pr1id: 0,
       pr1img: undefined,
       pr1sku: undefined,
       pr1nm: undefined,
@@ -288,6 +289,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 
   it("Test product custom dimension and metric", () => {
     const item = {
+      id: 0,
       dimension2: "abc",
       metric3: 100,
     };
@@ -298,6 +300,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 
   it("Test position is not number", () => {
     const item = {
+      id: 0,
       position: "foo",
     };
     const data = {};
@@ -307,6 +310,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
 
   it("Test position is number", () => {
     const item = {
+      id: 0,
       position: "5",
     };
     const data = {};

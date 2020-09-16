@@ -6,7 +6,7 @@ import callfunc from "call-func";
 const GET = "GET";
 const POST = "POST";
 const keys = Object.keys;
-const timeout = 10000;
+const timeout = 30000;
 let first;
 
 // https://humanwhocodes.com/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing

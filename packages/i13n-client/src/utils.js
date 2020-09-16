@@ -28,7 +28,7 @@ import getClientId from "./getClientId";
 import getUserId from "./getUserId";
 import { getAllLazyProducts } from "./lazyProducts";
 import lazyAttr from "./lazyAttr";
-import parseJson from "./parseJson";
+import parseJson, { clone } from "./parseJson";
 import req from "./req";
 import register from "./register";
 import storeCbParams from "./storeCbParams";
@@ -64,6 +64,7 @@ const utils = () => {
     arraySearch,
     arraySearchFirst,
     combine,
+    clone,
     delegate,
     error,
     execScript,

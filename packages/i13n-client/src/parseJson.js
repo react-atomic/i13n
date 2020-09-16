@@ -11,7 +11,13 @@ const parseJson = (strJson) => {
   }
 };
 
-const clone = (o) => oJSON.parse(oJSON.stringify(o));
+const clone = (o) => {
+  try {
+    return oJSON.parse(oJSON.stringify(o));
+  } catch (e) {
+    logError(e, SCRIPT_ERROR);
+  }
+};
 
 export default parseJson;
 export { clone };

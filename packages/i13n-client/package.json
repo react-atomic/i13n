@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.10.34",
+  "version": "0.10.35",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -44,9 +44,10 @@
     "nyc": "nyc npm run mocha",
     "test": "npm run build && npm run mocha",
     "format": "prettier-eslint --write 'src/**/*.js' 'ui/**/*.jsx'",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build && ./compile.sh p"
   },
   "files": [
+    "assets",
     "build",
     "package.json",
     "README.md"

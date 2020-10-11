@@ -1,7 +1,7 @@
 #!/bin/sh
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
-conf='{"resetVendor":[]}'
+conf='{"resetVendor":[], "maxChunks": 1}'
 
 production(){
     echo "Production Mode";

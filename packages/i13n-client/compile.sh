@@ -2,28 +2,29 @@
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
 conf='{"resetVendor":[], "maxChunks": 1}'
+webpack='npm run webpack --'
 
 production(){
     echo "Production Mode";
     npm run build
-    CONFIG=$conf NODE_ENV=production webpack -p --optimize-minimize
+    CONFIG=$conf NODE_ENV=production $webpack --mode production 
 }
 
 analyzer(){
     echo "Analyzer Mode";
     npm run build
-    CONFIG=$conf BUNDLE='{}' webpack
+    CONFIG=$conf BUNDLE='{}' $webpack
 }
 
 develop(){
     echo "Develop Mode";
     npm run build
-    CONFIG=$conf webpack
+    CONFIG=$conf $webpack
 }
 
 startServer(){
     echo "Start server";
-    node_modules/.bin/ws
+    npm run start
 }
 
 killBy(){

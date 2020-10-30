@@ -58,4 +58,10 @@ describe("Test forEachStoreProducts", () => {
     });
     expect(sessionStore()).to.deep.equal({ foo: { id: "foo", price: "200" } });
   });
+
+  it("test data should not change", () => {
+    const products = { products: [{ id: "bar", price: "777", quantity: 1, variant: 'variant', position: 0 }] };
+    const nextProducts = forEachStoreProducts(products);
+    expect(products).to.deep.equal(nextProducts);
+  });
 });

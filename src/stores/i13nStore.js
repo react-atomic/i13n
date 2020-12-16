@@ -1,6 +1,6 @@
-import {toJS} from 'get-object-value';
-import BaseI13nStore from '../stores/BaseI13nStore';
-import dispatcher from '../i13nDispatcher';
+import { toJS } from "get-object-value";
+import BaseI13nStore from "../stores/BaseI13nStore";
+import dispatcher from "../i13nDispatcher";
 
 class Map {
   _state = {};
@@ -12,7 +12,7 @@ class Map {
   }
 
   get(k) {
-    return 'object' === typeof this._state[k] && null !== this._state[k]
+    return "object" === typeof this._state[k] && null !== this._state[k]
       ? new Map(this._state[k])
       : this._state[k];
   }
@@ -52,12 +52,12 @@ class I13nStore extends BaseI13nStore {
   }
 
   handleRegister(state, action) {
-    const {func, on, mod} = get(action, [PARAMS]);
+    const { func, on, mod } = get(action, [PARAMS]);
     switch (mod) {
-      case 'remove':
+      case "remove":
         this.removeListener(func, on);
         break;
-      case 'add':
+      case "add":
       default:
         this.addListener(func, on);
         break;
@@ -67,9 +67,9 @@ class I13nStore extends BaseI13nStore {
 
   reduce(state, action) {
     switch (action.type) {
-      case 'emit':
+      case "emit":
         return this.handleEmit(state, action);
-      case 'register':
+      case "register":
         return this.handleRegister(state, action);
       default:
         return super.reduce(state, action);

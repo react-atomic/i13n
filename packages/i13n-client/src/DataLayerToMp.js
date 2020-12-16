@@ -1,12 +1,13 @@
 import { win, doc } from "win-doc";
-import get from "get-object-value";
-import getRandomId, { getTimestamp } from "get-random-id";
 import { removeEmpty } from "array.merge";
 import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
 import { UNDEFINED } from "reshow-constant";
 
 import shopify from "./shopify";
+import get from "get-object-value";
+import getRandomId, { getTimestamp } from "get-random-id";
+import getCookie from "get-cookie";
 import getDocUrl, { getHostName } from "./getDocUrl";
 import getClientId, { getClientIdCookie } from "./getClientId";
 import parseJson from "./parseJson";
@@ -298,6 +299,8 @@ class DataLayerToMp {
       ...this.getReferrer(),
       xid: expId,
       xvar: expVar,
+      fbb: getCookie("_fbb"),
+      fbc: getCookie("_fbc"),
       cg1: p,
       cg2: p2,
       cg3: p3,

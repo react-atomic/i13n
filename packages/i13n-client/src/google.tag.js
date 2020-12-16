@@ -46,6 +46,19 @@ class GoogleTag extends BaseTag {
     if (config.lazeInfo && lazeInfoIndex) {
       config.lazeInfoIndex = lazeInfoIndex;
     }
+
+    const trigger = {
+      action: {
+        ua: "lucencyEventAction",
+        4: "lucency4Action",
+      },
+      view: {
+        ua: "lucencyEventView",
+        4: "lucency4View",
+      },
+    };
+    const triggerVer = 0 === gaId?.indexOf("UA-") ? "ua" : 4;
+    config.event = get(trigger, [config.trigger, triggerVer]);
     config.p = config.p ?? shopify.getPage();
     config.expId = state.get("expId");
     config.expVar = state.get("expVar");
@@ -91,7 +104,7 @@ class GoogleTag extends BaseTag {
     const more = {};
 
     const config = {
-      event: "lucencyEventAction",
+      trigger: "action",
       p,
       p2,
       p3,
@@ -125,7 +138,7 @@ class GoogleTag extends BaseTag {
     const { p, p2, p3, p4, p5 } = I13N;
 
     const config = {
-      event: "lucencyEventView",
+      trigger: "view",
       p,
       p2,
       p3,

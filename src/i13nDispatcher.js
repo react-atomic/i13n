@@ -1,4 +1,4 @@
-import {Dispatcher} from 'reshow-flux-base';
+import { Dispatcher } from "reshow-flux-base";
 
 const instance = new Dispatcher();
 

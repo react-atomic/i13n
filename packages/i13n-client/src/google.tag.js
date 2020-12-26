@@ -1,9 +1,12 @@
 import get from "get-object-value";
-import { UNDEFINED } from "reshow-constant";
+import { UNDEFINED, OBJECT } from "reshow-constant";
+import callfunc from "call-func";
+import { removeEmpty } from "array.merge";
 
 import shopify from "./shopify";
 import BaseTag from "./BaseTag";
 import { getViewEcommerce, getActionEcommerce } from "./google.ecommerce";
+import toGa4 from "./google.toGa4";
 import OfficialGTag from "./official.gtag";
 import MpGTag from "./mp.gtag";
 
@@ -28,9 +31,28 @@ class GoogleTag extends BaseTag {
         return;
       }
       const oDownstream = new obj(tagData);
+      oDownstream.name = downstreamKey;
       this.downstreams.push(oDownstream);
       oDownstream.init();
     });
+  }
+
+  handleEcommerce(config, I13N) {
+    const state = this.getState();
+    const { ecommerce, value } = callfunc(
+      config.trigger === "action" ? getActionEcommerce : getViewEcommerce,
+      [I13N, { defaultCurrencyCode: state.get("currencyCode") }]
+    );
+    if (keys(ecommerce).length) {
+      config.ecommerce = ecommerce;
+      if (config.trigger === "action") {
+        config.category = "Ecommerce";
+        if (UNDEFINED === typeof config.value && !isNaN(value)) {
+          config.value = value;
+        }
+      }
+    }
+    return config;
   }
 
   push(config) {
@@ -59,17 +81,36 @@ class GoogleTag extends BaseTag {
     };
     const triggerVer = 0 === gaId?.indexOf("UA-") ? "ua" : 4;
     config.event = get(trigger, [config.trigger, triggerVer]);
+    if (config.trigger === "action") {
+      config.label = this.mergeLabel(
+        config.label,
+        config.ecommerce ? { ecommerce: config.ecommerce } : null
+      );
+    }
     config.p = config.p ?? shopify.getPage();
     config.expId = state.get("expId");
     config.expVar = state.get("expVar");
     config.gaId = gaId;
-    this.downstreams.forEach((downstream) => downstream.push(config));
+    this.downstreams.forEach((downstream) => {
+      if (downstream.name === "official" && triggerVer === 4) {
+        const { actionConfig, viewConfig } = toGa4(config);
+        if ("view" === config.trigger) {
+          downstream.push(removeEmpty(viewConfig));
+        }
+        if (actionConfig.ecommerce) {
+          actionConfig.event = get(trigger, ["action", 4]);
+          downstream.push(removeEmpty(actionConfig));
+        }
+      } else {
+        downstream.push(removeEmpty(config));
+      }
+    });
   }
 
   mergeLabel(label, more) {
     let thisLabel = label;
-    if (keys(more).length) {
-      if ("object" !== typeof thisLabel) {
+    if (keys(more || {}).length) {
+      if (OBJECT !== typeof thisLabel) {
         thisLabel = {
           label,
           ...more,
@@ -78,7 +119,7 @@ class GoogleTag extends BaseTag {
         thisLabel = { ...thisLabel, ...more };
       }
     }
-    if ("object" === typeof thisLabel) {
+    if (OBJECT === typeof thisLabel) {
       thisLabel = JSON.stringify(thisLabel);
     }
     return thisLabel;
@@ -99,37 +140,22 @@ class GoogleTag extends BaseTag {
       p4,
       p5,
     } = I13N;
-    const thisCategory = category ? category : action;
-
-    const more = {};
 
     const config = {
       trigger: "action",
+      lazeInfo: JSON.stringify(lazeInfo),
+      action,
+      category: category ?? action,
+      label,
+      value,
       p,
       p2,
       p3,
       p4,
       p5,
-      action,
-      category: thisCategory,
-      value,
-      lazeInfo: JSON.stringify(lazeInfo),
     };
 
-    const { ecommerce, value: eValue } = getActionEcommerce(
-      I13N,
-      state.get("currencyCode")
-    );
-    if (keys(ecommerce).length) {
-      config.ecommerce = ecommerce;
-      config.category = "Ecommerce";
-      more.ecommerce = ecommerce;
-      if (UNDEFINED === typeof value && !isNaN(eValue)) {
-        config.value = eValue;
-      }
-    }
-    config.label = this.mergeLabel(label, more);
-    this.push(config);
+    this.push(this.handleEcommerce(config, I13N));
   }
 
   impression() {
@@ -146,12 +172,7 @@ class GoogleTag extends BaseTag {
       p5,
     };
 
-    const ecommerce = getViewEcommerce(I13N, state.get("currencyCode"));
-    if (keys(ecommerce).length) {
-      config.ecommerce = ecommerce;
-    }
-
-    this.push(config);
+    this.push(this.handleEcommerce(config, I13N));
   }
 }
 

@@ -39,7 +39,7 @@ import set from "set-object-value";
 
 import shopify from "./shopify";
 
-const getActionEcommerce = (I13N, defaultCurrencyCode) => {
+const getActionEcommerce = (I13N, { defaultCurrencyCode }) => {
   const { p, action, products, promotions } = I13N;
   const ecommerce = {};
   let value;
@@ -82,14 +82,14 @@ const getActionEcommerce = (I13N, defaultCurrencyCode) => {
   return { ecommerce, value };
 };
 
-const getViewEcommerce = (I13N, defaultCurrencyCode) => {
+const getViewEcommerce = (I13N, { defaultCurrencyCode }) => {
   const ecommerce = {};
   handlePromotionImpressions(I13N, ecommerce);
   handleDetailProducts(I13N, ecommerce, defaultCurrencyCode);
   handleImpressions(I13N, ecommerce, defaultCurrencyCode);
   handlePurchase(I13N, ecommerce, defaultCurrencyCode);
   handleStep(I13N, ecommerce, defaultCurrencyCode);
-  return ecommerce;
+  return { ecommerce };
 };
 
 const CURRENCY_CODE = "currencyCode";
@@ -142,7 +142,9 @@ const handleImpressions = (I13N, ecommerce, defaultCurrencyCode) => {
   if (impressions) {
     setCurrency(I13N, ecommerce, defaultCurrencyCode);
     if (p) {
-      impressions.forEach((item) => (item.list = item.list || p));
+      impressions.forEach(
+        (item, index) => (impressions[index].list = item.list || p)
+      );
     }
     set(ecommerce, ["impressions"], impressions);
   }

@@ -51,4 +51,39 @@ describe("Test Google Tag", () => {
       trigger: "action",
     });
   });
+
+  it("Test mergeLabel when is string", () => {
+    const gTag = new GoogleTag();
+    const uLabel = "sss";
+    const acture = gTag.mergeLabel(uLabel);
+    expect(acture).to.equal(uLabel);
+  });
+
+  it("Test mergeLabel when is object", () => {
+    const gTag = new GoogleTag();
+    const uLabel = { foo: "bar" };
+    const acture = gTag.mergeLabel(uLabel);
+    expect(acture).to.equal('{"foo":"bar"}');
+  });
+
+  it("Test mergeLabel when is string with more", () => {
+    const gTag = new GoogleTag();
+    const uLabel = "sss";
+    const acture = gTag.mergeLabel(uLabel, { more: "more" });
+    expect(acture).to.equal('{"label":"sss","more":"more"}');
+  });
+
+  it("Test mergeLabel when is object with more", () => {
+    const gTag = new GoogleTag();
+    const uLabel = { foo: "bar" };
+    const acture = gTag.mergeLabel(uLabel, { more: "more" });
+    expect(acture).to.equal('{"foo":"bar","more":"more"}');
+  });
+
+  it("Test mergeLabel when is sameKey with more", () => {
+    const gTag = new GoogleTag();
+    const uLabel = { foo: "bar", more: "more" };
+    const acture = gTag.mergeLabel(uLabel, { more: "new-more" });
+    expect(acture).to.equal('{"foo":"bar","more":"new-more"}');
+  });
 });

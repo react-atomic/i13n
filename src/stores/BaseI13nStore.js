@@ -167,7 +167,8 @@ class BaseI13nStore extends Store {
     if (!init) {
       return this.handleInit(state, action);
     } else {
-      return run(state);
+      const disableHandleImpression = state.get("disableHandleImpression");
+      return disableHandleImpression ? state : run(state);
     }
   }
 

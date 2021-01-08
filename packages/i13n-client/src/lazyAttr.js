@@ -21,7 +21,7 @@ const lazyAttr = (key, expireSec) => (value) => {
     sStore.set(expireKey, expireArr);
   }
   const createTime = expireArr[key];
-  const userExpire = (expireSec ?? createTime) * 1000;
+  const userExpire = expireSec ? expireSec * 1000 : null;
   return expireCallback(createTime, userExpire, () => arr[key]);
 };
 

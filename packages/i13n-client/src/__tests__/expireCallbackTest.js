@@ -24,13 +24,34 @@ describe("Test expireCallback", () => {
     expect(acture).to.equal("foo");
   });
 
-  it("test expire callback", () => {
+  it("test with expire", () => {
     const acture = expireCallback(
       0,
+      -1,
+      () => "foo",
+      () => "bar"
+    );
+    expect(acture).to.equal("bar");
+  });
+
+
+  it("test create time not valid", () => {
+    const acture = expireCallback(
+      null,
       0,
       () => "foo",
       () => "bar"
     );
     expect(acture).to.equal("bar");
+  });
+
+  it("test expire time not valid", () => {
+    const acture = expireCallback(
+      0,
+      null,
+      () => "foo",
+      () => "bar"
+    );
+    expect(acture).to.equal("foo");
   });
 });

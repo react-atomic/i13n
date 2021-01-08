@@ -31,7 +31,7 @@ describe("Test LazyAttr", () => {
     a(expected);
     clock.tick(99000);
     expect(a()).to.equal(expected);
-    clock.tick(1000);
+    clock.tick(1001);
     expect(a()).to.be.undefined;
   });
 });

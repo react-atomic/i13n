@@ -9,6 +9,7 @@ import { getViewEcommerce, getActionEcommerce } from "./google.ecommerce";
 import toGa4 from "./google.toGa4";
 import OfficialGTag from "./official.gtag";
 import MpGTag from "./mp.gtag";
+import getUserId from "./getUserId";
 
 const keys = Object.keys;
 const downstreamMap = {
@@ -58,7 +59,7 @@ class GoogleTag extends BaseTag {
   push(config) {
     const { gaId, bCookieIndex, lazeInfoIndex } = this.getTagData();
     const state = this.getState();
-    const uid = state.get("uid") ?? shopify.getUid();
+    const uid = getUserId();
     if (uid) {
       config.bCookie = uid;
       if (bCookieIndex) {
@@ -90,6 +91,7 @@ class GoogleTag extends BaseTag {
     config.p = config.p ?? shopify.getPage();
     config.expId = state.get("expId");
     config.expVar = state.get("expVar");
+    config.siteId = state.get("siteId");
     config.gaId = gaId;
     this.downstreams.forEach((downstream) => {
       if (downstream.name === "official" && triggerVer === 4) {

@@ -88,7 +88,7 @@ const toGa4 = (config) => {
   return { actionConfig: nextConfig, viewConfig };
 };
 
-const getOneItem = ({ prod, promo }) => {
+const getOneItem = ({ prod = {}, promo = {} }) => {
   const arrCategory = (prod?.category || "").split("/") || [];
   const item = {
     item_name: prod.name,

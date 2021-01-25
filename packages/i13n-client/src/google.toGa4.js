@@ -18,32 +18,32 @@ const toGa4 = (config) => {
       },
       {
         bool: ecommerce.click,
-        prods: ecommerce.click.products,
+        prods: ecommerce.click?.products,
         action: "select_item",
       },
       {
         bool: ecommerce.detail,
-        prods: ecommerce.detail.products,
+        prods: ecommerce.detail?.products,
         action: "view_item",
       },
       {
         bool: ecommerce.add,
-        prods: ecommerce.add.products,
+        prods: ecommerce.add?.products,
         action: "add_to_cart",
       },
       {
         bool: ecommerce.remove,
-        prods: ecommerce.remove.products,
+        prods: ecommerce.remove?.products,
         action: "remove_from_cart",
       },
       {
         bool: ecommerce.checkout,
-        prods: ecommerce.checkout.products,
+        prods: ecommerce.checkout?.products,
         action: "begin_checkout",
       },
       {
         bool: ecommerce.purchase,
-        prods: ecommerce.purchase.products,
+        prods: ecommerce.purchase?.products,
         action: "purchase",
         callback: ({ nextEcommerce, nextConfig, prods, action, promos }) => {
           const actionField = ecommerce.purchase.actionField;
@@ -57,17 +57,17 @@ const toGa4 = (config) => {
       },
       {
         bool: ecommerce.refund,
-        prods: ecommerce.refund.products,
+        prods: ecommerce.refund?.products,
         action: "refund",
       },
       {
         bool: ecommerce.promoView,
-        promos: ecommerce.promoView.promotions,
+        promos: ecommerce.promoView?.promotions,
         action: "view_promotion",
       },
       {
         bool: ecommerce.promoClick,
-        promos: ecommerce.promoClick.promotions,
+        promos: ecommerce.promoClick?.promotions,
         action: "select_promotion",
       },
     ].forEach(({ bool, prods, promos, action, callback }) => {

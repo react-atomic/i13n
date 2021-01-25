@@ -89,7 +89,7 @@ const toGa4 = (config) => {
 };
 
 const getOneItem = ({ prod, promo }) => {
-  const arrCategory = (prod.category || []).split("/");
+  const arrCategory = (prod?.category || "").split("/") || [];
   const item = {
     item_name: prod.name,
     item_id: prod.id,

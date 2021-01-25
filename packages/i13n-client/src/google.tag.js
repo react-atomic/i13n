@@ -92,6 +92,7 @@ class GoogleTag extends BaseTag {
     config.expId = state.get("expId");
     config.expVar = state.get("expVar");
     config.siteId = state.get("siteId");
+    config.email = state.get("email");
     config.gaId = gaId;
     this.downstreams.forEach((downstream) => {
       if (downstream.name === "official" && triggerVer === 4) {

@@ -34,8 +34,8 @@ class OfficialGTag extends BaseGTag {
       console.warn("Not support GTM", { e });
       isNotSupport = true;
     }
-    if (!isNotSupport) {
-      const { id } = this.props;
+    const { id } = this.props;
+    if (!isNotSupport && id) {
       exec(getScript(id));
     }
   }

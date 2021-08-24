@@ -127,12 +127,16 @@ const getOneItem = ({ prod = {}, promo = {} }) => {
 
 const handleItems = ({ nextEcommerce, nextConfig, action, prods, promos }) => {
   const items = [];
-  prods?.forEach((prod) => {
-    items.push(getOneItem({ prod }));
-  });
-  promos?.forEach((prod) => {
-    items.push(getOneItem({ promo }));
-  });
+  if (prods?.forEach) {
+    prods.forEach((prod) => {
+      items.push(getOneItem({ prod }));
+    });
+  }
+  if (promos?.forEach) {
+    promos.forEach((prod) => {
+      items.push(getOneItem({ promo }));
+    });
+  }
   nextEcommerce.items = items;
   nextConfig.action = action;
 };

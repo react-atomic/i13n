@@ -4,7 +4,7 @@ const text = (el) =>
         ? el.textContent ?? el.innerText ?? ""
         : el.trim
         ? el
-        : el + "" + ""
+        : el + ""
       ).trim()
     : "";
 

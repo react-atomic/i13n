@@ -1,8 +1,7 @@
-
 version: 2.1
 
 orbs:
-  node: circleci/node@3.0.0
+  node: circleci/node@4.7.0
 
 jobs:
   test:
@@ -14,18 +13,39 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: "13"
+          lts: true
           install-yarn: true
+          npm-version: "6"
+      - run:
+          name: "Display information"
+          command: |
+            echo "## Date: "
+            date
+            echo ""
+            echo "## Node Version: "
+            node -v
+            echo ""
+            echo "## NPM Version: "
+            npm -v
+            echo ""
+            echo "## YARN Version: "
+            yarn -v
       - run:
           name: Run YARN tests
-          command: "yarn --ignore-engines && cd << parameters.test-dir >> && yarn --ignore-engines && npm test"
-
+          command: |
+            npm config set scripts-prepend-node-path auto \
+            && yarn --ignore-engines \
+            && cd << parameters.test-dir >> \
+            && yarn --ignore-engines \
+            && yarn test
 
 workflows:
   run-node-tests:
     jobs:
-    - test:
-        matrix:
-          name: test-<< matrix.test-dir >>
-          parameters:
-            test-dir: ["./", "packages/i13n-client"]
+      - test:
+          matrix:
+            name: test-<< matrix.test-dir >>
+            parameters:
+              test-dir:
+                - "./"
+                - "packages/i13n-client"

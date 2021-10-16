@@ -1,8 +1,6 @@
 import query from "css-query-selector";
-import callfunc from "call-func";
+import callfunc, { register } from "call-func";
 import { FUNCTION } from "reshow-constant";
-
-import register from "./register";
 
 const isArray = Array.isArray;
 

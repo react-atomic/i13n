@@ -10,6 +10,7 @@ import get, { toMap } from "get-object-value";
 import router from "url-route";
 import { htmlDecode } from "html-entity-js";
 import formSerialize from "form-serialize-js";
+import { register } from "call-func";
 
 // local
 import arrayToObject from "./arrayToObject";
@@ -30,7 +31,6 @@ import { getAllLazyProducts } from "./lazyProducts";
 import lazyAttr from "./lazyAttr";
 import parseJson, { clone } from "./parseJson";
 import req from "./req";
-import register from "./register";
 import storeCbParams from "./storeCbParams";
 import text from "./text";
 import i13nStore from "i13n-store";

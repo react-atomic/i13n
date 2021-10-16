@@ -8,7 +8,7 @@ import set from "set-object-value";
 import query from "css-query-selector";
 import { win, doc } from "win-doc";
 import { STRING, FUNCTION, UNDEFINED } from "reshow-constant";
-import callfunc from "call-func";
+import callfunc, {register, cleanAllRegister} from "call-func";
 import Router from "url-route";
 import windowOnLoad from "window-onload";
 
@@ -21,7 +21,6 @@ import parseJson from "./parseJson";
 import logError, { setDebugFlag } from "./logError";
 import utils from "./utils";
 import delegate from "./delegate";
-import register, { cleanAllRegister } from "./register";
 import req from "./req";
 import mergeConfig from "./mergeConfig";
 import lazyAttr from "./lazyAttr";

@@ -124,7 +124,8 @@ class BaseI13nStore {
     // this.nextEmits.push(INITIAL);
     // will trigger on next dispatch
 
-    const runProcessClose = () => (FUNCTION === typeof processClose ? processClose(run) : run());
+    const runProcessClose = () =>
+      FUNCTION === typeof processClose ? processClose(run) : run();
 
     setTimeout(() => {
       this.dispatch(state.set(INITIAL, true)); // for async, need located before lazyAction
@@ -134,7 +135,7 @@ class BaseI13nStore {
         this.processLazyAction(lazyAction);
       }
     });
-    return state.set(INITIAL, true); 
+    return state.set(INITIAL, true);
   };
 
   handleInit(state, action) {

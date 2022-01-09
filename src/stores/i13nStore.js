@@ -1,6 +1,6 @@
 import { toJS } from "get-object-value";
 import BaseI13nStore from "../stores/BaseI13nStore";
-import dispatcher from "../i13nDispatcher";
+import { createReducer } from "reshow-flux-base";
 
 class Map {
   _state = {};
@@ -40,44 +40,18 @@ class Map {
   }
 }
 
-class I13nStore extends BaseI13nStore {
-  getInitialState() {
-    return new Map();
-  }
+const oI13n = new BaseI13nStore();
+const [store, i13nDispatch] = createReducer(
+  oI13n.reduce.bind(oI13n),
+  new Map()
+);
 
-  handleEmit(state, action) {
-    const on = get(action, [PARAMS]);
-    this.nextEmits.push(on);
-    return state;
-  }
+oI13n.store = store;
+oI13n.dispatch = i13nDispatch;
+oI13n.mergeMap = (state, jsArr) => {
+  return state.merge(jsArr);
+};
+store.i13n = oI13n;
 
-  handleRegister(state, action) {
-    const { func, on, mod } = get(action, [PARAMS]);
-    switch (mod) {
-      case "remove":
-        this.removeListener(func, on);
-        break;
-      case "add":
-      default:
-        this.addListener(func, on);
-        break;
-    }
-    return state;
-  }
-
-  reduce(state, action) {
-    switch (action.type) {
-      case "emit":
-        return this.handleEmit(state, action);
-      case "register":
-        return this.handleRegister(state, action);
-      default:
-        return super.reduce(state, action);
-    }
-  }
-}
-
-// Export a singleton instance of the store, could do this some other way if
-// you want to avoid singletons.
-const instance = new I13nStore(dispatcher);
-export default instance;
+export default store;
+export { i13nDispatch };

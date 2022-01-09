@@ -3,14 +3,14 @@ import sinon from "sinon";
 import jsdom from "jsdom-global";
 jsdom(null, { url: "http://localhost" });
 
-import { i13nDispatch } from "../index";
-import i13nStore from "../stores/i13nStore";
+import i13nStore, { i13nDispatch } from "../stores/i13nStore";
 import { localStorage, Storage } from "get-storage";
 const lStore = new Storage(localStorage);
 
 describe("Test I13N", () => {
   afterEach((done) => {
-    i13nDispatch("reset", null, () => done());
+    i13nDispatch("reset");
+    setTimeout(()=>done(), 100);
   });
 
   it("test dispatch set", () => {
@@ -40,7 +40,7 @@ describe("Test I13N", () => {
     }, 50);
   });
 
-  it("test init", (done) => {
+  it("test init call count", (done) => {
     const impressionHandler = sinon.spy((state) => state);
     const initHandler = sinon.spy((state, action, done) => done(state));
     i13nDispatch("config/set", { impressionHandler, initHandler });
@@ -60,19 +60,20 @@ describe("Test I13N", () => {
 
 describe("Test after init", () => {
   afterEach((done) => {
-    i13nDispatch("reset", null, () => done());
+    i13nDispatch("reset");
+    setTimeout(()=>done(), 100);
   });
 
   it("should handle wait well", (done) => {
-    i13nStore.pushLazyAction({ params: { wait: 1, foo: "bar" } }, "foo");
-    expect(i13nStore.getLazy("foo").params.wait).to.equal(1);
+    i13nStore.i13n.pushLazyAction({ params: { wait: 1, foo: "bar" } }, "foo");
+    expect(i13nStore.i13n.getLazy("foo").params.wait).to.equal(1);
     const state = i13nStore.getState();
-    i13nStore.initDone(state);
+    i13nStore.i13n.initDone(state);
     setTimeout(() => {
-      expect(i13nStore.getLazy("foo").params.wait).to.equal(0);
-      i13nStore.initDone(state);
+      expect(i13nStore.i13n.getLazy("foo").params.wait).to.equal(0);
+      i13nStore.i13n.initDone(state);
       setTimeout(() => {
-        expect(!!i13nStore.getLazy("foo")).to.be.false;
+        expect(!!i13nStore.i13n.getLazy("foo")).to.be.false;
         done();
       }, 50);
     }, 50);
@@ -82,16 +83,16 @@ describe("Test after init", () => {
     const actionHandler = sinon.spy((state) => state);
     i13nDispatch({ actionHandler });
     expect(actionHandler.called).to.be.false;
-    i13nStore.pushLazyAction(
+    i13nStore.i13n.pushLazyAction(
       { type: "action", params: { wait: 0, foo: "bar" } },
       "foo"
     );
-    let foo = i13nStore.getLazy("foo");
+    let foo = i13nStore.i13n.getLazy("foo");
     expect(foo.params.wait).to.equal(0);
     const state = i13nStore.getState();
-    i13nStore.initDone(state);
+    i13nStore.i13n.initDone(state);
     setTimeout(() => {
-      foo = i13nStore.getLazy("foo");
+      foo = i13nStore.i13n.getLazy("foo");
       expect(!!foo).to.be.false;
       expect(actionHandler.called).to.be.true;
       done();
@@ -102,16 +103,16 @@ describe("Test after init", () => {
     const actionHandler = sinon.spy((state) => state);
     i13nDispatch({ actionHandler });
     expect(actionHandler.called).to.be.false;
-    i13nStore.pushLazyAction(
+    i13nStore.i13n.pushLazyAction(
       { type: "action", params: { wait: 0, foo: "bar", stop: true } },
       "foo"
     );
-    let foo = i13nStore.getLazy("foo");
+    let foo = i13nStore.i13n.getLazy("foo");
     expect(foo.params.wait).to.equal(0);
     const state = i13nStore.getState();
-    i13nStore.initDone(state);
+    i13nStore.i13n.initDone(state);
     setTimeout(() => {
-      foo = i13nStore.getLazy("foo");
+      foo = i13nStore.i13n.getLazy("foo");
       expect(!!foo).to.be.false;
       expect(actionHandler.called).to.be.false;
       done();
@@ -119,15 +120,15 @@ describe("Test after init", () => {
   });
 
   it("should handle wait undefined well", (done) => {
-    i13nStore.pushLazyAction({ type: "action", params: { foo: "bar" } }, "foo");
-    let foo = i13nStore.getLazy("foo");
+    i13nStore.i13n.pushLazyAction({ type: "action", params: { foo: "bar" } }, "foo");
+    let foo = i13nStore.i13n.getLazy("foo");
     expect(foo.params).to.have.property("lazeInfo");
     const state = i13nStore.getState();
-    const cb = sinon.spy(i13nStore, "handleAction");
+    const cb = sinon.spy(i13nStore.i13n, "handleAction");
     expect(cb.called).to.be.false;
-    i13nStore.initDone(state);
+    i13nStore.i13n.initDone(state);
     setTimeout(() => {
-      foo = i13nStore.getLazy("foo");
+      foo = i13nStore.i13n.getLazy("foo");
       expect(cb.called).to.be.true;
       expect(!!foo).to.be.false;
       done();
@@ -139,12 +140,12 @@ describe("Test after init", () => {
       state.merge(action.params)
     );
     i13nDispatch("config/set", { actionHandler });
-    i13nStore.pushLazyAction({
+    i13nStore.i13n.pushLazyAction({
       type: "action",
       params: { I13N: { a: 1, b: 2 } },
     });
     const state = i13nStore.getState();
-    i13nStore.initDone(state);
+    i13nStore.i13n.initDone(state);
     setTimeout(() => {
       expect(actionHandler.called).to.be.true;
       const I13N = i13nStore.getState().get("I13N").toJS();

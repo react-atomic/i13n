@@ -1,25 +1,22 @@
-import { Store } from "reshow-flux-base";
 import get, { toMap } from "get-object-value";
 import set from "set-object-value";
 import { localStorage, Storage } from "get-storage";
-import { UNDEFINED, FUNCTION, OBJECT } from "reshow-constant";
+import { UNDEFINED, FUNCTION, OBJECT, KEYS } from "reshow-constant";
 import { doc } from "win-doc";
 
-import { i13nDispatch } from "../i13nDispatcher";
 import getTime from "../getTime";
 import getParams from "../getParams";
 
 const lStore = new Storage(localStorage);
 const docUrl = () => doc().URL;
 const isArray = Array.isArray;
-const keys = Object.keys;
 const PARAMS = "params";
 const hashKey = "__hash";
 const seqKey = "__seq";
 const lazyActionKey = "lazyAction";
 const INITIAL = "init";
 
-class BaseI13nStore extends Store {
+class BaseI13nStore {
   sendBeacon(state, action) {
     return state;
   }
@@ -33,7 +30,7 @@ class BaseI13nStore extends Store {
           if (UNDEFINED !== typeof get(laze, ["params", "wait"])) {
             delete laze.params.wait;
           }
-          i13nDispatch(laze);
+          this.dispatch(laze);
         }
         delete lazeArr[key];
       } else {
@@ -49,7 +46,7 @@ class BaseI13nStore extends Store {
 
     const hash = get(lazyAction, [hashKey]);
     if (hash) {
-      keys(hash).forEach((key) => processLazy(hash, key));
+      KEYS(hash).forEach((key) => processLazy(hash, key));
     }
 
     lStore.set(lazyActionKey, lazyAction);
@@ -90,7 +87,7 @@ class BaseI13nStore extends Store {
       [hashKey, key, PARAMS],
       {}
     );
-    keys(lazeParams).forEach((pKey) => {
+    KEYS(lazeParams).forEach((pKey) => {
       const p = lazeParams[pKey];
       const newP =
         OBJECT === typeof p
@@ -119,24 +116,25 @@ class BaseI13nStore extends Store {
 
   initDone = (state, action) => {
     const { processClose, ...nextAction } = action || {};
+
     const run = () =>
-      i13nDispatch(keys(nextAction).length ? nextAction : "view");
-    this.nextAsync = true;
-    this.nextEmits.push(INITIAL);
+      this.dispatch(KEYS(nextAction).length ? nextAction : "view");
+
+    // this.nextAsync = true;
+    // this.nextEmits.push(INITIAL);
     // will trigger on next dispatch
-    this.addListener(
-      () => (FUNCTION === typeof processClose ? processClose(run) : run()),
-      INITIAL
-    );
-    state = state.set(INITIAL, true);
+
+    const runProcessClose = () => (FUNCTION === typeof processClose ? processClose(run) : run());
+
     setTimeout(() => {
-      i13nDispatch(state); // for async, need located before lazyAction
+      this.dispatch(state.set(INITIAL, true)); // for async, need located before lazyAction
+      runProcessClose();
       const lazyAction = this.getLazy();
       if (lazyAction) {
         this.processLazyAction(lazyAction);
       }
     });
-    return state;
+    return state.set(INITIAL, true); 
   };
 
   handleInit(state, action) {
@@ -159,7 +157,7 @@ class BaseI13nStore extends Store {
       const { wait, stop } = getParams(action); // need locate after next
       if (UNDEFINED === typeof wait && !stop) {
         // execute send beacon
-        this.nextEmits.push("impression");
+        // this.nextEmits.push("impression");
       }
       return next;
     };
@@ -185,7 +183,7 @@ class BaseI13nStore extends Store {
     const { wait, stop, lazyKey } = getParams(action); // need locate after next
     if (UNDEFINED === typeof wait && !stop) {
       // execute send beacon
-      this.nextEmits.push("action");
+      // this.nextEmits.push("action");
       if (withLazy && withLazy !== lazyKey) {
         this.removeLazy(withLazy);
       }
@@ -200,16 +198,16 @@ class BaseI13nStore extends Store {
       case "action":
         return this.handleAction(state, action);
       case "config/set":
-        return state.merge(action.params);
+        return this.mergeMap(state, action.params);
       case "reset":
         /**
          * !!Important!!
          * Keep in mind, always don't reset localstorage
          * It will effect lazy action
          */
-        return this.reset().merge(action.params);
+        return this.mergeMap(this.store.reset(), action.params);
       default:
-        return !!keys(action).length ? state.merge(action) : state;
+        return KEYS(action).length ? this.mergeMap(state, action) : state;
     }
   }
 }

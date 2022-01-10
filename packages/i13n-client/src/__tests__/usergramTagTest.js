@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import i13nStore from "i13n-store";
-import { i13nDispatch } from "i13n";
+import {i13nStore, i13nDispatch} from "i13n-store";
 import jsdom from "jsdom-global";
 
 import UsergramTag from "../usergram.tag";

@@ -1,4 +1,5 @@
 import { toMap } from "get-object-value";
+import heeding from "./heeding";
 
 class BaseTag {
   key = null;
@@ -6,9 +7,9 @@ class BaseTag {
   register(store, key) {
     this.key = key;
     this.store = store;
-    store.addListener(this.init.bind(this), "init");
-    store.addListener(this.action.bind(this), "action");
-    store.addListener(this.impression.bind(this), "impression");
+    store.addListener(heeding(this.init.bind(this), "init"));
+    store.addListener(heeding(this.action.bind(this), "action"));
+    store.addListener(heeding(this.impression.bind(this), "impression"));
   }
 
   getStore() {

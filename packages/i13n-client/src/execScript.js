@@ -1,4 +1,4 @@
-import i13nStore from "i13n-store";
+import { i13nStore } from "i13n-store";
 import exec from "exec-script";
 import logError from "./logError";
 
@@ -16,4 +16,4 @@ const execScript = (scriptName) => {
 };
 
 export default execScript;
-export {SCRIPT_ERROR};
+export { SCRIPT_ERROR };

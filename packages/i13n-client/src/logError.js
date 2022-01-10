@@ -1,5 +1,5 @@
 import get from "get-object-value";
-import { i13nDispatch } from "i13n";
+import { i13nDispatch } from "i13n-store";
 import { getLastScript } from "exec-script";
 import { doc } from "win-doc";
 import { SCRIPT_ERROR } from "./execScript";

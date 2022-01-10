@@ -128,14 +128,14 @@ class BaseI13nStore {
       FUNCTION === typeof processClose ? processClose(run) : run();
 
     setTimeout(() => {
-      this.dispatch(state.set(INITIAL, true)); // for async, need located before lazyAction
+      this.dispatch(state.set(INITIAL, true).set("nextEmit", INITIAL)); // for async, need located before lazyAction
       runProcessClose();
       const lazyAction = this.getLazy();
       if (lazyAction) {
         this.processLazyAction(lazyAction);
       }
     });
-    return state.set(INITIAL, true);
+    return state.set(INITIAL, true).set("nextEmit", INITIAL);
   };
 
   handleInit(state, action) {
@@ -154,10 +154,11 @@ class BaseI13nStore {
       if (!impressionHandler) {
         impressionHandler = this.processView.bind(this);
       }
-      const next = impressionHandler(state, action);
+      let next = impressionHandler(state, action);
       const { wait, stop } = getParams(action); // need locate after next
       if (UNDEFINED === typeof wait && !stop) {
         // execute send beacon
+        next = next.set("nextEmit", "impression");
         // this.nextEmits.push("impression");
       }
       return next;
@@ -180,11 +181,12 @@ class BaseI13nStore {
     if (withLazy) {
       action = this.mergeWithLazy(action, withLazy);
     }
-    const next = actionHandler(state, action);
+    let next = actionHandler(state, action);
     const { wait, stop, lazyKey } = getParams(action); // need locate after next
     if (UNDEFINED === typeof wait && !stop) {
       // execute send beacon
       // this.nextEmits.push("action");
+      next = next.set("nextEmit", "action");
       if (withLazy && withLazy !== lazyKey) {
         this.removeLazy(withLazy);
       }
@@ -193,6 +195,9 @@ class BaseI13nStore {
   }
 
   reduce(state, action) {
+    if (state.get("nextEmit")) {
+      state = state.set("nextEmit", null);
+    }
     switch (action.type) {
       case "view":
         return this.handleImpression(state, action);

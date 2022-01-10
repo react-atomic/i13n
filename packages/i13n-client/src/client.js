@@ -1,6 +1,6 @@
 import startTime from "./startTime"; // start time need put in first line
-import { i13nDispatch, getParams } from "i13n";
-import i13nStore from "i13n-store";
+import { getParams } from "i13n";
+import { i13nStore, i13nDispatch } from "i13n-store";
 import ini from "parse-ini-string";
 import { nest } from "object-nested";
 import get, { toMap } from "get-object-value";
@@ -8,11 +8,12 @@ import set from "set-object-value";
 import query from "css-query-selector";
 import { win, doc } from "win-doc";
 import { STRING, FUNCTION, UNDEFINED } from "reshow-constant";
-import callfunc, {register, cleanAllRegister} from "call-func";
+import callfunc, { register, cleanAllRegister } from "call-func";
 import Router from "url-route";
 import windowOnLoad from "window-onload";
 
 // local import
+import heeding from "./heeding";
 import getDocUrl from "./getDocUrl";
 import storeCbParams, { getCbParams } from "./storeCbParams";
 import execScript from "./execScript";
@@ -98,7 +99,7 @@ const processText = (state, initDone) => (maybeText, arrMerge) => {
   const nextConfigs = initRouter(userConfig);
   setTimeout(() => {
     state = state.merge(userConfig);
-    i13nStore.addListener(initPageScript, "init");
+    i13nStore.addListener(heeding(initPageScript, "init"));
     // The last Line
     initDone(state.set("nextConfigs", nextConfigs), {
       processClose: onLoad.process,
@@ -208,7 +209,7 @@ const maybeDelayAction = (state, action) => () => {
   } else {
     if (UNDEFINED !== typeof wait) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
-      i13nStore.pushLazyAction(action, lazyKey);
+      i13nStore.i13n.pushLazyAction(action, lazyKey);
     }
   }
 

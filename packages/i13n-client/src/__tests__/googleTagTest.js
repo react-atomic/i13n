@@ -1,9 +1,13 @@
 import { expect } from "chai";
 import GoogleTag from "../google.tag";
-import i13nStore from "i13n-store";
-import { i13nDispatch } from "i13n";
+import { i13nStore, i13nDispatch } from "i13n-store";
 
 describe("Test Google Tag", () => {
+  beforeEach(() => {
+    i13nStore.reset();
+    i13nDispatch("reset");
+  });
+
   it("Test UA Action", (done) => {
     const gTag = new GoogleTag();
     const fakeStream = () => {

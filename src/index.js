@@ -1,5 +1,7 @@
 // Stores
-export { default as BaseI13nStore, i13nStoreReAssign } from "./stores/BaseI13nStore";
+export { default as BaseI13nStore } from "./stores/BaseI13nStore";
+
+export { i13nStoreReAssign } from "./stores/i13nStore";
 
 // Util
 export { default as getTime } from "./getTime";

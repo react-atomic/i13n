@@ -1,9 +1,9 @@
 {
   "name": "i13n-store",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "i13n store",
-  "main": "./index.cjs.js",
-  "module": "./index.es.js",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
   "keywords": [
     "i13n"
   ],
@@ -12,12 +12,18 @@
   "dependencies": {
     "i13n": "*"
   },
+  "devDependencies": {
+    "@babel/cli": "^7.x"
+  },
   "scripts": {
+    "build:cjs": "BABEL_ENV=cjs babel src/index.cjs -o ./index.cjs --root-mode upward",
+    "build:es": "BABEL_ENV=es babel src/index.mjs -o ./index.mjs --root-mode upward",
+    "build": "npm run build:cjs && npm run build:es",
     "prepublishOnly": "echo 'publish'"
   },
   "files": [
-    "index.cjs.js",
-    "index.es.js",
+    "index.cjs",
+    "index.mjs",
     "package.json",
     "README.md"
   ]

@@ -16,7 +16,7 @@ module.exports = function (api) {
             "reshow-transform-runtime",
             {
               regenerator: false,
-              version: '7.9.0',
+              version: "7.16.7",
             },
           ],
           "@babel/plugin-syntax-dynamic-import",
@@ -41,7 +41,7 @@ module.exports = function (api) {
             {
               regenerator: false,
               useESModules: true,
-              version: "7.9.0",
+              version: "7.16.7",
             },
           ],
           "@babel/plugin-syntax-dynamic-import",

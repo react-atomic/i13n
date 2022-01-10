@@ -1,19 +1,18 @@
 import { expect } from "chai";
-import jsdom from "jsdom-global";
+import {jsdom, cleanIt} from "reshow-unit-dom";
 
 import DataLayerToMp, { resetSeq } from "../DataLayerToMp";
 
 const oDlToMp = new DataLayerToMp();
 
 describe("Test DataLayerToMp", () => {
-  let resetDom;
 
   beforeEach(() => {
-    resetDom = jsdom(null, { url: "http://localhost" });
+    jsdom(null, { url: "http://localhost" });
   });
 
   afterEach(() => {
-    resetDom();
+    cleanIt();
   });
 
   it("Test isSameHost", () => {

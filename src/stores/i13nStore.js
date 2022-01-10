@@ -41,7 +41,7 @@ class Map {
 }
 
 const oI13n = new BaseI13nStore();
-const [store, i13nDispatch] = createReducer(
+const [i13nStore, i13nDispatch] = createReducer(
   oI13n.reduce.bind(oI13n),
   new Map()
 );
@@ -55,10 +55,9 @@ const i13nStoreReAssign = ({ oI13n, store, i13nDispatch, mergeMap }) => {
 
 i13nStoreReAssign({
   oI13n,
-  store,
+  store: i13nStore,
   i13nDispatch,
-  mergeMap: (state, jsArr) => state.merge(jsArr)
+  mergeMap: (state, jsArr) => state.merge(jsArr),
 });
 
-export default store;
-export { i13nDispatch, i13nStoreReAssign };
+export { i13nStore, i13nDispatch, i13nStoreReAssign };

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import i13nStore from "i13n-store";
+import {i13nStore} from "i13n-store";
 
 import storeCbParams, { getCbParams } from "../storeCbParams";
 

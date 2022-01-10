@@ -3,14 +3,14 @@ import sinon from "sinon";
 import jsdom from "jsdom-global";
 jsdom(null, { url: "http://localhost" });
 
-import i13nStore, { i13nDispatch } from "../stores/i13nStore";
+import { i13nStore, i13nDispatch } from "../stores/i13nStore";
 import { localStorage, Storage } from "get-storage";
 const lStore = new Storage(localStorage);
 
 describe("Test I13N", () => {
   afterEach((done) => {
     i13nDispatch("reset");
-    setTimeout(()=>done(), 100);
+    setTimeout(() => done(), 100);
   });
 
   it("test dispatch set", () => {
@@ -61,7 +61,7 @@ describe("Test I13N", () => {
 describe("Test after init", () => {
   afterEach((done) => {
     i13nDispatch("reset");
-    setTimeout(()=>done(), 100);
+    setTimeout(() => done(), 100);
   });
 
   it("should handle wait well", (done) => {
@@ -120,7 +120,10 @@ describe("Test after init", () => {
   });
 
   it("should handle wait undefined well", (done) => {
-    i13nStore.i13n.pushLazyAction({ type: "action", params: { foo: "bar" } }, "foo");
+    i13nStore.i13n.pushLazyAction(
+      { type: "action", params: { foo: "bar" } },
+      "foo"
+    );
     let foo = i13nStore.i13n.getLazy("foo");
     expect(foo.params).to.have.property("lazeInfo");
     const state = i13nStore.getState();

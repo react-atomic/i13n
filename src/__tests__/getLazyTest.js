@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import i13nStore, {i13nDispatch} from "../stores/i13nStore";
+import { i13nStore, i13nDispatch } from "../stores/i13nStore";
 
 describe("Test getLazy", () => {
   afterEach(() => {

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import jsdom from "jsdom-global";
+import {jsdom, cleanIt} from "reshow-unit-dom";
 
 import lazyAttr from "../lazyAttr";
 
@@ -9,12 +9,12 @@ describe("Test LazyAttr", () => {
   let clock;
 
   beforeEach(() => {
-    reset = jsdom(null, { url: "http://localhost" });
+    jsdom(null, { url: "http://localhost" });
     clock = sinon.useFakeTimers();
   });
 
   afterEach(() => {
-    reset();
+    cleanIt();
     clock.restore();
   });
 

@@ -1,7 +1,12 @@
+import { jsdom } from "reshow-unit-dom";
 import { expect } from "chai";
 import mergeConfig from "../mergeConfig";
 
-describe("Test merge", () => {
+describe("Test merge config", () => {
+  beforeEach(() => {
+    jsdom(null, { url: "http://localhost" });
+  });
+
   it("test replace", () => {
     const a = {
       foo: {

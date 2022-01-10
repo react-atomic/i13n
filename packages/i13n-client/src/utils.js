@@ -1,4 +1,5 @@
-import { i13nDispatch, getTime } from "i13n";
+import { getTime } from "i13n";
+import { i13nStore, i13nDispatch } from "i13n-store";
 import { getNum as Num } from "to-percent-js";
 import { combine, getAllCombine, removeEmpty } from "array.merge";
 import arraySearch, { arraySearchFirst } from "array.search.js";
@@ -33,7 +34,6 @@ import parseJson, { clone } from "./parseJson";
 import req from "./req";
 import storeCbParams from "./storeCbParams";
 import text from "./text";
-import i13nStore from "i13n-store";
 
 // constant
 const keys = Object.keys;

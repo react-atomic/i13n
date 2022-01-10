@@ -1,13 +1,21 @@
+import { jsdom, cleanIt, hideConsoleError } from "reshow-unit-dom";
 import { expect } from "chai";
 
 import parseJson, { clone } from "../parseJson";
 import { setDebugFlag } from "../logError";
 
 describe("Test Parse Json", () => {
+  beforeEach(() => {
+    jsdom(null, { url: "http://localhost" });
+    hideConsoleError();
+  });
+  after(() => cleanIt());
+
   it("simple test", () => {
     const a = '{"foo": "bar"}';
     expect(parseJson(a)).to.deep.equal({ foo: "bar" });
   });
+
   it("test illegal", () => {
     const a = '{"foo":}';
     setDebugFlag(true);
@@ -17,6 +25,12 @@ describe("Test Parse Json", () => {
 });
 
 describe("Test clone", () => {
+  beforeEach(() => {
+    jsdom(null, { url: "http://localhost" });
+    hideConsoleError();
+  });
+  after(() => cleanIt());
+
   it("should clone", () => {
     const a = { foo: "bar" };
     const b = a;

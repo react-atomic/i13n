@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import jsdom from "jsdom-global";
+import { i13nStore, i13nDispatch } from "i13n-store";
 
-import i13nStore from "i13n-store";
 import utils from "../utils";
 
 import lazyProducts, { forEachStoreProducts } from "../lazyProducts";
 
-const { i13nDispatch, lazyAttr } = utils();
+const { lazyAttr } = utils();
 const sessionStore = lazyAttr("__prods");
 
 describe("Test lazyProducts", () => {
@@ -60,7 +60,17 @@ describe("Test forEachStoreProducts", () => {
   });
 
   it("test data should not change", () => {
-    const products = { products: [{ id: "bar", price: "777", quantity: 1, variant: 'variant', position: 0 }] };
+    const products = {
+      products: [
+        {
+          id: "bar",
+          price: "777",
+          quantity: 1,
+          variant: "variant",
+          position: 0,
+        },
+      ],
+    };
     const nextProducts = forEachStoreProducts(products);
     expect(products).to.deep.equal(nextProducts);
   });

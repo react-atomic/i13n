@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import sinon from "sinon";
-
 import { i13nStore, i13nDispatch } from "../i13nStore";
 
 describe("Test mergeWithLazy", () => {

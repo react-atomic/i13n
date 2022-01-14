@@ -1,9 +1,8 @@
 import { expect } from "chai";
-import { createReducer } from "reshow-flux-base";
+import { createReducer, SimpleMap } from "reshow-flux-base";
 import sinon from "sinon";
 
 import BaseI13nReducer from "../BaseI13nReducer";
-import SimpleMap from "../../SimpleMap";
 import i13nStoreReAssign from "../../i13nStoreReAssign";
 import heeding from "../../heeding";
 

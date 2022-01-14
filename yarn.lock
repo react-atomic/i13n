@@ -1685,9 +1685,9 @@ domexception@^4.0.0:
     webidl-conversions "^7.0.0"
 
 electron-to-chromium@^1.4.17:
-  version "1.4.45"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.45.tgz#cf1144091d6683cbd45a231954a745f02fb24598"
-  integrity sha512-czF9eYVuOmlY/vxyMQz2rGlNSjZpxNQYBe1gmQv7al171qOIhgyO9k7D5AKlgeTCSPKk+LHhj5ZyIdmEub9oNg==
+  version "1.4.46"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.46.tgz#c88a6fedc766589826db0481602a888864ade1ca"
+  integrity sha512-UtV0xUA/dibCKKP2JMxOpDtXR74zABevuUEH4K0tvduFSIoxRVcYmQsbB51kXsFTX8MmOyWMt8tuZAlmDOqkrQ==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -2650,9 +2650,9 @@ mkdirp@^0.5.1:
     minimist "^1.2.5"
 
 mocha@*:
-  version "9.1.3"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-9.1.3.tgz#8a623be6b323810493d8c8f6f7667440fa469fdb"
-  integrity sha512-Xcpl9FqXOAYqI3j79pEtHBBnQgVXIhpULjGQa7DVb0Po+VzmSIK9kanAiWLHoRR/dbZ2qpdPshuXr8l1VaHCzw==
+  version "9.1.4"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-9.1.4.tgz#5a332d6ade6345b975fd97b5b39139854c8e1b32"
+  integrity sha512-+q2aV5VlJZuLgCWoBvGI5zEwPF9eEI0kr/sAA9Jm4xMND7RfIEyF8JE7C0JIg8WXRG+P1sdIAb5ccoHPlXLzcw==
   dependencies:
     "@ungap/promise-all-settled" "1.1.2"
     ansi-colors "4.1.1"
@@ -3113,9 +3113,9 @@ reshow-constant@*, reshow-constant@^0.16.0:
   integrity sha512-AKrU8A6EdFw7L5zHs8W8WNsdXbZwpgimvY92ZwobLhH5wC6mVG+L6H6zzS6/Y/DBqWXcuCsRGTg5hT1ahwZ6pQ==
 
 reshow-flux-base@*:
-  version "0.16.9"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.16.9.tgz#5efa035d51bf7bbe2d04a186103dffc12b0061eb"
-  integrity sha512-YgvxW1tKdBVgK2RoF44jPAIXBayQyjv9ZrkLgjs3nEsHhkwTl8Mp7RRQ9LaMeWNJPydK0/wTjM8xKFIOpAwClQ==
+  version "0.16.10"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.16.10.tgz#cca0b4082ceb826250e42c74d2ac0282e03e5c1e"
+  integrity sha512-8J5IoMc5wFjHoP57tT2OJUbxQj8JvDpNkk+CTfqUDs0we1OQde/GRa2cXXPflNS7oZ6Tkj5GW+iF8PAZAvvdRg==
   dependencies:
     call-func "^0.1.5"
     reshow-constant "^0.16.0"
@@ -3720,9 +3720,9 @@ write@1.0.3:
     mkdirp "^0.5.1"
 
 ws@^8.2.3:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.4.1.tgz#ce1a17e553d2b794e017fa94887808db5c67f614"
-  integrity sha512-6eqQ4yN2y2xv8b+BgbkUzPPyfo/PDl3VOWb06ZE0jIFYwuHMsMQN6F7o84yxJYCblfCRAxzpU59We4Rr4w0Luw==
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.4.2.tgz#18e749868d8439f2268368829042894b6907aa0b"
+  integrity sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA==
 
 xml-name-validator@^4.0.0:
   version "4.0.0"

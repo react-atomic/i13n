@@ -1,8 +1,7 @@
 import { toJS } from "get-object-value";
-import { createReducer } from "reshow-flux-base";
+import { createReducer, SimpleMap } from "reshow-flux-base";
 
 import BaseI13nStore from "../stores/BaseI13nStore";
-import SimpleMap from "../SimpleMap";
 import i13nStoreReAssign from "../i13nStoreReAssign";
 
 const oI13n = new BaseI13nStore();

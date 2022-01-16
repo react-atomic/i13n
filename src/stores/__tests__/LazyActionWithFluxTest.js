@@ -54,7 +54,7 @@ describe("Test LazyAction with flux", () => {
     });
   });
 
-  it("test with view", (done) => {
+  it("test with flux-impression", (done) => {
     const oMap = new FakeMap();
     const oLazy = LazyAction(oMap);
     const oI13n = new BaseI13nReducer();

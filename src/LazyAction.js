@@ -3,7 +3,7 @@ import get, { toMap } from "get-object-value";
 import set from "set-object-value";
 import { doc } from "win-doc";
 import callfunc from "call-func";
-import { T_NULL, UNDEFINED, OBJECT, KEYS } from "reshow-constant";
+import { T_NULL, UNDEFINED, OBJECT, KEYS, IS_ARRAY } from "reshow-constant";
 
 import getParams from "./getParams";
 import getTime from "./getTime";
@@ -17,7 +17,7 @@ const docUrl = () => doc().URL;
 const processLazyAction = (lazyAction, dispatch) => {
   const processLazy = (lazeArr, key) => {
     const laze = lazeArr[key];
-    let { wait, stop } = getParams(laze);
+    const { wait, stop } = getParams(laze);
     if (!wait || wait <= 0) {
       if (!stop) {
         if (UNDEFINED !== typeof get(laze, ["params", "wait"])) {
@@ -33,7 +33,7 @@ const processLazyAction = (lazyAction, dispatch) => {
   };
 
   const seq = get(lazyAction, [seqKey]);
-  if (isArray(seq)) {
+  if (IS_ARRAY(seq)) {
     lazyAction.__seq = seq.filter((action, key) => processLazy(seq, key));
   }
 
@@ -46,7 +46,7 @@ const processLazyAction = (lazyAction, dispatch) => {
 
 const getDefaultStorage = () => new Storage(localStorage);
 
-const initLazyAction = (storage = getDefaultStorage(), dispatch) => {
+const initLazyAction = (storage = getDefaultStorage()) => {
   const getAllLazy = () => toMap(storage.get(lazyActionKey));
   const getOneLazy = (k) => toMap(getAllLazy().__hash)[k];
   const updateLazy = (lazyAction) => storage.set(lazyActionKey, lazyAction);
@@ -90,14 +90,15 @@ const initLazyAction = (storage = getDefaultStorage(), dispatch) => {
     }
     updateLazy(lazyAction);
   };
-  const process = () => updateLazy(processLazyAction(getAllLazy(), dispatch));
+  const process = (dispatch) =>
+    updateLazy(processLazyAction(getAllLazy(), dispatch));
   const handleAction = (state, action) => {
     const { withLazy } = getParams(action);
     if (withLazy) {
       action = getActionMergeWithLazy(action, withLazy);
     }
     const actionHandler = state.get("lazyActionHandler");
-    const next = callfunc(actionHandler, [state, action]);
+    const next = callfunc(actionHandler, [state, action]) || state;
     const { wait, stop, lazyKey } = getParams(action); // need locate after next
     if (T_NULL == wait && !stop) {
       if (withLazy && withLazy !== lazyKey) {

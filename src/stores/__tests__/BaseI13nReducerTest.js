@@ -34,7 +34,7 @@ describe("Test BaseI13nReducer", () => {
 
     expect(!!i13nStore.getState().get("init")).to.be.false;
 
-    i13nDispatch("view");
+    i13nDispatch("impression");
 
     expect(initHandler.called).to.be.true;
 
@@ -42,7 +42,7 @@ describe("Test BaseI13nReducer", () => {
       expect(i13nStore.getState().get("init")).to.be.true;
       expect(initHandler.callCount).to.equal(1);
 
-      i13nDispatch("view");
+      i13nDispatch("impression");
 
       expect(initHandler.callCount).to.equal(1);
 
@@ -73,7 +73,7 @@ describe("Test BaseI13nReducer", () => {
     i13nStore.addListener(heeding(afterImpression, "impression"));
     i13nDispatch("config/set", { impressionHandler });
     expect(impressionHandler.called).to.be.false;
-    i13nDispatch("view");
+    i13nDispatch("impression");
     setTimeout(() => {
       expect(impressionHandler.called).to.be.true;
       expect(afterImpression.callCount).to.equal(1);

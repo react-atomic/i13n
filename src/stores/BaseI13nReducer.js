@@ -12,26 +12,26 @@ class BaseI13nReducer {
   }
 
   initDone(state, action) {
-    const { triggerView, asyncInit } = action || {};
+    const { triggerImpression, asyncInit } = action || {};
     const assignState = (state) =>
       state.set(INITIAL, true).set("nextEmit", INITIAL);
     this.dispatch(assignState(state)); // for async, need located before lazyAction
     setTimeout(() => {
-      if (triggerView) {
+      if (triggerImpression) {
         /**
-         * Why need triggerView?
-         * if u want let initDone call early, but maybe not dispatch view soon.
-         * u could pass triggerView to decide when call dispatch view.
+         * Why need triggerImpression?
+         * if u want let initDone call early, but maybe not dispatch impression soon.
+         * u could pass triggerImpression to decide when call dispatch impression.
          */
-        triggerView(() => this.dispatch("view"));
+        triggerImpression(() => this.dispatch("impression"));
       } else {
-        this.dispatch("view");
+        this.dispatch("impression");
       }
     });
     return asyncInit ? assignState(state) : state;
   }
 
-  processView(state, action) {
+  processImpression(state, action) {
     return this.sendBeacon(state, action);
   }
 
@@ -59,10 +59,10 @@ class BaseI13nReducer {
   handleImpression(state, action) {
     const maybeAsyncRun = (state) => {
       const impressionHandler = state.get("impressionHandler");
-      let next = callfunc(impressionHandler || this.processView.bind(this), [
-        state,
-        action,
-      ]);
+      let next = callfunc(
+        impressionHandler || this.processImpression.bind(this),
+        [state, action]
+      );
       const { stop } = getParams(action); // need locate after next
       if (!stop) {
         next = next.set("nextEmit", "impression");
@@ -99,7 +99,7 @@ class BaseI13nReducer {
       state = state.set("nextEmit", null);
     }
     switch (action.type) {
-      case "view":
+      case "impression":
         return this.handleImpression(state, action);
       case "action":
         return this.handleAction(state, action);

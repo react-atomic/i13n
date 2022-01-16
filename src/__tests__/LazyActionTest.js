@@ -28,7 +28,7 @@ describe("Test LazyAction", () => {
       "foo"
     );
     const laze = oLazy.getOne("foo");
-    expect(Object.keys(laze)).to.have.lengthOf(2);
+    expect(Object.keys(laze)).to.include("params");
     oLazy.handleAction({ get: () => {} }, { params: { withLazy: "foo" } });
     const afterWithLazy = oLazy.getOne("foo");
     expect(afterWithLazy).to.be.undefined;

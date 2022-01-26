@@ -3,7 +3,7 @@ import { UNDEFINED } from "reshow-constant";
 import { getTimestamp } from "get-random-id";
 
 import expireCallback from "./expireCallback";
-import { sStore } from "./storage";
+import { sStore } from "../stores/storage";
 
 const lazyKey = "i13nLazyAttr";
 const expireKey = "i13nLazyExpire";

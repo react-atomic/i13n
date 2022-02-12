@@ -1,12 +1,16 @@
 import { getParams, LazyAction } from "i13n";
 import { FUNCTION, UNDEFINED } from "reshow-constant";
 import set from "set-object-value";
+
+// local import
 import { i13nStore, i13nDispatch } from "../stores/i13nStore";
+import { lStore } from "../stores/storage";
 import storeCbParams, { getCbParams } from "../libs/storeCbParams";
 import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
-import { lStore } from "../stores/storage";
+import oneTimeAction from "../libs/oneTimeAction";
 
 const oLazy = LazyAction(lStore);
+const PARAMS = "params";
 
 const maybeDelayAction = (state, action) => () => {
   if (!state.get("init")) {

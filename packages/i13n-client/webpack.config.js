@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const webpack = require('reshow-app/webpack.client');
+const webpack = require("reshow-app/webpack.client");
 
 const entrys = {
-  tag: './build/es/src/client.js',
-  utils: './build/es/src/client-utils.js',
-}
+  simple: "./build/es/src/clients/simple_web.js",
+  //  utils: './build/es/src/client-utils.js',
+};
 
 module.exports = webpack(__dirname, entrys);

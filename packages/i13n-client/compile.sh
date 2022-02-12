@@ -19,7 +19,7 @@ analyzer(){
 develop(){
     echo "Develop Mode";
     npm run build
-#    CONFIG=$conf $webpack
+    CONFIG=$conf $webpack
 }
 
 startServer(){

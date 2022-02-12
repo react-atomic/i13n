@@ -15,7 +15,7 @@ class BaseI13nReducer {
     const { triggerImpression, asyncInit } = action || {};
     const assignState = (state) =>
       state.set(INITIAL, true).set("nextEmit", INITIAL);
-    this.dispatch(assignState(state)); // for async, need located before lazyAction
+    !asyncInit && this.dispatch(assignState(state)); // for async, need located before lazyAction
     setTimeout(() => {
       if (triggerImpression) {
         /**

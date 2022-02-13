@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { i13nDispatch } from "i13n-store";
+import { i13nDispatch } from "../../stores/i13nStore";
 import getUserId from "../getUserId";
 
 describe("Test getUserId", () => {

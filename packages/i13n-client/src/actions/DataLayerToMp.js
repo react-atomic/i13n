@@ -10,8 +10,10 @@ import getCookie from "get-cookie";
 // lib
 import getDocUrl, { getHostName } from "../libs/getDocUrl";
 import parseJson from "../libs/parseJson";
+import { ERROR_CATEGORY } from "../libs/logError";
 
 // action
+import startTime from "../actions/startTime";
 import shopify from "../actions/shopify";
 import getClientId, { getClientIdCookie } from "../actions/getClientId";
 
@@ -332,6 +334,10 @@ class DataLayerToMp {
     seq++;
     d.t =
       -1 !== (ev || "").toLowerCase().indexOf("view") ? "pageview" : "event";
+    if (ERROR_CATEGORY === d.ec) {
+      d.t = "exception";
+      d.exd = d.ea;
+    }
     if (bCookie) {
       if (bCookieIndex) {
         d["cd" + bCookieIndex] = bCookie;
@@ -349,6 +355,9 @@ class DataLayerToMp {
           d.qt = getTimestamp() - past;
         }
       }
+    }
+    if (startTime) {
+      d.clt = getTimestamp() - startTime;
     }
     return removeEmpty(d, true);
   }

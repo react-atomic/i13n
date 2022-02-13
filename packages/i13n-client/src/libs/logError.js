@@ -8,6 +8,7 @@ let debugFlag = false;
 let errorCount = 0;
 const maxError = 5;
 const SCRIPT_ERROR = "I13nScriptErr";
+const ERROR_CATEGORY = "Error";
 
 /**
  * @params error object Error object
@@ -38,7 +39,7 @@ const logError = (error, action, name) => {
       wait,
       I13N: {
         action,
-        category: "Error",
+        category: ERROR_CATEGORY,
         label,
       },
     });
@@ -53,4 +54,4 @@ const setDebugFlag = (bool) => (debugFlag = bool);
 const getDebugFlag = () => debugFlag;
 
 export default logError;
-export { setDebugFlag, getDebugFlag, SCRIPT_ERROR };
+export { setDebugFlag, getDebugFlag, SCRIPT_ERROR, ERROR_CATEGORY };

@@ -228,6 +228,19 @@ describe("Test GetMp", () => {
     expect(data.qt + "").to.not.empty;
   });
 
+  it("test handle Exception Description", ()=>{
+    const data = oDlToMp.getMp(null, {
+      action: "Foo_Error", 
+      category: "Error"
+    });
+    expect(data).to.include({
+      ec: "Error",
+      ea: "Foo_Error",
+      t: "exception",
+      exd: "Foo_Error"
+    });
+  });
+
   it("Test checkTagId with have tagId", () => {
     const data = oDlToMp.getMp({
       tagId: "fakeTagId",

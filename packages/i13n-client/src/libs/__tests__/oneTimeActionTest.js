@@ -22,8 +22,8 @@ describe("Test oneTimeAction", () => {
       get: () => ["utAction"],
     };
     const I13N = { action: "utAction" };
-    const result = oneTimeAction(I13N, fakeState);
     const storeOneTime = lazyAttr("oneTimeAction");
+    const result = oneTimeAction(I13N, fakeState);
 
     expect(storeOneTime()["utAction"]).to.be.true;
     expect(result).to.deep.equal(I13N);

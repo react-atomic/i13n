@@ -8202,9 +8202,9 @@ reshow-constant@*, reshow-constant@^0.16.0:
   integrity sha512-AKrU8A6EdFw7L5zHs8W8WNsdXbZwpgimvY92ZwobLhH5wC6mVG+L6H6zzS6/Y/DBqWXcuCsRGTg5hT1ahwZ6pQ==
 
 reshow-flux-base@*, reshow-flux-base@^0.16.0:
-  version "0.16.10"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.16.10.tgz#cca0b4082ceb826250e42c74d2ac0282e03e5c1e"
-  integrity sha512-8J5IoMc5wFjHoP57tT2OJUbxQj8JvDpNkk+CTfqUDs0we1OQde/GRa2cXXPflNS7oZ6Tkj5GW+iF8PAZAvvdRg==
+  version "0.16.11"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.16.11.tgz#df3076ed308a034895fb06b0c0c514f7e451020b"
+  integrity sha512-js0UYhy11GkO3e21gZfKxChcgD3eCO+z1lUcQxzjjIE6brAEH0gfAjwSOau9qWceTlvQxqzoE9Zai3tPI47Jcw==
   dependencies:
     call-func "^0.1.5"
     reshow-constant "^0.16.0"

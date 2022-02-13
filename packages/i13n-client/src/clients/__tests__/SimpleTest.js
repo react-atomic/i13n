@@ -20,7 +20,7 @@ describe("Test Simple", () => {
     expect(i13nStore.getState().get("init")).to.be.undefined;
     simple("UA-XXXXXXXX-X");
     setTimeout(() => {
-      expect(i13nStore.getState().get("tid")).to.equal("UA-XXXXXXXX-X");
+      expect(i13nStore.getState().get("tagId")).to.equal("UA-XXXXXXXX-X");
       done();
     });
   });

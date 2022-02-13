@@ -5,10 +5,15 @@ import get from "get-object-value";
 
 // local import
 import { i13nStore, i13nDispatch, mergeMap } from "../stores/i13nStore";
+
+//libs
 import lazyProducts from "../libs/lazyProducts";
 import workerUtils from "../libs/workerUtils";
+
+// action
 import actionHandler from "../actions/actionHandler";
 import getTag from "../actions/getTag";
+import getGaHost from "../actions/getGaHost";
 
 const initTags = (config) => {
   const tagArr = get(config, ["tags"], []);
@@ -31,7 +36,7 @@ const initHandler = (state, action, initDone) => {
 const impressionHandler = (state, action) => lazyProducts(state);
 
 const init = (
-  tid,
+  tagId,
   { global = {}, globalKey = "i13n", utils = workerUtils } = {}
 ) => {
   let isLoad = false;
@@ -46,7 +51,9 @@ const init = (
       actionHandler,
       impressionHandler,
     });
-    i13nDispatch("impression", { tid, tags: [{}] });
+    i13nDispatch("impression", { tagId, tags: [{
+      mpHost: getGaHost
+    }] });
   };
   run();
 };

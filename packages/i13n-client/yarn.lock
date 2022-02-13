@@ -2614,9 +2614,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001286:
-  version "1.0.30001311"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001311.tgz#682ef3f4e617f1a177ad943de59775ed3032e511"
-  integrity sha512-mleTFtFKfykEeW34EyfhGIFjGCqzhh38Y0LhdQ9aWF+HorZTtdgKV/1hEE0NlFkG2ubvisPV6l400tlbPys98A==
+  version "1.0.30001312"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001312.tgz#e11eba4b87e24d22697dae05455d5aea28550d5f"
+  integrity sha512-Wiz1Psk2MEK0pX3rUzWaunLTZzqS2JYZFzNKqAiJGiuxIjRPLgV6+VDPOg6lQOUxmDwhTlh198JsTTi8Hzw6aQ==
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -3125,11 +3125,12 @@ create-ecdh@^4.0.0:
     elliptic "^6.5.3"
 
 create-el@*:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.1.10.tgz#3723b103d09b0db77b77c041209087349e583cef"
-  integrity sha512-GtF6jBIffsmLV+UHnLXqlp4zBXeKoioCk4CtYopm64poq0KCrUh/iK7fI1d+vVyfpaI2qjnMr6r22RkR2rTKRw==
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.1.11.tgz#29511ca1dd702820f61cbfe1f02d1361d02c517e"
+  integrity sha512-N398YvySkTGW68tgAE0uYC5cpAWTS9DZx4X5spKTOUzisIljmyRl+8WRd6PqcPFNXWB/1QumE1ZAIx97egyb9w==
   dependencies:
     call-func "*"
+    reshow-constant "*"
     reshow-runtime "*"
     win-doc "*"
 
@@ -6600,9 +6601,9 @@ minimatch@3.0.4:
     brace-expansion "^1.1.7"
 
 minimatch@^3.0.4:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.5.tgz#4da8f1290ee0f0f8e83d60ca69f8f134068604a3"
-  integrity sha512-tUpxzX0VAzJHjLu0xUfFv1gwVp9ba3IOuRAVH2EGuRW8a5emA2FlACLqiT/lDVtS1W+TGNwqz3sWaNyLgDJWuw==
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.1.tgz#879ad447200773912898b46cd516a7abbb5e50b0"
+  integrity sha512-reLxBcKUPNBnc/sVtAbxgRVFSegoGeLaSjmphNhcwcolhYLRgtJscn5mRl6YRZNQv40Y7P6JM2YhSIsbL9OB5A==
   dependencies:
     brace-expansion "^1.1.7"
 
@@ -8246,9 +8247,9 @@ reshow-return@*:
     reshow-runtime "^0.16.0"
 
 reshow-runtime@*, reshow-runtime@^0.16.0:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.16.1.tgz#ffbc3fe298721f7e8e97d9234b3d65efa44db193"
-  integrity sha512-mnAv9nq/mucGETEdVxKInY3r+4ekMy6WjFaL84MW1pYhqaUBS826R+p/j5FfF93FFoi7mjgrlqxTnT9lpBqm0g==
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/reshow-runtime/-/reshow-runtime-0.16.2.tgz#6195cb45d6d0a62b3b254a5557fb1d99a9d0af4f"
+  integrity sha512-vd/re6CFo15pP9xiXcsTrXork4rkgC9ybNUI4fqUandGdvgwE2zvXlpSGU3zJG1BG9R7bik5j6OMdesfHjZX4g==
   dependencies:
     regenerator-runtime "^0.13.4"
     reshow-constant "*"
@@ -10144,9 +10145,9 @@ wildcard@^2.0.0:
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
 
 win-doc@*:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.0.9.tgz#6356a2ef94b1cf86446c068898a6e86d58b2a9dd"
-  integrity sha512-kIpJiEPvkMeU9b7Bn3JRVxGZYcXnTtKQBZuXvEIfZFYjhRcTGNTkOTOG/nsfizgyPaL2V7Bkdx7kBABKYWqWgw==
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.1.0.tgz#cd9bce7c2f8b9932d6cc64fdf1f1275f79109296"
+  integrity sha512-WL4FwHd/StznoFzg7JCSvuYnTxcEmrAh4Nter/27Y1uYOlmRNbm/QP/I/+ozOZ5AMOf+0DHzAqzPxcCRYgvjPw==
   dependencies:
     reshow-constant "*"
     reshow-runtime "*"

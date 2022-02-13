@@ -4,9 +4,9 @@ import heeding from "../libs/heeding";
 const regTag =
   (store) =>
   ({ init, action, impression }) => {
-    store.addListener(heeding(init, "init"));
-    store.addListener(heeding(action, "action"));
-    store.addListener(heeding(impression, "impression"));
+    init && store.addListener(heeding(init, "init"));
+    action && store.addListener(heeding(action, "action"));
+    impression && store.addListener(heeding(impression, "impression"));
   };
 
 export default regTag;

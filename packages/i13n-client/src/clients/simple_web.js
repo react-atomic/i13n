@@ -1,4 +1,7 @@
 import simple from "./simple";
-import {win} from "win-doc";
+import { win } from "win-doc";
+import { getScriptTagId } from "../libs/getTagId";
 
-simple("", {global: win()});
+const tid = getScriptTagId();
+
+simple(tid, { global: win() });

@@ -1,6 +1,7 @@
-import { toJS } from "get-object-value";
+import { toJS, toMap } from "get-object-value";
 import { createReducer, SimpleMap } from "reshow-flux-base";
 import { BaseI13nReducer, i13nStoreReAssign } from "i13n";
+import { clone } from "../libs/parseJson";
 
 const oI13n = new BaseI13nReducer();
 const [i13nStore, i13nDispatch] = createReducer(
@@ -15,5 +16,10 @@ i13nStoreReAssign({
   i13nDispatch,
   mergeMap,
 });
+
+i13nStore.getClone = (key) => {
+  const data = toMap(i13nStore.getState().get(key));
+  return clone(data);
+};
 
 export { i13nStore, i13nDispatch, mergeMap };

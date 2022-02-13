@@ -1,11 +1,11 @@
 import { i13nStore } from "../stores/i13nStore";
 import mpTag from "../actions/mp.tag";
 
-const getTag = (config) => {
-  config.store = i13nStore;
-  switch (config.type) {
+const getTag = (tagConfig) => {
+  tagConfig.store = i13nStore;
+  switch (tagConfig.type) {
     default:
-      mpTag(config);
+      mpTag(tagConfig);
       break;
   }
 };

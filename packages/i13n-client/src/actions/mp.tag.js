@@ -91,7 +91,23 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
 
   regTag(store)({
     action: () => {
-      console.log("action");
+      const I13N = store.getClone("I13N");
+      const { lazeInfo, action, category, label, value, p, p2, p3, p4, p5 } =
+        I13N;
+      const beaconOption = {
+        trigger: "action",
+        lazeInfo: JSON.stringify(lazeInfo),
+        action,
+        category: category ?? action,
+        label,
+        value,
+        p,
+        p2,
+        p3,
+        p4,
+        p5,
+      };
+      push(handleEcommerce(beaconOption, I13N, store));
     },
     impression: () => {
       const I13N = store.getClone("i13nPage");

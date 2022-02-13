@@ -1,6 +1,9 @@
+import { KEYS, OBJECT } from "reshow-constant";
+import { getDebugFlag } from "../libs/logError";
+
 const mergeGaLabel = (label, more) => {
     let thisLabel = label;
-    if (keys(more || {}).length) {
+    if (KEYS(more || {}).length) {
       if (OBJECT !== typeof thisLabel) {
         thisLabel = {
           label,
@@ -16,4 +19,11 @@ const mergeGaLabel = (label, more) => {
     return thisLabel;
 };
 
-export { mergeGaLabel };
+const getGaHost = () => {
+  const host = `https://www.google-analytics.com/${
+    getDebugFlag() ? "debug/" : ""
+  }collect`;
+  return host;
+};
+
+export { mergeGaLabel, getGaHost };

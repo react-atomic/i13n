@@ -1,5 +1,5 @@
 import { getParams, LazyAction } from "i13n";
-import { FUNCTION, UNDEFINED } from "reshow-constant";
+import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
 import set from "set-object-value";
 
 // local import
@@ -67,7 +67,7 @@ const actionHandler = (state, action) => {
         i13nDispatch(state);
       }
       const I13N = state.get("I13N");
-      if (UNDEFINED === typeof wait && keys(I13N.toJS()).length) {
+      if (UNDEFINED === typeof wait && KEYS(I13N.toJS()).length) {
         i13nDispatch("action", { I13N });
       }
     }, delay);

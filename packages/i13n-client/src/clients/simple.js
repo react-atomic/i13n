@@ -9,11 +9,11 @@ import { i13nStore, i13nDispatch, mergeMap } from "../stores/i13nStore";
 //libs
 import lazyProducts from "../libs/lazyProducts";
 import workerUtils from "../libs/workerUtils";
+import { getGaHost } from "../libs/gaUtils";
 
 // action
 import actionHandler from "../actions/actionHandler";
 import getTag from "../actions/getTag";
-import getGaHost from "../actions/getGaHost";
 
 const initTags = (config) => {
   const tagArr = get(config, ["tags"], []);

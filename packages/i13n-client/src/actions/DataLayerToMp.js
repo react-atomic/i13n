@@ -2,7 +2,7 @@ import { win, doc } from "win-doc";
 import { removeEmpty } from "array.merge";
 import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
-import { UNDEFINED } from "reshow-constant";
+import { UNDEFINED, KEYS } from "reshow-constant";
 import getRandomId, { getTimestamp } from "get-random-id";
 import get from "get-object-value";
 import getCookie from "get-cookie";
@@ -22,7 +22,6 @@ const DIMENSION = "dimension";
 const METRIC = "metric";
 const X = "x";
 const isArray = (a) => a && Array.isArray(a) && a.length;
-const keys = Object.keys;
 const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? getNum(v) : v);
 
 class DataLayerToMp {
@@ -138,7 +137,7 @@ class DataLayerToMp {
     data[key + "ps"] = notUndefinedNum(position);
     data[key + "img"] = image;
     data[key + "sku"] = sku;
-    keys(others).forEach((k) => {
+    KEYS(others).forEach((k) => {
       let endKey;
       if (0 === k.indexOf(DIMENSION)) {
         endKey = "cd";

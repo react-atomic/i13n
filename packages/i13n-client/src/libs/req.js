@@ -2,10 +2,10 @@ import setUrl from "seturl";
 import { win, hasWin } from "win-doc";
 import get from "get-object-value";
 import callfunc from "call-func";
+import { KEYS } from "reshow-constant";
 
 const GET = "GET";
 const POST = "POST";
-const keys = Object.keys;
 const timeout = 30000;
 let first;
 
@@ -74,7 +74,7 @@ const dataToQuery = (data) => {
   if (!data) {
     return url;
   }
-  keys(data).forEach((key) => {
+  KEYS(data).forEach((key) => {
     url = setUrl(key, data[key], url);
   });
   return url.substring(2);

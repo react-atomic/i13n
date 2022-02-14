@@ -16,7 +16,6 @@ import { beacon } from "../libs/req";
 
 const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
   const oDataLayerToMp = new DataLayerToMp();
-
   const doPush = (beaconOption, send = beacon) => {
     const state = store.getState();
     const thisMpHost = callfunc(mpHost) || state.get("mpHost");
@@ -25,7 +24,7 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
     if (host) {
       const d = oDataLayerToMp.getMp(
         {
-          tagId: gaId || state.get("tagId"),
+          tagId: beaconOption.gaId,
           needCheckTagId: state.get("needCheckTagId"),
           version: state.get("version"),
         },
@@ -41,6 +40,7 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
 
   const push = (beaconOption) => {
     const state = store.getState();
+    gaId = gaId || state.get("tagId");
     const uid = getUserId();
     if (uid) {
       beaconOption.bCookie = uid;
@@ -75,13 +75,12 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
     beaconOption.siteId = state.get("siteId");
     beaconOption.email = state.get("email");
     beaconOption.gaId = gaId;
+
     if (triggerVer === 4) {
       const { actionOption, impressionOption } = toGa4(beaconOption);
       if ("impression" === beaconOption.trigger) {
         doPush(removeEmpty(impressionOption));
-      }
-      if (actionOption.ecommerce) {
-        actionOption.event = get(trigger, ["action", 4]);
+      } else {
         doPush(removeEmpty(actionOption));
       }
     } else {

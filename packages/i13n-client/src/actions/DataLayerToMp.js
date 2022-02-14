@@ -17,7 +17,6 @@ import startTime from "../actions/startTime";
 import shopify from "../actions/shopify";
 import getClientId, { getClientIdCookie } from "../actions/getClientId";
 
-let seq = 1;
 const DIMENSION = "dimension";
 const METRIC = "metric";
 const X = "x";
@@ -328,7 +327,7 @@ class DataLayerToMp {
       dh: shopify.getShopId(),
       _gid: getClientIdCookie("_gid"),
       v: version || 1, //version
-      z: getRandomId(),
+      z: pvid,
     };
     seq++;
     d.t =
@@ -362,7 +361,13 @@ class DataLayerToMp {
   }
 }
 
-const resetSeq = (i) => (seq = i);
+let seq;
+let pvid;
+const resetSeq = (i = 1) => {
+  seq = i;
+  pvid = getRandomId();
+};
+resetSeq();
 
 export default DataLayerToMp;
 export { resetSeq };

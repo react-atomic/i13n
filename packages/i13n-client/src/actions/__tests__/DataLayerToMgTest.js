@@ -241,30 +241,30 @@ describe("Test GetMp", () => {
     });
   });
 
-  it("Test checkTagId with have tagId", () => {
+  it("Test check with have trackingId", () => {
     const data = oDlToMp.getMp({
-      tagId: "fakeTagId",
-      needCheckTagId: true,
+      trackingId: "fakeTrackingId",
+      needTrackingId: true,
     });
     expect(data).to.include({
-      tid: "fakeTagId",
+      tid: "fakeTrackingId",
     });
   });
 
-  it("Test checkTagId with tagId 0", () => {
+  it("Test check with trackingId 0", () => {
     const data = oDlToMp.getMp({
-      tagId: 0,
-      needCheckTagId: true,
+      trackingId: 0,
+      needTrackingId: true,
     });
     expect(data).to.include({
       tid: 0,
     });
   });
 
-  it("Test checkTagId with not have tagId", () => {
+  it("Test check with not have trackingId", () => {
     const data = oDlToMp.getMp({
-      tagId: null,
-      needCheckTagId: true,
+      trackingId: null,
+      needTrackingId: true,
     });
     expect(data).to.be.false;
   });

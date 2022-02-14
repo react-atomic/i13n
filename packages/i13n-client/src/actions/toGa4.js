@@ -3,7 +3,6 @@ import set from "set-object-value";
 import callfunc from "call-func";
 import { removeEmpty } from "array.merge";
 
-
 const getOneItem = ({ prod = {}, promo = {} }) => {
   const arrCategory = (prod?.category || "").split("/") || [];
   const item = {
@@ -153,4 +152,30 @@ const toGa4 = (beaconOption) => {
   }
   return { actionOption: nextBeaconOption, impressionOption };
 };
+
+const pushGa4 = (doPush, beaconOption) => {
+  const triggerName = {
+    action: {
+      ua: "lucencyEventAction",
+      4: "lucency4Action",
+    },
+    impression: {
+      ua: "lucencyEventView",
+      4: "lucency4View",
+    },
+  };
+  const triggerVer = 0 === beaconOption.gaId?.indexOf("UA-") ? "ua" : 4;
+  beaconOption.event = get(triggerName, [beaconOption.trigger, triggerVer]);
+  if (triggerVer === 4) {
+    const { actionOption, impressionOption } = toGa4(beaconOption);
+    if ("impression" === beaconOption.trigger) {
+      doPush(removeEmpty(impressionOption));
+    } else {
+      doPush(removeEmpty(actionOption));
+    }
+  } else {
+    doPush(removeEmpty(beaconOption));
+  }
+};
+
 export default toGa4;

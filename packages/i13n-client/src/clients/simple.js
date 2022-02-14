@@ -36,7 +36,7 @@ const initHandler = (state, action, initDone) => {
 const impressionHandler = (state, action) => lazyProducts(state);
 
 const init = (
-  tagId,
+  trackingId,
   { global = {}, globalKey = "i13n", utils = workerUtils } = {}
 ) => {
   let isLoad = false;
@@ -51,7 +51,7 @@ const init = (
       actionHandler,
       impressionHandler,
     });
-    i13nDispatch("impression", { tagId, tags: [{
+    i13nDispatch("impression", { trackingId, tags: [{
       mpHost: getGaHost
     }] });
   };

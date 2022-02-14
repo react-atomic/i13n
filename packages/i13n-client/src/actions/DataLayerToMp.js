@@ -277,12 +277,13 @@ class DataLayerToMp {
     const docEl = oDoc.documentElement || {};
     const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
     const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
-    const { tagId, needCheckTagId, version } = props || {};
-    if (needCheckTagId && tagId == null) {
+    const { trackingId, needTrackingId, version } = props || {};
+    if (needTrackingId && trackingId == null) {
       return false;
     }
     const {
-      event: ev,
+      trigger,
+      trackingType,
       bCookieIndex,
       bCookie,
       lazeInfoIndex,
@@ -321,17 +322,16 @@ class DataLayerToMp {
       sr: screen.width + X + screen.height,
       vp: vw + X + vh,
       je: toNum(callfunc(nav.javaEnabled, null, nav)),
-      tid: tagId,
+      tid: trackingId,
       cid: getClientId(),
       scid: shopify.getGaId(),
       dh: shopify.getShopId(),
       _gid: getClientIdCookie("_gid"),
       v: version || 1, //version
       z: pvid,
+      t: "impression" === trigger ? "pageview" : "event",
     };
     seq++;
-    d.t =
-      -1 !== (ev || "").toLowerCase().indexOf("view") ? "pageview" : "event";
     if (ERROR_CATEGORY === d.ec) {
       d.t = "exception";
       d.exd = d.ea;

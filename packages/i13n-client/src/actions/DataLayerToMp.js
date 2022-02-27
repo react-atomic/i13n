@@ -355,7 +355,7 @@ class DataLayerToMp {
       }
     }
     if (startTime) {
-      d.clt = getTimestamp() - startTime;
+      d.plt = getTimestamp() - startTime;
     }
     return removeEmpty(d, true);
   }

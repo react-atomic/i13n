@@ -15,7 +15,8 @@ import { beacon } from "../libs/req";
 
 const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
   const oDataLayerToMp = new DataLayerToMp();
-  const doPush = (beaconOption, send = beacon) => {
+  const doPush = (beaconOption, send) => {
+    send = send || beacon;
     const state = store.getState();
     const thisMpHost = callfunc(mpHost) || state.get("mpHost");
     const defaultMpHost = state.get("defaultMpHost");

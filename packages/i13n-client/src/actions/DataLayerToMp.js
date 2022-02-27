@@ -2,7 +2,7 @@ import { win, doc } from "win-doc";
 import { removeEmpty } from "array.merge";
 import { toNum, getNum } from "to-percent-js";
 import callfunc from "call-func";
-import { UNDEFINED, KEYS } from "reshow-constant";
+import { T_UNDEFINED, UNDEFINED, KEYS } from "reshow-constant";
 import getRandomId, { getTimestamp } from "get-random-id";
 import get from "get-object-value";
 import getCookie from "get-cookie";
@@ -306,8 +306,8 @@ class DataLayerToMp {
       em: email,
       xid: expId,
       xvar: expVar,
-      fbp: getCookie("_fbp") || undefined,
-      fbc: getCookie("_fbc") || undefined,
+      fbp: getCookie("_fbp") || T_UNDEFINED,
+      fbc: getCookie("_fbc") || T_UNDEFINED,
       cg1: p,
       cg2: p2,
       cg3: p3,
@@ -363,8 +363,8 @@ class DataLayerToMp {
 
 let seq;
 let pvid;
-const resetSeq = (i = 1) => {
-  seq = i;
+const resetSeq = (i) => {
+  seq = i ?? 1;
   pvid = getRandomId();
 };
 resetSeq();

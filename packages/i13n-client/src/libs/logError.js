@@ -1,6 +1,7 @@
 import get from "get-object-value";
 import { getLastScript } from "exec-script";
 import { doc } from "win-doc";
+import { T_UNDEFINED } from "reshow-constant";
 
 import { i13nDispatch } from "../stores/i13nStore";
 
@@ -34,7 +35,8 @@ const logError = (error, action, name) => {
     label.name = name;
   }
   setTimeout(() => {
-    const wait = action && -1 !== action.indexOf(SCRIPT_ERROR) ? 0 : undefined;
+    const wait =
+      action && -1 !== action.indexOf(SCRIPT_ERROR) ? 0 : T_UNDEFINED;
     i13nDispatch("action", {
       wait,
       I13N: {

@@ -35,10 +35,12 @@ const initHandler = (state, action, initDone) => {
 
 const impressionHandler = (state, action) => lazyProducts(state);
 
-const init = (
-  trackingId,
-  { global = {}, globalKey = "i13n", utils = workerUtils } = {}
-) => {
+const init = (trackingId, options) => {
+  const {
+    global = {},
+    globalKey = "i13n",
+    utils = workerUtils,
+  } = options || {};
   let isLoad = false;
   const run = () => {
     if (isLoad) {
@@ -51,9 +53,14 @@ const init = (
       actionHandler,
       impressionHandler,
     });
-    i13nDispatch("impression", { trackingId, tags: [{
-      mpHost: getGaHost
-    }] });
+    i13nDispatch("impression", {
+      trackingId,
+      tags: [
+        {
+          mpHost: getGaHost,
+        },
+      ],
+    });
   };
   run();
 };

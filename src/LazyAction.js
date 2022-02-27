@@ -46,7 +46,8 @@ const processLazyAction = (lazyAction, dispatch) => {
 
 const getDefaultStorage = () => new Storage(localStorage);
 
-const initLazyAction = (storage = getDefaultStorage()) => {
+const initLazyAction = (storage) => {
+  storage = storage || getDefaultStorage();
   const getAllLazy = () => toMap(storage.get(lazyActionKey));
   const getOneLazy = (k) => toMap(getAllLazy().__hash)[k];
   const updateLazy = (lazyAction) => storage.set(lazyActionKey, lazyAction);

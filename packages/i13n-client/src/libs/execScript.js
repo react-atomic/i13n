@@ -1,4 +1,4 @@
-import { i13nStore } from "i13n-store";
+import { i13nStore } from "../stores/i13nStore";
 import exec from "exec-script";
 import logError, {SCRIPT_ERROR} from "../libs/logError";
 

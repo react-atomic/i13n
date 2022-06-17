@@ -1,6 +1,6 @@
 {
   "name": "i13n-client",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "i13 client",
   "main": "./build/cjs/src/index.js",
   "module": "./build/es/src/index.js",
@@ -21,7 +21,6 @@
     "get-random-id": "*",
     "html-entity-js": "*",
     "i13n": "*",
-    "i13n-store": "*",
     "object-nested": "*",
     "parse-ini-string": "*",
     "reshow-constant": "*",

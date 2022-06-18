@@ -14,8 +14,8 @@ describe("Test LazyAttr", () => {
   });
 
   afterEach(() => {
-    cleanIt();
     clock.restore();
+    cleanIt();
   });
 
   it("simple test", () => {

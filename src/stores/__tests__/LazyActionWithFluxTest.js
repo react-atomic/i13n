@@ -42,14 +42,16 @@ describe("Test LazyAction with flux", () => {
           params: { a: "b", wait: 777, stop: false },
           type: "action",
         });
+        state = state.set('thisAction', action);
+        return state;
       },
     });
-    oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
-    i13nDispatch("action", { withLazy: "foo", wait: 777, stop: false });
     const spy = sinon.spy();
     i13nStore.addListener(spy);
+    oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
+    i13nDispatch("action", { withLazy: "foo", wait: 777, stop: false });
     setTimeout(() => {
-      expect(spy.callCount).to.equal(1);
+      expect(spy.callCount, "[Action call]").to.equal(1);
       done();
     });
   });
@@ -71,20 +73,20 @@ describe("Test LazyAction with flux", () => {
     i13nDispatch("reset", {
       initHandler: (state, action, initDone) => {
         oLazy.process(i13nDispatch);
+        state = state.set('foo', 'bar');
         initDone(state, action);
         return state;
       },
     });
-    i13nDispatch("impression");
     const spyInit = sinon.spy();
     const spyImpression = sinon.spy();
     i13nStore.addListener(heeding(spyInit, "init"));
     i13nStore.addListener(heeding(spyImpression, "impression"));
+    i13nDispatch("impression");
     setTimeout(() => {
-      expect(spyInit.callCount).to.equal(1);
-      expect(spyImpression.callCount).to.equal(1);
+      expect(spyInit.callCount, "[Init Call]").to.equal(1);
+      expect(spyImpression.callCount, "[Impression Call]").to.equal(1);
       done();
-    }, 100);
+    }, 30);
   });
-
 });

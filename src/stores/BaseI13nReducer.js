@@ -2,6 +2,7 @@ import { UNDEFINED, FUNCTION, OBJECT, KEYS } from "reshow-constant";
 import set from "set-object-value";
 import callfunc from "call-func";
 
+import heeding from "../heeding";
 import getParams from "../getParams";
 
 const INITIAL = "init";
@@ -15,20 +16,37 @@ class BaseI13nReducer {
     const { triggerImpression, asyncInit } = action || {};
     const assignState = (state) =>
       state.set(INITIAL, true).set("nextEmit", INITIAL);
-    !asyncInit && this.dispatch(assignState(state)); // for async, need located before lazyAction
-    setTimeout(() => {
-      if (triggerImpression) {
+
+    if (asyncInit) {
+      setTimeout(()=>this.dispatch("impression"));
+      return assignState(state);
+    } else {
+      // has customInitHandler
+      setTimeout(() => {
         /**
-         * Why need triggerImpression?
-         * if u want let initDone call early, but maybe not dispatch impression soon.
-         * u could pass triggerImpression to decide when call dispatch impression.
+         * Dispatch store parallel data.
+         *
+         * Need put it inside setTimeout,
+         * to avoid conflict with first impression call.
+         *
          */
-        triggerImpression(() => this.dispatch("impression"));
-      } else {
-        this.dispatch("impression");
-      }
-    });
-    return asyncInit ? assignState(state) : state;
+        this.dispatch(assignState(state));
+
+        setTimeout(() => {
+          if (triggerImpression) {
+            /**
+             * Why need triggerImpression?
+             * if u want let initDone call early, but maybe not dispatch impression soon.
+             * u could pass triggerImpression to decide when call dispatch impression.
+             */
+            triggerImpression(() => this.dispatch("impression"));
+          } else {
+            this.dispatch("impression");
+          }
+        });
+      });
+      return state;
+    }
   }
 
   processImpression(state, action) {
@@ -88,10 +106,6 @@ class BaseI13nReducer {
       next = next.set("nextEmit", "action");
     }
     return next;
-  }
-
-  mergeMap() {
-    throw "abstract method";
   }
 
   reduce(state, action) {

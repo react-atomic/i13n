@@ -1,8 +1,7 @@
 import { toMap } from "get-object-value";
 import { UNDEFINED } from "reshow-constant";
-import { getTimestamp } from "get-random-id";
+import { getTimestamp, expireCallback } from "get-random-id";
 
-import expireCallback from "./expireCallback";
 import { sStore } from "../stores/storage";
 
 const lazyKey = "i13nLazyAttr";
@@ -21,8 +20,9 @@ const lazyAttr = (key, expireSec) => (value) => {
     sStore.set(lazyKey, arr);
     sStore.set(expireKey, expireArr);
   }
-  const createTime = expireArr[key];
+  const createTime = expireArr[key] || 0;
   const userExpire = expireSec ? expireSec * 1000 : null;
+
   return expireCallback(createTime, userExpire, () => arr[key]);
 };
 

@@ -95,7 +95,7 @@ describe("Test LazyAction Merge", () => {
     const oMap = new FakeMap();
     const oLazy = LazyAction(oMap);
     oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
-    const fakeAction = {params: { withLazy: "foo", wait: 777, stop: false }};
+    const fakeAction = { params: { withLazy: "foo", wait: 777, stop: false } };
     let afterMergeAction;
     oLazy.handleAction(
       {
@@ -107,9 +107,10 @@ describe("Test LazyAction Merge", () => {
     );
     expect(afterMergeAction).to.deep.include({
       params: {
-        a: "b", wait: 777, stop: false
+        a: "b",
+        wait: 777,
+        stop: false,
       },
     });
   });
 });
-

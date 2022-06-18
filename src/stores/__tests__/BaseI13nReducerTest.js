@@ -21,7 +21,9 @@ describe("Test BaseI13nReducer", () => {
 
   beforeEach((done) => {
     i13nDispatch("reset");
-    setTimeout(() => done(), 50);
+    setTimeout(() => {
+      done()
+    }, 50);
   });
 
   it("test init", (done) => {

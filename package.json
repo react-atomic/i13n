@@ -1,5 +1,5 @@
 {
-  "version": "1.7.1",
+  "version": "1.7.2",
   "name": "i13n",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "reshow-flux-base": "*",
     "reshow-runtime": "*",
     "set-object-value": "*",
-    "win-doc": "*"
+    "seturl": "*"
   },
   "devDependencies": {
     "react-atomic-atom": "*",

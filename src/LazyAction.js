@@ -1,7 +1,7 @@
 import { localStorage, Storage } from "get-storage";
 import get, { toMap } from "get-object-value";
 import set from "set-object-value";
-import { doc } from "win-doc";
+import { url } from "seturl";
 import callfunc from "call-func";
 import { T_NULL, UNDEFINED, OBJECT, KEYS, IS_ARRAY } from "reshow-constant";
 
@@ -12,7 +12,6 @@ const lazyActionKey = "lazyAction";
 const PARAMS = "params";
 const hashKey = "__hash";
 const seqKey = "__seq";
-const docUrl = () => doc().URL;
 
 const processLazyAction = (lazyAction, dispatch) => {
   const processLazy = (lazeArr, key) => {
@@ -80,7 +79,7 @@ const initLazyAction = (storage) => {
     const { ...params } = getParams(action);
     const thisAction = { params, type: action.type };
     set(thisAction, [PARAMS, "lazeInfo"], {
-      from: docUrl(),
+      from: url(),
       time: getTime().toString(),
     });
     const lazyAction = getAllLazy();

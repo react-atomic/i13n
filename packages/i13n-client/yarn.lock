@@ -4119,9 +4119,9 @@ hyphenate-style-name@*:
   integrity sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==
 
 i13n@*:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.7.1.tgz#2602c0290a842ce9aa2b94c63eb1ca19fae46c16"
-  integrity sha512-U2LqOtQSo3PGIVIbUfYXHFJFkgYCgui21shpB+CmRzSqpZxAgzCd8lSMpuwHawke/ENVcNLmL8Xe4X9zN7g9fQ==
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.7.2.tgz#fe0dee218d5483cf21cdf8c6c74f6327cb3b6f7e"
+  integrity sha512-PmtcDh8FcxCPqKtymOAZxTs8AjM3nIPillmtu4AzFp9inOFEJINRUVPfO1TgqdcDutPhJaKdkEcC7Ppc43bvhw==
   dependencies:
     get-object-value "*"
     get-random-id "*"
@@ -4130,7 +4130,7 @@ i13n@*:
     reshow-flux-base "*"
     reshow-runtime "*"
     set-object-value "*"
-    win-doc "*"
+    seturl "*"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -6874,9 +6874,9 @@ setprototypeof@1.2.0:
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
 seturl@*:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.5.0.tgz#9cffe14dbd3d651ace4118466b34d7511fd5f9cd"
-  integrity sha512-ytDAMfPesU8i+JRjLIOTzpwxYDiP47cHlS78PABhKtWz1OUWzbApM84V5HMWABCj1NnAsGajHz11/GL0Mmh0Og==
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.5.1.tgz#4e597494efc3257476bc52bc6eef72a020c47856"
+  integrity sha512-9X8OKY6rdUcvzZPpSKeizAxGH8lDKpUMP2Dp2iiBdy+LMNLvATcmgpRbT6lqchyBvO6S8bRekamWHih9ZgK3JQ==
   dependencies:
     get-safe-reg "*"
     reshow-constant "*"

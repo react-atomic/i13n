@@ -1,13 +1,13 @@
 import get from "get-object-value";
-import { doc } from "win-doc";
 import { parseUrl } from "seturl";
 import shopify from "../actions/shopify";
+import { url } from "seturl";
 
 const getDocUrl = (payload) =>
-  get(payload, ["location"], () => shopify.getDocUrl() || doc().URL);
+  get(payload, ["location"], () => shopify.getDocUrl() || url());
 
 const getHostName = (payload) => {
-  const {host} = parseUrl(getDocUrl(payload));
+  const { host } = parseUrl(getDocUrl(payload));
   return host;
 };
 

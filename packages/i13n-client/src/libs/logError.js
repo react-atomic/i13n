@@ -1,6 +1,6 @@
 import get from "get-object-value";
 import { getLastScript } from "exec-script";
-import { doc } from "win-doc";
+import { url } from "seturl";
 import { T_UNDEFINED } from "reshow-constant";
 
 import { i13nDispatch } from "../stores/i13nStore";
@@ -28,7 +28,7 @@ const logError = (error, action, name) => {
   const label = {
     message,
     stack,
-    url: doc().URL,
+    url: url(),
     lastExec,
   };
   if (name) {

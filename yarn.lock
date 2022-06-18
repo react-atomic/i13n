@@ -2191,15 +2191,20 @@ get-random-id@*:
   dependencies:
     call-func "*"
 
+get-safe-reg@*:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/get-safe-reg/-/get-safe-reg-0.4.1.tgz#4333d084c45a3ecba6c98d9bef63f7767191080b"
+  integrity sha512-F5u7MrIg/DAQAzneIJwaOBVAiHQSi6mc+0FGb/X32fDh/rqVCsSJr8axNRhIu9yOJ5fQq80ISVOAyEUusD7PWQ==
+
 get-stdin@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-7.0.0.tgz#8d5de98f15171a125c5e516643c7a6d0ea8a96f6"
   integrity sha512-zRKcywvrXlXsA0v0i9Io4KDRaAw7+a1ZpjRwl9Wox8PFlVCCHra7E9c4kqXCoCM9nR5tBkaTTZRBoCm60bFqTQ==
 
 get-storage@*:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.2.4.tgz#651b284c73cb16dd023705f2722d79aa055def5a"
-  integrity sha512-w5yk0MFu9vUa6M/HDIQLlwg6kZxhOleh2xXpGaQt3tR1jzoafF5yQUwl+qJS02bKqOg+OY9/xnhVQhncCVTQOg==
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.2.6.tgz#92cbb193a5afd199de9a2a7288d2ba62e694d3d2"
+  integrity sha512-MvQ6LwChfA22AZhWbzz/fow89Mm+YxRJrwmj6Pb5AEzwnLvvapI4QdGxpoGe9pMptdKAX2ieKwrdEISgAk8hXw==
   dependencies:
     get-object-value "*"
     reshow-constant "*"
@@ -3357,9 +3362,9 @@ reshow-constant@*:
   integrity sha512-boZMA+BHvFXQuJJDud0lo+r8efSKWEiIzgtI3x/DPUWPcpLxq8pWqi/AQKpKqP0a/0sDzP5FvTd11G2oEBBqBw==
 
 reshow-flux-base@*:
-  version "0.17.5"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.17.5.tgz#97f6ed73bf86b2b5cddeed889d83557828c01df8"
-  integrity sha512-4UJa6iq0viAe7r866Oe00Vd3z/v5fw2jwMYux4dR5IX3ufxw9eLCHEIjT4vHQiix5qGXTVMJPegoHhe8SqEXSA==
+  version "0.17.6"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-0.17.6.tgz#df6a75e61486db94e20bcc7abba1ec4016476b10"
+  integrity sha512-LeLP/mKj7hfXRKU4BKwtCCQkOEqvjc06sPwtUolePjHiF8cUP12hy5Gjl1f42lPzokQbHmLgpIfOns9K3G/KFg==
   dependencies:
     call-func "*"
     reshow-constant "*"
@@ -3507,6 +3512,16 @@ set-object-value@*:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/set-object-value/-/set-object-value-0.1.0.tgz#cd71f0fee9e98274954d7d06d3041e19e6a715c2"
   integrity sha512-En9j/JShDQeC/Xtnxf86Q/Z0B7g4I/pC88qMdgw6HBug3pK75SzQXw8OgeCK2TYRd4WLoTiQnAgYTZzxuOMUDQ==
+
+seturl@*:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/seturl/-/seturl-0.5.1.tgz#4e597494efc3257476bc52bc6eef72a020c47856"
+  integrity sha512-9X8OKY6rdUcvzZPpSKeizAxGH8lDKpUMP2Dp2iiBdy+LMNLvATcmgpRbT6lqchyBvO6S8bRekamWHih9ZgK3JQ==
+  dependencies:
+    get-safe-reg "*"
+    reshow-constant "*"
+    win-doc "*"
+    with-array "*"
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -3867,12 +3882,19 @@ which@2.0.2, which@^2.0.1:
     isexe "^2.0.0"
 
 win-doc@*:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.1.1.tgz#1dc8ed698a832c3be41e14a40062bea6bbc585f6"
-  integrity sha512-XYR10OWnt0jCejIzl6T0pzW+KxTa2sxysVo9g74CG1dKccCA/hhCSRXLXoQLi8cE3hG0PSKvelWh40XmsBpSEA==
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.2.0.tgz#4cca1a640f32a026d9a03c25574ed1417a746a72"
+  integrity sha512-riNSB5rgobVudVdjeKgr9Rlle3cqqRr1kCxNkF1eD67EQoYQjGRxgFE/5PUFHaBaCl7BIBijc+SvxsYdJ8YRrQ==
   dependencies:
     reshow-constant "*"
     reshow-runtime "*"
+
+with-array@*:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/with-array/-/with-array-0.0.7.tgz#df73c725e3ae284d3242b3b43a6bfa5305b9782e"
+  integrity sha512-zySbo3yIqwDcI9fVfmprVfCrIhA/jcryAY1a3YRrjckE2vDCdRzYj+5EAhKRSUJZ/qU8piSrXK4DPg0TCmDBUA==
+  dependencies:
+    reshow-constant "*"
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"

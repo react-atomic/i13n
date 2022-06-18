@@ -1,5 +1,5 @@
+import { heeding } from "i13n";
 import mpTag from "../actions/mp_tag";
-import heeding from "../libs/heeding";
 
 const regTag =
   (store) =>

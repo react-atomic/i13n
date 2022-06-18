@@ -2713,9 +2713,9 @@ core-util-is@~1.0.0:
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
 create-el@*:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.1.11.tgz#29511ca1dd702820f61cbfe1f02d1361d02c517e"
-  integrity sha512-N398YvySkTGW68tgAE0uYC5cpAWTS9DZx4X5spKTOUzisIljmyRl+8WRd6PqcPFNXWB/1QumE1ZAIx97egyb9w==
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/create-el/-/create-el-0.2.0.tgz#6050bb51ca1280bfd7fad0188897da61ea30c203"
+  integrity sha512-SeOtReXRWRECnV6uD6nr17yh8Xisf5sL5RvSHub9wwsj5VZ+sQGq1r6tE6JX9Ir0KXkKzV1VowakcHh7rcw63A==
   dependencies:
     call-func "*"
     reshow-constant "*"
@@ -3332,9 +3332,9 @@ events@^3.2.0:
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
 exec-script@*:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/exec-script/-/exec-script-0.3.2.tgz#b485866208e0abfe502f8cff77a5d597e4c5ee31"
-  integrity sha512-bcRNZKGpOD/7e7TaTGw5Dtu10LGBVbWZkGDcXVzq9Y2y6KQdquUCsLvdxdungKblp7uZ5YSKzaQJLWJZBFHyWw==
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/exec-script/-/exec-script-0.4.0.tgz#c186a7d6b8099292202ac30d8fcc0aad0dfb2c82"
+  integrity sha512-htLCETD4JQBHcyrQ9/8BWqrYXElHpvY8q2ozCYGKpMkFJnLRld3iQbkSirgVSuQT4Bz5nZqvnOLl0wx2LgIvIQ==
   dependencies:
     call-func "*"
     create-el "*"
@@ -3737,9 +3737,9 @@ get-stdin@^7.0.0:
   integrity sha512-zRKcywvrXlXsA0v0i9Io4KDRaAw7+a1ZpjRwl9Wox8PFlVCCHra7E9c4kqXCoCM9nR5tBkaTTZRBoCm60bFqTQ==
 
 get-storage@*:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.2.5.tgz#9d599c63114990600d98d57a44798ae82060eef0"
-  integrity sha512-WUo7slR4bMkMZuGNgy1zVZxhR889zXu9RzCAyGfkNLNjZJg1nV4Lymcu5cq5XK2rjBaZurGj2qpkQw53twYsGA==
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/get-storage/-/get-storage-0.2.6.tgz#92cbb193a5afd199de9a2a7288d2ba62e694d3d2"
+  integrity sha512-MvQ6LwChfA22AZhWbzz/fow89Mm+YxRJrwmj6Pb5AEzwnLvvapI4QdGxpoGe9pMptdKAX2ieKwrdEISgAk8hXw==
   dependencies:
     get-object-value "*"
     reshow-constant "*"
@@ -4119,9 +4119,9 @@ hyphenate-style-name@*:
   integrity sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==
 
 i13n@*:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.7.0.tgz#20b1ac0e2127c61be65d7037ceb26dcc6c531183"
-  integrity sha512-uEsgM/6HgWtQsM1InC6DY/j8HTpf9rj8jBm2fldc8OXQQWAHAoelEL+/wAthZ6XxnZHpP5gkk0+Te9JwQ8+3PA==
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-1.7.1.tgz#2602c0290a842ce9aa2b94c63eb1ca19fae46c16"
+  integrity sha512-U2LqOtQSo3PGIVIbUfYXHFJFkgYCgui21shpB+CmRzSqpZxAgzCd8lSMpuwHawke/ENVcNLmL8Xe4X9zN7g9fQ==
   dependencies:
     get-object-value "*"
     get-random-id "*"
@@ -7354,9 +7354,9 @@ to-fast-properties@^2.0.0:
   integrity sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==
 
 to-percent-js@*:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/to-percent-js/-/to-percent-js-0.3.4.tgz#4e9af64f290626f6a4e59de59d75bd8117320b7b"
-  integrity sha512-kstmrHQcwKQ06zRZ3pkrwRExR4prS+tKUwylbpjAcCUdZj01aVvbktTAyP3/gs1Rel8/lWwnpTIQIQJcOquNcg==
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/to-percent-js/-/to-percent-js-0.4.0.tgz#d8c1408f77091a602b626b083d9bf02087df8bf5"
+  integrity sha512-aa94W3TrPw3v+vaSTGCwFrBymitredq9i3NOC76uY9jdRbrlbDqAeJjhwUphq8rdjOiXywvqaD7HgYd+O+IMug==
   dependencies:
     reshow-constant "*"
     reshow-runtime "*"
@@ -7907,9 +7907,9 @@ wildcard@^2.0.0:
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
 
 win-doc@*:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.1.1.tgz#1dc8ed698a832c3be41e14a40062bea6bbc585f6"
-  integrity sha512-XYR10OWnt0jCejIzl6T0pzW+KxTa2sxysVo9g74CG1dKccCA/hhCSRXLXoQLi8cE3hG0PSKvelWh40XmsBpSEA==
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/win-doc/-/win-doc-0.2.0.tgz#4cca1a640f32a026d9a03c25574ed1417a746a72"
+  integrity sha512-riNSB5rgobVudVdjeKgr9Rlle3cqqRr1kCxNkF1eD67EQoYQjGRxgFE/5PUFHaBaCl7BIBijc+SvxsYdJ8YRrQ==
   dependencies:
     reshow-constant "*"
     reshow-runtime "*"

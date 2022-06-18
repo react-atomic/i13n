@@ -1,10 +1,12 @@
 {
-  "name": "i13n-client",
   "version": "0.15.2",
+  "name": "i13n-client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/react-atomic/i13n",
+    "directory": "packages/i13n-client"
+  },
   "description": "i13 client",
-  "main": "./build/cjs/src/index.js",
-  "module": "./build/es/src/index.js",
-  "repository": "react-atomic/i13n",
   "keywords": [
     "i13n"
   ],
@@ -35,15 +37,21 @@
     "reshow-app": "*",
     "reshow-unit-dom": "*"
   },
+  "exports": {
+    "require": "./build/cjs/src/index.js",
+    "import": "./build/es/src/index.mjs"
+  },
+  "main": "./build/cjs/src/index.js",
+  "module": "./build/es/src/index.mjs",
   "scripts": {
     "webpack": "webpack",
     "start": "ws",
     "clean": "find ./build ./assets -name '*.*' | xargs rm -rf",
-    "build:cjs": "BABEL_ENV=cjs babel src -d build/cjs/src --root-mode upward",
-    "build:es": "BABEL_ENV=es babel src -d build/es/src --root-mode upward",
+    "build:cjs": "BABEL_ENV=cjs babel src -d build/cjs/src --ignore /**/__tests__ --root-mode upward",
+    "build:es": "BABEL_ENV=es babel src -d build/es/src --out-file-extension .mjs --root-mode upward",
     "build": "npm run clean && npm run build:cjs && npm run build:es",
     "mochaFor": "mocha -r global-jsdom/register",
-    "mocha": "npm run mochaFor -- 'build/cjs/**/__tests__/*.js'",
+    "mocha": "npm run mochaFor -- 'build/es/**/__tests__/*.mjs'",
     "nyc": "nyc npm run mocha",
     "test": "npm run build && npm run mocha",
     "prepublishOnly": "npm run test && npm run build && ./compile.sh p"

@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import jsdom from "jsdom-global";
 import set from "set-object-value";
+import {jsdom} from "reshow-unit-dom";
 
 import shopify from "../shopify";
 

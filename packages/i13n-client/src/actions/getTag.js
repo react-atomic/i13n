@@ -1,5 +1,5 @@
 import { i13nStore } from "../stores/i13nStore";
-import mpTag from "../actions/mp.tag";
+import mpTag from "../actions/mp_tag";
 
 const getTag = (tagConfig) => {
   tagConfig.store = i13nStore;

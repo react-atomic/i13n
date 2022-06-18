@@ -20,6 +20,7 @@ const lazyAttr = (key, expireSec) => (value) => {
     sStore.set(lazyKey, arr);
     sStore.set(expireKey, expireArr);
   }
+
   const createTime = expireArr[key] || 0;
   const userExpire = expireSec ? expireSec * 1000 : null;
 

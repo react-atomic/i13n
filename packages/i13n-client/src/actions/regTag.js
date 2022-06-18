@@ -1,4 +1,4 @@
-import mpTag from "../actions/mp.tag";
+import mpTag from "../actions/mp_tag";
 import heeding from "../libs/heeding";
 
 const regTag =

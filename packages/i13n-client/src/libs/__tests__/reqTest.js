@@ -1,5 +1,5 @@
-import jsdom from "jsdom-global";
 import { expect } from "chai";
+import {jsdom} from "reshow-unit-dom";
 import sinon from "sinon";
 import req, { beacon, setFirst } from "../req";
 

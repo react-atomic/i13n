@@ -1,10 +1,13 @@
-import startTime from "../actions/startTime"; // start time need put in first line
-import { getParams } from "i13n";
+// @ts-check
+import getStartTime from "../actions/startTime"; // start time need put in first line
+getStartTime();
+
+import { getParams, setParams } from "i13n";
 import callfunc from "call-func";
 import get from "get-object-value";
 
 // local import
-import { i13nStore, i13nDispatch, mergeMap } from "../stores/i13nStore";
+import { i13nDispatch, mergeMap } from "../stores/i13nStore";
 
 //libs
 import lazyProducts from "../libs/lazyProducts";
@@ -15,7 +18,7 @@ import { getGaHost } from "../libs/gaUtils";
 import actionHandler from "../actions/actionHandler";
 import getTag from "../actions/getTag";
 
-const initTags = (config) => {
+const initTags = (/**@type any*/ config) => {
   const tagArr = get(config, ["tags"], []);
   let i = tagArr.length;
   while (i--) {
@@ -24,18 +27,35 @@ const initTags = (config) => {
 };
 
 /**
+ * @typedef {Object<sinon,any>} StateType
+ */
+/**
+ * @typedef {import("reshow-flux-base").ActionObject} ActionObject
+ */
+
+/**
  * Handler
+ * @param {StateType} state
+ * @param {ActionObject} action
+ * @param {Function} initDone
  */
 const initHandler = (state, action, initDone) => {
   const params = getParams(action);
   initTags({ ...get(state), ...params });
-  action.asyncInit = true;
+  setParams(action, ["asyncInit"], true);
   return initDone(mergeMap(state, params), action);
 };
 
-const impressionHandler = (state, action) => lazyProducts(state);
+/**
+ * @param {StateType} state
+ */
+const impressionHandler = (state) => lazyProducts(state);
 
-const init = (trackingId, options) => {
+/**
+ * @param {string} trackingId
+ * @param {Object<string, any>} options
+ */
+export default function initSimpleClient(trackingId, options) {
   const {
     global = {},
     globalKey = "i13n",
@@ -63,6 +83,4 @@ const init = (trackingId, options) => {
     });
   };
   run();
-};
-
-export default init;
+}

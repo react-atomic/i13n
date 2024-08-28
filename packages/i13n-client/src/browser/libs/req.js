@@ -1,4 +1,3 @@
-import setUrl from "seturl";
 import { win, hasWin } from "win-doc";
 import get from "get-object-value";
 import callfunc from "call-func";
@@ -70,14 +69,15 @@ const beaconApi = (url, query) => {
 };
 
 const dataToQuery = (data) => {
-  let url = "?";
-  if (!data) {
-    return url;
+  if (null == data) {
+    return "?";
+  } else {
+    const o = new URLSearchParams();
+    KEYS(data).forEach((key) => {
+      o.set(key, data[key]);
+    });
+    return o.toString();
   }
-  KEYS(data).forEach((key) => {
-    url = setUrl(key, data[key], url);
-  });
-  return url.substring(2);
 };
 
 const beacon = (url, data, ajaxReq, imgTag) => {

@@ -1,46 +1,17 @@
 import { expect } from "chai";
-import {jsdom, cleanIt} from "reshow-unit-dom";
+import { jsdom, cleanIt } from "reshow-unit-dom";
 
 import DataLayerToMp, { resetSeq } from "../DataLayerToMp";
 
 const oDlToMp = new DataLayerToMp();
 
 describe("Test DataLayerToMp", () => {
-
   beforeEach(() => {
     jsdom(null, { url: "http://localhost" });
   });
 
   afterEach(() => {
     cleanIt();
-  });
-
-  it("Test isSameHost", () => {
-    const isSame = oDlToMp.isSameHost("localhost");
-    const same = isSame("http://localhost");
-    expect(same).to.be.true;
-    const diff = isSame("http://google.com");
-    expect(diff).to.be.false;
-  });
-
-  it("Test getReferrer", () => {
-    const data = oDlToMp.getReferrer({
-      referrer: "https://fake.com",
-    });
-    expect(data).to.deep.equal({ dr: "https://fake.com" });
-  });
-
-  it("Test getReferrer (empty)", () => {
-    const data = oDlToMp.getReferrer();
-    expect(data).to.be.undefined;
-  });
-
-  it("Test getReferrer (same host)", () => {
-    const data = oDlToMp.getReferrer({
-      location: { hostname: "localhost" },
-      referrer: "http://localhost/shopping",
-    });
-    expect(data).to.be.undefined;
   });
 
   it("Test getActionData", () => {
@@ -136,7 +107,7 @@ describe("Test DataLayerToMp", () => {
   });
 
   it("Test getEcImpressionsData", () => {
-    const empty = oDlToMp.getEcImpressionsData([{id: 0}]);
+    const empty = oDlToMp.getEcImpressionsData([{ id: 0 }]);
     expect(empty).to.deep.equal({
       il1nm: undefined,
       il1pi1id: 0,
@@ -214,30 +185,22 @@ describe("Test GetMp", () => {
     });
     expect(data).to.include({
       _s: 1,
-      dl: "http://localhost/",
-      ul: "en-us",
-      de: "UTF-8",
-      dt: "",
-      sd: "24-bit",
-      sr: "0x0",
-      vp: "1024x768",
-      je: 0,
       v: 1,
       t: "event",
     });
     expect(data.qt + "").to.not.empty;
   });
 
-  it("test handle Exception Description", ()=>{
+  it("test handle Exception Description", () => {
     const data = oDlToMp.getMp(null, {
-      action: "Foo_Error", 
-      category: "Error"
+      action: "Foo_Error",
+      category: "Error",
     });
     expect(data).to.include({
       ec: "Error",
       ea: "Foo_Error",
       t: "exception",
-      exd: "Foo_Error"
+      exd: "Foo_Error",
     });
   });
 
@@ -281,7 +244,7 @@ describe("Test DataLayerToMp - setOneProduct", () => {
     resetDom();
   });
   it("setOneProduct basic test", () => {
-    const item = {id: 0};
+    const item = { id: 0 };
     const data = {};
     oDlToMp.setOneProduct("pr1", data, item);
     expect(data).to.deep.equal({

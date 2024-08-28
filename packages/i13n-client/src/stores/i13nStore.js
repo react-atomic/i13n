@@ -1,25 +1,34 @@
-import { toJS, toMap } from "get-object-value";
-import { createReducer, SimpleMap } from "reshow-flux-base";
+// @ts-check
+import { toMap } from "get-object-value";
+import { createReducer } from "reshow-flux-base";
+import { SimpleMap } from "reshow-map";
 import { BaseI13nReducer, i13nStoreReAssign } from "i13n";
 import { clone } from "../libs/parseJson";
 
 const oI13n = new BaseI13nReducer();
-const [i13nStore, i13nDispatch] = createReducer(
+const [i13nReduceStore, i13nDispatch] = createReducer(
   oI13n.reduce.bind(oI13n),
   new SimpleMap()
 );
 
-const mergeMap = (state, jsArr) => state.merge(jsArr);
+/**
+ * @param {SimpleMap} state
+ * @param {object} jsObj
+ */
+const mergeMap = (state, jsObj) => state.merge(jsObj);
 i13nStoreReAssign({
   oI13n,
-  store: i13nStore,
+  store: i13nReduceStore,
   i13nDispatch,
   mergeMap,
 });
 
-i13nStore.getClone = (key) => {
-  const data = toMap(i13nStore.getState().get(key));
-  return clone(data);
+const i13nStore = {
+  ...i13nReduceStore,
+  getClone: (/**@type string*/ key) => {
+    const data = toMap(i13nStore.getState().get(key));
+    return clone(data);
+  },
 };
 
 export { i13nStore, i13nDispatch, mergeMap };

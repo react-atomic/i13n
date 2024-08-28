@@ -1,22 +1,25 @@
 import { removeEmpty } from "array.merge";
-import get from "get-object-value";
 import callfunc from "call-func";
 
 // actions
 import regTag from "../actions/regTag";
 import handleEcommerce from "../actions/handleEcommerce";
 import getUserId from "../actions/getUserId";
-import shopify from "../actions/shopify";
 import DataLayerToMp from "../actions/DataLayerToMp";
 
 // libs
 import { mergeGaLabel } from "../libs/gaUtils";
-import { beacon } from "../libs/req";
+import mysend from "../libs/send";
 
-const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
+const mpTag = ({
+  store,
+  bCookieIndex,
+  lazeInfoIndex,
+  mpHost,
+  send = mysend,
+}) => {
   const oDataLayerToMp = new DataLayerToMp();
-  const doPush = (beaconOption, send) => {
-    send = send || beacon;
+  const doPush = (beaconOption) => {
     const state = store.getState();
     const thisMpHost = callfunc(mpHost) || state.get("mpHost");
     const defaultMpHost = state.get("defaultMpHost");
@@ -24,7 +27,7 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
     if (host) {
       const d = oDataLayerToMp.getMp(
         {
-          trackingId: beaconOption.gaId,
+          trackingId: state.get("trackingId"),
           needTrackingId: state.get("needTrackingId"),
           version: state.get("version"),
         },
@@ -39,7 +42,6 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
   };
 
   const push = (beaconOption) => {
-    const state = store.getState();
     const uid = getUserId();
     if (uid) {
       beaconOption.bCookie = uid;
@@ -56,12 +58,6 @@ const mpTag = ({ store, gaId, bCookieIndex, lazeInfoIndex, mpHost }) => {
         beaconOption.ecommerce ? { ecommerce: beaconOption.ecommerce } : null
       );
     }
-    beaconOption.p = beaconOption.p ?? shopify.getPage();
-    beaconOption.expId = state.get("expId");
-    beaconOption.expVar = state.get("expVar");
-    beaconOption.siteId = state.get("siteId");
-    beaconOption.email = state.get("email");
-    beaconOption.gaId = gaId || state.get("trackingId");
     doPush(removeEmpty(beaconOption));
   };
 

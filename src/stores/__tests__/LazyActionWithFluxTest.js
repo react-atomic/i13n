@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { createReducer, SimpleMap } from "reshow-flux-base";
+import { createReducer } from "reshow-flux-base";
+import { SimpleMap } from "reshow-map";
 
 import BaseI13nReducer from "../BaseI13nReducer";
 import LazyAction from "../../LazyAction";
@@ -46,7 +47,7 @@ describe("Test LazyAction with flux", () => {
         return state;
       },
     });
-    const spy = sinon.spy();
+    const spy = sinon.spy(()=>null);
     i13nStore.addListener(spy);
     oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
     i13nDispatch("action", { withLazy: "foo", wait: 777, stop: false });

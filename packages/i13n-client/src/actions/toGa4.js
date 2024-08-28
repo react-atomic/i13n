@@ -1,5 +1,3 @@
-import get from "get-object-value";
-import set from "set-object-value";
 import callfunc from "call-func";
 import { removeEmpty } from "array.merge";
 
@@ -54,7 +52,7 @@ const handleItems = ({
     });
   }
   if (promos?.forEach) {
-    promos.forEach((prod) => {
+    promos.forEach((promo) => {
       items.push(getOneItem({ promo }));
     });
   }
@@ -104,13 +102,7 @@ const toGa4 = (beaconOption) => {
         bool: ecommerce.purchase,
         prods: ecommerce.purchase?.products,
         action: "purchase",
-        callback: ({
-          nextEcommerce,
-          nextBeaconOption,
-          prods,
-          action,
-          promos,
-        }) => {
+        callback: ({ nextEcommerce }) => {
           const actionField = ecommerce.purchase.actionField;
           nextEcommerce.transaction_id = actionField.id;
           nextEcommerce.affiliation = actionField.affiliation;
@@ -151,31 +143,6 @@ const toGa4 = (beaconOption) => {
     nextBeaconOption.ecommerce = removeEmpty(nextEcommerce);
   }
   return { actionOption: nextBeaconOption, impressionOption };
-};
-
-const pushGa4 = (doPush, beaconOption) => {
-  const triggerName = {
-    action: {
-      ua: "lucencyEventAction",
-      4: "lucency4Action",
-    },
-    impression: {
-      ua: "lucencyEventView",
-      4: "lucency4View",
-    },
-  };
-  const triggerVer = 0 === beaconOption.gaId?.indexOf("UA-") ? "ua" : 4;
-  beaconOption.event = get(triggerName, [beaconOption.trigger, triggerVer]);
-  if (triggerVer === 4) {
-    const { actionOption, impressionOption } = toGa4(beaconOption);
-    if ("impression" === beaconOption.trigger) {
-      doPush(removeEmpty(impressionOption));
-    } else {
-      doPush(removeEmpty(actionOption));
-    }
-  } else {
-    doPush(removeEmpty(beaconOption));
-  }
 };
 
 export default toGa4;

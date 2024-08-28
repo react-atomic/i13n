@@ -5,7 +5,6 @@ import {jsdom, cleanIt} from "reshow-unit-dom";
 import lazyAttr from "../lazyAttr";
 
 describe("Test LazyAttr", () => {
-  let reset;
   let clock;
 
   beforeEach(() => {

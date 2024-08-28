@@ -1,4 +1,4 @@
-import simple from "./simple";
+import simple from "../../clients/simple";
 import { win } from "win-doc";
 import { getScriptTagId } from "../libs/getTagId";
 

@@ -1,54 +1,30 @@
-import { win, doc } from "win-doc";
+// @ts-check
 import { removeEmpty } from "array.merge";
-import { toNum, getNum } from "to-percent-js";
+import { getNum } from "to-percent-js";
 import callfunc from "call-func";
-import { T_UNDEFINED, UNDEFINED, KEYS } from "reshow-constant";
+import { UNDEFINED, KEYS } from "reshow-constant";
 import getRandomId, { getTimestamp } from "get-random-id";
-import get from "get-object-value";
-import getCookie from "get-cookie";
 
 // lib
-import getDocUrl, { getHostName } from "../libs/getDocUrl";
 import parseJson from "../libs/parseJson";
 import { ERROR_CATEGORY } from "../libs/logError";
 
 // action
-import startTime from "../actions/startTime";
-import shopify from "../actions/shopify";
-import getClientId, { getClientIdCookie } from "../actions/getClientId";
+import getStartTime from "../actions/startTime";
+import getClientId from "../actions/getClientId";
 
 const DIMENSION = "dimension";
 const METRIC = "metric";
-const X = "x";
-const isArray = (a) => a && Array.isArray(a) && a.length;
+const isArray = (/**@type any*/ a) => a && Array.isArray(a) && a.length;
+/**
+ * @param {number=} v
+ */
 const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? getNum(v) : v);
 
 class DataLayerToMp {
-  isSameHost = (hostName) => (test) => {
-    const thisHost = "//" + hostName;
-    const i = test.indexOf(thisHost);
-    if (5 === i || 6 === i) {
-      const check = test.charAt(i + thisHost.length);
-      if ("/" === check || "?" === check || "" === check || ":" === check) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  getReferrer(oDoc) {
-    if (!oDoc) {
-      oDoc = doc();
-    }
-    const hostname = getHostName();
-    const referrer = get(oDoc, ["referrer"]);
-    if (referrer && !this.isSameHost(hostname)(referrer)) {
-      return {
-        dr: referrer,
-      };
-    }
-  }
-
+  /**
+   * @param {object} config
+   */
   getActionData(config) {
     const { action, category, label, value } = config || {};
     const data = {
@@ -96,7 +72,7 @@ class DataLayerToMp {
     }
   }
 
-  setOnePromotion = (key, data, item, config) => {
+  setOnePromotion = (key, data, item) => {
     const { id, name, creative, position } = item;
     data[key + "id"] = id;
     data[key + "nm"] = name;
@@ -263,35 +239,23 @@ class DataLayerToMp {
         ...this.getEcStepData(checkout, checkout_option, config),
         ...this.getEcPurchaseData(purchase, refund, config),
         ...this.getEcPromotionData(promoView, promoClick),
-        cu: currencyCode ?? shopify.getCurrency(),
+        cu: currencyCode,
       };
       return data;
     }
   }
 
   getMp(props, data) {
-    const oDoc = doc();
-    const oWin = win();
-    const nav = oWin.navigator || {};
-    const screen = oWin.screen || {};
-    const docEl = oDoc.documentElement || {};
-    const vw = Math.max(docEl.clientWidth || 0, oWin.innerWidth || 0);
-    const vh = Math.max(docEl.clientHeight || 0, oWin.innerHeight || 0);
     const { trackingId, needTrackingId, version } = props || {};
     if (needTrackingId && trackingId == null) {
       return false;
     }
     const {
       trigger,
-      trackingType,
       bCookieIndex,
       bCookie,
       lazeInfoIndex,
       lazeInfo,
-      expId,
-      expVar,
-      siteId,
-      email,
       p,
       p2,
       p3,
@@ -301,35 +265,25 @@ class DataLayerToMp {
     const d = {
       ...this.getActionData(data),
       ...this.getEcData(data),
-      ...this.getReferrer(),
-      siteid: siteId,
-      em: email,
-      xid: expId,
-      xvar: expVar,
-      fbp: getCookie("_fbp") || T_UNDEFINED,
-      fbc: getCookie("_fbc") || T_UNDEFINED,
       cg1: p,
       cg2: p2,
       cg3: p3,
       cg4: p4,
       cg5: p5,
+      // <-- GA4 Ready -->
       _s: seq,
-      dl: getDocUrl(),
-      ul: (nav.language || nav.browserLanguage || "").toLowerCase(),
-      de: oDoc.characterSet || oDoc.charset,
-      dt: oDoc.title,
-      sd: screen.colorDepth + "-bit",
-      sr: screen.width + X + screen.height,
-      vp: vw + X + vh,
-      je: toNum(callfunc(nav.javaEnabled, null, nav)),
       tid: trackingId,
       cid: getClientId(),
-      scid: shopify.getGaId(),
-      dh: shopify.getShopId(),
-      _gid: getClientIdCookie("_gid"),
-      v: version || 1, //version
-      z: pvid,
-      t: "impression" === trigger ? "pageview" : "event",
+      v: version || 2, //version
+      sid: pvid,
+      seg: 1,
+      // <-- GBA TEST -->
+      _dbg: 1,
+      uid: "xxx",
+      "up.role": "test",
+      _uip: "223.136.1.1",
+      _uc: "TW",
+      en: "impression" === trigger ? "page_view" : "event",
     };
     seq++;
     if (ERROR_CATEGORY === d.ec) {
@@ -354,8 +308,9 @@ class DataLayerToMp {
         }
       }
     }
+    const startTime = getStartTime();
     if (startTime) {
-      d.plt = getTimestamp() - startTime;
+      d.tfd = getTimestamp() - startTime;
     }
     return removeEmpty(d, true);
   }
@@ -363,11 +318,13 @@ class DataLayerToMp {
 
 let seq;
 let pvid;
-const resetSeq = (i) => {
-  seq = i ?? 1;
+/**
+ * @param {number} i
+ */
+export const resetSeq = (i = 1) => {
+  seq = i;
   pvid = getRandomId();
 };
 resetSeq();
 
 export default DataLayerToMp;
-export { resetSeq };

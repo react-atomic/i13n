@@ -10,8 +10,6 @@ production(){
     find ./assets ./dist -name '*.*' | xargs rm -rf
     CONFIG=$conf NODE_ENV=production $webpack 
     mkdir -p dist
-    cp assets/simple.bundle.js dist/simple.js 
-    cp assets/node.bundle.js dist/node.js 
     cp assets/browser.bundle.js dist/browser.js 
 }
 

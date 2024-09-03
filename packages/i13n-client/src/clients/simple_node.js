@@ -2,8 +2,10 @@
 
 import simple from "../clients/simple";
 import { mpTag } from "../tags/mpTag";
-import { sendWithFetch } from "../libs/sendWithFetch";
 import { getGaHost } from "../libs/gaUtils";
+
+// node only
+import { sendWithFetch } from "../libs/sendWithFetch";
 
 /**
  * @param {string} trackingId

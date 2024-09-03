@@ -1,3 +1,5 @@
+// @ts-check
+
 import { win, hasWin } from "win-doc";
 import get from "get-object-value";
 import callfunc from "call-func";
@@ -9,7 +11,14 @@ const timeout = 30000;
 let first;
 
 // https://humanwhocodes.com/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing
+/**
+ * @param {string} method
+ * @param {string} url
+ */
 const createCORSRequest = (method, url) => {
+  /***
+   * @type any
+   */
   const g = win() || self;
   method = method || GET;
   let xhr = g.XMLHttpRequest != null ? new g.XMLHttpRequest() : null;
@@ -24,7 +33,13 @@ const createCORSRequest = (method, url) => {
   return xhr;
 };
 
-const req = (url, callback, method, query) => {
+/**
+ * @param {string} url
+ * @param {?Function} [callback]
+ * @param {string} method
+ * @param {string} query
+ */
+const req = (url, callback, method = GET, query = "") => {
   const oReq = createCORSRequest(method, url);
   if (!oReq) {
     return false;
@@ -43,9 +58,12 @@ const req = (url, callback, method, query) => {
   }
 };
 
+/**
+ * @param {string} url
+ */
 const imageTag = (url) => {
   if (!hasWin()) {
-    return req(url);
+    console.warn("req failed not use browser.", { url });
   }
   const oImg = new Image();
   let _timer;
@@ -59,6 +77,10 @@ const imageTag = (url) => {
   }, timeout + 60000);
 };
 
+/**
+ * @param {string} url
+ * @param {string} query
+ */
 const beaconApi = (url, query) => {
   const oSendBeacon = get(win(), ["navigator", "sendBeacon"]);
   if (!oSendBeacon || !first) {
@@ -68,6 +90,9 @@ const beaconApi = (url, query) => {
   return true;
 };
 
+/**
+ * @param {Object<string, any>=} data
+ */
 const dataToQuery = (data) => {
   if (null == data) {
     return "?";
@@ -80,9 +105,11 @@ const dataToQuery = (data) => {
   }
 };
 
-const beacon = (url, data, ajaxReq, imgTag) => {
-  ajaxReq = ajaxReq || req;
-  imgTag = imgTag || imageTag;
+/**
+ * @param {string} url
+ * @param {Object<string, any>=} data
+ */
+const beacon = (url, data, ajaxReq = req, imgTag = imageTag) => {
   const query = dataToQuery(data);
   const GET_URL = url + "?" + query;
   if (2036 >= GET_URL.length) {
@@ -92,7 +119,7 @@ const beacon = (url, data, ajaxReq, imgTag) => {
   }
 };
 
-const setFirst = (bool) => (first = bool);
+const setFirst = (/**@type boolean*/ bool) => (first = bool);
 
 export default req;
 export { beacon, setFirst };

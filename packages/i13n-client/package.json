@@ -27,6 +27,7 @@
     "parse-ini-string": "*",
     "reshow-constant": "*",
     "reshow-map": "*",
+    "reshow-runtime": "*",
     "seturl": "*",
     "to-percent-js": "*",
     "url-route": "*",

@@ -8,7 +8,6 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const entrys = {
-  node: "./build/es/src/clients/simple_node.mjs",
   browser: "./build/es/src/browser/clients/simple_browser.mjs",
 };
 

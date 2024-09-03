@@ -1,2 +1,2 @@
 export default getTag;
-declare function getTag(tagConfig: any): void;
+declare function getTag(tagItem: any, tagOptions: {}, utils: any): void;

@@ -1,3 +1,5 @@
+// @ts-check
+
 import { removeEmpty } from "array.merge";
 import callfunc from "call-func";
 
@@ -9,17 +11,16 @@ import DataLayerToMp from "../actions/DataLayerToMp";
 
 // libs
 import { mergeGaLabel } from "../libs/gaUtils";
-import mysend from "../libs/send";
 
-const mpTag = ({
+export const mpTag = ({
   store,
   bCookieIndex,
   lazeInfoIndex,
   mpHost,
-  send = mysend,
+  utils
 }) => {
   const oDataLayerToMp = new DataLayerToMp();
-  const doPush = (beaconOption) => {
+  const doPush = (/**@type any*/ beaconOption) => {
     const state = store.getState();
     const thisMpHost = callfunc(mpHost) || state.get("mpHost");
     const defaultMpHost = state.get("defaultMpHost");
@@ -34,14 +35,14 @@ const mpTag = ({
         beaconOption
       );
       if (d) {
-        send(host, d);
+        utils.send(host, d);
       }
     } else {
       console.warn("mp host not found");
     }
   };
 
-  const push = (beaconOption) => {
+  const push = (/**@type any*/ beaconOption) => {
     const uid = getUserId();
     if (uid) {
       beaconOption.bCookie = uid;
@@ -96,5 +97,3 @@ const mpTag = ({
     },
   });
 };
-
-export default mpTag;

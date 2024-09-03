@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { sleep } from "reshow-unit-dom";
-import simple from "../simple";
+import simple from "../simple_node";
 import { i13nStore, i13nDispatch } from "../../stores/i13nStore";
 
 describe("Test Simple", () => {

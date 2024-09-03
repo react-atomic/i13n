@@ -12,17 +12,16 @@ import { i13nDispatch, mergeMap } from "../stores/i13nStore";
 //libs
 import lazyProducts from "../libs/lazyProducts";
 import workerUtils from "../libs/workerUtils";
-import { getGaHost } from "../libs/gaUtils";
 
 // action
 import actionHandler from "../actions/actionHandler";
 import getTag from "../actions/getTag";
 
-const initTags = (/**@type any*/ config) => {
-  const tagArr = get(config, ["tags"], []);
+const initTags = (/**@type any*/ options) => {
+  const tagArr = get(options, ["tags"], []);
   let i = tagArr.length;
   while (i--) {
-    getTag(tagArr[i]);
+    getTag(tagArr[i].item, tagArr[i].data, options.utils);
   }
 };
 
@@ -53,10 +52,11 @@ const impressionHandler = (state) => lazyProducts(state);
 
 /**
  * @param {string} trackingId
- * @param {Object<string, any>} options
+ * @param {Object<string, any>=} options
  */
 export default function initSimpleClient(trackingId, options) {
   const {
+    tags,
     global = {},
     globalKey = "i13n",
     utils = workerUtils,
@@ -75,11 +75,8 @@ export default function initSimpleClient(trackingId, options) {
     });
     i13nDispatch("impression", {
       trackingId,
-      tags: [
-        {
-          mpHost: getGaHost,
-        },
-      ],
+      tags,
+      utils,
     });
   };
   run();

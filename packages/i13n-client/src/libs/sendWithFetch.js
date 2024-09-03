@@ -1,27 +1,24 @@
 //@ts-check
 
-import callfunc from "call-func";
 import { forEachMap } from "get-object-value";
-
-let CurrentSendUtil;
-
-/**
- * @param {function} sendUtil
- */
-export const setupSend = (sendUtil) => {
-  CurrentSendUtil = sendUtil;
-};
 
 /**
  * @param {string} url
  * @param {object} data
  */
-const defaultSendUtil = async (url, data) => {
+export const sendWithFetch = async (url, data) => {
   console.log({ url, data });
   const myurl = new URL(url);
-  forEachMap(data, (v, k) => {
-    myurl.searchParams.set(k, v);
-  });
+  forEachMap(
+    data,
+    /**
+     * @param {any} v
+     * @param {any} k
+     */
+    (v, k) => {
+      myurl.searchParams.set(k, v);
+    }
+  );
   let res = await fetch(myurl, {
     method: "POST",
   });
@@ -37,13 +34,5 @@ const defaultSendUtil = async (url, data) => {
     },
   });
   */
-  console.log("send.js", { headers: await res.headers, ok: res.ok });
+  console.log("send.js", { headers: res.headers, ok: res.ok });
 };
-
-/**
- * @param {string} url
- * @param {object} data
- */
-export default function send(url, data) {
-  callfunc(CurrentSendUtil || defaultSendUtil, [url, data]);
-}

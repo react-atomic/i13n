@@ -43,6 +43,7 @@ watch(){
     stop 
     npm run build:cjs -- --watch &
     npm run build:es -- --watch &
+    CONFIG=$conf $webpack --watch
 }
 
 

@@ -1637,9 +1637,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "22.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.2.tgz#e42344429702e69e28c839a7e16a8262a8086793"
-  integrity sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==
+  version "22.5.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.3.tgz#91a374e42c6e7ccb5893a87f1775f36ce1671d65"
+  integrity sha512-njripolh85IA9SQGTAqbmnNZTdxv7X/4OYGPz8tgy5JDr8MP+uDBa921GpYEoDDnwm0Hmn5ZPeJgiiSTPoOzkQ==
   dependencies:
     undici-types "~6.19.2"
 
@@ -3892,9 +3892,9 @@ flatted@^3.2.9:
   integrity sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==
 
 follow-redirects@^1.0.0:
-  version "1.15.6"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.6.tgz#7f815c0cda4249c74ff09e95ef97c23b5fd0399b"
-  integrity sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==
+  version "1.15.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.8.tgz#ae67b97ae32e0a7b36066a5448938374ec18d13d"
+  integrity sha512-xgrmBhBToVKay1q2Tao5LI26B83UhrB/vM1avwVSDzt8rx3rO6AizBAaF46EgksTVr+rFTQaqZZ9MVBfUe4nig==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -6930,9 +6930,9 @@ reshow-constant@*, reshow-constant@^0.17.4:
   integrity sha512-8cVlpvwA9CYN2ZYA7bThRN1EVOxsVR0U8iqCP7LQ2cDJEPdzR/E9+lx21EsaG5YId6WLgmvjdiestgw2IsKJYQ==
 
 reshow-flux-base@*:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-1.1.6.tgz#3f7e92ae3912e8f8e1875ba59a65a79c42d958ee"
-  integrity sha512-GYDTU2pak2drWqDSJ9pnUTLGAsyczDYP+7bBoBX+rFGwIS8VR8Kamls2ThdwQgxJnkTapVTiKYYXG/26WqbB1A==
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/reshow-flux-base/-/reshow-flux-base-1.1.8.tgz#9132464dafd140e77131ffce51b05976031173eb"
+  integrity sha512-vo3/w8S6v4f1GvDlRzn747nHgDr+Nt15S3GhuKhbolLabvGvpcTYv1iRaN65+n1XCI+izQIy3GLRCuZYQ2zmNA==
 
 reshow-flux@*:
   version "0.19.1"

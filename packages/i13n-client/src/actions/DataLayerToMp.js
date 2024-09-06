@@ -246,7 +246,8 @@ class DataLayerToMp {
   }
 
   getMp(props, data) {
-    const { trackingId, needTrackingId, version } = props || {};
+    const { trackingId, needTrackingId, version, userId, userIp, userCountry } =
+      props || {};
     if (needTrackingId && trackingId == null) {
       return false;
     }
@@ -279,10 +280,9 @@ class DataLayerToMp {
       seg: 1,
       // <-- GBA TEST -->
       _dbg: 1,
-      uid: "xxx",
-      "up.role": "test",
-      _uip: "223.136.1.1",
-      _uc: "TW",
+      uid: userId,
+      _uip: userIp,
+      _uc: userCountry,
       en: "impression" === trigger ? "page_view" : "event",
     };
     seq++;

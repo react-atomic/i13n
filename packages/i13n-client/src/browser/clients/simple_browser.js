@@ -4,6 +4,7 @@ import simple from "../../clients/simple";
 import { mpTag } from "../../tags/mpTag";
 import { getGaHost } from "../../libs/gaUtils";
 import { beacon } from "../libs/req";
+import { browserMpHandler } from "../actions/getBrowserInfo";
 
 // browser only
 import { win } from "win-doc";
@@ -18,6 +19,7 @@ simple(tid || "", {
       item: mpTag,
       data: {
         mpHost: getGaHost,
+        extraMpHandler: [browserMpHandler],
       },
     },
   ],

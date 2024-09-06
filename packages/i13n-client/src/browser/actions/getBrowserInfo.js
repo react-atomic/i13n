@@ -45,7 +45,7 @@ export const getReferrer = (oDoc) => {
   }
 };
 
-export const getBrowserMpInfo = () => {
+export const browserMpHandler = (/**@type any*/d) => {
   const oDoc = doc();
   const oWin = win();
   const nav = oWin.navigator;
@@ -54,6 +54,7 @@ export const getBrowserMpInfo = () => {
   const vw = Math.max(docEl?.clientWidth || 0, oWin.innerWidth || 0);
   const vh = Math.max(docEl?.clientHeight || 0, oWin.innerHeight || 0);
   return {
+    ...d,
     ...getReferrer(oDoc),
     dl: getDocUrl(oDoc, true),
     ul: (nav?.language || "").toLowerCase(),

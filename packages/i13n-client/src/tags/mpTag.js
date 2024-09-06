@@ -1,6 +1,7 @@
 // @ts-check
 
 import { removeEmpty } from "array.merge";
+import { getMitt } from "reshow-flux-base";
 import callfunc from "call-func";
 
 // actions
@@ -17,7 +18,8 @@ export const mpTag = ({
   bCookieIndex,
   lazeInfoIndex,
   mpHost,
-  utils
+  extraMpHandler,
+  utils,
 }) => {
   const oDataLayerToMp = new DataLayerToMp();
   const doPush = (/**@type any*/ beaconOption) => {
@@ -31,11 +33,24 @@ export const mpTag = ({
           trackingId: state.get("trackingId"),
           needTrackingId: state.get("needTrackingId"),
           version: state.get("version"),
+          userId: state.get("userId"),
+          userIp: state.get("userIp"),
+          userCountry: state.get("userCountry"),
         },
         beaconOption
       );
       if (d) {
-        utils.send(host, d);
+        let finalData = d;
+        if (extraMpHandler && extraMpHandler.length) {
+          const oEmitt = getMitt();
+          extraMpHandler.forEach(
+            (
+              /**@type import("reshow-flux-base").FluxHandler<any, any>*/ mpHandler
+            ) => oEmitt.add(mpHandler)
+          );
+          finalData = oEmitt.emit(d)();
+        }
+        utils.send(host, removeEmpty(finalData));
       }
     } else {
       console.warn("mp host not found");
@@ -59,7 +74,7 @@ export const mpTag = ({
         beaconOption.ecommerce ? { ecommerce: beaconOption.ecommerce } : null
       );
     }
-    doPush(removeEmpty(beaconOption));
+    doPush(beaconOption);
   };
 
   regTag(store)({

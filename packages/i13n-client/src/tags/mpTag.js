@@ -6,7 +6,6 @@ import callfunc from "call-func";
 
 // actions
 import regTag from "../actions/regTag";
-import handleEcommerce from "../actions/handleEcommerce";
 import getUserId from "../actions/getUserId";
 import DataLayerToMp from "../actions/DataLayerToMp";
 
@@ -95,7 +94,7 @@ export const mpTag = ({
         p4,
         p5,
       };
-      push(handleEcommerce(beaconOption, I13N, store));
+      push(beaconOption);
     },
     impression: () => {
       const I13N = store.getClone("i13nPage");
@@ -108,7 +107,7 @@ export const mpTag = ({
         p4,
         p5,
       };
-      push(handleEcommerce(beaconOption, I13N, store));
+      push(beaconOption);
     },
   });
 };

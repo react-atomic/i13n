@@ -4,20 +4,10 @@ export function getReferrer(oDoc?: ReferrerType & {
 }): {
     dr: any;
 };
-export function getBrowserMpInfo(): {
-    dl: any;
-    ul: string;
-    fbp: string;
-    fbc: string;
-    vp: string;
-    je: number;
-    de: string;
-    dt: string;
-    sd: string;
-    sr: string;
-    _gid: string;
-    dr: any;
-};
+export function getClientHints(nav: Navigator): Promise<ClientHintType>;
+export function browserMpHandler(d: any): any;
 export type ReferrerType = {
     referrer?: string | undefined;
 };
+export type ClientHintKeyType = "platform" | "platformVersion" | "architecture" | "model" | "uaFullVersion" | "bitness" | "fullVersionList" | "wow64" | "mobile";
+export type ClientHintType = { [key in ClientHintKeyType]?: any; };

@@ -5,13 +5,13 @@ import getCookie, { setCookie } from "get-cookie";
 import getDocUrl, { getHostName } from "../actions/getDocUrl";
 import { T_UNDEFINED } from "reshow-constant";
 import get from "get-object-value";
-import { toNum } from "to-percent-js";
+import { toInt } from "to-percent-js";
 import callfunc from "call-func";
 import { isSameHost } from "../../libs/isSameHost";
 import getRandomId from "get-random-id";
 
 const MP_CLIENT_ID = "_ga";
-const getClientIdCookie = (/**@type string*/key) => {
+const getClientIdCookie = (/**@type string*/ key) => {
   const cookies = (getCookie(key || "") || "").split(".");
   if (cookies[2] && cookies[3]) {
     return cookies[2] + "." + cookies[3];
@@ -45,7 +45,47 @@ export const getReferrer = (oDoc) => {
   }
 };
 
-export const browserMpHandler = (/**@type any*/d) => {
+const clientHintsKey = [
+  "platform",
+  "platformVersion",
+  "architecture",
+  "model",
+  "uaFullVersion",
+  "bitness",
+  "fullVersionList",
+  "wow64",
+];
+
+/**
+ * @typedef {"platform"|"platformVersion"|"architecture"|"model"|"uaFullVersion"|"bitness"|"fullVersionList"|"wow64"|"mobile"} ClientHintKeyType
+ */
+
+/**
+ * @typedef {{[key in ClientHintKeyType]?: any}} ClientHintType
+ */
+
+/**
+ * @param {navigator} nav
+ * @returns {Promise<ClientHintType>}
+ */
+export const getClientHints = async (nav) => {
+  const data = await nav.userAgentData?.getHighEntropyValues(clientHintsKey);
+  const versionList = (data?.fullVersionList || data?.brands)
+    ?.map((item) => [item.brand, item.version].join(":"))
+    .join("|");
+  const nextData = {
+    ...data,
+    fullVersionList: versionList,
+    mobile: data?.mobile ? 1 : 0,
+    model: data?.model || nav.userAgentData?.mobile,
+    platform: data?.platform || nav.userAgentData?.platform,
+    wow64: data?.wow64 ? 1 : 0,
+  };
+  delete nextData.brands;
+  return nextData;
+};
+
+export const browserMpHandler = (/**@type any*/ d) => {
   const oDoc = doc();
   const oWin = win();
   const nav = oWin.navigator;
@@ -53,6 +93,13 @@ export const browserMpHandler = (/**@type any*/d) => {
   const docEl = oDoc.documentElement;
   const vw = Math.max(docEl?.clientWidth || 0, oWin.innerWidth || 0);
   const vh = Math.max(docEl?.clientHeight || 0, oWin.innerHeight || 0);
+  const perf = oWin.performance;
+  if (perf) {
+    const tfd = callfunc(perf.now, null, perf);
+    if (null != tfd) {
+      d.tfd = toInt(tfd);
+    }
+  }
   return {
     ...d,
     ...getReferrer(oDoc),
@@ -61,7 +108,6 @@ export const browserMpHandler = (/**@type any*/d) => {
     fbp: getCookie("_fbp") || T_UNDEFINED,
     fbc: getCookie("_fbc") || T_UNDEFINED,
     vp: `${vw}x${vh}`,
-    je: toNum(callfunc(nav?.javaEnabled, null, nav)),
     de: oDoc.characterSet,
     dt: oDoc.title,
     sd: screen.colorDepth + "-bit",

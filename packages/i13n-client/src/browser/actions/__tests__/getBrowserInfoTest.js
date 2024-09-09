@@ -2,7 +2,7 @@
 
 import { jsdom } from "reshow-unit-dom";
 import { expect } from "chai";
-import { getBrowserMpInfo } from "../getBrowserInfo";
+import { browserMpHandler } from "../getBrowserInfo";
 
 describe("Test getBrowserInfo", () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe("Test getBrowserInfo", () => {
   });
 
   it("Basic Browser getMp test", () => {
-    const data = getBrowserMpInfo();
+    const data = browserMpHandler();
     expect(data).to.include({
       dl: "http://localhost/",
       ul: "en-us",

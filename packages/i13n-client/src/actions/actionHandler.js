@@ -1,9 +1,8 @@
 //@ts-check
 
-import { getParams } from "i13n";
+import { getParams, setParams } from "i13n";
 import { deferredStore } from "../stores/storage";
 import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
-import set from "set-object-value";
 
 // local import
 import { i13nDispatch } from "../stores/i13nStore";
@@ -11,15 +10,13 @@ import { getCbParams } from "../libs/storeCbParams";
 import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
 import oneTimeAction from "../libs/oneTimeAction";
 
-const PARAMS = "params";
-
 /**
  * @param {any} state
  * @param {any} action
  */
 const maybeDeferredAction = (state, action) => () => {
   if (!state.get("init")) {
-    set(action, [PARAMS, "wait"], 0);
+    setParams(action, ["wait"], 0);
   }
   const [cbParams, { 0: i13nLastEvent, 1: currentTarget }] = getCbParams();
   const params = getParams(action);
@@ -41,10 +38,10 @@ const maybeDeferredAction = (state, action) => () => {
   I13N = oneTimeAction(I13N, state);
   state = state.set("I13N", I13N);
   if (!I13N) {
-    set(action, [PARAMS, "stop"], true);
+    setParams(action, ["stop"], true);
   } else {
     if (UNDEFINED !== typeof wait) {
-      set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
+      setParams(action, ["I13N"], forEachStoreProducts(I13N));
       deferredStore().push(action, deferredKey);
     }
   }
@@ -80,7 +77,7 @@ const actionHandler = (state, action) => {
         i13nDispatch("action", { I13N });
       }
     }, delay);
-    set(action, [PARAMS, "stop"], true);
+    setParams(action, ["stop"], true);
   } else {
     state = run();
   }

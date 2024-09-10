@@ -36,20 +36,23 @@ describe("Test DeferredActionUtil with flux", () => {
       mergeMap: (state, jsArr) => state.merge(jsArr),
     });
     i13nDispatch("reset", {
-      actionHandler: oLazy.handleAction,
-      deferredActionHandler: (state, action) => {
+      actionHandler: oLazy.wrapActionHandler((state, action) => {
         expect(action).to.deep.equal({
           params: { a: "b", wait: 777, stop: false },
           type: "action",
         });
         state = state.set("thisAction", action);
         return state;
-      },
+      }),
     });
     const spy = sinon.spy(() => null);
     i13nStore.addListener(spy);
     oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
-    i13nDispatch("action", { mergeWithDeferredKey: "foo", wait: 777, stop: false });
+    i13nDispatch("action", {
+      mergeWithDeferredKey: "foo",
+      wait: 777,
+      stop: false,
+    });
     setTimeout(() => {
       expect(spy.callCount, "[Action call]").to.equal(1);
       done();

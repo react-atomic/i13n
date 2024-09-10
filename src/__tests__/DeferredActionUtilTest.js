@@ -40,7 +40,7 @@ describe("Test DeferredActionUtil", () => {
     );
     const laze = oLazy.getOne("foo");
     expect(Object.keys(laze)).to.include("params");
-    oLazy.handleAction(
+    oLazy.wrapActionHandler()(
       { get: () => {} },
       { params: { mergeWithDeferredKey: "foo" } }
     );
@@ -56,14 +56,10 @@ describe("Test DeferredActionUtil Merge", () => {
     oLazy.push({ params: { foo: "bar" } }, "foo");
     const fakeAction = { params: { abc: "def", mergeWithDeferredKey: "foo" } };
     let afterMergeAction;
-    oLazy.handleAction(
-      {
-        get: () => (state, action) => {
-          afterMergeAction = action;
-        },
-      },
-      fakeAction
-    );
+    oLazy.wrapActionHandler((state, action) => {
+      afterMergeAction = action;
+      return state;
+    })({}, fakeAction);
     expect(afterMergeAction).to.deep.include({
       params: {
         foo: "bar",
@@ -80,14 +76,10 @@ describe("Test DeferredActionUtil Merge", () => {
       params: { foo: { abc: "bar" }, mergeWithDeferredKey: "foo" },
     };
     let afterMergeAction;
-    oLazy.handleAction(
-      {
-        get: () => (state, action) => {
-          afterMergeAction = action;
-        },
-      },
-      fakeAction
-    );
+    oLazy.wrapActionHandler((state, action) => {
+      afterMergeAction = action;
+      return state;
+    })({}, fakeAction);
     expect(afterMergeAction).to.deep.include({
       params: {
         foo: { abc: "bar", bar: "def" },
@@ -103,14 +95,10 @@ describe("Test DeferredActionUtil Merge", () => {
       params: { mergeWithDeferredKey: "foo", wait: 777, stop: false },
     };
     let afterMergeAction;
-    oLazy.handleAction(
-      {
-        get: () => (state, action) => {
-          afterMergeAction = action;
-        },
-      },
-      fakeAction
-    );
+    oLazy.wrapActionHandler((state, action) => {
+      afterMergeAction = action;
+      return state;
+    })({}, fakeAction);
     expect(afterMergeAction).to.deep.include({
       params: {
         a: "b",

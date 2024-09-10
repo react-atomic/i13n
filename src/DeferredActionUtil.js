@@ -144,28 +144,29 @@ export const DeferredActionUtil = (storage) => {
       processDeferredAction(getAllDeferredAction(), dispatch)
     );
 
-  /**
-   * @param {StateType} state
-   * @param {ActionObject} action
-   */
-  const handleAction = (state, action) => {
-    const { mergeWithDeferredKey } = getParams(action);
-    if (mergeWithDeferredKey) {
-      action = getMergeWithDeferredAction(action, mergeWithDeferredKey);
-    }
-    const actionHandler = state.get("deferredActionHandler");
-    const next = callfunc(actionHandler, [state, action]) || state;
-    const { wait, stop, deferredKey } = getParams(action); // need locate after next
-    if (T_NULL == wait && !stop) {
-      if (mergeWithDeferredKey && mergeWithDeferredKey !== deferredKey) {
-        removeDeferredAction(mergeWithDeferredKey);
+  const wrapActionHandler =
+    (/**@type any*/ actionHandler) =>
+    /**
+     * @param {StateType} state
+     * @param {ActionObject} action
+     */
+    (state, action) => {
+      const { mergeWithDeferredKey } = getParams(action);
+      if (mergeWithDeferredKey) {
+        action = getMergeWithDeferredAction(action, mergeWithDeferredKey);
       }
-    }
-    return next;
-  };
+      const next = callfunc(actionHandler, [state, action]) || state;
+      const { wait, stop, deferredKey } = getParams(action); // need locate after next
+      if (T_NULL == wait && !stop) {
+        if (mergeWithDeferredKey && mergeWithDeferredKey !== deferredKey) {
+          removeDeferredAction(mergeWithDeferredKey);
+        }
+      }
+      return next;
+    };
   return {
     process,
-    handleAction,
+    wrapActionHandler,
     getAll: getAllDeferredAction,
     getOne: getOneDeferredAction,
     push: pushDeferredAction,

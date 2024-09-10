@@ -1,6 +1,6 @@
 export function DeferredActionUtil(storage: StorageType): {
     process: <StateType, ActionType>(dispatch: DispatchFunction<StateType, ActionType>) => any;
-    handleAction: (state: StateType, action: ActionObject) => any;
+    wrapActionHandler: (actionHandler: any) => (state: StateType, action: ActionObject) => any;
     getAll: () => any;
     getOne: (k: string) => any;
     push: (action: any, key?: string | undefined) => void;

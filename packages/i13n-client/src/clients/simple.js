@@ -16,6 +16,7 @@ import workerUtils from "../libs/workerUtils";
 // action
 import actionHandler from "../actions/actionHandler";
 import getTag from "../actions/getTag";
+import { deferredStore } from "../stores/storage";
 
 const initTags = (/**@type any*/ options) => {
   const tagArr = get(options, ["tags"], []);
@@ -42,6 +43,7 @@ const initHandler = (state, action, initDone) => {
   const params = getParams(action);
   initTags({ ...get(state), ...params });
   setParams(action, ["asyncInit"], true);
+  deferredStore().process(i13nDispatch);
   return initDone(mergeMap(state, params), action);
 };
 
@@ -70,7 +72,7 @@ export default function initSimpleClient(trackingId, options) {
     isLoad = true;
     i13nDispatch("reset", {
       initHandler,
-      actionHandler,
+      actionHandler: deferredStore().wrapActionHandler(actionHandler),
       impressionHandler,
     });
     i13nDispatch("impression", {

@@ -61,9 +61,10 @@ class DataLayerToMp {
       sid: pvid,
       seg: 1,
       uid: userId,
-      _uip: userIp,
-      _uc: userCountry,
-      en: "impression" === trigger ? "page_view" : action,
+      // _uip: userIp,
+     // _uc: userCountry,
+      //_uip: "45.33.139.19",
+      en: "impression" === trigger ? "page_view" : (action ?? "event"),
       // <-- GBA TEST -->
       _dbg: 1,
     };

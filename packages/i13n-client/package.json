@@ -1,5 +1,5 @@
 {
-  "version": "0.15.2",
+  "version": "0.16.0",
   "name": "i13n-client",
   "repository": {
     "type": "git",
@@ -56,7 +56,7 @@
     "build:es": "BABEL_ENV=es babel src -d build/es/src --out-file-extension .mjs --root-mode upward",
     "build:type": "npx -p typescript tsc src/**/*/*.js --declaration --allowJs --emitDeclarationOnly --target esnext --module nodenext --moduleResolution nodenext --types user-agent-data-types,mocha --skipLibCheck --declarationDir types",
     "build": "npm run clean && npm run build:cjs && npm run build:es && npm run build:type",
-    "mochaFor": "mocha -r global-jsdom/register -f 'test send beacon'",
+    "mochaFor": "mocha -r global-jsdom/register",
     "mocha": "npm run mochaFor -- 'build/es/**/__tests__/*.mjs'",
     "nyc": "nyc npm run mocha",
     "test": "npm run build && npm run mocha",

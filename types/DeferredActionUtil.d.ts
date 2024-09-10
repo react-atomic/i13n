@@ -3,7 +3,7 @@ export function DeferredActionUtil(storage: StorageType): {
     handleAction: (state: StateType, action: ActionObject) => any;
     getAll: () => any;
     getOne: (k: string) => any;
-    push: (action: any, key: string) => void;
+    push: (action: any, key?: string | undefined) => void;
 };
 export type DispatchFunction<StateType, ActionType> = import("reshow-flux-base").DispatchFunction<StateType, ActionType>;
 export type StateType = any;

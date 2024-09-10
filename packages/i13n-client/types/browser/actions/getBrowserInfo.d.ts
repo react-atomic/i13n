@@ -5,7 +5,7 @@ export function getReferrer(oDoc?: ReferrerType & {
     dr: any;
 };
 export function getClientHints(nav: Navigator): Promise<ClientHintType>;
-export function browserMpHandler(d: any): any;
+export function browserMpHandler(d?: any): any;
 export type ReferrerType = {
     referrer?: string | undefined;
 };

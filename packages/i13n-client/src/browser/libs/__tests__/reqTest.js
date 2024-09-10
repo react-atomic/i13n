@@ -51,7 +51,7 @@ describe("Test Request", () => {
     window.XMLHttpRequest = null;
     window.XDomainRequest = null;
     const uImage = sinon.spy(() => {});
-    beacon("http://localhost", { foo: "bar", a: fakeLargeVal }, null, uImage);
+    beacon("http://localhost", { foo: "bar", a: fakeLargeVal }, undefined, uImage);
     expect(uImage.getCall(0).args).to.deep.equal([
       "http://localhost?foo=bar&a=" + fakeLargeVal,
     ]);

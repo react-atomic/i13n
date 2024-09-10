@@ -1,14 +1,15 @@
 //@ts-check
 
 import simple from "../../clients/simple";
+import workerUtils from "../../libs/workerUtils";
 import { mpTag } from "../../tags/mpTag";
 import { getGaHost } from "../../libs/gaUtils";
-import { beacon } from "../libs/req";
-import { browserMpHandler, getClientHints } from "../actions/getBrowserInfo";
 
 // browser only
 import { win } from "win-doc";
 import { getScriptTagId } from "../libs/getTagId";
+import { beacon } from "../libs/req";
+import { browserMpHandler, getClientHints } from "../actions/getBrowserInfo";
 
 const tid = getScriptTagId();
 
@@ -17,6 +18,10 @@ const tid = getScriptTagId();
    * @type {import("../actions/getBrowserInfo").ClientHintType} ClientHintType
    */
   const clientHints = await getClientHints(win().navigator);
+  const utils = {
+    ...workerUtils(),
+    send: beacon,
+  };
   simple(tid || "", {
     global: win(),
     tags: [
@@ -43,8 +48,6 @@ const tid = getScriptTagId();
         },
       },
     ],
-    utils: {
-      send: beacon,
-    },
+    utils,
   });
 })();

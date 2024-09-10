@@ -1,17 +1,16 @@
 //@ts-check
 
-import { getParams, DeferredActionUtil } from "i13n";
+import { getParams } from "i13n";
+import { deferredStore } from "../stores/storage";
 import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
 import set from "set-object-value";
 
 // local import
 import { i13nDispatch } from "../stores/i13nStore";
-import { lStore } from "../stores/storage";
 import { getCbParams } from "../libs/storeCbParams";
 import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
 import oneTimeAction from "../libs/oneTimeAction";
 
-const oLazy = DeferredActionUtil(lStore);
 const PARAMS = "params";
 
 /**
@@ -46,7 +45,7 @@ const maybeDeferredAction = (state, action) => () => {
   } else {
     if (UNDEFINED !== typeof wait) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
-      oLazy.push(action, deferredKey);
+      deferredStore.push(action, deferredKey);
     }
   }
 

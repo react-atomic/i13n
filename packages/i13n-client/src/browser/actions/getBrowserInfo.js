@@ -85,7 +85,7 @@ export const getClientHints = async (nav) => {
   return nextData;
 };
 
-export const browserMpHandler = (/**@type any*/ d) => {
+export const browserMpHandler = (/**@type any*/ d = {}) => {
   const oDoc = doc();
   const oWin = win();
   const nav = oWin.navigator;
@@ -103,6 +103,7 @@ export const browserMpHandler = (/**@type any*/ d) => {
   return {
     ...d,
     ...getReferrer(oDoc),
+    cid: getCookieClientId(),
     dl: getDocUrl(oDoc, true),
     ul: (nav?.language || "").toLowerCase(),
     fbp: getCookie("_fbp") || T_UNDEFINED,

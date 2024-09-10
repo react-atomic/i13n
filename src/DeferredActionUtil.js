@@ -116,7 +116,7 @@ export const DeferredActionUtil = (storage) => {
 
   /**
    * @param {any} action
-   * @param {string} key
+   * @param {string=} key
    */
   const pushDeferredAction = (action, key) => {
     const { ...params } = getParams(action);

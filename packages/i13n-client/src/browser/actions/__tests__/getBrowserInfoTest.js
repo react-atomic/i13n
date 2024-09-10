@@ -19,7 +19,6 @@ describe("Test getBrowserInfo", () => {
       sd: "24-bit",
       sr: "0x0",
       vp: "1024x768",
-      je: 0,
     });
   });
 });

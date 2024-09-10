@@ -59,7 +59,7 @@ export default function initSimpleClient(trackingId, options) {
     tags,
     global = {},
     globalKey = "i13n",
-    utils = workerUtils,
+    utils = workerUtils(),
   } = options || {};
   let isLoad = false;
   const run = () => {

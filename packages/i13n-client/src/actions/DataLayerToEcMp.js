@@ -15,7 +15,7 @@ const isArray = (/**@type any*/ a) => a && Array.isArray(a) && a.length;
  */
 const notUndefinedNum = (v) => (UNDEFINED !== typeof v ? getNum(v) : v);
 
-const getEcImpressionsData = (impressions, config) => {
+export const getEcImpressionsData = (impressions, config) => {
   if (isArray(impressions)) {
     let listLen = 1;
     const aList = {};
@@ -37,7 +37,7 @@ const getEcImpressionsData = (impressions, config) => {
   }
 };
 
-const getEcStepData = (checkout, checkout_option, config) => {
+export const getEcStepData = (checkout, checkout_option, config) => {
   if (checkout || checkout_option) {
     const { actionField, products } = checkout || checkout_option;
     const { step, option } = actionField || {};
@@ -51,7 +51,7 @@ const getEcStepData = (checkout, checkout_option, config) => {
   }
 };
 
-const getItemsData = (items, itemKey, itemCb, config) => {
+export const getItemsData = (items, itemKey, itemCb, config) => {
   if (isArray(items)) {
     let sn = 1;
     const data = {};
@@ -70,7 +70,7 @@ const getItemsData = (items, itemKey, itemCb, config) => {
 const getPromotionsData = (promotions) =>
   getItemsData(promotions, "promo", setOnePromotion);
 
-const getEcPromotionData = (promoView, promoClick) => {
+export const getEcPromotionData = (promoView, promoClick) => {
   if (promoView || promoClick) {
     let action;
     const { promotions } = promoView || promoClick;
@@ -87,7 +87,7 @@ const getEcPromotionData = (promoView, promoClick) => {
   }
 };
 
-const setOnePromotion = (key, data, item) => {
+export const setOnePromotion = (key, data, item) => {
   const { id, name, creative, position } = item;
   data[key + "id"] = id;
   data[key + "nm"] = name;
@@ -98,7 +98,7 @@ const setOnePromotion = (key, data, item) => {
 const getProductsData = (products, config) =>
   getItemsData(products, "pr", setOneProduct, config);
 
-const setOneProduct = (key, data, item, config) => {
+export const setOneProduct = (key, data, item, config) => {
   const {
     id,
     name,
@@ -146,7 +146,7 @@ const setOneProduct = (key, data, item, config) => {
   }
 };
 
-const getEcPurchaseData = (purchase, refund, config) => {
+export const getEcPurchaseData = (purchase, refund, config) => {
   if (purchase || refund) {
     const { actionField, products } = purchase || refund;
     const { id, affiliation, revenue, tax, shipping, coupon } =
@@ -178,7 +178,7 @@ const getEcPurchaseData = (purchase, refund, config) => {
   }
 };
 
-const getEcActionData = (options, action, config) => {
+export const getEcActionData = (options, action, config) => {
   if (options) {
     const { actionField, products } = options;
     const { list } = actionField || {};

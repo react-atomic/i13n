@@ -10,7 +10,7 @@ declare namespace shopify {
     export { getCurrency };
     export { getClientId };
 }
-declare function getStepNo(): 1 | 2 | 3;
+declare function getStepNo(): 2 | 1 | 3;
 declare function getStepName(): any;
 declare function getShopId(): any;
 declare function getPage(): any;

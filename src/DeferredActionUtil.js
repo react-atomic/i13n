@@ -68,7 +68,13 @@ const processDeferredAction = (deferredActionMapObject, dispatch) => {
 };
 
 /**
- * @param {Storage} storage
+ * @typedef {object} StorageType
+ * @property {function(string):any} get
+ * @property {function(string, any):any} set
+ */
+
+/**
+ * @param {StorageType} storage
  */
 export const DeferredActionUtil = (storage) => {
   const getAllDeferredAction = () =>
@@ -91,7 +97,7 @@ export const DeferredActionUtil = (storage) => {
    */
   const getMergeWithDeferredAction = (action, key) => {
     const deferredActionMapObject = getAllDeferredAction();
-    const { stop, wait, deferredAction, deferredKey,  ...restParams } = get(
+    const { stop, wait, deferredAction, deferredKey, ...restParams } = get(
       deferredActionMapObject,
       [hashKey, key, PARAMS],
       {}

@@ -6,22 +6,11 @@ import callfunc from "call-func";
 
 // actions
 import regTag from "../actions/regTag";
-import getUserId from "../actions/getUserId";
 import DataLayerToMp from "../actions/DataLayerToMp";
 
-// libs
-import { mergeGaLabel } from "../libs/gaUtils";
-
-export const mpTag = ({
-  store,
-  bCookieIndex,
-  lazeInfoIndex,
-  mpHost,
-  extraMpHandler,
-  utils,
-}) => {
+export const mpTag = ({ store, mpHost, extraMpHandler, utils }) => {
   const oDataLayerToMp = new DataLayerToMp();
-  const doPush = (/**@type any*/ beaconOption) => {
+  const push = (/**@type any*/ beaconOption) => {
     const state = store.getState();
     const thisMpHost = callfunc(mpHost) || state.get("mpHost");
     const defaultMpHost = state.get("defaultMpHost");
@@ -56,34 +45,14 @@ export const mpTag = ({
     }
   };
 
-  const push = (/**@type any*/ beaconOption) => {
-    const uid = getUserId();
-    if (uid) {
-      beaconOption.bCookie = uid;
-      if (bCookieIndex) {
-        beaconOption.bCookieIndex = bCookieIndex;
-      }
-    }
-    if (beaconOption.lazeInfo && lazeInfoIndex) {
-      beaconOption.lazeInfoIndex = lazeInfoIndex;
-    }
-    if (beaconOption.trigger === "action") {
-      beaconOption.label = mergeGaLabel(
-        beaconOption.label,
-        beaconOption.ecommerce ? { ecommerce: beaconOption.ecommerce } : null
-      );
-    }
-    doPush(beaconOption);
-  };
-
   regTag(store)({
     action: () => {
       const I13N = store.getClone("I13N");
-      const { lazeInfo, action, category, label, value, p, p2, p3, p4, p5 } =
+      const { deferredAction, action, category, label, value, p, p2, p3, p4, p5 } =
         I13N;
       const beaconOption = {
         trigger: "action",
-        lazeInfo: JSON.stringify(lazeInfo),
+        deferredAction,
         action,
         category: category ?? action,
         label,

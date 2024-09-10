@@ -2,13 +2,14 @@ export function resetSeq(i?: number): void;
 export default DataLayerToMp;
 declare class DataLayerToMp {
     /**
-     * @param {object} config
+     * @see https://support.google.com/analytics/answer/14240153?hl=en
+     * @param {object} beaconOption
      */
-    getActionData(config: object): {
-        ec: any;
-        ea: any;
-        el: any;
-        ev: any;
-    };
-    getMp(props: any, data: any): any;
+    getActionData(beaconOption: object): {};
+    /**
+     *
+     * @param {object} internalProps
+     * @param {object} beaconOption
+     */
+    getMp(internalProps: object, beaconOption: object): any;
 }

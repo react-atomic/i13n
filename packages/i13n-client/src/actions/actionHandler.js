@@ -1,4 +1,6 @@
-import { getParams, LazyAction } from "i13n";
+//@ts-check
+
+import { getParams, DeferredActionUtil } from "i13n";
 import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
 import set from "set-object-value";
 
@@ -9,10 +11,14 @@ import { getCbParams } from "../libs/storeCbParams";
 import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
 import oneTimeAction from "../libs/oneTimeAction";
 
-const oLazy = LazyAction(lStore);
+const oLazy = DeferredActionUtil(lStore);
 const PARAMS = "params";
 
-const maybeDelayAction = (state, action) => () => {
+/**
+ * @param {any} state
+ * @param {any} action
+ */
+const maybeDeferredAction = (state, action) => () => {
   if (!state.get("init")) {
     set(action, [PARAMS, "wait"], 0);
   }
@@ -21,10 +27,10 @@ const maybeDelayAction = (state, action) => () => {
   if (!isNaN(params.delay)) {
     delete action.params.delay;
   }
-  const { i13nCb, lazeInfo, i13nPageCb, wait, lazyKey } = params;
+  const { i13nCb, i13nPageCb, wait, deferredKey, deferredAction } = params;
   let I13N = params.I13N;
-  if (lazeInfo) {
-    I13N.lazeInfo = lazeInfo;
+  if (deferredAction) {
+    I13N.deferredAction = deferredAction;
   }
   if (FUNCTION === typeof i13nCb) {
     cbParams.currentTarget = cbParams.currentTarget ?? currentTarget;
@@ -40,7 +46,7 @@ const maybeDelayAction = (state, action) => () => {
   } else {
     if (UNDEFINED !== typeof wait) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
-      oLazy.push(action, lazyKey);
+      oLazy.push(action, deferredKey);
     }
   }
 
@@ -57,9 +63,13 @@ const maybeDelayAction = (state, action) => () => {
   return lazyProducts(state);
 };
 
+/**
+ * @param {any} state
+ * @param {any} action
+ */
 const actionHandler = (state, action) => {
   const { delay, wait } = getParams(action);
-  const run = maybeDelayAction(state, action);
+  const run = maybeDeferredAction(state, action);
   if (!isNaN(delay)) {
     setTimeout(() => {
       const state = run();

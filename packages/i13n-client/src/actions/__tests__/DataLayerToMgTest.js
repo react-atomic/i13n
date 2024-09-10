@@ -157,10 +157,9 @@ describe("Test DataLayerToMp", () => {
     expect(data).to.deep.equal({ cu: undefined });
   });
 
-  it("Test worng lazeInfo time format with getmp", () => {
+  it("Test worng deferredAction time format with getmp", () => {
     const data = oDlToMp.getMp(null, {
-      lazeInfoIndex: 0,
-      lazeInfo: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}',
+      deferredAction: '{"from":"http://localhost","time":"0000-00-00 00:00:00"}',
     });
     expect(data.qt).to.be.undefined;
   });
@@ -180,8 +179,7 @@ describe("Test GetMp", () => {
 
   it("Basic getMp test", () => {
     const data = oDlToMp.getMp(null, {
-      lazeInfoIndex: 1,
-      lazeInfo: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}',
+      deferredAction: '{"from":"http://localhost","time":"2019-03-18T04:39:19Z"}',
     });
     expect(data).to.include({
       _s: 1,

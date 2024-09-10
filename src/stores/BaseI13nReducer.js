@@ -3,7 +3,7 @@
 import { KEYS } from "reshow-constant";
 import callfunc from "call-func";
 
-import {getParams, setParams } from "../getParams";
+import { getParams, setParams } from "../getParams";
 const INITIAL = "init";
 
 /**
@@ -199,7 +199,14 @@ class BaseI13nReducer {
          */
         return this.mergeMap(this.store.reset(), action.params);
       default:
-        return KEYS(action).length ? this.mergeMap(state, action) : state;
+        if (null != action.type && 1 === KEYS(action).length) {
+          return this.handleAction(state, {
+            type: "action",
+            params: { I13N: { action: action.type } },
+          });
+        } else {
+          return KEYS(action).length ? this.mergeMap(state, action) : state;
+        }
     }
   }
 }

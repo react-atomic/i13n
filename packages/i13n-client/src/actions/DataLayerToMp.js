@@ -19,13 +19,13 @@ class DataLayerToMp {
    * @param {object} beaconOption
    */
   getActionData(beaconOption) {
-    const { eventDimensions = {}, eventMetrics = {} } = beaconOption || {};
+    const { labels = {}, metrics = {} } = beaconOption || {};
     let result = {};
-    KEYS(eventDimensions).forEach((/**@type string*/ key) => {
-      result[`ep.${key}`] = eventDimensions[key];
+    KEYS(labels).forEach((/**@type string*/ key) => {
+      result[`ep.${key}`] = labels[key];
     });
-    KEYS(eventMetrics).forEach((/**@type string*/ key) => {
-      result[`epn.${key}`] = notUndefinedNum(eventMetrics[key]);
+    KEYS(metrics).forEach((/**@type string*/ key) => {
+      result[`epn.${key}`] = notUndefinedNum(metrics[key]);
     });
     return result;
   }

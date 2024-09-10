@@ -16,16 +16,16 @@ describe("Test DataLayerToMp", () => {
 
   it("Test getActionData", () => {
     const data = oDlToMp.getActionData({
-      eventDimensions: {
+      labels: {
         label: "foo_label",
       },
-      eventMetrics: {
-        value: 0,
+      metrics: {
+        metric: 0,
       },
     });
     expect(data).to.deep.equal({
       "ep.label": "foo_label",
-      "epn.value": 0,
+      "epn.metric": 0,
     });
   });
 

@@ -48,15 +48,14 @@ export const mpTag = ({ store, mpHost, extraMpHandler, utils }) => {
   regTag(store)({
     action: () => {
       const I13N = store.getClone("I13N");
-      const { deferredAction, action, category, label, value, p, p2, p3, p4, p5 } =
+      const { deferredAction, action, labels, metrics, p, p2, p3, p4, p5 } =
         I13N;
       const beaconOption = {
         trigger: "action",
         deferredAction,
         action,
-        category: category ?? action,
-        label,
-        value,
+        labels,
+        metrics,
         p,
         p2,
         p3,

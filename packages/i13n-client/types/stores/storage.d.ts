@@ -9,5 +9,4 @@ export function deferredStore(): {
     getOne: (k: string) => any;
     push: (action: any, key?: string | undefined) => void;
 };
-export function deferredDispatch(action: any, actionParams?: any | undefined): void;
 import { SimpleMap } from "reshow-map";

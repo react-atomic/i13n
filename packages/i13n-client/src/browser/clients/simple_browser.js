@@ -10,6 +10,10 @@ import { win } from "win-doc";
 import { getScriptTagId } from "../libs/getTagId";
 import { beacon } from "../libs/req";
 import { browserMpHandler, getClientHints } from "../actions/getBrowserInfo";
+import { localStorage, sessionStorage, Storage } from "get-storage";
+import { setLStore, setSStore } from "../../stores/storage";
+setLStore(new Storage(localStorage));
+setSStore(new Storage(sessionStorage));
 
 const tid = getScriptTagId();
 

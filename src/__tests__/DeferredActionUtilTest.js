@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import sinon from "sinon";
-import LazyAction from "../LazyAction";
+import { DeferredActionUtil } from "../DeferredActionUtil";
 
 class FakeMap {
   _state = {};
@@ -14,10 +13,10 @@ class FakeMap {
   }
 }
 
-describe("Test LazyAction", () => {
+describe("Test DeferredActionUtil", () => {
   it("test get empty", () => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     const actual = oLazy.getAll();
     expect(actual).to.deep.equal({});
   });
@@ -25,7 +24,7 @@ describe("Test LazyAction", () => {
   it("test push lazy", () => {
     const fakeAction = { params: { foo: "bar" } };
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
 
     oLazy.push(fakeAction, "foo");
     const actual = oLazy.getOne("foo");
@@ -34,25 +33,28 @@ describe("Test LazyAction", () => {
 
   it("remove lazy", () => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     oLazy.push(
-      { params: { wait: 999, stop: true, a: "b", lazyKey: "foo" } },
+      { params: { wait: 999, stop: true, a: "b", deferredKey: "foo" } },
       "foo"
     );
     const laze = oLazy.getOne("foo");
     expect(Object.keys(laze)).to.include("params");
-    oLazy.handleAction({ get: () => {} }, { params: { withLazy: "foo" } });
+    oLazy.handleAction(
+      { get: () => {} },
+      { params: { mergeWithDeferredKey: "foo" } }
+    );
     const afterWithLazy = oLazy.getOne("foo");
     expect(afterWithLazy).to.be.undefined;
   });
 });
 
-describe("Test LazyAction Merge", () => {
+describe("Test DeferredActionUtil Merge", () => {
   it("simple merge", () => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     oLazy.push({ params: { foo: "bar" } }, "foo");
-    const fakeAction = { params: { abc: "def", withLazy: "foo" } };
+    const fakeAction = { params: { abc: "def", mergeWithDeferredKey: "foo" } };
     let afterMergeAction;
     oLazy.handleAction(
       {
@@ -72,9 +74,11 @@ describe("Test LazyAction Merge", () => {
 
   it("complex merge", () => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     oLazy.push({ params: { foo: { abc: "def", bar: "def" } } }, "foo");
-    const fakeAction = { params: { foo: { abc: "bar" }, withLazy: "foo" } };
+    const fakeAction = {
+      params: { foo: { abc: "bar" }, mergeWithDeferredKey: "foo" },
+    };
     let afterMergeAction;
     oLazy.handleAction(
       {
@@ -93,9 +97,11 @@ describe("Test LazyAction Merge", () => {
 
   it("with handle stop", () => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
-    const fakeAction = { params: { withLazy: "foo", wait: 777, stop: false } };
+    const fakeAction = {
+      params: { mergeWithDeferredKey: "foo", wait: 777, stop: false },
+    };
     let afterMergeAction;
     oLazy.handleAction(
       {

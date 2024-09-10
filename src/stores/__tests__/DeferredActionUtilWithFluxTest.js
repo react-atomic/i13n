@@ -4,7 +4,7 @@ import { createReducer } from "reshow-flux-base";
 import { SimpleMap } from "reshow-map";
 
 import BaseI13nReducer from "../BaseI13nReducer";
-import LazyAction from "../../LazyAction";
+import { DeferredActionUtil } from "../../DeferredActionUtil";
 import i13nStoreReAssign from "../../i13nStoreReAssign";
 import heeding from "../../heeding";
 
@@ -20,11 +20,10 @@ class FakeMap {
   }
 }
 
-describe("Test LazyAction with flux", () => {
-
+describe("Test DeferredActionUtil with flux", () => {
   it("test with flux-action", (done) => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     const oI13n = new BaseI13nReducer();
     const [i13nStore, i13nDispatch] = createReducer(
       oI13n.reduce.bind(oI13n),
@@ -38,19 +37,19 @@ describe("Test LazyAction with flux", () => {
     });
     i13nDispatch("reset", {
       actionHandler: oLazy.handleAction,
-      lazyActionHandler: (state, action) => {
+      deferredActionHandler: (state, action) => {
         expect(action).to.deep.equal({
           params: { a: "b", wait: 777, stop: false },
           type: "action",
         });
-        state = state.set('thisAction', action);
+        state = state.set("thisAction", action);
         return state;
       },
     });
-    const spy = sinon.spy(()=>null);
+    const spy = sinon.spy(() => null);
     i13nStore.addListener(spy);
     oLazy.push({ params: { wait: 999, stop: true, a: "b" } }, "foo");
-    i13nDispatch("action", { withLazy: "foo", wait: 777, stop: false });
+    i13nDispatch("action", { mergeWithDeferredKey: "foo", wait: 777, stop: false });
     setTimeout(() => {
       expect(spy.callCount, "[Action call]").to.equal(1);
       done();
@@ -59,7 +58,7 @@ describe("Test LazyAction with flux", () => {
 
   it("test with flux-impression", (done) => {
     const oMap = new FakeMap();
-    const oLazy = LazyAction(oMap);
+    const oLazy = DeferredActionUtil(oMap);
     const oI13n = new BaseI13nReducer();
     const [i13nStore, i13nDispatch] = createReducer(
       oI13n.reduce.bind(oI13n),
@@ -74,7 +73,7 @@ describe("Test LazyAction with flux", () => {
     i13nDispatch("reset", {
       initHandler: (state, action, initDone) => {
         oLazy.process(i13nDispatch);
-        state = state.set('foo', 'bar');
+        state = state.set("foo", "bar");
         initDone(state, action);
         return state;
       },

@@ -10,7 +10,7 @@ export let lStore = new SimpleMap(T_UNDEFINED, true);
 export const setSStore = (/**@type any*/ o) => (sStore = o);
 export const setLStore = (/**@type any*/ o) => (lStore = o);
 
-export const deferredStore = DeferredActionUtil(lStore);
+export const deferredStore = () => DeferredActionUtil(lStore);
 
 /**
  * @param {any} action
@@ -18,5 +18,5 @@ export const deferredStore = DeferredActionUtil(lStore);
  */
 export const deferredDispatch = (action, actionParams) => {
   const nextAction = refineAction(action, actionParams);
-  deferredStore.push(nextAction);
+  deferredStore().push(nextAction);
 };

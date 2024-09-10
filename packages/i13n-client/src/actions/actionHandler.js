@@ -45,7 +45,7 @@ const maybeDeferredAction = (state, action) => () => {
   } else {
     if (UNDEFINED !== typeof wait) {
       set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
-      deferredStore.push(action, deferredKey);
+      deferredStore().push(action, deferredKey);
     }
   }
 

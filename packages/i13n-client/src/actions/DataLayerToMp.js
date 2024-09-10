@@ -36,8 +36,15 @@ class DataLayerToMp {
    * @param {object} beaconOption
    */
   getMp(internalProps, beaconOption) {
-    const { trackingId, needTrackingId, version, userId, userIp, userCountry } =
-      internalProps || {};
+    const {
+      trackingId,
+      needTrackingId,
+      version,
+      userId,
+      userIp,
+      userCountry,
+      debug,
+    } = internalProps || {};
     if (needTrackingId && trackingId == null) {
       return false;
     }
@@ -53,6 +60,10 @@ class DataLayerToMp {
       "ep.content_group3": p3,
       "ep.content_group4": p4,
       "ep.content_group5": p5,
+      // <-- User Data -->
+      uid: userId,
+      _uip: userIp,
+      "ep.user_country": userCountry,
       // <-- GA4 Ready -->
       _s: seq,
       tid: trackingId,
@@ -60,13 +71,9 @@ class DataLayerToMp {
       v: version || 2, //version
       sid: pvid,
       seg: 1,
-      uid: userId,
-      // _uip: userIp,
-     // _uc: userCountry,
-      //_uip: "45.33.139.19",
       en: "impression" === trigger ? "page_view" : (action ?? "event"),
-      // <-- GBA TEST -->
-      _dbg: 1,
+      // <-- GBA TEST (set debug to 1)-->
+      _dbg: debug,
     };
     seq++;
     if (null != deferredAction) {

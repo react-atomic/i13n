@@ -4561,9 +4561,9 @@ hyphenate-style-name@1.1.0:
   integrity sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==
 
 i13n@*:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/i13n/-/i13n-2.0.4.tgz#b8a09babb0b2921b05c4389e11acd721aea5773e"
-  integrity sha512-59BTmVlEHKHpd/vTJFn+BP3PDPiVOsCpcFprc4JeTgZGXqGXZioPgQF5396zQqInTkk5sWa5EoAAy2jBF2rY/w==
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/i13n/-/i13n-2.0.6.tgz#07fe46b83f98c39585f551bd32e205ee59367ee0"
+  integrity sha512-FVNd31wY9MxaO5cfNSKb6a8gkfPsBRta9Bu37bH+BNJJ5xeZcogFRIEoOkIlx1YkklFEt1VJ1/xJbUDylgL8/g==
   dependencies:
     get-object-value "*"
     get-random-id "*"

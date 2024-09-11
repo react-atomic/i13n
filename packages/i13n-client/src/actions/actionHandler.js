@@ -1,6 +1,6 @@
 //@ts-check
 
-import { getParams, setParams } from "i13n";
+import { getParams, setParams, INITIAL } from "i13n";
 import { deferredStore } from "../stores/storage";
 import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
 
@@ -15,7 +15,7 @@ import oneTimeAction from "../libs/oneTimeAction";
  * @param {any} action
  */
 const maybeDeferredAction = (state, action) => () => {
-  if (!state.get("init")) {
+  if (!state.get(INITIAL)) {
     setParams(action, ["wait"], 0);
   }
   const [cbParams, { 0: i13nLastEvent, 1: currentTarget }] = getCbParams();

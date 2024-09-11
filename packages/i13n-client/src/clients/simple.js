@@ -41,10 +41,11 @@ const initTags = (/**@type any*/ options) => {
  */
 const initHandler = (state, action, initDone) => {
   const params = getParams(action);
-  initTags({ ...get(state), ...params });
+  const mergeState = mergeMap(state, params);
+  initTags(mergeState.toJS());
   setParams(action, ["asyncInit"], true);
-  deferredStore().process(i13nDispatch);
-  return initDone(mergeMap(state, params), action);
+  setTimeout(() => deferredStore().process(i13nDispatch));
+  return initDone(mergeState, action);
 };
 
 /**

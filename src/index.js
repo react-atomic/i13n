@@ -1,7 +1,7 @@
 // @ts-check
 
 // Stores
-export { default as BaseI13nReducer } from "./stores/BaseI13nReducer";
+export { default as BaseI13nReducer, INITIAL } from "./stores/BaseI13nReducer";
 export { default as heeding } from "./heeding";
 
 // Util

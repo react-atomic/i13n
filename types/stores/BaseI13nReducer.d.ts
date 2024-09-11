@@ -1,3 +1,4 @@
+export const INITIAL: "init";
 export default BaseI13nReducer;
 export type StoreObject<StateType, ActionType> = import("reshow-flux-base").StoreObject<StateType, ActionType>;
 export type DispatchFunction<StateType, ActionType> = import("reshow-flux-base").DispatchFunction<StateType, ActionType>;

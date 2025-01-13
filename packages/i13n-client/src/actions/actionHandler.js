@@ -7,7 +7,6 @@ import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
 // local import
 import { i13nDispatch } from "../stores/i13nStore";
 import { getCbParams } from "../libs/storeCbParams";
-import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
 import oneTimeAction from "../libs/oneTimeAction";
 
 /**
@@ -41,7 +40,7 @@ const maybeDeferredAction = (state, action) => () => {
     setParams(action, ["stop"], true);
   } else {
     if (UNDEFINED !== typeof wait) {
-      setParams(action, ["I13N"], forEachStoreProducts(I13N));
+     //  setParams(action, ["I13N"], forEachStoreProducts(I13N));
       deferredStore().push(action, deferredKey);
     }
   }
@@ -56,7 +55,7 @@ const maybeDeferredAction = (state, action) => () => {
       );
     }
   }
-  return lazyProducts(state);
+  return state;
 };
 
 /**

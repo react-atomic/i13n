@@ -10,7 +10,6 @@ import get from "get-object-value";
 import { i13nDispatch, mergeMap } from "../stores/i13nStore";
 
 //libs
-import lazyProducts from "../libs/lazyProducts";
 import workerUtils from "../libs/workerUtils";
 
 // action
@@ -51,7 +50,7 @@ const initHandler = (state, action, initDone) => {
 /**
  * @param {StateType} state
  */
-const impressionHandler = (state) => lazyProducts(state);
+const impressionHandler = (state) => state;
 
 /**
  * @param {string} trackingId

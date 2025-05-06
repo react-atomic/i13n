@@ -1,30 +1,31 @@
-import { getParams, LazyAction } from "i13n";
+//@ts-check
+
+import { getParams, setParams, INITIAL } from "i13n";
+import { deferredStore } from "../stores/storage";
 import { FUNCTION, UNDEFINED, KEYS } from "reshow-constant";
-import set from "set-object-value";
 
 // local import
-import { i13nStore, i13nDispatch } from "../stores/i13nStore";
-import { lStore } from "../stores/storage";
+import { i13nDispatch } from "../stores/i13nStore";
 import { getCbParams } from "../libs/storeCbParams";
-import lazyProducts, { forEachStoreProducts } from "../libs/lazyProducts";
 import oneTimeAction from "../libs/oneTimeAction";
 
-const oLazy = LazyAction(lStore);
-const PARAMS = "params";
-
-const maybeDelayAction = (state, action) => () => {
-  if (!state.get("init")) {
-    set(action, [PARAMS, "wait"], 0);
+/**
+ * @param {any} state
+ * @param {any} action
+ */
+const maybeDeferredAction = (state, action) => () => {
+  if (!state.get(INITIAL)) {
+    setParams(action, ["wait"], 0);
   }
   const [cbParams, { 0: i13nLastEvent, 1: currentTarget }] = getCbParams();
   const params = getParams(action);
   if (!isNaN(params.delay)) {
     delete action.params.delay;
   }
-  const { i13nCb, lazeInfo, i13nPageCb, wait, lazyKey } = params;
+  const { i13nCb, i13nPageCb, wait, deferredKey, deferredAction } = params;
   let I13N = params.I13N;
-  if (lazeInfo) {
-    I13N.lazeInfo = lazeInfo;
+  if (deferredAction) {
+    I13N.deferredAction = deferredAction;
   }
   if (FUNCTION === typeof i13nCb) {
     cbParams.currentTarget = cbParams.currentTarget ?? currentTarget;
@@ -36,11 +37,11 @@ const maybeDelayAction = (state, action) => () => {
   I13N = oneTimeAction(I13N, state);
   state = state.set("I13N", I13N);
   if (!I13N) {
-    set(action, [PARAMS, "stop"], true);
+    setParams(action, ["stop"], true);
   } else {
     if (UNDEFINED !== typeof wait) {
-      set(action, [PARAMS, "I13N"], forEachStoreProducts(I13N));
-      oLazy.push(action, lazyKey);
+     //  setParams(action, ["I13N"], forEachStoreProducts(I13N));
+      deferredStore().push(action, deferredKey);
     }
   }
 
@@ -54,12 +55,16 @@ const maybeDelayAction = (state, action) => () => {
       );
     }
   }
-  return lazyProducts(state);
+  return state;
 };
 
+/**
+ * @param {any} state
+ * @param {any} action
+ */
 const actionHandler = (state, action) => {
   const { delay, wait } = getParams(action);
-  const run = maybeDelayAction(state, action);
+  const run = maybeDeferredAction(state, action);
   if (!isNaN(delay)) {
     setTimeout(() => {
       const state = run();
@@ -71,7 +76,7 @@ const actionHandler = (state, action) => {
         i13nDispatch("action", { I13N });
       }
     }, delay);
-    set(action, [PARAMS, "stop"], true);
+    setParams(action, ["stop"], true);
   } else {
     state = run();
   }

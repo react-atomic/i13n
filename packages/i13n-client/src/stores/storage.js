@@ -1,10 +1,13 @@
-import { SimpleMap } from "reshow-flux-base";
-import { T_NULL } from "reshow-constant";
+// @ts-check
+import { SimpleMap } from "reshow-map";
+import { T_UNDEFINED } from "reshow-constant";
+import { DeferredActionUtil } from "i13n";
 
-let sStore = new SimpleMap(T_NULL, true);
-let lStore = new SimpleMap(T_NULL, true);
+export let sStore = new SimpleMap(T_UNDEFINED, true);
+export let lStore = new SimpleMap(T_UNDEFINED, true);
 
-const setSStore = (o) => (sStore = o);
-const setLStore = (o) => (lStore = o);
+export const setSStore = (/**@type any*/ o) => (sStore = o);
+export const setLStore = (/**@type any*/ o) => (lStore = o);
 
-export { lStore, sStore, setSStore, setLStore };
+export const deferredStore = () => DeferredActionUtil(lStore);
+

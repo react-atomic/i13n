@@ -39,8 +39,6 @@ import set from "set-object-value";
 import callfunc from "call-func";
 import { KEYS, UNDEFINED } from "reshow-constant";
 
-import shopify from "../actions/shopify";
-
 const CURRENCY_CODE = "currencyCode";
 const setCurrency = (I13N, ecommerce, defaultCurrencyCode) => {
   const currencyCode = get(I13N, [CURRENCY_CODE]) || defaultCurrencyCode;
@@ -50,8 +48,8 @@ const setCurrency = (I13N, ecommerce, defaultCurrencyCode) => {
 const stepSend = {};
 const handleStep = (I13N, ecommerce, defaultCurrencyCode) => {
   const { stepNo, stepOption, products } = I13N;
-  const step = stepNo ?? shopify.getStepNo();
-  const option = stepOption ?? shopify.getStepName();
+  const step = stepNo;
+  const option = stepOption;
   if (!step) {
     return;
   }
@@ -104,7 +102,7 @@ const handlePurchase = (I13N, ecommerce, defaultCurrencyCode, value) => {
   const affiliation = get(I13N, ["affiliation"], "");
   const coupon = get(I13N, ["coupon"], "");
   const revenue = get(I13N, ["revenue"], 0);
-  value = revenue;
+  value = revenue || value;
   const tax = get(I13N, ["tax"], 0);
   const shipping = get(I13N, ["shipping"], 0);
   if (purchaseId) {

@@ -1,24 +1,72 @@
-import { UNDEFINED, FUNCTION, OBJECT, KEYS } from "reshow-constant";
-import set from "set-object-value";
+//@ts-check
+
+import { KEYS } from "reshow-constant";
 import callfunc from "call-func";
 
-import heeding from "../heeding";
-import getParams from "../getParams";
+import { getParams, setParams } from "../getParams";
+export const INITIAL = "init";
 
-const INITIAL = "init";
+/**
+ * @template StateType
+ * @template ActionType
+ * @typedef {import("reshow-flux-base").StoreObject<StateType, ActionType>} StoreObject
+ */
+
+/**
+ * @template StateType
+ * @template ActionType
+ * @typedef {import("reshow-flux-base").DispatchFunction<StateType, ActionType>} DispatchFunction
+ */
+
+/**
+ * @typedef {Object<sinon,any>} StateType
+ */
+/**
+ * @typedef {import("reshow-flux-base").ActionObject} ActionObject
+ */
 
 class BaseI13nReducer {
-  sendBeacon(state, action) {
+  /**
+   * @abstract
+   * @type {StoreObject<StateType, ActionObject>}
+   */
+  store;
+
+  /**
+   * @abstract
+   * @param {StateType} _state
+   * @param {object} _paramsMap
+   */
+  mergeMap(_state, _paramsMap) {}
+
+  /**
+   * @abstract
+   * @template StateType
+   * @template ActionType
+   * @type {DispatchFunction<StateType, ActionType>}
+   * @returns {any}
+   */
+  dispatch(_action, _actionParams) {}
+
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} _action
+   */
+  sendBeacon(state, _action) {
     return state;
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   initDone(state, action) {
-    const { triggerImpression, asyncInit } = action || {};
-    const assignState = (state) =>
+    const { triggerImpression, asyncInit } = getParams(action);
+    const assignState = (/**@type StateType*/ state) =>
       state.set(INITIAL, true).set("nextEmit", INITIAL);
 
     if (asyncInit) {
-      setTimeout(()=>this.dispatch("impression"));
+      setTimeout(() => this.dispatch("impression"));
       return assignState(state);
     } else {
       // has customInitHandler
@@ -49,23 +97,35 @@ class BaseI13nReducer {
     }
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   processImpression(state, action) {
     return this.sendBeacon(state, action);
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   processAction(state, action) {
     const vpvid = state.get("vpvid");
     if (vpvid) {
-      set(action, [PARAMS, "query", "vpvid"], vpvid);
+      setParams(action, ["query", "vpvid"], vpvid);
     }
     return this.sendBeacon(state, action);
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   handleInit(state, action) {
     const customInitHandler = state.get("initHandler");
     const thisInitDone = this.initDone.bind(this);
     if (!customInitHandler) {
-      action.asyncInit = true;
+      setParams(action, ["asyncInit"], true);
     }
     return callfunc(customInitHandler || thisInitDone, [
       state,
@@ -74,8 +134,12 @@ class BaseI13nReducer {
     ]);
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   handleImpression(state, action) {
-    const maybeAsyncRun = (state) => {
+    const maybeAsyncRun = (/**@type StateType*/ state) => {
       const impressionHandler = state.get("impressionHandler");
       let next = callfunc(
         impressionHandler || this.processImpression.bind(this),
@@ -95,6 +159,10 @@ class BaseI13nReducer {
     }
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   handleAction(state, action) {
     const actionHandler = state.get("actionHandler");
     let next = callfunc(actionHandler || this.processAction.bind(this), [
@@ -108,6 +176,10 @@ class BaseI13nReducer {
     return next;
   }
 
+  /**
+   * @param {StateType} state
+   * @param {ActionObject} action
+   */
   reduce(state, action) {
     if (state.get("nextEmit")) {
       state = state.set("nextEmit", null);
@@ -127,7 +199,14 @@ class BaseI13nReducer {
          */
         return this.mergeMap(this.store.reset(), action.params);
       default:
-        return KEYS(action).length ? this.mergeMap(state, action) : state;
+        if (null != action.type && null == action.params?.I13N) {
+          return this.handleAction(state, {
+            type: "action",
+            params: { ...action.params, I13N: { action: action.type } },
+          });
+        } else {
+          return KEYS(action).length ? this.mergeMap(state, action) : state;
+        }
     }
   }
 }

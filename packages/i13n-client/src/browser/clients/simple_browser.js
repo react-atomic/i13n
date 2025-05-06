@@ -1,0 +1,57 @@
+//@ts-check
+
+import simple from "../../clients/simple";
+import workerUtils from "../../libs/workerUtils";
+import { mpTag } from "../../tags/mpTag";
+import { getGaHost } from "../../libs/gaUtils";
+
+// browser only
+import { win } from "win-doc";
+import { getScriptTagId } from "../libs/getTagId";
+import { beacon } from "../libs/req";
+import { browserMpHandler, getClientHints } from "../actions/getBrowserInfo";
+import { localStorage, sessionStorage, Storage } from "get-storage";
+import { setLStore, setSStore } from "../../stores/storage";
+setLStore(new Storage(localStorage));
+setSStore(new Storage(sessionStorage));
+
+const tid = getScriptTagId();
+
+(async () => {
+  /**
+   * @type {import("../actions/getBrowserInfo").ClientHintType} ClientHintType
+   */
+  const clientHints = await getClientHints(win().navigator);
+  const utils = {
+    ...workerUtils(),
+    send: beacon,
+  };
+  simple(tid || "", {
+    global: win(),
+    tags: [
+      {
+        item: mpTag,
+        data: {
+          mpHost: getGaHost,
+          extraMpHandler: [
+            browserMpHandler,
+            (/**@type any*/ d) => {
+              return {
+                ...d,
+                uaa: clientHints.architecture,
+                uab: clientHints.bitness,
+                uafvl: clientHints.fullVersionList,
+                uamb: clientHints.mobile,
+                uam: clientHints.model,
+                uap: clientHints.platform,
+                uapv: clientHints.platformVersion,
+                uaw: clientHints.wow64,
+              };
+            },
+          ],
+        },
+      },
+    ],
+    utils,
+  });
+})();

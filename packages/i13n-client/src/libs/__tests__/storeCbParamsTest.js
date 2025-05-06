@@ -1,7 +1,6 @@
 import { expect } from "chai";
 
 import storeCbParams, { getCbParams } from "../storeCbParams";
-import { i13nStore } from "../../stores/i13nStore";
 
 describe("Test storeCbParams", () => {
   it("basic test", () => {

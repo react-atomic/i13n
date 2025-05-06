@@ -1,7 +1,14 @@
+// @ts-check
 import { getDateObject } from "get-random-id";
 
+/**
+ * @param {number} i
+ */
 const fixDigit = (i) => (i < 10 ? 0 + "" + i : i);
 
+/**
+ * @param {string=} s 
+ */
 const getTime = (s) => {
   const date = getDateObject(s);
   const arr = [

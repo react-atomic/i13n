@@ -1,13 +1,10 @@
 import { i13nStore } from "../stores/i13nStore";
-import mpTag from "../actions/mp_tag";
+import callfunc from "call-func";
 
-const getTag = (tagConfig) => {
-  tagConfig.store = i13nStore;
-  switch (tagConfig.type) {
-    default:
-      mpTag(tagConfig);
-      break;
-  }
+const getTag = (tagItem, tagOptions = {}, utils) => {
+  tagOptions.store = i13nStore;
+  tagOptions.utils = { ...utils, ...tagOptions.utils };
+  callfunc(tagItem, [tagOptions]);
 };
 
 export default getTag;
